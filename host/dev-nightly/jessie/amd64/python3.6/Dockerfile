@@ -6,7 +6,8 @@ RUN apt-get update && \
 RUN git clone https://github.com/Azure/azure-functions-python-worker.git
 
 
-FROM microsoft/azure-functions-base:dev-jessie
+ARG namespace=microsoft
+FROM ${namespace}/azure-functions-base:dev-jessie
 
 COPY --from=python-env ["azure-functions-python-worker", "workers/azure-functions-python-worker"]
 

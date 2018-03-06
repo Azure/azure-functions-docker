@@ -5,14 +5,24 @@ RUN apt-get update && \
 
 RUN git clone https://github.com/Azure/azure-functions-python-worker.git
 
-
-FROM microsoft/azure-functions-base:dev-stretch
+ARG namespace=microsoft
+FROM ${namespace}/azure-functions-base:dev-stretch
 
 COPY --from=python-env ["azure-functions-python-worker", "workers/azure-functions-python-worker"]
 
 ## Install pyenv
-RUN apt update && \
-    apt list python3* | grep 3.6
+
+ENV PYENV_ROOT /root/.pyenv
+ENV PATH /root/.pyenv/shims:/root/.pyenv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+RUN apt-get update && \
+    apt-get install -y git mercurial build-essential libssl-dev libbz2-dev libreadline-dev libsqlite3-dev curl && \
+    curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
+
+RUN pyenv install --list
+
+RUN pyenv install 3.6.4
+
+RUN pyenv global 3.6.4
 
 RUN cd workers && \
     /bin/bash -c \
@@ -25,7 +35,7 @@ RUN cd workers && \
     pip install -U -e .[dev]"
 
 ENV workers:config:path /workers/azure-functions-python-worker
-ENV workers:python:path /workers/azure-functions-python-path/python/worker.py
+ENV workers:python:path /workers/azure-functions-python-worker/python/worker.py
 ENV AzureWebJobsScriptRoot=/app
 ENV WEBSITE_HOSTNAME=localhost:80
 
