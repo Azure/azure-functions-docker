@@ -1,3 +1,4 @@
+ARG NAMESPACE=microsoft
 FROM python:3.6.4-stretch as python-env
 
 RUN apt-get update && \
@@ -5,8 +6,8 @@ RUN apt-get update && \
 
 RUN git clone https://github.com/Azure/azure-functions-python-worker.git
 
-ARG namespace=microsoft
-FROM ${namespace}/azure-functions-base:dev-stretch
+ARG NAMESPACE=microsoft
+FROM ${NAMESPACE}/azure-functions-base:dev-stretch
 
 COPY --from=python-env ["azure-functions-python-worker", "workers/azure-functions-python-worker"]
 
@@ -15,7 +16,7 @@ COPY --from=python-env ["azure-functions-python-worker", "workers/azure-function
 ENV PYENV_ROOT /root/.pyenv
 ENV PATH /root/.pyenv/shims:/root/.pyenv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 RUN apt-get update && \
-    apt-get install -y git mercurial build-essential libssl-dev libbz2-dev libreadline-dev libsqlite3-dev curl && \
+    apt-get install -y git mercurial build-essential libssl-dev libbz2-dev zlib1g-dev libreadline-dev libsqlite3-dev curl && \
     curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
 
 RUN pyenv install --list
