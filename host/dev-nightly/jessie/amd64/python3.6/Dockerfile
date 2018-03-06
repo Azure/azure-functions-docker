@@ -1,3 +1,4 @@
+ARG NAMESPACE=microsoft
 FROM python:3.6.4-jessie as python-env
 
 RUN apt-get update && \
