@@ -8,7 +8,7 @@ RUN git clone https://github.com/Azure/azure-functions-python-worker.git
 
 
 ARG NAMESPACE=microsoft
-FROM ${namespace}/azure-functions-base:dev-jessie
+FROM ${NAMESPACE}/azure-functions-base:dev-jessie
 
 COPY --from=python-env ["azure-functions-python-worker", "workers/azure-functions-python-worker"]
 
