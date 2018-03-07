@@ -20,8 +20,6 @@ RUN apt-get update && \
     apt-get install -y git mercurial build-essential libssl-dev libbz2-dev libreadline-dev libsqlite3-dev curl && \
     curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
 
-RUN pyenv install --list
-
 RUN pyenv install 3.6.4
 
 RUN pyenv global 3.6.4
@@ -38,7 +36,7 @@ RUN cd workers && \
 
 ENV workers:config:path /workers/azure-functions-python-worker
 ENV workers:python:path /workers/azure-functions-python-worker/python/worker.py
-ENV AzureWebJobsScriptRoot=/app
-ENV WEBSITE_HOSTNAME=localhost:80
 
-CMD ["dotnet", "/azure-functions-runtime/Microsoft.Azure.WebJobs.Script.WebHost.dll"]
+ADD ./start.sh /workers
+
+CMD ["bash","/workers/start.sh"]
