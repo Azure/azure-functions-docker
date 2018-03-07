@@ -16,8 +16,10 @@ FROM microsoft/dotnet:2.0-sdk-stretch
 
 COPY --from=installer-env ["/azure-functions-runtime", "/azure-functions-runtime"]
 
-ENV AzureWebJobsScriptRoot=/app
+ENV AzureWebJobsScriptRoot=/home/site/wwwroot
 
-ENV WEBSITE_HOSTNAME=localhost:80
+ENV WEBSITE_HOSTNAME=localhost:8080
+ENV ASPNETCORE_URLS=http://+:8080
+EXPOSE 8080
 
 CMD ["dotnet", "/azure-functions-runtime/Microsoft.Azure.WebJobs.Script.WebHost.dll"]
