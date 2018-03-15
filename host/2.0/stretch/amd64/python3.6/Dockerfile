@@ -34,13 +34,8 @@ RUN cd workers && \
     pip install -U -e .[dev]"
 
 ENV workers:config:path /workers/azure-functions-python-worker
-# ENV workers:python:path /workers/azure-functions-python-worker/python/worker.py
 
 # This is a monkey patch, we discuss whether this is a good thing.
 COPY ./start.sh /workers/azure-functions-python-worker/python/
 COPY ./worker.config.json /workers/azure-functions-python-worker/python/
 ENV workers:python:path /workers/azure-functions-python-worker/python/start.sh
-
-# ADD ./start.sh /workers
-
-# CMD ["bash","/workers/start.sh"]
