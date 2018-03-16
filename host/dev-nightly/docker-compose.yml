@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  stretch_amd64_base:
+    image: local/azure-functions-base:dev-stretch
+    build:
+      context: ./stretch/amd64/
+
+  stretch_amd64_python:
+    image: local/azure-functions-python3.6:dev-stretch
+    build:
+      context: ./stretch/amd64/python3.6
+      args:
+        NAMESPACE: local
+
