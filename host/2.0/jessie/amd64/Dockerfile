@@ -1,14 +1,11 @@
 FROM microsoft/dotnet:2.0-sdk-jessie AS installer-env
 
+ARG TAG=dev
 ENV PublishWithAspNetCoreTargetManifest false
 
-RUN apt-get update && \
-    apt-get install git -y && \
-    git --version && \
-    git clone https://github.com/Azure/azure-webjobs-sdk-script.git && \
-    cd azure-webjobs-sdk-script && \
-    git fetch --all && \
-    git checkout -b ahmels-management origin/ahmels-management && \
+RUN wget https://github.com/Azure/azure-functions-host/archive/${TAG}.tar.gz && \
+    tar xvzf ${TAG}.tar.gz && \
+    cd azure-functions-host-${TAG} && \
     dotnet build WebJobs.Script.sln && \
     dotnet publish src/WebJobs.Script.WebHost/WebJobs.Script.WebHost.csproj --output /azure-functions-runtime
 
