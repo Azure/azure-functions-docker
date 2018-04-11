@@ -11,15 +11,11 @@ then
 # Determining the virtual environment entry point
 if [ -z "$AZURE_FUNCTIONS_VIRTUAL_ENVIRONMENT"]
 then
-    AZURE_FUNCTIONS_VIRTUAL_ENVIRONMENT='../../worker_env/bin/activate'
+    AZURE_FUNCTIONS_VIRTUAL_ENVIRONMENT='/worker_env/bin/activate'
 fi
 
 echo "activating virtual environment"
-AZFVENV=''
-AZFVENV+=$DIR
-AZFVENV+='/'
-AZFVENV+=$AZURE_FUNCTIONS_VIRTUAL_ENVIRONMENT
-source $AZFVENV
+source $AZURE_FUNCTIONS_VIRTUAL_ENVIRONMENT
 fi
 
 echo "starting the python worker"

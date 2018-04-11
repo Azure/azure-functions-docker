@@ -9,7 +9,9 @@ RUN git clone https://github.com/Azure/azure-functions-python-worker.git
 ARG NAMESPACE=microsoft
 FROM ${NAMESPACE}/azure-functions-base:dev-stretch
 
-COPY --from=python-env ["azure-functions-python-worker", "workers/azure-functions-python-worker"]
+COPY --from=python-env ["azure-functions-python-worker", "/azure-functions-python-worker"]
+
+RUN cp -R /azure-functions-python-worker/python /azure-functions-runtime/workers/python
 
 ## Install pyenv
 
@@ -23,19 +25,13 @@ RUN pyenv install 3.6.4
 
 RUN pyenv global 3.6.4
 
-RUN cd workers && \
-    /bin/bash -c \
+RUN /bin/bash -c \
     "python3 --version && \
     python3 -m venv worker_env && \
     source worker_env/bin/activate && \
-    cd azure-functions-python-worker && \
-    pip3 install -r requirements.txt &&  \
-    python3 setup.py build && \
-    pip install -U -e .[dev]"
-
-ENV workers:config:path /workers/azure-functions-python-worker
+    pip install -e git+https://github.com/Azure/azure-functions-python-worker.git@dev#egg=azure-functions"
 
 # This is a monkey patch, we discuss whether this is a good thing.
-COPY ./start.sh /workers/azure-functions-python-worker/python/
-COPY ./worker.config.json /workers/azure-functions-python-worker/python/
-ENV workers:python:path /workers/azure-functions-python-worker/python/start.sh
+COPY ./start.sh /azure-functions-runtime/workers/python/
+COPY ./worker.config.json /azure-functions-runtime/workers/python/
+ENV workers:python:path /azure-functions-runtime/workers/python/start.sh
