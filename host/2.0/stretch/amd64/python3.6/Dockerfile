@@ -25,11 +25,7 @@ RUN pyenv install 3.6.4
 
 RUN pyenv global 3.6.4
 
-RUN /bin/bash -c \
-    "python3 --version && \
-    python3 -m venv worker_env && \
-    source worker_env/bin/activate && \
-    pip install -e git+https://github.com/Azure/azure-functions-python-worker.git@dev#egg=azure-functions"
+RUN pip install -e git+https://github.com/Azure/azure-functions-python-worker.git@dev#egg=azure-functions
 
 # This is a monkey patch, we discuss whether this is a good thing.
 COPY ./start.sh /azure-functions-runtime/workers/python/
