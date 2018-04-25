@@ -7,7 +7,7 @@ RUN apt-get update && \
 RUN git clone https://github.com/Azure/azure-functions-python-worker.git
 
 ARG NAMESPACE=microsoft
-FROM ${NAMESPACE}/azure-functions-base:dev-stretch
+FROM ${NAMESPACE}/azure-functions-base:dev-nightly
 
 COPY --from=python-env ["azure-functions-python-worker", "/azure-functions-python-worker"]
 

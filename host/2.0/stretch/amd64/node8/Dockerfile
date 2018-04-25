@@ -1,5 +1,5 @@
 ARG NAMESPACE=microsoft
-FROM ${NAMESPACE}/azure-functions-base:dev-stretch
+FROM ${NAMESPACE}/azure-functions-base:dev-nightly
 
 # nvm version tag (should correspond with a release from https://github.com/creationix/nvm/releases)
 ARG NVM_VERSION=v0.33.8
@@ -21,6 +21,6 @@ RUN apt-get update && \
     echo https://raw.githubusercontent.com/creationix/nvm/${NVM_VERSION}/install.sh && \
     curl --silent -o- https://raw.githubusercontent.com/creationix/nvm/${NVM_VERSION}/install.sh | bash && \
     /bin/bash -c \
-        "source $NVM_DIR/nvm.sh \
-        && nvm install $NODE_VERSION \
-        && nvm use default $NODE_VERSION"
+    "source $NVM_DIR/nvm.sh \
+    && nvm install $NODE_VERSION \
+    && nvm use default $NODE_VERSION"
