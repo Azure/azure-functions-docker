@@ -13,12 +13,12 @@ RUN if [ "${HOST_TAG}" = "dev" ]; \
     tar xvzf ${HOST_TAG}.tar.gz && \
     cd azure-functions-host-* && \
     dotnet build /p:BuildNumber="$BUILD_NUMBER" WebJobs.Script.sln && \
-    dotnet publish /p:BuildNumber="$BUILD_NUMBER"  src/WebJobs.Script.WebHost/WebJobs.Script.WebHost.csproj --output /azure-functions-runtime
+    dotnet publish /p:BuildNumber="$BUILD_NUMBER"  src/WebJobs.Script.WebHost/WebJobs.Script.WebHost.csproj --output /azure-functions-host
 
 # Runtime image
 FROM microsoft/dotnet:2.0-runtime-stretch
 
-COPY --from=installer-env ["/azure-functions-runtime", "/azure-functions-runtime"]
+COPY --from=installer-env ["/azure-functions-host", "/azure-functions-host"]
 
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot
 ENV HOME=/home
@@ -26,4 +26,4 @@ ENV WEBSITE_HOSTNAME=localhost:80
 ENV ASPNETCORE_URLS=http://+:80
 EXPOSE 80
 
-CMD ["dotnet", "/azure-functions-runtime/Microsoft.Azure.WebJobs.Script.WebHost.dll"]
+CMD ["dotnet", "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost.dll"]

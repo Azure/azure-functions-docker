@@ -15,7 +15,7 @@ RUN wget https://github.com/Azure/azure-functions-python-worker/archive/${WORKER
 FROM ${NAMESPACE}/azure-functions-base:${HOST_TAG}
 
 COPY --from=python-env ["azure-functions-python-worker", "/azure-functions-python-worker"]
-RUN cp -R /azure-functions-python-worker/python /azure-functions-runtime/workers/python
+RUN cp -R /azure-functions-python-worker/python /azure-functions-host/workers/python
 
 ## Install pyenv
 ENV PYENV_ROOT /root/.pyenv
@@ -31,6 +31,6 @@ RUN pyenv global 3.6.4
 RUN pip install -e git+https://github.com/Azure/azure-functions-python-worker.git@${WORKER_TAG}#egg=azure-functions
 
 # This is a monkey patch, we discuss whether this is a good thing.
-COPY ./start.sh /azure-functions-runtime/workers/python/
-COPY ./worker.config.json /azure-functions-runtime/workers/python/
-ENV workers:python:path /azure-functions-runtime/workers/python/start.sh
+COPY ./start.sh /azure-functions-host/workers/python/
+COPY ./worker.config.json /azure-functions-host/workers/python/
+ENV workers:python:path /azure-functions-host/workers/python/start.sh

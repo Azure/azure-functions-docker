@@ -7,7 +7,7 @@ RUN wget https://github.com/Azure/azure-functions-host/archive/${TAG}.tar.gz && 
     tar xvzf ${TAG}.tar.gz && \
     cd azure-functions-host-${TAG} && \
     dotnet build WebJobs.Script.sln && \
-    dotnet publish src/WebJobs.Script.WebHost/WebJobs.Script.WebHost.csproj --output /azure-functions-runtime
+    dotnet publish src/WebJobs.Script.WebHost/WebJobs.Script.WebHost.csproj --output /azure-functions-host
 
 RUN wget https://github.com/Azure/azure-functions-python-worker/archive/dev.tar.gz && \
     tar xvzf dev.tar.gz && \
@@ -16,9 +16,9 @@ RUN wget https://github.com/Azure/azure-functions-python-worker/archive/dev.tar.
 # Runtime image
 FROM microsoft/dotnet:2.0-runtime-stretch
 
-COPY --from=installer-env ["/azure-functions-runtime", "/azure-functions-runtime"]
+COPY --from=installer-env ["/azure-functions-host", "/azure-functions-host"]
 COPY --from=installer-env ["/azure-functions-python-worker", "/azure-functions-python-worker"]
-RUN cp -R /azure-functions-python-worker/python /azure-functions-runtime/workers/python
+RUN cp -R /azure-functions-python-worker/python /azure-functions-host/workers/python
 
 ## Install pyenv
 
@@ -39,9 +39,9 @@ RUN /bin/bash -c \
     pip install -e git+https://github.com/Azure/azure-functions-python-worker.git@dev#egg=azure-functions"
 
 # This is a monkey patch, we discuss whether this is a good thing.
-COPY ./start.sh /azure-functions-runtime/workers/python/
-COPY ./worker.config.json /azure-functions-runtime/workers/python/
-ENV workers:python:path /azure-functions-runtime/workers/python/start.sh
+COPY ./start.sh /azure-functions-host/workers/python/
+COPY ./worker.config.json /azure-functions-host/workers/python/
+ENV workers:python:path /azure-functions-host/workers/python/start.sh
 
 # nvm version tag (should correspond with a release from https://github.com/creationix/nvm/releases)
 ARG NVM_VERSION=v0.33.8
@@ -74,4 +74,4 @@ ENV WEBSITE_HOSTNAME=localhost:80
 ENV ASPNETCORE_URLS=http://+:80
 EXPOSE 80
 
-CMD ["dotnet", "/azure-functions-runtime/Microsoft.Azure.WebJobs.Script.WebHost.dll"]
+CMD ["dotnet", "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost.dll"]
