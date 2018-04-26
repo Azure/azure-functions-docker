@@ -1,5 +1,6 @@
 ARG NAMESPACE=microsoft
-FROM ${NAMESPACE}/azure-functions-base:dev-nightly
+ARG HOST_TAG=dev-nightly
+FROM ${NAMESPACE}/azure-functions-base:${HOST_TAG}
 
 # nvm version tag (should correspond with a release from https://github.com/creationix/nvm/releases)
 ARG NVM_VERSION=v0.33.8

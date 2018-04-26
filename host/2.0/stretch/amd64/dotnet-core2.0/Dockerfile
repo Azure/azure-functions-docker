@@ -1,2 +1,4 @@
 ARG NAMESPACE=microsoft
-FROM ${NAMESPACE}/azure-functions-base:dev-nightly
+ARG HOST_TAG=dev-nightly
+
+FROM ${NAMESPACE}/azure-functions-base:${HOST_TAG}

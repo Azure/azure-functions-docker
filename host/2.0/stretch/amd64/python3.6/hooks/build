@@ -3,4 +3,15 @@
 echo $DOCKER_REPO
 namespace=$(echo $DOCKER_REPO | grep -Po '\/([^/]+)\/' | grep -Po '[^/]+')
 echo $namespace
-docker build . -t $IMAGE_NAME --build-arg NAMESPACE=$namespace
+
+if [ $CACHE_TAG = "dev-nightly" ]
+then
+    export $WORKER_TAG="dev"
+elif [ $CACHE_TAG = "v2.0.11651-alpha" ]
+then
+    export $WORKER_TAG="1.0.224-alpha"
+else
+    export $WORKER_TAG="dev"
+fi
+
+docker build . -t $IMAGE_NAME --build-arg NAMESPACE=$namespace  --build-arg HOST_TAG=$CACHE_TAG --build-arg WORKER_TAG=$WORKER_TAG

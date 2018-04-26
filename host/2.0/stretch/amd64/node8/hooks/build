@@ -3,4 +3,4 @@
 echo $DOCKER_REPO
 namespace=$(echo $DOCKER_REPO | grep -Po '\/([^/]+)\/' | grep -Po '[^/]+')
 echo $namespace
-docker build . -t $IMAGE_NAME --build-arg NAMESPACE=$namespace
+docker build . -t $IMAGE_NAME --build-arg NAMESPACE=$namespace --build-arg HOST_TAG=$CACHE_TAG
