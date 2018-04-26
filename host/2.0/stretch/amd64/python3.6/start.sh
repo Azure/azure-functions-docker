@@ -1,5 +1,4 @@
 #! /bin/bash
-set -x
 
 # Directory name for start.sh
 DIR="$(dirname $0)"
@@ -19,10 +18,10 @@ then
 
     if [ -z "$AZURE_FUNCTIONS_VIRTUAL_ENVIRONMENT" ]
     then
+        echo "using system python"
+    else
         echo "activating virtual environment"
         source $AZURE_FUNCTIONS_VIRTUAL_ENVIRONMENT
-    else
-        echo "using system python"
     fi
 fi
 
