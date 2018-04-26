@@ -4,7 +4,7 @@ echo $DOCKER_REPO
 echo $CACHE_TAG
 namespace=$(echo $DOCKER_REPO | grep -Po '\/([^/]+)\/' | grep -Po '[^/]+')
 echo $namespace
-if [ $CACHE_TAG = "dev-nightly" ];
+if [ "$CACHE_TAG" = "dev-nightly" ]
 then
     export HOST_TAG="dev"
 fi
