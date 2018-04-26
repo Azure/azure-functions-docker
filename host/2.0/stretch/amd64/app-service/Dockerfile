@@ -1,6 +1,6 @@
 ARG NAMESPACE=microsoft
-ARG TAG=dev-nightly
-FROM ${NAMESPACE}/azure-functions-python3.6:${TAG}
+ARG HOST_TAG=dev-nightly
+FROM ${NAMESPACE}/azure-functions-python3.6:${HOST_TAG}
 
 # nvm version tag (should correspond with a release from https://github.com/creationix/nvm/releases)
 ARG NVM_VERSION=v0.33.8
