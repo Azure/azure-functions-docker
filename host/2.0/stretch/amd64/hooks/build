@@ -1,10 +1,9 @@
 #!/usr/bin/env sh
 
 echo $DOCKER_REPO
-env
 namespace=$(echo $DOCKER_REPO | grep -Po '\/([^/]+)\/' | grep -Po '[^/]+')
 echo $namespace
-if [ "$CACHE_TAG" = "dev-nightly" ]
+if [ "$DOCKER_TAG" = "dev-nightly" ]
 then
     export HOST_TAG="dev"
 fi
