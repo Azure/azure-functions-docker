@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 echo $DOCKER_REPO
-echo $CACHE_TAG
+env
 namespace=$(echo $DOCKER_REPO | grep -Po '\/([^/]+)\/' | grep -Po '[^/]+')
 echo $namespace
 if [ "$CACHE_TAG" = "dev-nightly" ]
