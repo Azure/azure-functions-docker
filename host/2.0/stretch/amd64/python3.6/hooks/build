@@ -4,17 +4,18 @@ echo $DOCKER_REPO
 namespace=$(echo $DOCKER_REPO | grep -Po '\/([^/]+)\/' | grep -Po '[^/]+')
 echo $namespace
 
-if [ "$DOCKER_TAG" = "dev-nightly" ]
-then
+if [ "$DOCKER_TAG" = "dev-nightly" ]; then
     WORKER_TAG="dev"
-elif [ "$DOCKER_TAG" = "v2.0.11651-alpha" ]
-then
+elif [ "$DOCKER_TAG" = "v2.0.11651-alpha" ]; then
     WORKER_TAG="1.0.224-alpha"
-elif [ "$DOCKER_TAG" = "v2.0.11737-alpha" ]
-then
+elif [ "$DOCKER_TAG" = "v2.0.11737-alpha" ]; then
     WORKER_TAG="1.0.237-alpha"
 else
     WORKER_TAG="dev"
 fi
 
-docker build . -t $IMAGE_NAME --build-arg NAMESPACE=$namespace  --build-arg HOST_TAG=$DOCKER_TAG --build-arg WORKER_TAG=$WORKER_TAG
+if ["$DOCKER_TAG" = "v2.0.11737-alpha"]; then
+    LATEST_TAG="-t $DOCKER_REPO:latest"
+fi
+
+docker build . -t $IMAGE_NAME $(echo $LATEST_TAG) --build-arg NAMESPACE=$namespace  --build-arg HOST_TAG=$DOCKER_TAG --build-arg WORKER_TAG=$WORKER_TAG

@@ -3,11 +3,14 @@
 echo $DOCKER_REPO
 namespace=$(echo $DOCKER_REPO | grep -Po '\/([^/]+)\/' | grep -Po '[^/]+')
 echo $namespace
-if [ "$DOCKER_TAG" = "dev-nightly" ]
-then
+if [ "$DOCKER_TAG" = "dev-nightly" ]; then
     HOST_TAG="dev"
 else
     HOST_TAG=$DOCKER_TAG
 fi
 
-docker build . -t $IMAGE_NAME --build-arg NAMESPACE=$namespace --build-arg HOST_TAG=$HOST_TAG
+if ["$HOST_TAG" = "v2.0.11737-alpha"]; then
+    LATEST_TAG="-t $DOCKER_REPO:latest"
+fi
+
+docker build . -t $IMAGE_NAME $(echo $LATEST_TAG) --build-arg NAMESPACE=$namespace --build-arg HOST_TAG=$HOST_TAG
