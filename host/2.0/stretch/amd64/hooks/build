@@ -9,7 +9,7 @@ else
     HOST_TAG=$DOCKER_TAG
 fi
 
-if ["$HOST_TAG" = "v2.0.11737-alpha"]; then
+if [ "$HOST_TAG" = "v2.0.11737-alpha" ]; then
     LATEST_TAG="-t $DOCKER_REPO:latest"
 fi
 

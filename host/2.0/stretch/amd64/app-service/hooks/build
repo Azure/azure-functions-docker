@@ -4,7 +4,7 @@ echo $DOCKER_REPO
 namespace=$(echo $DOCKER_REPO | grep -Po '\/([^/]+)\/' | grep -Po '[^/]+')
 echo $namespace
 
-if ["$DOCKER_TAG" = "v2.0.11737-alpha"]; then
+if [ "$DOCKER_TAG" = "v2.0.11737-alpha" ]; then
     LATEST_TAG="-t $DOCKER_REPO:latest"
 fi
 
