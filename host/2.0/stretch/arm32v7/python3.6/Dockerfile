@@ -1,39 +1,45 @@
+ARG HOST_TAG=dev
+ARG WORKER_TAG=dev
 FROM microsoft/dotnet:2.0-sdk-stretch as host-build-env
+ARG HOST_TAG
+ARG WORKER_TAG
 
-ARG TAG=dev
 ENV PublishWithAspNetCoreTargetManifest false
 
 # Install Runtime
-RUN wget https://github.com/Azure/azure-functions-host/archive/${TAG}.tar.gz && \
-    tar xvzf ${TAG}.tar.gz && \
-    cd azure-functions-host-${TAG} && \
+RUN wget https://github.com/Azure/azure-functions-host/archive/${HOST_TAG}.tar.gz && \
+    tar xvzf ${HOST_TAG}.tar.gz && \
+    cd azure-functions-host-${HOST_TAG} && \
     dotnet build WebJobs.Script.sln && \
     dotnet publish src/WebJobs.Script.WebHost/WebJobs.Script.WebHost.csproj --runtime linux-arm --output /azure-functions-host
 
-FROM arm32v7/python:3.6.4-stretch
+FROM resin/rpi-raspbian:stretch
+ARG HOST_TAG
+ARG WORKER_TAG
 
 COPY --from=host-build-env ["/azure-functions-host", "/azure-functions-host"]
+# Install Python
+ENV PYENV_ROOT /root/.pyenv
+ENV PATH /root/.pyenv/shims:/root/.pyenv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+RUN [ "cross-build-start" ]
+RUN apt-get update && \
+    apt-get install -y git make build-essential libssl-dev zlib1g-dev libbz2-dev \
+    libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev \
+    xz-utils tk-dev && \
+    curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
+RUN pyenv install 3.6.4
+RUN pyenv global 3.6.4
 
-ARG TAG=dev
 # Install python worker
-RUN wget https://github.com/Azure/azure-functions-python-worker/archive/${TAG}.tar.gz && \
-    tar xvzf ${TAG}.tar.gz && \
-    mkdir /workers && \
-    mv azure-functions-python-worker-${TAG} /workers/azure-functions-python-worker && \
-    rm ${TAG}.tar.gz && \
-    cd workers && \
-    /bin/bash -c \
-    "python3 --version && \
-    python3 -m venv worker_env && \
-    source worker_env/bin/activate && \
-    cd azure-functions-python-worker && \
-    pip3 install -r requirements.txt &&  \
-    python3 setup.py build && \
-    pip install -U -e .[dev]"
+RUN wget https://github.com/Azure/azure-functions-python-worker/archive/${WORKER_TAG}.tar.gz && \
+    tar xvzf ${WORKER_TAG}.tar.gz && \
+    mv azure-functions-python-worker-* azure-functions-python-worker && \
+    cp -R /azure-functions-python-worker/python /azure-functions-host/workers/python
+
+RUN pip install -e git+https://github.com/Azure/azure-functions-python-worker.git@${WORKER_TAG}#egg=azure-functions
 
 ENV workers:config:path /workers/azure-functions-python-worker
 
-# This is a monkey patch, we discuss whether this is a good thing.
 COPY ./start.sh /workers/azure-functions-python-worker/python/
 COPY ./worker.config.json /workers/azure-functions-python-worker/python/
 ENV workers:python:path /workers/azure-functions-python-worker/python/start.sh
@@ -67,5 +73,6 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot
 
 ENV ASPNETCORE_URLS=http://+:80
 EXPOSE 80
+RUN [ "cross-build-stop" ]
 
 CMD ["/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost"]
