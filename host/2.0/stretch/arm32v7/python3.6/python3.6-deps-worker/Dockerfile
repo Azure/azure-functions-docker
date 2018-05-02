@@ -1,4 +1,4 @@
-ARG WORKER_TAG=dev
+ARG WORKER_TAG=1.0.237-alpha
 FROM microsoft/azure-functions-python3.6:arm32v7-python3.6-deps
 ARG WORKER_TAG
 
