@@ -13,33 +13,20 @@ RUN wget https://github.com/Azure/azure-functions-host/archive/${HOST_TAG}.tar.g
     dotnet build WebJobs.Script.sln && \
     dotnet publish src/WebJobs.Script.WebHost/WebJobs.Script.WebHost.csproj --runtime linux-arm --output /azure-functions-host
 
-FROM resin/rpi-raspbian:stretch
+FROM microsoft/azure-functions-python3.6:arm32v7-python3.6-deps-grpc
 ARG HOST_TAG
 ARG WORKER_TAG
 
 COPY --from=host-build-env ["/azure-functions-host", "/azure-functions-host"]
-# Install Python
-ENV PYENV_ROOT /root/.pyenv
-ENV PATH /root/.pyenv/shims:/root/.pyenv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-RUN [ "cross-build-start" ]
-RUN apt-get update && \
-    apt-get install -y git make build-essential libssl-dev zlib1g-dev libbz2-dev \
-    libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev \
-    xz-utils tk-dev && \
-    curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
-RUN pyenv install 3.6.4
-RUN pyenv global 3.6.4
 
 # Install python worker
+RUN [ "cross-build-start" ]
 RUN wget https://github.com/Azure/azure-functions-python-worker/archive/${WORKER_TAG}.tar.gz && \
     tar xvzf ${WORKER_TAG}.tar.gz && \
     mv azure-functions-python-worker-* azure-functions-python-worker && \
     cp -R /azure-functions-python-worker/python /azure-functions-host/workers/python
 
-RUN pip install -e git+https://github.com/Azure/azure-functions-python-worker.git@${WORKER_TAG}#egg=azure-functions
-
 ENV workers:config:path /workers/azure-functions-python-worker
-
 COPY ./start.sh /workers/azure-functions-python-worker/python/
 COPY ./worker.config.json /workers/azure-functions-python-worker/python/
 ENV workers:python:path /workers/azure-functions-python-worker/python/start.sh
