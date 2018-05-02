@@ -13,7 +13,7 @@ RUN wget https://github.com/Azure/azure-functions-host/archive/${HOST_TAG}.tar.g
     dotnet build WebJobs.Script.sln && \
     dotnet publish src/WebJobs.Script.WebHost/WebJobs.Script.WebHost.csproj --runtime linux-arm --output /azure-functions-host
 
-FROM microsoft/azure-functions-python3.6:arm32v7-python3.6-deps-grpc
+FROM microsoft/azure-functions-python3.6:arm32v7-python3.6-deps-grpcio-tools
 ARG HOST_TAG
 ARG WORKER_TAG
 
