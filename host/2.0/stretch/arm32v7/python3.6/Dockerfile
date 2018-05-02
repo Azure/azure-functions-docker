@@ -26,10 +26,9 @@ RUN wget https://github.com/Azure/azure-functions-python-worker/archive/${WORKER
     mv azure-functions-python-worker-* azure-functions-python-worker && \
     cp -R /azure-functions-python-worker/python /azure-functions-host/workers/python
 
-ENV workers:config:path /workers/azure-functions-python-worker
-COPY ./start.sh /workers/azure-functions-python-worker/python/
-COPY ./worker.config.json /workers/azure-functions-python-worker/python/
-ENV workers:python:path /workers/azure-functions-python-worker/python/start.sh
+COPY ./start.sh /azure-functions-host/workers/python/
+COPY ./worker.config.json /azure-functions-host/workers/python/
+ENV workers:python:path /azure-functions-host/workers/python/start.sh
 # End Install python worker
 
 # Install .NET Deps
