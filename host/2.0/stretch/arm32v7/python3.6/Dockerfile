@@ -73,6 +73,6 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot
 
 ENV ASPNETCORE_URLS=http://+:80
 EXPOSE 80
-RUN [ "cross-build-stop" ]
+RUN [ "cross-build-end" ]
 
 CMD ["/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost"]
