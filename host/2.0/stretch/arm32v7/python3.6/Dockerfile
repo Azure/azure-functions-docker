@@ -1,5 +1,5 @@
-ARG HOST_TAG=dev
-ARG WORKER_TAG=dev
+ARG HOST_TAG=v2.0.11737-alpha
+ARG WORKER_TAG=1.0.237-alpha
 FROM microsoft/dotnet:2.0-sdk-stretch as host-build-env
 ARG HOST_TAG
 ARG WORKER_TAG
@@ -7,13 +7,14 @@ ARG WORKER_TAG
 ENV PublishWithAspNetCoreTargetManifest false
 
 # Install Runtime
-RUN wget https://github.com/Azure/azure-functions-host/archive/${HOST_TAG}.tar.gz && \
+RUN BUILD_NUMBER=$(echo ${HOST_TAG} | cut -d'.' -f 3 | cut -d'-' -f 1) && \
+    wget https://github.com/Azure/azure-functions-host/archive/${HOST_TAG}.tar.gz && \
     tar xvzf ${HOST_TAG}.tar.gz && \
-    cd azure-functions-host-${HOST_TAG} && \
-    dotnet build WebJobs.Script.sln && \
-    dotnet publish src/WebJobs.Script.WebHost/WebJobs.Script.WebHost.csproj --runtime linux-arm --output /azure-functions-host
+    cd azure-functions-host-* && \
+    dotnet build /p:BuildNumber="$BUILD_NUMBER" WebJobs.Script.sln && \
+    dotnet publish /p:BuildNumber="$BUILD_NUMBER" src/WebJobs.Script.WebHost/WebJobs.Script.WebHost.csproj --runtime linux-arm --output /azure-functions-host
 
-FROM microsoft/azure-functions-python3.6:arm32v7-python3.6-deps-grpcio-tools
+FROM microsoft/azure-functions-python3.6:arm32v7-python3.6-deps
 ARG HOST_TAG
 ARG WORKER_TAG
 
@@ -29,6 +30,8 @@ RUN wget https://github.com/Azure/azure-functions-python-worker/archive/${WORKER
 COPY ./start.sh /azure-functions-host/workers/python/
 COPY ./worker.config.json /azure-functions-host/workers/python/
 ENV workers:python:path /azure-functions-host/workers/python/start.sh
+
+RUN pip install -e git+https://github.com/Azure/azure-functions-python-worker.git@${WORKER_TAG}#egg=azure-functions-python
 # End Install python worker
 
 # Install .NET Deps
