@@ -8,8 +8,8 @@ ENV PublishWithAspNetCoreTargetManifest false
 
 # Install Runtime
 RUN BUILD_NUMBER=$(echo ${HOST_TAG} | cut -d'.' -f 3 | cut -d'-' -f 1) && \
-    wget https://github.com/Azure/azure-functions-host/archive/${HOST_TAG}.tar.gz && \
-    tar xvzf ${HOST_TAG}.tar.gz && \
+    wget https://github.com/Azure/azure-functions-host/archive/6508d0044156e18f0c608357828d793e52121fc9.tar.gz && \
+    tar xvzf 6508d0044156e18f0c608357828d793e52121fc9.tar.gz && \
     cd azure-functions-host-* && \
     dotnet build /p:BuildNumber="$BUILD_NUMBER" WebJobs.Script.sln && \
     dotnet publish /p:BuildNumber="$BUILD_NUMBER" src/WebJobs.Script.WebHost/WebJobs.Script.WebHost.csproj --runtime linux-arm --output /azure-functions-host
@@ -31,7 +31,7 @@ COPY ./start.sh /azure-functions-host/workers/python/
 COPY ./worker.config.json /azure-functions-host/workers/python/
 ENV workers:python:path /azure-functions-host/workers/python/start.sh
 
-RUN pip install -e git+https://github.com/Azure/azure-functions-python-worker.git@${WORKER_TAG}#egg=azure-functions-python
+RUN pip install git+https://github.com/Azure/azure-functions-python-worker.git@${WORKER_TAG}#egg=azure-functions-python
 # End Install python worker
 
 # Install .NET Deps
