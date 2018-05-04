@@ -30,6 +30,8 @@ RUN pyenv install 3.6.4
 
 RUN pyenv global 3.6.4
 
+RUN pip install --upgrade pip
+
 RUN pip install -e git+https://github.com/Azure/azure-functions-python-worker.git@${WORKER_TAG}#egg=azure-functions
 
 # This is a monkey patch, we discuss whether this is a good thing.
