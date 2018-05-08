@@ -22,8 +22,7 @@ COPY --from=installer-env ["/azure-functions-host", "/azure-functions-host"]
 
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot
 ENV HOME=/home
-ENV WEBSITE_HOSTNAME=localhost:80
 ENV ASPNETCORE_URLS=http://+:80
 EXPOSE 80
 
-CMD ["dotnet", "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost.dll"]
+CMD dotnet /azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost.dll
