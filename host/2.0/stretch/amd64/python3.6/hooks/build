@@ -13,6 +13,9 @@ then
 elif [ "$DOCKER_TAG" = "v2.0.11737-alpha" ]
 then
     WORKER_TAG="1.0.237-alpha"
+elif [ "$DOCKER_TAG" = "v2.0.11776-alpha" ]
+then
+    WORKER_TAG="1.0.237-alpha"
 else
     WORKER_TAG="dev"
 fi
