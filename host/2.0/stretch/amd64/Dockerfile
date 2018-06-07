@@ -1,5 +1,5 @@
 ARG HOST_TAG=dev
-FROM microsoft/dotnet:2.0-sdk-stretch AS installer-env
+FROM microsoft/dotnet:2.1-sdk AS installer-env
 ARG HOST_TAG
 
 ENV PublishWithAspNetCoreTargetManifest false
@@ -16,7 +16,7 @@ RUN if [ "${HOST_TAG}" = "dev" ]; \
     dotnet publish /p:BuildNumber="$BUILD_NUMBER"  src/WebJobs.Script.WebHost/WebJobs.Script.WebHost.csproj --output /azure-functions-host
 
 # Runtime image
-FROM microsoft/dotnet:2.0-runtime-stretch
+FROM microsoft/dotnet:2.1-runtime
 
 COPY --from=installer-env ["/azure-functions-host", "/azure-functions-host"]
 

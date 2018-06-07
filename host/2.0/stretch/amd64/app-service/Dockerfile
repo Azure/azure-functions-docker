@@ -1,5 +1,6 @@
 ARG HOST_TAG=dev-nightly
-FROM microsoft/azure-functions-python3.6:${HOST_TAG}
+ARG NAMESPACE=microsoft
+FROM ${NAMESPACE}/azure-functions-python3.6:${HOST_TAG}
 
 RUN apt-get update && \
     apt-get install -y gnupg && \
