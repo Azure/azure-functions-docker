@@ -16,7 +16,7 @@ RUN if [ "${HOST_TAG}" = "dev" ]; \
     dotnet publish /p:BuildNumber="$BUILD_NUMBER"  src/WebJobs.Script.WebHost/WebJobs.Script.WebHost.csproj --output /azure-functions-host
 
 # Runtime image
-FROM microsoft/dotnet:2.1-runtime
+FROM microsoft/dotnet:2.1-aspnetcore-runtime
 
 COPY --from=installer-env ["/azure-functions-host", "/azure-functions-host"]
 
