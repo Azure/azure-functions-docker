@@ -39,6 +39,9 @@ RUN apt-get update \
     rm -rf /var/lib/apt/lists/*
 # End Install .NET Deps
 
+COPY ["libgrpc_csharp_ext.so", "/azure-functions-host/libgrpc_csharp_ext.so"]
+COPY ["libgrpc_csharp_ext.so", "/azure-functions-host/libgrpc_csharp_ext.x86.so"]
+
 RUN mkdir -p /home/site/wwwroot
 
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot
