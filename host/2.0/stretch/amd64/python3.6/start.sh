@@ -25,5 +25,12 @@ then
     fi
 fi
 
+CUSTOM_PACKAGES="/home/site/wwwroot/.python_packages"
+if [ -d "$CUSTOM_PACKAGES" ]
+then
+    echo "appending $CUSTOM_PACKAGES to PYTHONPATH"
+    export PYTHONPATH=$PYTHONPATH:$CUSTOM_PACKAGES
+fi
+
 echo "starting the python worker"
 python $DIR/worker.py $@
