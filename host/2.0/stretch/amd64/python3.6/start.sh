@@ -25,7 +25,7 @@ then
     fi
 fi
 
-CUSTOM_PACKAGES="/home/site/wwwroot/.python_packages"
+CUSTOM_PACKAGES="/home/site/wwwroot/.python_packages/lib/python3.6/site-packages"
 if [ -d "$CUSTOM_PACKAGES" ]
 then
     echo "appending $CUSTOM_PACKAGES to PYTHONPATH"
