@@ -27,10 +27,9 @@ RUN pyenv install 3.6.4
 
 RUN pyenv global 3.6.4
 
-RUN pip install --upgrade pip
+RUN pip install --upgrade pip && \
+    pip install azure-functions azure-functions-worker
 
-RUN cd /azure-functions-python-worker && \
-    pip install -U .
 
 # This is a monkey patch, we discuss whether this is a good thing.
 COPY ./start.sh /azure-functions-host/workers/python/
