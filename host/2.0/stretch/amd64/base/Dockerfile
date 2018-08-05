@@ -1,16 +1,16 @@
-ARG HOST_TAG=dev
+ARG FUNCTIONS_TAG=dev
 FROM microsoft/dotnet:2.1-sdk AS installer-env
-ARG HOST_TAG
+ARG FUNCTIONS_TAG
 
 ENV PublishWithAspNetCoreTargetManifest false
 
-RUN if [ "${HOST_TAG}" = "dev" ]; \
+RUN if [ "${FUNCTIONS_TAG}" = "dev" ]; \
     then export BUILD_NUMBER=00001; \
-    else export BUILD_NUMBER=$(echo ${HOST_TAG} | cut -d'.' -f 3 | cut -d'-' -f 1); \
+    else export BUILD_NUMBER=$(echo ${FUNCTIONS_TAG} | cut -d'.' -f 3 | cut -d'-' -f 1); \
     fi && \
     echo "Build Number == $BUILD_NUMBER" &&\
-    wget https://github.com/Azure/azure-functions-host/archive/${HOST_TAG}.tar.gz && \
-    tar xvzf ${HOST_TAG}.tar.gz && \
+    wget https://github.com/Azure/azure-functions-host/archive/${FUNCTIONS_TAG}.tar.gz && \
+    tar xvzf ${FUNCTIONS_TAG}.tar.gz && \
     cd azure-functions-host-* && \
     dotnet build /p:BuildNumber="$BUILD_NUMBER" WebJobs.Script.sln && \
     dotnet publish /p:BuildNumber="$BUILD_NUMBER"  src/WebJobs.Script.WebHost/WebJobs.Script.WebHost.csproj --output /azure-functions-host
