@@ -46,5 +46,5 @@ steps:
       docker push $(dockerId).azurecr.io/azure-functions:2.0-node
       docker push $(dockerId).azurecr.io/azure-functions:2.0-python
     fi
-   env:
+  env:
     pswd: $(dockerPassword)
