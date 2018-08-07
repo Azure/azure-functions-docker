@@ -1,7 +1,6 @@
 queue: Hosted Linux Preview
 variables:
   dockerId: azurefunctions
-  latestRelease: v2.0.11961-alpha
 
 steps:
 - bash: |
@@ -19,16 +18,6 @@ steps:
     docker tag azure-functions:$(Build.SourceBranchName)-dotnet $(dockerId).azurecr.io/azure-functions:$(Build.SourceBranchName)-dotnet
     docker tag azure-functions:$(Build.SourceBranchName)-node $(dockerId).azurecr.io/azure-functions:$(Build.SourceBranchName)-node
     docker tag azure-functions:$(Build.SourceBranchName)-python $(dockerId).azurecr.io/azure-functions:$(Build.SourceBranchName)-python
-
-    if [ "$latestRelease" = $(Build.SourceBranchName) ]; then
-      docker tag azure-functions:$(Build.SourceBranchName)-base $(dockerId).azurecr.io/azure-functions:2.0-base
-      docker tag azure-functions:$(Build.SourceBranchName)-base $(dockerId).azurecr.io/azure-functions:latest
-      docker tag azure-functions:$(Build.SourceBranchName)-base $(dockerId).azurecr.io/azure-functions:2.0
-
-      docker tag azure-functions:$(Build.SourceBranchName)-dotnet $(dockerId).azurecr.io/azure-functions:2.0-dotnet
-      docker tag azure-functions:$(Build.SourceBranchName)-node $(dockerId).azurecr.io/azure-functions:2.0-node
-      docker tag azure-functions:$(Build.SourceBranchName)-python $(dockerId).azurecr.io/azure-functions:2.0-python
-    fi
   displayName: tag images
   continueOnError: false
 
@@ -46,16 +35,5 @@ steps:
     docker push $(dockerId).azurecr.io/azure-functions:$(Build.SourceBranchName)-dotnet
     docker push $(dockerId).azurecr.io/azure-functions:$(Build.SourceBranchName)-node
     docker push $(dockerId).azurecr.io/azure-functions:$(Build.SourceBranchName)-python
-
-
-    if [ "$latestRelease" = $(Build.SourceBranchName) ]; then
-      docker push $(dockerId).azurecr.io/azure-functions:2.0-base
-      docker push $(dockerId).azurecr.io/azure-functions:latest
-      docker push $(dockerId).azurecr.io/azure-functions:2.0
-
-      docker push $(dockerId).azurecr.io/azure-functions:2.0-dotnet
-      docker push $(dockerId).azurecr.io/azure-functions:2.0-node
-      docker push $(dockerId).azurecr.io/azure-functions:2.0-python
-    fi
   displayName: push images
   continueOnError: false

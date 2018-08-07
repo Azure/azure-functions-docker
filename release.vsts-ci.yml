@@ -1,0 +1,45 @@
+queue: Hosted Linux Preview
+variables:
+  dockerId: azurefunctions
+
+steps:
+- bash: |
+    # pull
+    docker pull $(dockerId).azurecr.io/azure-functions:$(ReleaseVersion)-base
+    docker pull $(dockerId).azurecr.io/azure-functions:$(ReleaseVersion)-dotnet
+    docker pull $(dockerId).azurecr.io/azure-functions:$(ReleaseVersion)-node
+    docker pull $(dockerId).azurecr.io/azure-functions:$(ReleaseVersion)-python
+  displayName: pull images
+  continueOnError: false
+
+- bash: |
+    # tag
+    docker tag $(dockerId).azurecr.io/azure-functions:$(ReleaseVersion)-base $(dockerId).azurecr.io/public/azure-functions:2.0-base
+    docker tag $(dockerId).azurecr.io/azure-functions:$(ReleaseVersion)-base $(dockerId).azurecr.io/public/azure-functions:latest
+    docker tag $(dockerId).azurecr.io/azure-functions:$(ReleaseVersion)-base $(dockerId).azurecr.io/public/azure-functions:2.0
+
+    docker tag $(dockerId).azurecr.io/azure-functions:$(ReleaseVersion)-dotnet $(dockerId).azurecr.io/public/azure-functions:2.0-dotnet
+    docker tag $(dockerId).azurecr.io/azure-functions:$(ReleaseVersion)-node $(dockerId).azurecr.io/public/azure-functions:2.0-node
+    docker tag $(dockerId).azurecr.io/azure-functions:$(ReleaseVersion)-python $(dockerId).azurecr.io/public/azure-functions:2.0-python
+  displayName: tag images
+  continueOnError: false
+
+- bash: |
+    # login
+    docker login -u $(dockerId) -p $pswd $(dockerId).azurecr.io
+  displayName: login
+  continueOnError: false
+  env:
+    pswd: $(dockerPassword)
+
+- bash: |
+    # push
+    docker push $(dockerId).azurecr.io/public/azure-functions:2.0-base
+    docker push $(dockerId).azurecr.io/public/azure-functions:latest
+    docker push $(dockerId).azurecr.io/public/azure-functions:2.0
+
+    docker push $(dockerId).azurecr.io/public/azure-functions:2.0-dotnet
+    docker push $(dockerId).azurecr.io/public/azure-functions:2.0-node
+    docker push $(dockerId).azurecr.io/public/azure-functions:2.0-python
+  displayName: push images
+  continueOnError: false
