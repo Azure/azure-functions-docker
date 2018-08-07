@@ -1,0 +1,4 @@
+azure-functions:$(Build.SourceBranchName)-base
+azure-functions:$(Build.SourceBranchName)-dotnet
+azure-functions:$(Build.SourceBranchName)-node
+azure-functions:$(Build.SourceBranchName)-python

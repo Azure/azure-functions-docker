@@ -1,8 +1,8 @@
 ARG NAMESPACE=microsoft
-ARG HOST_TAG=dev-nightly
+ARG HOST_TAG=dev
 ARG WORKER_TAG=dev
 
-FROM ${NAMESPACE}/azure-functions-base:${HOST_TAG}
+FROM azure-functions:${HOST_TAG}-base
 ARG WORKER_TAG
 
 RUN apt-get update && \
@@ -32,8 +32,8 @@ RUN pip install --upgrade pip && \
 
 
 # This is a monkey patch, we discuss whether this is a good thing.
-COPY ./start.sh /azure-functions-host/workers/python/
+COPY ./python-context/start.sh /azure-functions-host/workers/python/
 RUN chmod +x /azure-functions-host/workers/python/start.sh
 
-COPY ./worker.config.json /azure-functions-host/workers/python/
+COPY ./python-context/worker.config.json /azure-functions-host/workers/python/
 ENV workers:python:path /azure-functions-host/workers/python/start.sh
