@@ -5,8 +5,8 @@ ARG HOST_TAG
 ENV PublishWithAspNetCoreTargetManifest false
 
 RUN if [ "${HOST_TAG}" == v2.0.* ]; \
-    else export BUILD_NUMBER=$(echo ${HOST_TAG} | cut -d'.' -f 3 | cut -d'-' -f 1); \
-    then export BUILD_NUMBER=00001; \
+    then export BUILD_NUMBER=$(echo ${HOST_TAG} | cut -d'.' -f 3 | cut -d'-' -f 1); \
+    else export BUILD_NUMBER=00001; \
     fi && \
     echo "Build Number == $BUILD_NUMBER" &&\
     wget https://github.com/Azure/azure-functions-host/archive/${HOST_TAG}.tar.gz && \
