@@ -1,0 +1,50 @@
+queue: Hosted Linux Preview
+variables:
+  dockerId: azurefunctions
+  latestRelease: v2.0.11961-alpha
+
+steps:
+- script: |
+    # build
+    docker build -t azure-functions:$(Build.SourceBranchName)-base --build-arg HOST_TAG=$(Build.SourceBranchName) - < host/2.0/stretch/amd64/base.Dockerfile
+    docker tag azure-functions:$(Build.SourceBranchName)-base azure-functions:$(Build.SourceBranchName)-dotnet
+    docker build -t azure-functions:$(Build.SourceBranchName)-node --build-arg HOST_TAG=$(Build.SourceBranchName) - < host/2.0/stretch/amd64/node.Dockerfile
+    docker build -t azure-functions:$(Build.SourceBranchName)-python --build-arg HOST_TAG=$(Build.SourceBranchName) - < host/2.0/stretch/amd64/python.Dockerfile
+
+    # tag
+    docker tag azure-functions:$(Build.SourceBranchName)-base $(dockerId).azurecr.io/azure-functions:$(Build.SourceBranchName)-base
+    docker tag azure-functions:$(Build.SourceBranchName)-dotnet $(dockerId).azurecr.io/azure-functions:$(Build.SourceBranchName)-dotnet
+    docker tag azure-functions:$(Build.SourceBranchName)-node $(dockerId).azurecr.io/azure-functions:$(Build.SourceBranchName)-node
+    docker tag azure-functions:$(Build.SourceBranchName)-python $(dockerId).azurecr.io/azure-functions:$(Build.SourceBranchName)-python
+
+    if [ "$latestRelease" = $(Build.SourceBranchName) ]; then
+      docker tag azure-functions:$(Build.SourceBranchName)-base $(dockerId).azurecr.io/azure-functions:2.0-base
+      docker tag azure-functions:$(Build.SourceBranchName)-base $(dockerId).azurecr.io/azure-functions:latest
+      docker tag azure-functions:$(Build.SourceBranchName)-base $(dockerId).azurecr.io/azure-functions:2.0
+
+      docker tag azure-functions:$(Build.SourceBranchName)-dotnet $(dockerId).azurecr.io/azure-functions:2.0-dotnet
+      docker tag azure-functions:$(Build.SourceBranchName)-node $(dockerId).azurecr.io/azure-functions:2.0-node
+      docker tag azure-functions:$(Build.SourceBranchName)-python $(dockerId).azurecr.io/azure-functions:2.0-python
+    fi
+
+    # login
+    docker login -u $(dockerId) -p $pswd $(dockerId).azurecr.io
+
+    # push
+    docker push $(dockerId).azurecr.io/azure-functions:$(Build.SourceBranchName)-base
+    docker push $(dockerId).azurecr.io/azure-functions:$(Build.SourceBranchName)-dotnet
+    docker push $(dockerId).azurecr.io/azure-functions:$(Build.SourceBranchName)-node
+    docker push $(dockerId).azurecr.io/azure-functions:$(Build.SourceBranchName)-python
+
+
+    if [ "$latestRelease" = $(Build.SourceBranchName) ]; then
+      docker push $(dockerId).azurecr.io/azure-functions:2.0-base
+      docker push $(dockerId).azurecr.io/azure-functions:latest
+      docker push $(dockerId).azurecr.io/azure-functions:2.0
+
+      docker push $(dockerId).azurecr.io/azure-functions:2.0-dotnet
+      docker push $(dockerId).azurecr.io/azure-functions:2.0-node
+      docker push $(dockerId).azurecr.io/azure-functions:2.0-python
+    fi
+   env:
+    pswd: $(dockerPassword)
