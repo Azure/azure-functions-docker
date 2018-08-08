@@ -26,7 +26,7 @@ steps:
 
 - bash: |
     # login
-    docker login -u $(dockerId) -p $pswd $(dockerId).azurecr.io
+    echo $pswd | docker login -u $(dockerId) --password-stdin $(dockerId).azurecr.io
   displayName: login
   continueOnError: false
   env:
