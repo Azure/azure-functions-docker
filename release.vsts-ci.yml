@@ -5,6 +5,14 @@ variables:
 
 steps:
 - bash: |
+    # login
+    echo $pswd | docker login -u $(dockerId) --password-stdin $(dockerId).azurecr.io
+  displayName: login
+  continueOnError: false
+  env:
+    pswd: $(dockerPassword)
+
+- bash: |
     # pull
     docker pull $(dockerId).azurecr.io/azure-functions:$(ReleaseVersion)-base
     docker pull $(dockerId).azurecr.io/azure-functions:$(ReleaseVersion)-dotnet
@@ -24,14 +32,6 @@ steps:
     docker tag $(dockerId).azurecr.io/azure-functions:$(ReleaseVersion)-python $(dockerId).azurecr.io/public/azure-functions:2.0-python
   displayName: tag images
   continueOnError: false
-
-- bash: |
-    # login
-    echo $pswd | docker login -u $(dockerId) --password-stdin $(dockerId).azurecr.io
-  displayName: login
-  continueOnError: false
-  env:
-    pswd: $(dockerPassword)
 
 - bash: |
     # push
