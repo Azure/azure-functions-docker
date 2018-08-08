@@ -1,4 +1,5 @@
 queue: Hosted Linux Preview
+trigger: none
 variables:
   dockerId: azurefunctions
 
