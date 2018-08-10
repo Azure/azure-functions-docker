@@ -7,8 +7,13 @@ steps:
 - bash: |
     # login
     echo $(dockerPassword) | docker login -u $(dockerId) --password-stdin $(dockerId).azurecr.io
-    echo $(dockerHubPassword) | docker login -u $(dockerHubUserId) --password-stdin
   displayName: login
+  continueOnError: false
+
+- bash: |
+    # login
+    docker login -u $(dockerHubUserId) --password $(dockerHubPassword)
+  displayName: login docker hub
   continueOnError: false
 
 - bash: |
