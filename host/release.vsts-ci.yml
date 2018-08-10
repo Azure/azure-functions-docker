@@ -19,9 +19,6 @@ steps:
     do
       imageName=$i:$(ReleaseVersion)
       docker pull $(dockerId).azurecr.io/azure-functions/$imageName
-      docker pull $(dockerId).azurecr.io/azure-functions/$imageName
-      docker pull $(dockerId).azurecr.io/azure-functions/$imageName
-      docker pull $(dockerId).azurecr.io/azure-functions/$imageName
     done
   displayName: pull images
   continueOnError: false
