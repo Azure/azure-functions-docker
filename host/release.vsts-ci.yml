@@ -1,0 +1,60 @@
+queue: Hosted Linux Preview
+trigger: none
+variables:
+  dockerId: azurefunctions
+
+steps:
+- bash: |
+    # login
+    echo $pswd | docker login -u $(dockerId) --password-stdin $(dockerId).azurecr.io
+  displayName: login
+  continueOnError: false
+  env:
+    pswd: $(dockerPassword)
+
+- bash: |
+    # pull
+    images=( base dotnet node python )
+    for i in "${images[@]}"
+    do
+      imageName=$i:$(ReleaseVersion)
+      docker pull $(dockerId).azurecr.io/azure-functions/$imageName
+      docker pull $(dockerId).azurecr.io/azure-functions/$imageName
+      docker pull $(dockerId).azurecr.io/azure-functions/$imageName
+      docker pull $(dockerId).azurecr.io/azure-functions/$imageName
+    done
+  displayName: pull images
+  continueOnError: false
+
+- bash: |
+    # tag
+    images=( base dotnet node python )
+    for i in "${images[@]}"
+    do
+      sourceImage="azure-functions/$i:$(ReleaseVersion)"
+      targetImage1="public/azure-functions/$i:$(ReleaseVersion)"
+      targetImage2="public/azure-functions/$i:2.0"
+      targetImage3="public/azure-functions/$i:latest"
+
+      docker tag $(dockerId).azurecr.io/$sourceImage $(dockerId).azurecr.io/$targetImage1
+      docker tag $(dockerId).azurecr.io/$sourceImage $(dockerId).azurecr.io/$targetImage2
+      docker tag $(dockerId).azurecr.io/$sourceImage $(dockerId).azurecr.io/$targetImage3
+    done
+  displayName: tag images
+  continueOnError: false
+
+- bash: |
+    # push
+    images=( base dotnet node python )
+    for i in "${images[@]}"
+    do
+      imageName1="public/azure-functions/$i:$(ReleaseVersion)"
+      imageName2="public/azure-functions/$i:2.0"
+      imageName3="public/azure-functions/$i:latest"
+
+      docker push $(dockerId).azurecr.io/$imageName1
+      docker push $(dockerId).azurecr.io/$imageName2
+      docker push $(dockerId).azurecr.io/$imageName3
+    done
+  displayName: push images
+  continueOnError: false

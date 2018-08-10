@@ -1,0 +1,52 @@
+queue: Hosted Linux Preview
+trigger:
+- dev
+- v2.0.*
+variables:
+  dockerId: azurefunctions
+
+steps:
+- bash: |
+    # build
+    images=( base node python )
+    for i in "${images[@]}"
+    do
+      imageName="azure-functions/$i:$(Build.SourceBranchName)"
+      hostTag=$(Build.SourceBranchName)
+
+      docker build -t $imageName --build-arg HOST_TAG=$hostTag -f host/2.0/stretch/amd64/$i.Dockerfile host/2.0/stretch/amd64/
+    done
+
+    docker tag azure-functions/base:$(Build.SourceBranchName) azure-functions/dotnet:$(Build.SourceBranchName)
+  displayName: build images
+  continueOnError: false
+
+- bash: |
+    # tag
+    images=( base dotnet node python )
+    for i in "${images[@]}"
+    do
+      imageName="azure-functions/$i:$(Build.SourceBranchName)"
+      docker tag $imageName $(dockerId).azurecr.io/$imageName
+    done
+  displayName: tag images
+  continueOnError: false
+
+- bash: |
+    # login
+    echo $pswd | docker login -u $(dockerId) --password-stdin $(dockerId).azurecr.io
+  displayName: login
+  continueOnError: false
+  env:
+    pswd: $(dockerPassword)
+
+- bash: |
+    # push
+    images=( base dotnet node python )
+    for i in "${images[@]}"
+    do
+      imageName="azure-functions/$i:$(Build.SourceBranchName)"
+      docker push $(dockerId).azurecr.io/$imageName
+    done
+  displayName: push images
+  continueOnError: false

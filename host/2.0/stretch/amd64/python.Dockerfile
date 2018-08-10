@@ -2,7 +2,7 @@ ARG NAMESPACE=microsoft
 ARG HOST_TAG=dev
 ARG WORKER_TAG=dev
 
-FROM azure-functions:${HOST_TAG}-base
+FROM azure-functions/base:${HOST_TAG}
 ARG WORKER_TAG
 
 RUN apt-get update && \
