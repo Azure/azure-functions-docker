@@ -6,14 +6,10 @@ variables:
 steps:
 - bash: |
     # login
-    echo "$pswd" | docker login -u $(dockerId) --password-stdin $(dockerId).azurecr.io
-    echo "$(dockerHubPassword)" | docker login -u $(dockerHubUserId) --password-stdin
+    echo $(dockerPassword) | docker login -u $(dockerId) --password-stdin $(dockerId).azurecr.io
+    echo $(dockerHubPassword) | docker login -u $(dockerHubUserId) --password-stdin
   displayName: login
   continueOnError: false
-  env:
-    pswd: $(dockerPassword)
-    hubPswd:
-    userId:
 
 - bash: |
     # pull
