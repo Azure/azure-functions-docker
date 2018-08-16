@@ -28,6 +28,9 @@ steps:
     do
       imageName="azure-functions/$i:$(Build.SourceBranchName)"
       docker tag $imageName $(dockerId).azurecr.io/$imageName
+      if [ "$(Build.SourceBranchName)" = "dev" ]; then
+        docker tag $imageName $(dockerId).azurecr.io/public/$imageName
+      fi
     done
   displayName: tag images
   continueOnError: false
@@ -47,6 +50,10 @@ steps:
     do
       imageName="azure-functions/$i:$(Build.SourceBranchName)"
       docker push $(dockerId).azurecr.io/$imageName
+
+      if [ "$(Build.SourceBranchName)" = "dev" ]; then
+        docker push $(dockerId).azurecr.io/public/$imageName
+      fi
     done
   displayName: push images
   continueOnError: false
