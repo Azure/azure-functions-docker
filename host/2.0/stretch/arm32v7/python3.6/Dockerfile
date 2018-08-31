@@ -32,7 +32,7 @@ COPY ./worker.config.json /azure-functions-host/workers/python/
 ENV workers:python:path /azure-functions-host/workers/python/start.sh
 
 RUN pip install git+https://github.com/Azure/azure-functions-python-worker.git@${WORKER_TAG}#egg=azure-functions-python
-# End Install python workeri
+# End Install python worker
 
 # Install .NET Deps
 RUN apt-get update \
