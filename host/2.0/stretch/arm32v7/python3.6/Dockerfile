@@ -1,5 +1,5 @@
 ARG HOST_TAG=v2.0.11776-alpha
-ARG WORKER_TAG=1.0.237-alpha
+ARG WORKER_TAG=1.0.0a4
 FROM microsoft/dotnet:2.0-sdk-stretch as host-build-env
 ARG HOST_TAG
 ARG WORKER_TAG
