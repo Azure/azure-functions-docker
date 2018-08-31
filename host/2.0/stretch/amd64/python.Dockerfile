@@ -1,6 +1,6 @@
 ARG NAMESPACE=microsoft
 ARG HOST_TAG=dev
-ARG WORKER_TAG=dev
+ARG WORKER_TAG=1.0.0a4
 
 FROM azure-functions/base:${HOST_TAG}
 ARG WORKER_TAG
@@ -28,7 +28,7 @@ RUN pyenv install 3.6.4
 RUN pyenv global 3.6.4
 
 RUN pip install --upgrade pip && \
-    pip install azure-functions azure-functions-worker
+    pip install azure-functions==${WORKER_TAG} azure-functions-worker==${WORKER_TAG}
 
 
 # This is a monkey patch, we discuss whether this is a good thing.
