@@ -2,7 +2,7 @@
     "description":{
         "language":"python",
         "extensions":[".py"],
-        "defaultExecutablePath":"python",
+        "defaultExecutablePath":"bash",
         "defaultWorkerPath":"start.sh"
     }
 }
