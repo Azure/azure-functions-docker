@@ -1,5 +1,5 @@
 ARG HOST_TAG=v2.0.11776-alpha
-ARG WORKER_TAG=1.0.237-alpha
+ARG WORKER_TAG=1.0.0a4
 FROM microsoft/dotnet:2.0-sdk-stretch as host-build-env
 ARG HOST_TAG
 ARG WORKER_TAG
@@ -32,7 +32,7 @@ COPY ./worker.config.json /azure-functions-host/workers/python/
 ENV workers:python:path /azure-functions-host/workers/python/start.sh
 
 RUN pip install git+https://github.com/Azure/azure-functions-python-worker.git@${WORKER_TAG}#egg=azure-functions-python
-# End Install python worker
+# End Install python workeri
 
 # Install .NET Deps
 RUN apt-get update \
