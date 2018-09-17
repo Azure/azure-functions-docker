@@ -6,9 +6,10 @@ ARG BUILD_NUMBER
 
 ENV PublishWithAspNetCoreTargetManifest false
 
-RUN if [ "${BUILD_NUMBER}" == "dev" ]; \
+RUN export ARG_BUILD_NUMBER=${BUILD_NUMBER} && \
+    if [ "$ARG_BUILD_NUMBER}" = "dev" ]; \
     then export BUILD_NUMBER=00001; \
-    else export BUILD_NUMBER="${BUILD_NUMBER}"; \
+    else export BUILD_NUMBER=$ARG_BUILD_NUMBER; \
     fi && \
     echo "Build Number == $BUILD_NUMBER" &&\
     wget https://github.com/Azure/azure-functions-host/archive/${HOST_COMMIT}.tar.gz && \
