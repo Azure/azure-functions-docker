@@ -1,5 +1,5 @@
 ARG HOST_TAG=dev-nightly
-ARG NAMESPACE=microsoft
+ARG NAMESPACE=local
 FROM ${NAMESPACE}/azure-functions-python3.6:${HOST_TAG}
 
 RUN apt-get update && \

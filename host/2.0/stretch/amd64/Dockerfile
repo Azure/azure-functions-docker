@@ -1,15 +1,15 @@
-ARG HOST_TAG=dev
+ARG HOST_TAG=image912
 FROM microsoft/dotnet:2.1-sdk AS installer-env
 ARG HOST_TAG
 
 ENV PublishWithAspNetCoreTargetManifest false
 
-RUN if [ "${HOST_TAG}" = "dev" ]; \
+RUN if [ "${HOST_TAG}" = "image912" ]; \
     then export BUILD_NUMBER=00001; \
     else export BUILD_NUMBER=$(echo ${HOST_TAG} | cut -d'.' -f 3 | cut -d'-' -f 1); \
     fi && \
     echo "Build Number == $BUILD_NUMBER" &&\
-    wget https://github.com/Azure/azure-functions-host/archive/${HOST_TAG}.tar.gz && \
+    wget https://github.com/bala16/azure-functions-host/archive/${HOST_TAG}.tar.gz && \
     tar xvzf ${HOST_TAG}.tar.gz && \
     cd azure-functions-host-* && \
     dotnet build /p:BuildNumber="$BUILD_NUMBER" WebJobs.Script.sln && \
@@ -24,5 +24,7 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot
 ENV HOME=/home
 ENV ASPNETCORE_URLS=http://+:80
 EXPOSE 80
+
+RUN mkdir -p /home/site/wwwroot
 
 CMD ["dotnet", "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost.dll"]

@@ -1,4 +1,4 @@
-ARG NAMESPACE=microsoft
+ARG NAMESPACE=local
 ARG HOST_TAG=dev-nightly
 ARG WORKER_TAG=dev
 
