@@ -1,8 +1,8 @@
 ARG NAMESPACE=microsoft
-ARG HOST_TAG=dev
+ARG BASE_IMAGE_TAG=dev
 ARG WORKER_TAG=1.0.0a4
 
-FROM azure-functions/base:${HOST_TAG}
+FROM azure-functions/base:${BASE_IMAGE_TAG}
 ARG WORKER_TAG
 
 RUN apt-get update && \

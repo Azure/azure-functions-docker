@@ -1,7 +1,4 @@
 queue: Hosted Linux Preview
-trigger:
-- dev
-- v2.0.*
 variables:
   dockerId: azurefunctions
 
@@ -11,13 +8,17 @@ steps:
     images=( base node python )
     for i in "${images[@]}"
     do
-      imageName="azure-functions/$i:$(Build.SourceBranchName)"
-      hostTag=$(Build.SourceBranchName)
+      imageName="azure-functions/$i:$(BuildNumber)"
 
-      docker build -t $imageName --build-arg HOST_TAG=$hostTag -f host/2.0/stretch/amd64/$i.Dockerfile host/2.0/stretch/amd64/
+      docker build -t $imageName \
+        --build-arg HOST_COMMIT=$(HostCommit) \
+        --build-arg BUILD_NUMBER=$(BuildNumber) \
+        --build-arg BASE_IMAGE_TAG=$(BuildNumber) \
+        -f host/2.0/stretch/amd64/$i.Dockerfile \
+        host/2.0/stretch/amd64/
     done
 
-    docker tag azure-functions/base:$(Build.SourceBranchName) azure-functions/dotnet:$(Build.SourceBranchName)
+    docker tag azure-functions/base:$(BuildNumber) azure-functions/dotnet:$(BuildNumber)
   displayName: build images
   continueOnError: false
 
@@ -26,9 +27,9 @@ steps:
     images=( base dotnet node python )
     for i in "${images[@]}"
     do
-      imageName="azure-functions/$i:$(Build.SourceBranchName)"
+      imageName="azure-functions/$i:$(BuildNumber)"
       docker tag $imageName $(dockerId).azurecr.io/$imageName
-      if [ "$(Build.SourceBranchName)" = "dev" ]; then
+      if [ "$(BuildNumber)" = "dev" ]; then
         docker tag $imageName $(dockerId).azurecr.io/public/$imageName
       fi
     done
@@ -48,10 +49,10 @@ steps:
     images=( base dotnet node python )
     for i in "${images[@]}"
     do
-      imageName="azure-functions/$i:$(Build.SourceBranchName)"
+      imageName="azure-functions/$i:$(BuildNumber)"
       docker push $(dockerId).azurecr.io/$imageName
 
-      if [ "$(Build.SourceBranchName)" = "dev" ]; then
+      if [ "$(BuildNumber)" = "dev" ]; then
         docker push $(dockerId).azurecr.io/public/$imageName
       fi
     done

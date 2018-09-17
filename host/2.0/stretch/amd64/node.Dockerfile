@@ -1,6 +1,6 @@
 ARG NAMESPACE=microsoft
-ARG HOST_TAG=dev
-FROM azure-functions/base:${HOST_TAG}
+ARG BASE_IMAGE_TAG=dev
+FROM azure-functions/base:${BASE_IMAGE_TAG}}
 
 RUN apt-get update && \
     apt-get install -y gnupg && \
