@@ -14,7 +14,7 @@ steps:
 
 - bash: |
     # pull
-    images=( base dotnet node python )
+    images=( base dotnet node python mesh )
     for i in "${images[@]}"
     do
       imageName=$i:$(ReleaseVersion)
@@ -25,7 +25,7 @@ steps:
 
 - bash: |
     # tag
-    images=( base dotnet node python )
+    images=( base dotnet node python mesh )
     for i in "${images[@]}"
     do
       sourceImage="azure-functions/$i:$(ReleaseVersion)"
@@ -42,7 +42,7 @@ steps:
 
 - bash: |
     # push
-    images=( base dotnet node python )
+    images=( base dotnet node python mesh )
     for i in "${images[@]}"
     do
       imageName1="public/azure-functions/$i:$(ReleaseVersion)"
