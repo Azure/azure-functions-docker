@@ -12,9 +12,12 @@ steps:
 
 - bash: |
     # login
-    echo  $(dockerHubPassword) | docker login -u $(dockerHubUserId) --password-stdin docker.io
+    echo  $pswd | docker login -u $(dockerHubUserId) --password-stdin docker.io
   displayName: login docker hub
   continueOnError: false
+  env:
+    pswd: $(dockerHubPassword)
+
 
 - bash: |
     # pull
