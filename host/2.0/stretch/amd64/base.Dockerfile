@@ -7,16 +7,16 @@ ARG BUILD_NUMBER
 ENV PublishWithAspNetCoreTargetManifest false
 
 RUN export ARG_BUILD_NUMBER=${BUILD_NUMBER} && \
-    if [ "$ARG_BUILD_NUMBER" == "dev" ]; \
-    then export BUILD_NUMBER=00001; \
-    else export BUILD_NUMBER=$ARG_BUILD_NUMBER; \
+    if [ $ARG_BUILD_NUMBER = dev ]; \
+    then export SCRIPT_BUILD_NUMBER=00001; \
+    else export SCRIPT_BUILD_NUMBER=$ARG_BUILD_NUMBER; \
     fi && \
-    echo "Build Number == $BUILD_NUMBER" &&\
+    echo "Build Number == $SCRIPT_BUILD_NUMBER" &&\
     wget https://github.com/Azure/azure-functions-host/archive/${HOST_COMMIT}.tar.gz && \
     tar xvzf ${HOST_COMMIT}.tar.gz && \
     cd azure-functions-host-* && \
-    dotnet build /p:BuildNumber="$BUILD_NUMBER" WebJobs.Script.sln && \
-    dotnet publish /p:BuildNumber="$BUILD_NUMBER"  src/WebJobs.Script.WebHost/WebJobs.Script.WebHost.csproj --output /azure-functions-host
+    dotnet build /p:BuildNumber="$SCRIPT_BUILD_NUMBER" WebJobs.Script.sln && \
+    dotnet publish /p:BuildNumber="$SCRIPT_BUILD_NUMBER"  src/WebJobs.Script.WebHost/WebJobs.Script.WebHost.csproj --output /azure-functions-host
 
 # Runtime image
 FROM microsoft/dotnet:2.1-aspnetcore-runtime
