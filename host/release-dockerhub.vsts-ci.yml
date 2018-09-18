@@ -30,20 +30,12 @@ steps:
 - bash: |
     # tag
     docker tag $(dockerId).azurecr.io/azure-functions/base:$(ReleaseVersion) microsoft/azure-functions-base:$(ReleaseVersion)
-    docker tag $(dockerId).azurecr.io/azure-functions/base:$(ReleaseVersion) microsoft/azure-functions-base:latest
-    docker tag $(dockerId).azurecr.io/azure-functions/base:$(ReleaseVersion) microsoft/azure-functions-base:2.0
 
     docker tag $(dockerId).azurecr.io/azure-functions/dotnet:$(ReleaseVersion) microsoft/azure-functions-dotnet-core2.0:$(ReleaseVersion)
-    docker tag $(dockerId).azurecr.io/azure-functions/dotnet:$(ReleaseVersion) microsoft/azure-functions-dotnet-core2.0:latest
-    docker tag $(dockerId).azurecr.io/azure-functions/dotnet:$(ReleaseVersion) microsoft/azure-functions-dotnet-core2.0:2.0
-
+    
     docker tag $(dockerId).azurecr.io/azure-functions/node:$(ReleaseVersion) microsoft/azure-functions-node8:$(ReleaseVersion)
-    docker tag $(dockerId).azurecr.io/azure-functions/node:$(ReleaseVersion) microsoft/azure-functions-node8:latest
-    docker tag $(dockerId).azurecr.io/azure-functions/node:$(ReleaseVersion) microsoft/azure-functions-node8:2.0
-
+    
     docker tag $(dockerId).azurecr.io/azure-functions/python:$(ReleaseVersion) microsoft/azure-functions-python3.6:$(ReleaseVersion)
-    docker tag $(dockerId).azurecr.io/azure-functions/python:$(ReleaseVersion) microsoft/azure-functions-python3.6:latest
-    docker tag $(dockerId).azurecr.io/azure-functions/python:$(ReleaseVersion) microsoft/azure-functions-python3.6:2.0
   displayName: tag images
   continueOnError: false
 
@@ -53,8 +45,6 @@ steps:
     for i in "${images[@]}"
     do
       docker push microsoft/azure-functions-$i:$(ReleaseVersion)
-      docker push microsoft/azure-functions-$i:latest
-      docker push microsoft/azure-functions-$i:2.0
     done
   displayName: push images
   continueOnError: false
