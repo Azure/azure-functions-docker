@@ -7,7 +7,7 @@ ARG BUILD_NUMBER
 ENV PublishWithAspNetCoreTargetManifest false
 
 RUN export ARG_BUILD_NUMBER=${BUILD_NUMBER} && \
-    if [ "$ARG_BUILD_NUMBER}" = "dev" ]; \
+    if [ "$ARG_BUILD_NUMBER" == "dev" ]; \
     then export BUILD_NUMBER=00001; \
     else export BUILD_NUMBER=$ARG_BUILD_NUMBER; \
     fi && \
