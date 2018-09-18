@@ -12,7 +12,7 @@ steps:
 
 - bash: |
     # login
-    docker login -u $(dockerHubUserId) --password $(dockerHubPassword)
+    echo  $(dockerHubPassword) | docker login -u $(dockerHubUserId) --password-stdin docker.io
   displayName: login docker hub
   continueOnError: false
 
