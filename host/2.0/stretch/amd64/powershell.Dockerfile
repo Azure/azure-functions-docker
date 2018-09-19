@@ -8,6 +8,6 @@ RUN apt-get update && \
     apt-get install -y git wget unzip
 
 RUN mkdir PowerShellWorker && cd PowerShellWorker && \
-    wget -q https://ci.appveyor.com/api/buildjobs/7lyurvik90a6h1y2/artifacts/package%2Fbin%2FRelease%2FMicrosoft.Azure.Functions.PowerShellWorker.0.1.10-alpha.nupkg && \
-    unzip package%2Fbin%2FRelease%2FMicrosoft.Azure.Functions.PowerShellWorker.${WORKER_TAG}.nupkg && \
+    wget -q -O PowerShellWorker.nupkg https://www.myget.org/F/azure-appservice/api/v2/package/Microsoft.Azure.Functions.PowerShellWorker/${WORKER_TAG} && \
+    unzip -q PowerShellWorker.nupkg && \
     mv ./contentFiles/any/any/workers/powershell ../azure-functions-host/workers/powershell
