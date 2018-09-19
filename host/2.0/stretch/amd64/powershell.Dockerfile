@@ -10,4 +10,5 @@ RUN apt-get update && \
 RUN mkdir PowerShellWorker && cd PowerShellWorker && \
     wget -q -O PowerShellWorker.nupkg https://www.myget.org/F/azure-appservice/api/v2/package/Microsoft.Azure.Functions.PowerShellWorker/${WORKER_TAG} && \
     unzip -q PowerShellWorker.nupkg && \
-    mv ./contentFiles/any/any/workers/powershell ../azure-functions-host/workers/powershell
+    mv ./contentFiles/any/any/workers/powershell ../azure-functions-host/workers/powershell && \
+    cd .. && rm -rf PowerShellWorker
