@@ -1,14 +1,15 @@
 ARG BASE_IMAGE_TAG=dev
 ARG WORKER_TAG=0.1.10-alpha
-FROM azure-functions/base:${BASE_IMAGE_TAG}
+
+# Upzip worker step
+FROM azure-functions/base:${BASE_IMAGE_TAG} AS functions-base
 ARG BASE_IMAGE_TAG
 ARG WORKER_TAG
 
-RUN apt-get update && \
-    apt-get install -y git wget unzip
+# Add the nupkg to the container and unzip it
+ADD https://www.myget.org/F/azure-appservice/api/v2/package/Microsoft.Azure.Functions.PowerShellWorker/${WORKER_TAG} PowerShellWorker.nupkg
+RUN apt-get update && apt-get install -y unzip && unzip -q PowerShellWorker.nupkg
 
-RUN mkdir PowerShellWorker && cd PowerShellWorker && \
-    wget -q -O PowerShellWorker.nupkg https://www.myget.org/F/azure-appservice/api/v2/package/Microsoft.Azure.Functions.PowerShellWorker/${WORKER_TAG} && \
-    unzip -q PowerShellWorker.nupkg && \
-    mv ./contentFiles/any/any/workers/powershell ../azure-functions-host/workers/powershell && \
-    cd .. && rm -rf PowerShellWorker
+# Copy the powershell worker to the workers folder
+FROM azure-functions/base:${BASE_IMAGE_TAG}
+COPY --from=functions-base contentFiles/any/any/workers/powershell azure-functions-host/workers/powershell
