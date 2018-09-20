@@ -9,13 +9,7 @@ DIR="$(dirname $0)"
 #   else use the container python
 if [ -z "$VIRTUAL_ENV"]
 then
-
     # Determining the virtual environment entry point
-    if [ -z "$AZURE_FUNCTIONS_VIRTUAL_ENVIRONMENT" ] && [ -f "$HOME/site/wwwroot/worker_venv/bin/activate" ]
-    then
-        AZURE_FUNCTIONS_VIRTUAL_ENVIRONMENT="$HOME/site/wwwroot/worker_venv/bin/activate"
-    fi
-
     if [ -z "$AZURE_FUNCTIONS_VIRTUAL_ENVIRONMENT" ]
     then
         echo "using system python"
@@ -25,12 +19,31 @@ then
     fi
 fi
 
-CUSTOM_PACKAGES="/home/site/wwwroot/.python_packages/lib/python3.6/site-packages"
-if [ -d "$CUSTOM_PACKAGES" ]
+if [ -z "$SKIP_PYTHONPATH_UPDATE" ]
 then
-    echo "appending $CUSTOM_PACKAGES to PYTHONPATH"
-    export PYTHONPATH=$PYTHONPATH:$CUSTOM_PACKAGES
+    CUSTOM_PACKAGES="$HOME/site/wwwroot/.python_packages/lib/python3.6/site-packages"
+    if [ -d "$CUSTOM_PACKAGES" ]
+    then
+        echo "appending $CUSTOM_PACKAGES to PYTHONPATH"
+        export PYTHONPATH=$PYTHONPATH:$CUSTOM_PACKAGES
+    else
+        echo "path $CUSTOM_PACKAGES doesn't exist"
+    fi
+
+    CUSTOM_VENV_PACKAGES="$HOME/site/wwwroot/worker_venv/lib/python3.6/site-packages"
+    if [ -d "$CUSTOM_VENV_PACKAGES" ]
+    then
+        echo "appending $CUSTOM_VENV_PACKAGES to PYTHONPATH"
+        export PYTHONPATH=$PYTHONPATH:$CUSTOM_VENV_PACKAGES
+    else
+        echo "path $CUSTOM_VENV_PACKAGES doesn't exist"
+    fi
+else
+    echo "SKIP_PYTHONPATH_UPDATE == $SKIP_PYTHONPATH_UPDATE"
 fi
+
+echo "python == $(which python)"
+echo "PYTHONPATH == $PYTHONPATH"
 
 echo "starting the python worker"
 python $DIR/worker.py $@
