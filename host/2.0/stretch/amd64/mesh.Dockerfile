@@ -1,5 +1,5 @@
 ARG BASE_IMAGE=mcr.microsoft.com/azure-functions/base
-ARG BASE_IMAGE_TAG=dev
+ARG BASE_IMAGE_TAG=2.0
 
 FROM ${BASE_IMAGE}:${BASE_IMAGE_TAG}
 
