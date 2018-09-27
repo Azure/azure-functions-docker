@@ -1,6 +1,7 @@
+ARG BASE_IMAGE=mcr.microsoft.com/azure-functions/base
 ARG BASE_IMAGE_TAG=dev
 
-FROM azure-functions/python:${BASE_IMAGE_TAG}
+FROM ${BASE_IMAGE}:${BASE_IMAGE_TAG}
 
 RUN apt-get update && \
     apt-get install -y gnupg && \
