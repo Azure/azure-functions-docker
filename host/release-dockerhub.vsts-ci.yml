@@ -21,7 +21,7 @@ steps:
 
 - bash: |
     # pull
-    images=( base dotnet node python mesh )
+    images=( base dotnet node python mesh powershell )
     for i in "${images[@]}"
     do
       imageName=$i:$(ReleaseVersion)
@@ -41,12 +41,14 @@ steps:
     docker tag $(dockerId).azurecr.io/azure-functions/python:$(ReleaseVersion) microsoft/azure-functions-python3.6:$(ReleaseVersion)
 
     docker tag $(dockerId).azurecr.io/azure-functions/mesh:$(ReleaseVersion) appsvctest/azure-functions-mesh:$(ReleaseVersion)
+
+    docker tag $(dockerId).azurecr.io/azure-functions/powershell:$(ReleaseVersion) appsvctest/azure-functions-powershell:$(ReleaseVersion)
   displayName: tag images
   continueOnError: false
 
 - bash: |
     # push
-    images=( "base" "dotnet-core2.0" "node8" "python3.6" )
+    images=( "base" "dotnet-core2.0" "node8" "python3.6" "powershell" )
     for i in "${images[@]}"
     do
       docker push microsoft/azure-functions-$i:$(ReleaseVersion)

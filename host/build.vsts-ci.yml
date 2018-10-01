@@ -5,7 +5,7 @@ variables:
 steps:
 - bash: |
     # build
-    images=( base node python mesh )
+    images=( base node python mesh powershell )
     for i in "${images[@]}"
     do
       imageName="azure-functions/$i:$(BuildNumber)"
@@ -25,7 +25,7 @@ steps:
 
 - bash: |
     # tag
-    images=( base dotnet node python mesh )
+    images=( base dotnet node python mesh powershell )
     for i in "${images[@]}"
     do
       imageName="azure-functions/$i:$(BuildNumber)"
@@ -47,7 +47,7 @@ steps:
 
 - bash: |
     # push
-    images=( base dotnet node python mesh )
+    images=( base dotnet node python mesh powershell )
     for i in "${images[@]}"
     do
       imageName="azure-functions/$i:$(BuildNumber)"
