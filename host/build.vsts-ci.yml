@@ -12,6 +12,7 @@ steps:
 
       docker build -t $imageName \
         --build-arg HOST_COMMIT=$(HostCommit) \
+        --build-arg BASE_IMAGE=azure-functions/base \
         --build-arg BUILD_NUMBER=$(BuildNumber) \
         --build-arg BASE_IMAGE_TAG=$(BuildNumber) \
         -f host/2.0/stretch/amd64/$i.Dockerfile \
