@@ -1,1 +1,0 @@
-This file has been cross compiled for ARM from https://github.com/grpc/grpc/tree/v1.4.x

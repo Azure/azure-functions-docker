@@ -16,7 +16,7 @@ steps:
         --build-arg BUILD_NUMBER=$(BuildNumber) \
         --build-arg BASE_IMAGE_TAG=$(BuildNumber) \
         -f host/2.0/stretch/amd64/$i.Dockerfile \
-        host/2.0/stretch/amd64/
+       host/2.0/stretch/amd64/
     done
 
     docker tag azure-functions/base:$(BuildNumber) azure-functions/dotnet:$(BuildNumber)

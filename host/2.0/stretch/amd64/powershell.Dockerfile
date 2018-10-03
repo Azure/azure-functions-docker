@@ -1,8 +1,9 @@
-ARG BASE_IMAGE_TAG=dev
+ARG BASE_IMAGE=mcr.microsoft.com/azure-functions/base
+ARG BASE_IMAGE_TAG=2.0-arm32v7
 ARG WORKER_TAG=0.1.10-alpha
 
+FROM ${BASE_IMAGE}:${BASE_IMAGE_TAG} AS functions-base
 # Upzip worker step
-FROM azure-functions/base:${BASE_IMAGE_TAG} AS functions-base
 ARG BASE_IMAGE_TAG
 ARG WORKER_TAG
 
@@ -11,5 +12,5 @@ ADD https://www.myget.org/F/azure-appservice/api/v2/package/Microsoft.Azure.Func
 RUN apt-get update && apt-get install -y unzip && unzip -q PowerShellWorker.nupkg
 
 # Copy the powershell worker to the workers folder
-FROM azure-functions/base:${BASE_IMAGE_TAG}
+FROM ${BASE_IMAGE}:${BASE_IMAGE_TAG}
 COPY --from=functions-base contentFiles/any/any/workers/powershell azure-functions-host/workers/powershell

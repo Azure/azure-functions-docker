@@ -23,7 +23,7 @@ RUN apt-get update && \
     xz-utils tk-dev && \
     curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
 
-RUN pyenv install 3.6.4
+RUN PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install 3.6.4
 
 RUN pyenv global 3.6.4
 

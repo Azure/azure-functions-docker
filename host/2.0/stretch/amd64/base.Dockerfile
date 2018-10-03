@@ -19,7 +19,6 @@ RUN export ARG_BUILD_NUMBER=${BUILD_NUMBER} && \
 
 # Runtime image
 FROM microsoft/dotnet:2.1-aspnetcore-runtime
-
 COPY --from=installer-env ["/azure-functions-host", "/azure-functions-host"]
 COPY ./run-host.sh /azure-functions-host/run-host.sh
 
