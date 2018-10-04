@@ -13,7 +13,7 @@ RUN export ARG_BUILD_NUMBER=${BUILD_NUMBER} && \
     fi && \
     echo "Build Number == $SCRIPT_BUILD_NUMBER" &&\
     wget https://github.com/Azure/azure-functions-host/archive/${HOST_COMMIT}.tar.gz && \
-    tar xvzf ${HOST_COMMIT}.tar.gz && \
+    tar xzf ${HOST_COMMIT}.tar.gz && \
     cd azure-functions-host-* && \
     dotnet publish /p:BuildNumber="$SCRIPT_BUILD_NUMBER" /p:CommitHash=${HOST_COMMIT} src/WebJobs.Script.WebHost/WebJobs.Script.WebHost.csproj --output /azure-functions-host
 

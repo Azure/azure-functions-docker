@@ -5,6 +5,7 @@ variables:
 steps:
 - bash: |
     # build
+    set -e
     images=( base node python mesh powershell )
     for i in "${images[@]}"
     do
@@ -25,6 +26,7 @@ steps:
 
 - bash: |
     # tag
+    set -e
     images=( base dotnet node python mesh powershell )
     for i in "${images[@]}"
     do
@@ -47,6 +49,7 @@ steps:
 
 - bash: |
     # push
+    set -e
     images=( base dotnet node python mesh powershell )
     for i in "${images[@]}"
     do
