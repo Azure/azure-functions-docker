@@ -17,32 +17,29 @@ RUN export ARG_BUILD_NUMBER=${BUILD_NUMBER} && \
     cd azure-functions-host-* && \
     dotnet publish /p:BuildNumber="$SCRIPT_BUILD_NUMBER" /p:CommitHash=${HOST_COMMIT} src/WebJobs.Script.WebHost/WebJobs.Script.WebHost.csproj --output /azure-functions-host
 
-FROM arm32v7/debian:stretch-slim AS grpc-build
-
-COPY ./qemu-arm-static /usr/bin/
-
-ENV GRPC_VERSION=v1.12.x
-
-RUN apt-get update && \
-    apt-get install --yes build-essential autoconf libtool pkg-config \
-    libgflags-dev libgtest-dev clang libc++-dev automake git
-
-RUN git clone --depth 1 -b "$GRPC_VERSION" https://github.com/grpc/grpc && \
-    cd grpc && \
-    git submodule update --init && \
-    make grpc_csharp_ext
+RUN apt-get update && apt-get install -y wget && \
+    wget https://functionsbay.blob.core.windows.net/public/dependencies/grpc/arm32v7/libgrpc_csharp_ext.so.1.12.1 && \
+    grpc_sha256='1483518b89c340b4baf766a150f33e68bb5af3f18b84680cca6b8a8d0ae0edcd' && \
+    sha256sum libgrpc_csharp_ext.so.1.12.1 && \
+    echo "$grpc_sha256 libgrpc_csharp_ext.so.1.12.1" | sha256sum -c -
 
 # Runtime image
-FROM microsoft/dotnet:2.1-runtime-stretch-slim-arm32v7
+FROM microsoft/dotnet:2.1-aspnetcore-runtime-stretch-slim-arm32v7
+
+COPY ./qemu-arm-static /usr/bin
 
 COPY --from=installer-env ["/azure-functions-host", "/azure-functions-host"]
-COPY --from=grpc-build ["/grpc/libs/opt/libgrpc_csharp_ext.so.1.12.1", "/"]
-COPY ./qemu-arm-static /usr/bin
+COPY --from=installer-env ["/libgrpc_csharp_ext.so.1.12.1", "/"]
 COPY ./run-host.sh /azure-functions-host/run-host.sh
 
 RUN chmod +x /azure-functions-host/run-host.sh && \
     rm -f /azure-functions-host/runtimes/linux/native/* && \
-    cp libgrpc_csharp_ext.so.1.12.1 /azure-functions-host/runtimes/libgrpc_csharp_ext.so
+    mv libgrpc_csharp_ext.so.1.12.1 /azure-functions-host/runtimes/linux/native/ && \
+    cd /azure-functions-host/runtimes/linux/native/ && \
+    ln -s libgrpc_csharp_ext.so.1.12.1 libgrpc_csharp_ext.so && \
+    ln -s libgrpc_csharp_ext.so.1.12.1 libgrpc_csharp_ext.x64.so && \
+    ln -s libgrpc_csharp_ext.so.1.12.1 libgrpc_csharp_ext.x86.so && \
+    ln -s libgrpc_csharp_ext.so.1.12.1 libgrpc_csharp_ext.arm32v7.so
 
 RUN mkdir -p /home/site/wwwroot
 
@@ -53,4 +50,4 @@ EXPOSE 80
 
 RUN rm /usr/bin/qemu-arm-static
 
-ENTRYPOINT [ "/azure-functions-host/run-host.sh" ]
+CMD /azure-functions-host/run-host.sh

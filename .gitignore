@@ -288,3 +288,4 @@ __pycache__/
 *.xsd.cs
 
 qemu-arm-static
+libgrpc_csharp_ext.so.*

@@ -29,4 +29,4 @@ ENV HOME=/home
 ENV ASPNETCORE_URLS=http://+:80
 EXPOSE 80
 
-ENTRYPOINT [ "/azure-functions-host/run-host.sh" ]
+CMD /azure-functions-host/run-host.sh
