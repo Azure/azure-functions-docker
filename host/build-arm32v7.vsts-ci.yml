@@ -2,6 +2,7 @@ queue: Hosted Linux Preview
 variables:
   dockerId: azurefunctions
 
+steps:
 - bash: |
     # build arm
     apt-get update
