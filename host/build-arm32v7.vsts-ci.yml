@@ -17,9 +17,6 @@ steps:
     # register qemu-arm-static
     docker run --rm --privileged multiarch/qemu-user-static:register --reset
 
-    docker build -t grpc-build -f grpc/stretch/arm32v7/Dockerfile grpc/stretch/arm32v7/
-    docker run --rm -v /tmp/output:/output grpc-build
-
     images=( base node python mesh powershell )
     for i in "${images[@]}"
     do
@@ -34,7 +31,7 @@ steps:
         host/2.0/stretch/arm32v7/
     done
 
-    docker tag azure-functions/base:$(BuildNumber) azure-functions/dotnet:$(BuildNumber)
+    docker tag azure-functions/base:$(BuildNumber)-arm32v7 azure-functions/dotnet:$(BuildNumber)-arm32v7
   displayName: build images
   continueOnError: false
 
