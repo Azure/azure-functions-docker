@@ -14,6 +14,11 @@ RUN wget https://github.com/Azure/azure-functions-python-worker/archive/${WORKER
 
 RUN cp -R /azure-functions-python-worker/python /azure-functions-host/workers/python
 
+## Python and pip variables
+ENV LANG C.UTF-8
+ENV PYTHON_VERSION 3.6.6
+ENV PYTHON_PIP_VERSION 18.0
+
 ## Install pyenv
 ENV PYENV_ROOT /root/.pyenv
 ENV PATH /root/.pyenv/shims:/root/.pyenv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
@@ -23,11 +28,11 @@ RUN apt-get update && \
     xz-utils tk-dev && \
     curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
 
-RUN PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install 3.6.4
+RUN PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install ${PYTHON_VERSION}
 
-RUN pyenv global 3.6.4
+RUN pyenv global ${PYTHON_VERSION}
 
-RUN pip install --upgrade pip && \
+RUN pip install pip==${PYTHON_PIP_VERSION} && \
     pip install azure-functions==${WORKER_TAG} azure-functions-worker==${WORKER_TAG}
 
 
