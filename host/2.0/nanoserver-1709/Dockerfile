@@ -1,7 +1,7 @@
 # escape=`
 
 # Installer image
-FROM mcr.microsoft.com/windows/servercore:1709 AS installer-env
+FROM microsoft/windowsservercore:1709 AS installer-env
 
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
