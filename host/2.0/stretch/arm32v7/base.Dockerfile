@@ -17,6 +17,8 @@ RUN export ARG_BUILD_NUMBER=${BUILD_NUMBER} && \
     cd azure-functions-host-* && \
     dotnet publish /p:BuildNumber="$SCRIPT_BUILD_NUMBER" /p:CommitHash=${HOST_COMMIT} src/WebJobs.Script.WebHost/WebJobs.Script.WebHost.csproj --output /azure-functions-host
 
+# Building GRPC takes about an hour. I build it once using the image under \grpc\stretch\arm32v7\Dockerfile
+# and use the artifact from there everytime.
 RUN apt-get update && apt-get install -y wget && \
     wget https://functionsbay.blob.core.windows.net/public/dependencies/grpc/arm32v7/libgrpc_csharp_ext.so.1.12.1 && \
     grpc_sha256='1483518b89c340b4baf766a150f33e68bb5af3f18b84680cca6b8a8d0ae0edcd' && \
