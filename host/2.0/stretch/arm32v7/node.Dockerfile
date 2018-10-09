@@ -25,7 +25,7 @@ RUN apt-get update && \
     curl -sL https://deb.nodesource.com/setup_8.x | bash - && \
     apt-get update && \
     apt-get install -y nodejs && \
-    mkdir -p /azure-functions-host/workers/node/grpc/src/node/extension_binary/node-v57-linux-arm-glib && \
+    mkdir -p /azure-functions-host/workers/node/grpc/src/node/extension_binary/node-v57-linux-arm-glibc && \
     mv /grpc_node.node /azure-functions-host/workers/node/grpc/src/node/extension_binary/node-v57-linux-arm-glibc/
 
 RUN rm /usr/bin/qemu-arm-static

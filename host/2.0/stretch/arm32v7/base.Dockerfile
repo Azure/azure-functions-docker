@@ -32,10 +32,8 @@ COPY ./qemu-arm-static /usr/bin
 
 COPY --from=installer-env ["/azure-functions-host", "/azure-functions-host"]
 COPY --from=installer-env ["/libgrpc_csharp_ext.so.1.12.1", "/"]
-COPY ./run-host.sh /azure-functions-host/run-host.sh
 
-RUN chmod +x /azure-functions-host/run-host.sh && \
-    rm -f /azure-functions-host/runtimes/linux/native/* && \
+RUN rm -f /azure-functions-host/runtimes/linux/native/* && \
     mv libgrpc_csharp_ext.so.1.12.1 /azure-functions-host/runtimes/linux/native/ && \
     cd /azure-functions-host/runtimes/linux/native/ && \
     ln -s libgrpc_csharp_ext.so.1.12.1 libgrpc_csharp_ext.so && \
@@ -52,4 +50,4 @@ EXPOSE 80
 
 RUN rm /usr/bin/qemu-arm-static
 
-CMD /azure-functions-host/run-host.sh
+CMD ["dotnet", "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost.dll"]
