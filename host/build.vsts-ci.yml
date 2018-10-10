@@ -9,7 +9,7 @@ steps:
     images=( base node python mesh powershell )
     for i in "${images[@]}"
     do
-      imageName="azure-functions/$i:$(BuildNumber)"
+      imageName="$(dockerId).azurecr.io/public/azure-functions/$i:$(BuildNumber)"
 
       docker build -t $imageName \
         --build-arg HOST_COMMIT=$(HostCommit) \
@@ -20,23 +20,8 @@ steps:
        host/2.0/stretch/amd64/
     done
 
-    docker tag azure-functions/base:$(BuildNumber) azure-functions/dotnet:$(BuildNumber)
+    docker tag $(dockerId).azurecr.io/public/azure-functions/base:$(BuildNumber) $(dockerId).azurecr.io/public/azure-functions/dotnet:$(BuildNumber)
   displayName: build images
-  continueOnError: false
-
-- bash: |
-    # tag
-    set -e
-    images=( base dotnet node python mesh powershell )
-    for i in "${images[@]}"
-    do
-      imageName="azure-functions/$i:$(BuildNumber)"
-      docker tag $imageName $(dockerId).azurecr.io/$imageName
-      if [ "$(BuildNumber)" = "dev" ]; then
-        docker tag $imageName $(dockerId).azurecr.io/public/$imageName
-      fi
-    done
-  displayName: tag images
   continueOnError: false
 
 - bash: |
@@ -53,12 +38,7 @@ steps:
     images=( base dotnet node python mesh powershell )
     for i in "${images[@]}"
     do
-      imageName="azure-functions/$i:$(BuildNumber)"
-      docker push $(dockerId).azurecr.io/$imageName
-
-      if [ "$(BuildNumber)" = "dev" ]; then
-        docker push $(dockerId).azurecr.io/public/$imageName
-      fi
+      docker push  $(dockerId).azurecr.io/public/azure-functions/$i:$(BuildNumber)
     done
   displayName: push images
   continueOnError: false
