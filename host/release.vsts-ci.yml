@@ -15,11 +15,10 @@ steps:
 - bash: |
     # pull
     set -e
-    images=( base dotnet node python mesh powershell )
+    images=( base dotnet node python powershell )
     for i in "${images[@]}"
     do
-      imageName=$i:$(ReleaseVersion)
-      docker pull $(dockerId).azurecr.io/azure-functions/$imageName
+      docker pull $(dockerId).azurecr.io/public/azure-functions/$i:$(ReleaseVersion)
     done
   displayName: pull images
   continueOnError: false
@@ -27,17 +26,11 @@ steps:
 - bash: |
     # tag
     set -e
-    images=( base dotnet node python mesh powershell )
+    images=( base dotnet node python powershell )
     for i in "${images[@]}"
     do
-      sourceImage="azure-functions/$i:$(ReleaseVersion)"
-      targetImage1="public/azure-functions/$i:$(ReleaseVersion)"
-      targetImage2="public/azure-functions/$i:2.0"
-      targetImage3="public/azure-functions/$i:latest"
-
-      docker tag $(dockerId).azurecr.io/$sourceImage $(dockerId).azurecr.io/$targetImage1
-      docker tag $(dockerId).azurecr.io/$sourceImage $(dockerId).azurecr.io/$targetImage2
-      docker tag $(dockerId).azurecr.io/$sourceImage $(dockerId).azurecr.io/$targetImage3
+      docker tag $(dockerId).azurecr.io/public/azure-functions/$i:$(ReleaseVersion) $(dockerId).azurecr.io/public/azure-functions/$i:2.0
+      docker tag $(dockerId).azurecr.io/public/azure-functions/$i:$(ReleaseVersion) $(dockerId).azurecr.io/public/azure-functions/$i:latest
     done
   displayName: tag images
   continueOnError: false
@@ -45,16 +38,11 @@ steps:
 - bash: |
     # push
     set -e
-    images=( base dotnet node python mesh powershell )
+    images=( base dotnet node python powershell )
     for i in "${images[@]}"
     do
-      imageName1="public/azure-functions/$i:$(ReleaseVersion)"
-      imageName2="public/azure-functions/$i:2.0"
-      imageName3="public/azure-functions/$i:latest"
-
-      docker push $(dockerId).azurecr.io/$imageName1
-      docker push $(dockerId).azurecr.io/$imageName2
-      docker push $(dockerId).azurecr.io/$imageName3
+      docker push $(dockerId).azurecr.io/public/azure-functions/$i:2.0
+      docker push $(dockerId).azurecr.io/public/azure-functions/$i:latest
     done
   displayName: push images
   continueOnError: false
