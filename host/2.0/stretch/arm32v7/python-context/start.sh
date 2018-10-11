@@ -46,4 +46,10 @@ echo "python == $(which python)"
 echo "PYTHONPATH == $PYTHONPATH"
 
 echo "starting the python worker"
-python $DIR/worker.py $@
+if [ -f $HOME/site/wwwroot/worker-bundle/worker-bundle ]
+then
+    chmod +x $HOME/site/wwwroot/worker-bundle/worker-bundle
+    $HOME/site/wwwroot/worker-bundle/worker-bundle $@
+else
+    python $DIR/worker.py $@
+fi
