@@ -1,5 +1,5 @@
 ARG BASE_IMAGE=mcr.microsoft.com/azure-functions/base
-ARG BASE_IMAGE_TAG=2.0-arm32v7
+ARG BASE_IMAGE_TAG=2.0
 ARG WORKER_TAG=0.1.10-alpha
 
 FROM ${BASE_IMAGE}:${BASE_IMAGE_TAG} AS functions-base
