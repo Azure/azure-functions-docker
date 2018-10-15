@@ -1,5 +1,5 @@
 ARG BASE_IMAGE=mcr.microsoft.com/azure-functions/python
-ARG BASE_IMAGE_TAG=2.0
+ARG BASE_IMAGE_TAG=dev-seabreeze
 
 FROM ${BASE_IMAGE}:${BASE_IMAGE_TAG}
 

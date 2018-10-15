@@ -4,16 +4,12 @@ set -e
 HostCommit=dev
 BuildNumber=2.0.12134
 
-images=( base node python mesh powershell )
+images=( base node python powershell )
 for i in "${images[@]}"
 do
     imageName="azurefunctions.azurecr.io/public/azure-functions/$i:2.0-arm32v7"
     base=base
     pull=""
-    if [ "$i" = "mesh" ]; then
-        echo "mesh base is python"
-        base=python
-    fi
 
     if [ "$i" = "base" ]; then
         echo "base image, add --pull"
