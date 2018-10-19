@@ -7,7 +7,7 @@ param (
     [String] $Version
 )
 
-$TempDir  ="$($($env:temp))\\"
+$TempDir  = "$($env:temp)\\"
 $NodeUrl = "https://nodejs.org/dist/v$($Version)/node-v$($Version)-win-x64.zip"
 $NodeZipPath = "$($TempDir)node.zip"
 
@@ -20,5 +20,5 @@ try {
 }
 finally {
     Remove-Item $NodeZipPath -Force -ErrorAction "SilentlyContinue"
-    Remove-Item "$($TempDir)node-v$($Version)-win-x64" -Force -ErrorAction "SilentlyContinue"
+    Remove-Item "$($TempDir)node-v$($Version)-win-x64" -Force -ErrorAction "SilentlyContinue" -Recurse
 }
