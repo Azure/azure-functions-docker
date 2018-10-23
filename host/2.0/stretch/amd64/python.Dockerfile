@@ -29,18 +29,24 @@ RUN apt-get update && \
 RUN apt-get update && apt-get install -my wget gnupg
 RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
 RUN curl https://packages.microsoft.com/config/ubuntu/16.04/prod.list > /etc/apt/sources.list.d/mssql-release.list
+
+# Needed for libss1.0.0 and in turn MS SQL
+RUN echo 'deb http://security.debian.org/debian-security jessie/updates main' >> /etc/apt/sources.list
+
+# install necessary locales for MS SQL
+RUN apt-get update && apt-get install -y locales \
+    && echo 'en_US.UTF-8 UTF-8' > /etc/locale.gen \
+    && locale-gen
+
+# install MS SQL related packages
 RUN apt-get update && \
-    apt-get install -y debconf libcurl3 libc6 openssl libstdc++6 libkrb5-3 unixodbc msodbcsql17 mssql-tools
+    apt-get install -y debconf libcurl3 libc6 openssl libstdc++6 libkrb5-3 unixodbc msodbcsql17 mssql-tools libssl1.0.0
 
 RUN apt-get update && \
     apt-get install -y git make build-essential libssl-dev zlib1g-dev libbz2-dev  \
     libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev \
     xz-utils tk-dev libpq-dev python3-dev libevent-dev unixodbc-dev && \
     curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
-
-# Verify MSSQL drivers are installed
-RUN apt-cache search msodbcsql17
-RUN odbcinst -q -d -n "ODBC Driver 17 for SQL Server"
 
 RUN PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install ${PYTHON_VERSION}
 
