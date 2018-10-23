@@ -9,6 +9,7 @@ ENV WORKER_TAG=1.0.0a6 \
     PYTHON_VERSION=3.6.6 \
     PYTHON_PIP_VERSION=18.0 \
     PYENV_ROOT=/root/.pyenv \
+    ACCEPT_EULA=Y \
     PATH=/root/.pyenv/shims:/root/.pyenv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 RUN apt-get update && \
@@ -20,11 +21,26 @@ RUN wget https://github.com/Azure/azure-functions-python-worker/archive/$WORKER_
 
 RUN cp -R /azure-functions-python-worker/python /azure-functions-host/workers/python
 
+RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
 RUN apt-get update && \
-    apt-get install -y git make build-essential libssl-dev zlib1g-dev libbz2-dev \
+    apt-get install apt-transport-https
+
+# Support for MSSQL ODBC
+RUN apt-get update && apt-get install -my wget gnupg
+RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
+RUN curl https://packages.microsoft.com/config/ubuntu/16.04/prod.list > /etc/apt/sources.list.d/mssql-release.list
+RUN apt-get update && \
+    apt-get install -y debconf libcurl3 libc6 openssl libstdc++6 libkrb5-3 unixodbc msodbcsql17 mssql-tools
+
+RUN apt-get update && \
+    apt-get install -y git make build-essential libssl-dev zlib1g-dev libbz2-dev  \
     libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev \
     xz-utils tk-dev libpq-dev python3-dev libevent-dev unixodbc-dev && \
     curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
+
+# Verify MSSQL drivers are installed
+RUN apt-cache search msodbcsql17
+RUN odbcinst -q -d -n "ODBC Driver 17 for SQL Server"
 
 RUN PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install ${PYTHON_VERSION}
 
