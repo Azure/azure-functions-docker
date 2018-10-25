@@ -8,3 +8,10 @@ RUN apt-get update && \
     curl -sL https://deb.nodesource.com/setup_8.x | bash - && \
     apt-get update && \
     apt-get install -y nodejs
+
+ADD https://www.myget.org/F/azure-appservice/api/v2/package/Microsoft.Azure.Functions.PowerShellWorker/${WORKER_TAG} PowerShellWorker.nupkg
+
+RUN apt-get update && \
+    apt-get install -y unzip && \
+    unzip -q PowerShellWorker.nupkg && \
+    mv contentFiles/any/any/workers/powershell azure-functions-host/workers/powershell

@@ -6,14 +6,21 @@ steps:
 - bash: |
     # build
     set -e
-    images=( base node python powershell )
+    images=( base node python powershell mesh )
     for i in "${images[@]}"
     do
       imageName="$(dockerId).azurecr.io/public/azure-functions/$i:$(BuildNumber)"
 
+      base=base
+
+      if [ "$i" = "mesh" ]; then
+        echo "mesh base is python"
+        base=python
+      fi
+
       docker build -t $imageName \
         --build-arg HOST_COMMIT=$(HostCommit) \
-        --build-arg BASE_IMAGE=$(dockerId).azurecr.io/public/azure-functions/base \
+        --build-arg BASE_IMAGE=$(dockerId).azurecr.io/public/azure-functions/$base \
         --build-arg BUILD_NUMBER=$(BuildNumber) \
         --build-arg BASE_IMAGE_TAG=$(BuildNumber) \
         -f host/2.0/stretch/amd64/$i.Dockerfile \
@@ -35,7 +42,7 @@ steps:
 - bash: |
     # push
     set -e
-    images=( base dotnet node python powershell )
+    images=( base dotnet node python powershell mesh )
     for i in "${images[@]}"
     do
       docker push  $(dockerId).azurecr.io/public/azure-functions/$i:$(BuildNumber)
