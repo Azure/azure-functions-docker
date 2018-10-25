@@ -9,6 +9,7 @@ ENV WORKER_TAG=1.0.0a6 \
     PYTHON_VERSION=3.6.6 \
     PYTHON_PIP_VERSION=18.0 \
     PYENV_ROOT=/root/.pyenv \
+    ACCEPT_EULA=Y \
     PATH=/root/.pyenv/shims:/root/.pyenv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 RUN apt-get update && \
@@ -20,8 +21,29 @@ RUN wget https://github.com/Azure/azure-functions-python-worker/archive/$WORKER_
 
 RUN cp -R /azure-functions-python-worker/python /azure-functions-host/workers/python
 
+RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
 RUN apt-get update && \
-    apt-get install -y git make build-essential libssl-dev zlib1g-dev libbz2-dev \
+    apt-get install apt-transport-https
+
+# Support for MSSQL ODBC
+RUN apt-get update && apt-get install -my wget gnupg
+RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
+RUN curl https://packages.microsoft.com/config/debian/9/prod.list > /etc/apt/sources.list.d/mssql-release.list
+
+# Needed for libss1.0.0 and in turn MS SQL
+RUN echo 'deb http://security.debian.org/debian-security jessie/updates main' >> /etc/apt/sources.list
+
+# install necessary locales for MS SQL
+RUN apt-get update && apt-get install -y locales \
+    && echo 'en_US.UTF-8 UTF-8' > /etc/locale.gen \
+    && locale-gen
+
+# install MS SQL related packages
+RUN apt-get update && \
+    apt-get install -y debconf libcurl3 libc6 openssl libstdc++6 libkrb5-3 unixodbc msodbcsql17 mssql-tools libssl1.0.0
+
+RUN apt-get update && \
+    apt-get install -y git make build-essential libssl-dev zlib1g-dev libbz2-dev  \
     libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev \
     xz-utils tk-dev libpq-dev python3-dev libevent-dev unixodbc-dev && \
     curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
