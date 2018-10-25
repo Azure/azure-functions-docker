@@ -28,7 +28,7 @@ RUN apt-get update && \
 # Support for MSSQL ODBC
 RUN apt-get update && apt-get install -my wget gnupg
 RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
-RUN curl https://packages.microsoft.com/config/ubuntu/16.04/prod.list > /etc/apt/sources.list.d/mssql-release.list
+RUN curl https://packages.microsoft.com/config/debian/9/prod.list > /etc/apt/sources.list.d/mssql-release.list
 
 # Needed for libss1.0.0 and in turn MS SQL
 RUN echo 'deb http://security.debian.org/debian-security jessie/updates main' >> /etc/apt/sources.list
