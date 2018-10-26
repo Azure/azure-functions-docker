@@ -6,46 +6,49 @@ steps:
 - bash: |
     # build
     set -e
-    images=( base node python powershell mesh )
-    for i in "${images[@]}"
-    do
-      imageName="$(dockerId).azurecr.io/public/azure-functions/$i:$(BuildNumber)"
 
-      base=base
-
-      if [ "$i" = "mesh" ]; then
-        echo "mesh base is python"
-        base=python
-      fi
-
-      docker build -t $imageName \
-        --build-arg HOST_COMMIT=$(HostCommit) \
-        --build-arg BASE_IMAGE=$(dockerId).azurecr.io/public/azure-functions/$base \
-        --build-arg BUILD_NUMBER=$(BuildNumber) \
-        --build-arg BASE_IMAGE_TAG=$(BuildNumber) \
-        -f host/2.0/stretch/amd64/$i.Dockerfile \
-       host/2.0/stretch/amd64/
-    done
-
-    docker tag $(dockerId).azurecr.io/public/azure-functions/base:$(BuildNumber) $(dockerId).azurecr.io/public/azure-functions/dotnet:$(BuildNumber)
-  displayName: build images
-  continueOnError: false
-
-- bash: |
     # login
-    echo $pswd | docker login -u $(dockerId) --password-stdin $(dockerId).azurecr.io
-  displayName: login
-  continueOnError: false
-  env:
-    pswd: $(dockerPassword)
+    echo $pswd | docker login -u azurefunctions --password-stdin azurefunctions.azurecr.io
 
-- bash: |
-    # push
     set -e
     images=( base dotnet node python powershell mesh )
     for i in "${images[@]}"
     do
-      docker push  $(dockerId).azurecr.io/public/azure-functions/$i:$(BuildNumber)
+      imageName="azurefunctions.azurecr.io/public/azure-functions/$i:$(BuildNumber)"
+
+      if [ "$i" = "base"]; then
+        docker build --pull -t $imageName \
+          --build-arg HOST_COMMIT=$(HostCommit) \
+          --build-arg BUILD_NUMBER=$(BuildNumber) \
+          -f host/2.0/stretch/amd64/base.Dockerfile \
+          host/2.0/stretch/amd64/
+      elif [ "$i" = "dotnet"]; then
+        docker tag azurefunctions.azurecr.io/public/azure-functions/base:$(BuildNumber) azurefunctions.azurecr.io/public/azure-functions/dotnet:$(BuildNumber)
+      else
+
+        if [ "$i" = "mesh" ]; then
+          echo "mesh base is python"
+          base=python
+        else
+          base=base
+        fi
+
+        docker build -t $imageName \
+          --build-arg BASE_IMAGE=azurefunctions.azurecr.io/public/azure-functions/$base \
+          --build-arg BASE_IMAGE_TAG=$(BuildNumber) \
+          -f host/2.0/stretch/amd64/$i.Dockerfile \
+          host/2.0/stretch/amd64/
+      fi
+
+      docker push $imageName
+      # both base and python are used as "base" image for others. Don't delete them
+      if [ ("$i" != "base") && ("$i" != "python")]; then
+        docker rmi $imageName
+      fi
+
+      docker system prune
     done
-  displayName: push images
+  displayName: build images
   continueOnError: false
+  env:
+    pswd: $(dockerPassword)
