@@ -46,7 +46,7 @@ steps:
         docker rmi $imageName
       fi
 
-      docker system prune
+      docker system prune -f
     done
   displayName: build images
   continueOnError: false
