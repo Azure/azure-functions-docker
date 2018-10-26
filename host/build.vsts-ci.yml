@@ -16,7 +16,7 @@ steps:
     do
       imageName="azurefunctions.azurecr.io/public/azure-functions/$i:$(BuildNumber)"
 
-      if [ "$i" = "base"]; then
+      if [ "$i" = "base" ]; then
         docker build --pull -t $imageName \
           --build-arg HOST_COMMIT=$(HostCommit) \
           --build-arg BUILD_NUMBER=$(BuildNumber) \
