@@ -42,7 +42,7 @@ steps:
 
       docker push $imageName
       # both base and python are used as "base" image for others. Don't delete them
-      if [ ("$i" != "base") && ("$i" != "python")]; then
+      if [ ( "$i" != "base" ) && ( "$i" != "python" )]; then
         docker rmi $imageName
       fi
 
