@@ -22,10 +22,9 @@ steps:
           --build-arg BUILD_NUMBER=$(BuildNumber) \
           -f host/2.0/stretch/amd64/base.Dockerfile \
           host/2.0/stretch/amd64/
-      elif [ "$i" = "dotnet"]; then
+      elif [ "$i" = "dotnet" ]; then
         docker tag azurefunctions.azurecr.io/public/azure-functions/base:$(BuildNumber) azurefunctions.azurecr.io/public/azure-functions/dotnet:$(BuildNumber)
       else
-
         if [ "$i" = "mesh" ]; then
           echo "mesh base is python"
           base=python
