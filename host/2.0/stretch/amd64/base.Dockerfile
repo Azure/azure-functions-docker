@@ -31,4 +31,4 @@ ENV HOME=/home
 ENV ASPNETCORE_URLS=http://+:80
 EXPOSE 80
 
-CMD /azure-functions-host/run-host.sh
+CMD ["dotnet", "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost.dll"]
