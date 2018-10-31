@@ -9,7 +9,7 @@ RUN apt-get update && \
     apt-get update && \
     apt-get install -y nodejs
 
-ADD https://www.myget.org/F/azure-appservice/api/v2/package/Microsoft.Azure.Functions.PowerShellWorker/0.1.20-alpha PowerShellWorker.nupkg
+ADD https://www.myget.org/F/azure-appservice/api/v2/package/Microsoft.Azure.Functions.PowerShellWorker/0.1.29-alpha PowerShellWorker.nupkg
 
 RUN apt-get update && \
     apt-get install -y unzip && \
