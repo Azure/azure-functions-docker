@@ -18,31 +18,28 @@ steps:
     images=( base dotnet node python powershell )
     for i in "${images[@]}"
     do
+      # Pull
       docker pull $(dockerId).azurecr.io/public/azure-functions/$i:$(ReleaseVersion)
-    done
-  displayName: pull images
-  continueOnError: false
+      docker pull $(dockerId).azurecr.io/public/azure-functions/$i:$(ReleaseVersion)-iot-edge
 
-- bash: |
-    # tag
-    set -e
-    images=( base dotnet node python powershell )
-    for i in "${images[@]}"
-    do
+      # tag
       docker tag $(dockerId).azurecr.io/public/azure-functions/$i:$(ReleaseVersion) $(dockerId).azurecr.io/public/azure-functions/$i:2.0
       docker tag $(dockerId).azurecr.io/public/azure-functions/$i:$(ReleaseVersion) $(dockerId).azurecr.io/public/azure-functions/$i:latest
-    done
-  displayName: tag images
-  continueOnError: false
+      docker tag $(dockerId).azurecr.io/public/azure-functions/$i:$(ReleaseVersion)-iot-edge $(dockerId).azurecr.io/public/azure-functions/$i:2.0-iot-edge
 
-- bash: |
-    # push
-    set -e
-    images=( base dotnet node python powershell )
-    for i in "${images[@]}"
-    do
+      # Push
       docker push $(dockerId).azurecr.io/public/azure-functions/$i:2.0
       docker push $(dockerId).azurecr.io/public/azure-functions/$i:latest
+      docker push $(dockerId).azurecr.io/public/azure-functions/$i:2.0-iot-edge
+
+      # Delete
+      if [ "$i" != "base" ]; then
+        docker rmi $(dockerId).azurecr.io/public/azure-functions/$i:$(ReleaseVersion)
+        docker rmi $(dockerId).azurecr.io/public/azure-functions/$i:$(ReleaseVersion)-iot-edge
+        docker rmi $(dockerId).azurecr.io/public/azure-functions/$i:2.0
+        docker rmi $(dockerId).azurecr.io/public/azure-functions/$i:latest
+        docker rmi $(dockerId).azurecr.io/public/azure-functions/$i:2.0-iot-edge
+      fi
     done
-  displayName: push images
+  displayName: pull images
   continueOnError: false

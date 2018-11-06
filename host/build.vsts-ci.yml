@@ -9,8 +9,6 @@ steps:
 
     # login
     echo $pswd | docker login -u azurefunctions --password-stdin azurefunctions.azurecr.io
-
-    set -e
     images=( base dotnet node python powershell mesh )
     for i in "${images[@]}"
     do
@@ -48,6 +46,42 @@ steps:
       docker system prune -f
     done
   displayName: build images
+  continueOnError: false
+  env:
+    pswd: $(dockerPassword)
+
+
+- bash: |
+    # build iot-edge
+    set -e
+
+    # login
+    echo $pswd | docker login -u azurefunctions --password-stdin azurefunctions.azurecr.io
+
+    images=( base dotnet node python powershell )
+    for i in "${images[@]}"
+    do
+      imageName="azurefunctions.azurecr.io/public/azure-functions/$i:$(BuildNumber)-iot-edge"
+
+      if [ "$i" = "dotnet" ]; then
+        docker tag azurefunctions.azurecr.io/public/azure-functions/base:$(BuildNumber)-iot-edge $imageName
+      else
+        docker build --pull -t $imageName \
+          --build-arg BASE_IMAGE=azurefunctions.azurecr.io/public/azure-functions/$i \
+          --build-arg BASE_IMAGE_TAG=$(BuildNumber) \
+          -f host/2.0/stretch/amd64/iot-edge/$i.Dockerfile \
+          host/2.0/stretch/amd64/iot-edge
+      fi
+
+      docker push $imageName
+
+      if [ "$i" != "base" ]; then
+        docker rmi $imageName
+      fi
+
+      docker system prune -f
+    done
+  displayName: build iot edge images
   continueOnError: false
   env:
     pswd: $(dockerPassword)
