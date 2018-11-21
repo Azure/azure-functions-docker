@@ -1,11 +1,4 @@
-
-# Docker pull command
-
-`docker pull mcr.microsoft.com/azure-functions/base`
-
 # Images
-
-`docker pull mcr.microsoft.com/azure-functions/base`
 
 `docker pull mcr.microsoft.com/azure-functions/dotnet`
 
