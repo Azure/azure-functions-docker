@@ -10,7 +10,7 @@ steps:
     docker build -t azurefunctions.azurecr.io/public/azure-functions/base:2.0-nanoserver-1803 .
     docker tag azurefunctions.azurecr.io/public/azure-functions/base:2.0-nanoserver-1803 azurefunctions.azurecr.io/public/azure-functions/dotnet:2.0-nanoserver-1803
 
-  displayName: build 
+  displayName: build
   errorActionPreference: stop
 
 - powershell: |
