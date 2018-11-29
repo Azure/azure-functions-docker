@@ -3,6 +3,8 @@
 # Directory name for start.sh
 DIR="$(dirname $0)"
 
+export PYTHONPATH=/root/.pyenv/versions/3.6.6/lib/python3.6/site-packages:$PYTHONPATH
+
 # If we're not in a virtual environment, check if either:
 #   $AZURE_FUNCTIONS_VIRTUAL_ENVIRONMENT is set, use it for venv
 #   if it's not set and there is a default venv, activate it
