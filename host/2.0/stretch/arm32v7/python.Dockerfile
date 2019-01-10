@@ -6,7 +6,7 @@ FROM ${BASE_IMAGE}:${BASE_IMAGE_TAG}
 ENV WORKER_TAG=1.0.0a6 \
     AZURE_FUNCTIONS_PACKAGE_VERSION=1.0.0a5 \
     LANG=C.UTF-8 \
-    PYTHON_VERSION=3.6.6 \
+    PYTHON_VERSION=3.7.0 \
     PYTHON_PIP_VERSION=18.0 \
     PYENV_ROOT=/root/.pyenv \
     PATH=/root/.pyenv/shims:/root/.pyenv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
