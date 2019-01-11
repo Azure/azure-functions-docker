@@ -21,7 +21,7 @@ fi
 
 if [ -z "$SKIP_PYTHONPATH_UPDATE" ]
 then
-    CUSTOM_PACKAGES="$HOME/site/wwwroot/.python_packages/lib/python3.6/site-packages"
+    CUSTOM_PACKAGES="$HOME/site/wwwroot/.python_packages/lib/python3.7/site-packages"
     if [ -d "$CUSTOM_PACKAGES" ]
     then
         echo "appending $CUSTOM_PACKAGES to PYTHONPATH"
@@ -30,7 +30,7 @@ then
         echo "path $CUSTOM_PACKAGES doesn't exist"
     fi
 
-    CUSTOM_VENV_PACKAGES="$HOME/site/wwwroot/worker_venv/lib/python3.6/site-packages"
+    CUSTOM_VENV_PACKAGES="$HOME/site/wwwroot/worker_venv/lib/python3.7/site-packages"
     if [ -d "$CUSTOM_VENV_PACKAGES" ]
     then
         echo "appending $CUSTOM_VENV_PACKAGES to PYTHONPATH"

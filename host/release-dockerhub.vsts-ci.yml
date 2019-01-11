@@ -39,7 +39,7 @@ steps:
 
     docker tag $(dockerId).azurecr.io/azure-functions/node:$(ReleaseVersion) microsoft/azure-functions-node8:$(ReleaseVersion)
 
-    docker tag $(dockerId).azurecr.io/azure-functions/python:$(ReleaseVersion) microsoft/azure-functions-python3.6:$(ReleaseVersion)
+    docker tag $(dockerId).azurecr.io/azure-functions/python:$(ReleaseVersion) microsoft/azure-functions-python3.7:$(ReleaseVersion)
 
     docker tag $(dockerId).azurecr.io/azure-functions/mesh:$(ReleaseVersion) appsvctest/azure-functions-mesh:$(ReleaseVersion)
 
@@ -50,7 +50,7 @@ steps:
 - bash: |
     # push
     set -e
-    images=( "base" "dotnet-core2.0" "node8" "python3.6" "powershell" )
+    images=( "base" "dotnet-core2.0" "node8" "python3.7" "powershell" )
     for i in "${images[@]}"
     do
       docker push microsoft/azure-functions-$i:$(ReleaseVersion)
