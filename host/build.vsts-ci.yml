@@ -4,84 +4,215 @@ variables:
 
 steps:
 - bash: |
-    # build
-    set -e
-
     # login
+    set -e
     echo $pswd | docker login -u azurefunctions --password-stdin azurefunctions.azurecr.io
-    images=( base dotnet node python powershell mesh )
-    for i in "${images[@]}"
-    do
-      imageName="azurefunctions.azurecr.io/public/azure-functions/$i:$(BuildNumber)"
 
-      if [ "$i" = "base" ]; then
-        docker build --pull -t $imageName \
-          --build-arg HOST_COMMIT=$(HostCommit) \
-          --build-arg BUILD_NUMBER=$(BuildNumber) \
-          -f host/2.0/stretch/amd64/base.Dockerfile \
-          host/2.0/stretch/amd64/
-      elif [ "$i" = "dotnet" ]; then
-        docker tag azurefunctions.azurecr.io/public/azure-functions/base:$(BuildNumber) azurefunctions.azurecr.io/public/azure-functions/dotnet:$(BuildNumber)
-      else
-        if [ "$i" = "mesh" ]; then
-          echo "mesh base is python"
-          base=python
-        else
-          base=base
-        fi
-
-        docker build -t $imageName \
-          --build-arg BASE_IMAGE=azurefunctions.azurecr.io/public/azure-functions/$base \
-          --build-arg BASE_IMAGE_TAG=$(BuildNumber) \
-          -f host/2.0/stretch/amd64/$i.Dockerfile \
-          host/2.0/stretch/amd64/
-      fi
-
-      docker push $imageName
-      # both base and python are used as "base" image for others. Don't delete them
-      if [ "$i" != "base" ] && [ "$i" != "python" ]; then
-        docker rmi $imageName
-      fi
-
-      docker system prune -f
-    done
-  displayName: build images
+  displayName: login to registry
   continueOnError: false
   env:
     pswd: $(dockerPassword)
-
 
 - bash: |
-    # build iot-edge
     set -e
+    # build base image
+    docker pull azurefunctions.azurecr.io/public/azure-functions/base:2.0
+    docker build -t azurefunctions.azurecr.io/public/azure-functions/base:$(BuildNumber) \
+      --cache-from azurefunctions.azurecr.io/public/azure-functions/base:2.0 \
+      -f host/2.0/stretch/amd64/base.Dockerfile \
+      host/2.0/stretch/amd64/
 
-    # login
-    echo $pswd | docker login -u azurefunctions --password-stdin azurefunctions.azurecr.io
+    docker push azurefunctions.azurecr.io/public/azure-functions/base:$(BuildNumber)
 
-    images=( base dotnet node python powershell )
-    for i in "${images[@]}"
-    do
-      imageName="azurefunctions.azurecr.io/public/azure-functions/$i:$(BuildNumber)-iot-edge"
-
-      if [ "$i" = "dotnet" ]; then
-        docker tag azurefunctions.azurecr.io/public/azure-functions/base:$(BuildNumber)-iot-edge $imageName
-      else
-        docker build --pull -t $imageName \
-          --build-arg BASE_IMAGE=azurefunctions.azurecr.io/public/azure-functions/$i \
-          --build-arg BASE_IMAGE_TAG=$(BuildNumber) \
-          -f host/2.0/stretch/amd64/iot-edge/$i.Dockerfile \
-          host/2.0/stretch/amd64/iot-edge
-      fi
-
-      docker push $imageName
-
-      if [ "$i" != "base" ]; then
-        docker rmi $imageName
-      fi
-
-      docker system prune -f
-    done
-  displayName: build iot edge images
+    docker system prune -f
+  displayName: build base image
   continueOnError: false
-  env:
-    pswd: $(dockerPassword)
+
+- bash: |
+    set -e
+    # build dotnet image
+    docker pull azurefunctions.azurecr.io/public/azure-functions/dotnet:2.0
+    docker build -t azurefunctions.azurecr.io/public/azure-functions/dotnet:$(BuildNumber) \
+      --build-arg BASE_IMAGE=azurefunctions.azurecr.io/public/azure-functions/base:$(BuildNumber) \
+      --cache-from azurefunctions.azurecr.io/public/azure-functions/dotnet:2.0 \
+      -f host/2.0/stretch/amd64/dotnet.Dockerfile \
+      host/2.0/stretch/amd64/
+
+    dotnet run --project ./test/test.csproj azurefunctions.azurecr.io/public/azure-functions/dotnet:$(BuildNumber)
+
+    docker push azurefunctions.azurecr.io/public/azure-functions/dotnet:$(BuildNumber)
+
+    docker rmi azurefunctions.azurecr.io/public/azure-functions/dotnet:$(BuildNumber)
+    docker rmi azurefunctions.azurecr.io/public/azure-functions/dotnet:2.0
+
+    docker system prune -f
+  displayName: build dotnet image
+  continueOnError: false
+
+- bash: |
+    set -e
+    # build node image
+    docker pull azurefunctions.azurecr.io/public/azure-functions/node:2.0
+    docker build -t azurefunctions.azurecr.io/public/azure-functions/node:$(BuildNumber) \
+      --build-arg BASE_IMAGE=azurefunctions.azurecr.io/public/azure-functions/base:$(BuildNumber) \
+      --cache-from azurefunctions.azurecr.io/public/azure-functions/node:2.0 \
+      -f host/2.0/stretch/amd64/node.Dockerfile \
+      host/2.0/stretch/amd64/
+
+    dotnet run --project ./test/test.csproj azurefunctions.azurecr.io/public/azure-functions/node:$(BuildNumber)
+
+    docker push azurefunctions.azurecr.io/public/azure-functions/node:$(BuildNumber)
+
+    docker rmi azurefunctions.azurecr.io/public/azure-functions/node:$(BuildNumber)
+    docker rmi azurefunctions.azurecr.io/public/azure-functions/node:2.0
+
+    docker system prune -f
+  displayName: build node image
+  continueOnError: false
+
+- bash: |
+    set -e
+    # build powershell image
+    docker pull azurefunctions.azurecr.io/public/azure-functions/powershell:2.0
+    docker build -t azurefunctions.azurecr.io/public/azure-functions/powershell:$(BuildNumber) \
+      --build-arg BASE_IMAGE=azurefunctions.azurecr.io/public/azure-functions/base:$(BuildNumber) \
+      --cache-from azurefunctions.azurecr.io/public/azure-functions/powershell:2.0 \
+      -f host/2.0/stretch/amd64/powershell.Dockerfile \
+      host/2.0/stretch/amd64/
+
+    dotnet run --project ./test/test.csproj azurefunctions.azurecr.io/public/azure-functions/powershell:$(BuildNumber)
+
+    docker push azurefunctions.azurecr.io/public/azure-functions/powershell:$(BuildNumber)
+
+    docker rmi azurefunctions.azurecr.io/public/azure-functions/powershell:$(BuildNumber)
+    docker rmi azurefunctions.azurecr.io/public/azure-functions/powershell:2.0
+
+    docker system prune -f
+  displayName: build powershell image
+  continueOnError: false
+
+- bash: |
+    set -e
+    # build python image
+    docker pull azurefunctions.azurecr.io/public/azure-functions/python:2.0
+    docker build -t azurefunctions.azurecr.io/public/azure-functions/python:$(BuildNumber) \
+      --build-arg BASE_IMAGE=azurefunctions.azurecr.io/public/azure-functions/base:$(BuildNumber) \
+      --cache-from azurefunctions.azurecr.io/public/azure-functions/python:2.0 \
+      -f host/2.0/stretch/amd64/python.Dockerfile \
+      host/2.0/stretch/amd64/
+
+    dotnet run --project ./test/test.csproj azurefunctions.azurecr.io/public/azure-functions/python:$(BuildNumber)
+
+    docker push azurefunctions.azurecr.io/public/azure-functions/python:$(BuildNumber)
+
+    docker system prune -f
+  displayName: build python image
+  continueOnError: false
+
+- bash: |
+    set -e
+    # build mesh image
+    docker pull azurefunctions.azurecr.io/public/azure-functions/mesh:2.0
+
+    # mesh base is python
+    docker build -t azurefunctions.azurecr.io/public/azure-functions/mesh:$(BuildNumber) \
+      --build-arg BASE_IMAGE=azurefunctions.azurecr.io/public/azure-functions/python:$(BuildNumber) \
+      --cache-from azurefunctions.azurecr.io/public/azure-functions/mesh:2.0 \
+      -f host/2.0/stretch/amd64/mesh.Dockerfile \
+      host/2.0/stretch/amd64/
+
+    dotnet run --project ./test/test.csproj azurefunctions.azurecr.io/public/azure-functions/mesh:$(BuildNumber)
+    docker push azurefunctions.azurecr.io/public/azure-functions/mesh:$(BuildNumber)
+
+    docker rmi azurefunctions.azurecr.io/public/azure-functions/mesh:$(BuildNumber)
+    docker rmi azurefunctions.azurecr.io/public/azure-functions/mesh:2.0
+
+    docker system prune -f
+  displayName: build mesh image
+  continueOnError: false
+
+- bash: |
+    set -e
+    # build alpine base image
+    # docker pull azurefunctions.azurecr.io/public/azure-functions/base:2.0-alpine
+    docker build -t azurefunctions.azurecr.io/public/azure-functions/base:$(BuildNumber)-alpine \
+      --cache-from azurefunctions.azurecr.io/public/azure-functions/base:2.0-alpine \
+      -f host/2.0/alpine/amd64/base.Dockerfile \
+      host/2.0/alpine/amd64/
+
+    docker push azurefunctions.azurecr.io/public/azure-functions/base:$(BuildNumber)-alpine
+    docker system prune -f
+  displayName: build alpine base image
+  continueOnError: false
+
+- bash: |
+    set -e
+    # build alpine dotnet image
+    # docker pull azurefunctions.azurecr.io/public/azure-functions/dotnet:2.0-alpine
+    docker build -t azurefunctions.azurecr.io/public/azure-functions/dotnet:$(BuildNumber)-alpine \
+      --build-arg BASE_IMAGE=azurefunctions.azurecr.io/public/azure-functions/base:$(BuildNumber)-alpine \
+      --cache-from azurefunctions.azurecr.io/public/azure-functions/dotnet:2.0-alpine \
+      -f host/2.0/alpine/amd64/dotnet.Dockerfile \
+      host/2.0/alpine/amd64/
+
+    dotnet run --project ./test/test.csproj azurefunctions.azurecr.io/public/azure-functions/dotnet:$(BuildNumber)-alpine
+
+    docker push azurefunctions.azurecr.io/public/azure-functions/dotnet:$(BuildNumber)-alpine
+    docker rmi azurefunctions.azurecr.io/public/azure-functions/dotnet:$(BuildNumber)-alpine
+    docker system prune -f
+  displayName: build alpine dotnet image
+  continueOnError: false
+
+# - bash: |
+#     set -e
+#     # build alpine node image
+#     # docker pull azurefunctions.azurecr.io/public/azure-functions/node:2.0-alpine
+#     docker build -t azurefunctions.azurecr.io/public/azure-functions/node:$(BuildNumber)-alpine \
+#       --build-arg BASE_IMAGE=azurefunctions.azurecr.io/public/azure-functions/base:$(BuildNumber)-alpine \
+#       --cache-from azurefunctions.azurecr.io/public/azure-functions/node:2.0-alpine \
+#       -f host/2.0/alpine/amd64/node.Dockerfile \
+#       host/2.0/alpine/amd64/
+
+#     dotnet run --project ./test/test.csproj azurefunctions.azurecr.io/public/azure-functions/node:$(BuildNumber)-alpine
+
+#     # docker push azurefunctions.azurecr.io/public/azure-functions/node:$(BuildNumber)-alpine
+#     docker rmi azurefunctions.azurecr.io/public/azure-functions/node:$(BuildNumber)-alpine
+#     docker system prune -f
+#   displayName: build alpine node image
+#   continueOnError: false
+
+- bash: |
+    set -e
+    # build alpine powershell image
+    # docker pull azurefunctions.azurecr.io/public/azure-functions/powershell:2.0-alpine
+    docker build -t azurefunctions.azurecr.io/public/azure-functions/powershell:$(BuildNumber)-alpine \
+      --build-arg BASE_IMAGE=azurefunctions.azurecr.io/public/azure-functions/base:$(BuildNumber)-alpine \
+      --cache-from azurefunctions.azurecr.io/public/azure-functions/powershell:2.0-alpine \
+      -f host/2.0/alpine/amd64/powershell.Dockerfile \
+      host/2.0/alpine/amd64/
+
+    dotnet run --project ./test/test.csproj azurefunctions.azurecr.io/public/azure-functions/powershell:$(BuildNumber)-alpine
+
+    docker push azurefunctions.azurecr.io/public/azure-functions/powershell:$(BuildNumber)-alpine
+    docker rmi azurefunctions.azurecr.io/public/azure-functions/powershell:$(BuildNumber)-alpine
+    docker system prune -f
+  displayName: build alpine powershell image
+  continueOnError: false
+
+# - bash: |
+#     set -e
+#     # build alpine python image
+#     # docker pull azurefunctions.azurecr.io/public/azure-functions/python:2.0-alpine
+#     docker build -t azurefunctions.azurecr.io/public/azure-functions/python:$(BuildNumber)-alpine \
+#       --build-arg BASE_IMAGE=azurefunctions.azurecr.io/public/azure-functions/base:$(BuildNumber)-alpine \
+#       --cache-from azurefunctions.azurecr.io/public/azure-functions/python:2.0-alpine \
+#       -f host/2.0/alpine/amd64/python.Dockerfile \
+#       host/2.0/alpine/amd64/
+
+#     dotnet run --project ./test/test.csproj azurefunctions.azurecr.io/public/azure-functions/python:$(BuildNumber)-alpine
+
+#     # docker push azurefunctions.azurecr.io/public/azure-functions/python:$(BuildNumber)-alpine
+#     docker rmi azurefunctions.azurecr.io/public/azure-functions/python:$(BuildNumber)-alpine
+#     docker system prune -f
+#   displayName: build alpine python image
+#   continueOnError: false

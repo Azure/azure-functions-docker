@@ -1,6 +1,10 @@
-ARG BASE_IMAGE=mcr.microsoft.com/azure-functions/base:2.0
+ARG BASE_IMAGE=mcr.microsoft.com/azure-functions/base:2.0-alpine
 FROM ${BASE_IMAGE} as runtime-image
-FROM microsoft/dotnet:2.2-aspnetcore-runtime
+FROM microsoft/dotnet:2.2-aspnetcore-runtime-alpine
+
+RUN apk add --no-cache libc6-compat libnsl && \
+    # workaround for https://github.com/grpc/grpc/issues/17255
+    ln -s /usr/lib/libnsl.so.2 /usr/lib/libnsl.so.1
 
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     HOME=/home \
