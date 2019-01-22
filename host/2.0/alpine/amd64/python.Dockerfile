@@ -13,8 +13,8 @@ ENV PYENV_ROOT=/root/.pyenv \
     PATH=/root/.pyenv/shims:/root/.pyenv/bin:$PATH
 
 # Install Python
-RUN PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install 3.7.2 && \
-    pyenv global 3.7.2 && \
+RUN PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install 3.6.6 && \
+    pyenv global 3.6.6 && \
     pip install pip==18.0
 
 RUN export WORKER_TAG=1.0.0a6 && \
