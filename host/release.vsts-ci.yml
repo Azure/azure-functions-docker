@@ -32,13 +32,6 @@ steps:
       docker push $(dockerId).azurecr.io/public/azure-functions/$i:latest
       docker push $(dockerId).azurecr.io/public/azure-functions/$i:2.0-iot-edge
 
-      # Delete
-      if [ "$i" != "base" ]; then
-        docker rmi $(dockerId).azurecr.io/public/azure-functions/$i:$(ReleaseVersion)
-        docker rmi $(dockerId).azurecr.io/public/azure-functions/$i:2.0
-        docker rmi $(dockerId).azurecr.io/public/azure-functions/$i:latest
-        docker rmi $(dockerId).azurecr.io/public/azure-functions/$i:2.0-iot-edge
-      fi
     done
 
     images=( base dotnet powershell )
@@ -52,12 +45,6 @@ steps:
 
       # Push
       docker push $(dockerId).azurecr.io/public/azure-functions/$i:2.0-alpine
-
-      # Delete
-      if [ "$i" != "base" ]; then
-        docker rmi $(dockerId).azurecr.io/public/azure-functions/$i:$(ReleaseVersion)-alpine
-        docker rmi $(dockerId).azurecr.io/public/azure-functions/$i:2.0-alpine
-      fi
     done
   displayName: pull images
   continueOnError: false
