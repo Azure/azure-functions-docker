@@ -16,13 +16,20 @@ steps:
 - bash: |
     set -e
     # build base image
-    docker pull azurefunctions.azurecr.io/public/azure-functions/base:2.0
+    docker pull azurefunctions.azurecr.io/azure-functions/base:dev
     docker build -t azurefunctions.azurecr.io/public/azure-functions/base:$(BuildNumber) \
-      --cache-from azurefunctions.azurecr.io/public/azure-functions/base:2.0 \
+      --cache-from azurefunctions.azurecr.io/azure-functions/base:dev \
       -f host/2.0/stretch/amd64/base.Dockerfile \
       host/2.0/stretch/amd64/
 
-    docker push azurefunctions.azurecr.io/public/azure-functions/base:$(BuildNumber)
+    if [ "$(BuildNumber)" != "dev" ]; then
+      docker push azurefunctions.azurecr.io/public/azure-functions/base:$(BuildNumber)
+    else
+      docker tag azurefunctions.azurecr.io/public/azure-functions/base:$(BuildNumber) \
+                azurefunctions.azurecr.io/azure-functions/base:$(BuildNumber)
+
+      docker push azurefunctions.azurecr.io/azure-functions/base:$(BuildNumber)
+    fi
 
     docker system prune -f
   displayName: build base image
@@ -40,7 +47,9 @@ steps:
 
     dotnet run --project ./test/test.csproj azurefunctions.azurecr.io/public/azure-functions/dotnet:$(BuildNumber)
 
-    docker push azurefunctions.azurecr.io/public/azure-functions/dotnet:$(BuildNumber)
+    if [ "$(BuildNumber)" != "dev" ]; then
+      docker push azurefunctions.azurecr.io/public/azure-functions/dotnet:$(BuildNumber)
+    fi
 
     docker rmi azurefunctions.azurecr.io/public/azure-functions/dotnet:$(BuildNumber)
     docker rmi azurefunctions.azurecr.io/public/azure-functions/dotnet:2.0
@@ -61,7 +70,9 @@ steps:
 
     dotnet run --project ./test/test.csproj azurefunctions.azurecr.io/public/azure-functions/node:$(BuildNumber)
 
-    docker push azurefunctions.azurecr.io/public/azure-functions/node:$(BuildNumber)
+    if [ "$(BuildNumber)" != "dev" ]; then
+      docker push azurefunctions.azurecr.io/public/azure-functions/node:$(BuildNumber)
+    fi
 
     docker rmi azurefunctions.azurecr.io/public/azure-functions/node:$(BuildNumber)
     docker rmi azurefunctions.azurecr.io/public/azure-functions/node:2.0
@@ -82,7 +93,9 @@ steps:
 
     dotnet run --project ./test/test.csproj azurefunctions.azurecr.io/public/azure-functions/powershell:$(BuildNumber)
 
-    docker push azurefunctions.azurecr.io/public/azure-functions/powershell:$(BuildNumber)
+    if [ "$(BuildNumber)" != "dev" ]; then
+      docker push azurefunctions.azurecr.io/public/azure-functions/powershell:$(BuildNumber)
+    fi
 
     docker rmi azurefunctions.azurecr.io/public/azure-functions/powershell:$(BuildNumber)
     docker rmi azurefunctions.azurecr.io/public/azure-functions/powershell:2.0
@@ -103,7 +116,9 @@ steps:
 
     dotnet run --project ./test/test.csproj azurefunctions.azurecr.io/public/azure-functions/python:$(BuildNumber)
 
-    docker push azurefunctions.azurecr.io/public/azure-functions/python:$(BuildNumber)
+    if [ "$(BuildNumber)" != "dev" ]; then
+      docker push azurefunctions.azurecr.io/public/azure-functions/python:$(BuildNumber)
+    fi
 
     docker system prune -f
   displayName: build python image
@@ -122,7 +137,10 @@ steps:
       host/2.0/stretch/amd64/
 
     dotnet run --project ./test/test.csproj azurefunctions.azurecr.io/public/azure-functions/mesh:$(BuildNumber)
-    docker push azurefunctions.azurecr.io/public/azure-functions/mesh:$(BuildNumber)
+
+    if [ "$(BuildNumber)" != "dev" ]; then
+      docker push azurefunctions.azurecr.io/public/azure-functions/mesh:$(BuildNumber)
+    fi
 
     docker rmi azurefunctions.azurecr.io/public/azure-functions/mesh:$(BuildNumber)
     docker rmi azurefunctions.azurecr.io/public/azure-functions/mesh:2.0
@@ -133,31 +151,20 @@ steps:
 
 - bash: |
     set -e
-    # build alpine base image
-    # docker pull azurefunctions.azurecr.io/public/azure-functions/base:2.0-alpine
-    docker build -t azurefunctions.azurecr.io/public/azure-functions/base:$(BuildNumber)-alpine \
-      --cache-from azurefunctions.azurecr.io/public/azure-functions/base:2.0-alpine \
-      -f host/2.0/alpine/amd64/base.Dockerfile \
-      host/2.0/alpine/amd64/
-
-    docker push azurefunctions.azurecr.io/public/azure-functions/base:$(BuildNumber)-alpine
-    docker system prune -f
-  displayName: build alpine base image
-  continueOnError: false
-
-- bash: |
-    set -e
     # build alpine dotnet image
     # docker pull azurefunctions.azurecr.io/public/azure-functions/dotnet:2.0-alpine
     docker build -t azurefunctions.azurecr.io/public/azure-functions/dotnet:$(BuildNumber)-alpine \
-      --build-arg BASE_IMAGE=azurefunctions.azurecr.io/public/azure-functions/base:$(BuildNumber)-alpine \
+      --build-arg BASE_IMAGE=azurefunctions.azurecr.io/public/azure-functions/base:$(BuildNumber) \
       --cache-from azurefunctions.azurecr.io/public/azure-functions/dotnet:2.0-alpine \
       -f host/2.0/alpine/amd64/dotnet.Dockerfile \
       host/2.0/alpine/amd64/
 
     dotnet run --project ./test/test.csproj azurefunctions.azurecr.io/public/azure-functions/dotnet:$(BuildNumber)-alpine
 
-    docker push azurefunctions.azurecr.io/public/azure-functions/dotnet:$(BuildNumber)-alpine
+    if [ "$(BuildNumber)" != "dev" ]; then
+      docker push azurefunctions.azurecr.io/public/azure-functions/dotnet:$(BuildNumber)-alpine
+    fi
+
     docker rmi azurefunctions.azurecr.io/public/azure-functions/dotnet:$(BuildNumber)-alpine
     docker system prune -f
   displayName: build alpine dotnet image
@@ -168,7 +175,7 @@ steps:
 #     # build alpine node image
 #     # docker pull azurefunctions.azurecr.io/public/azure-functions/node:2.0-alpine
 #     docker build -t azurefunctions.azurecr.io/public/azure-functions/node:$(BuildNumber)-alpine \
-#       --build-arg BASE_IMAGE=azurefunctions.azurecr.io/public/azure-functions/base:$(BuildNumber)-alpine \
+#       --build-arg BASE_IMAGE=azurefunctions.azurecr.io/public/azure-functions/base:$(BuildNumber) \
 #       --cache-from azurefunctions.azurecr.io/public/azure-functions/node:2.0-alpine \
 #       -f host/2.0/alpine/amd64/node.Dockerfile \
 #       host/2.0/alpine/amd64/
@@ -186,14 +193,17 @@ steps:
     # build alpine powershell image
     # docker pull azurefunctions.azurecr.io/public/azure-functions/powershell:2.0-alpine
     docker build -t azurefunctions.azurecr.io/public/azure-functions/powershell:$(BuildNumber)-alpine \
-      --build-arg BASE_IMAGE=azurefunctions.azurecr.io/public/azure-functions/base:$(BuildNumber)-alpine \
+      --build-arg BASE_IMAGE=azurefunctions.azurecr.io/public/azure-functions/base:$(BuildNumber) \
       --cache-from azurefunctions.azurecr.io/public/azure-functions/powershell:2.0-alpine \
       -f host/2.0/alpine/amd64/powershell.Dockerfile \
       host/2.0/alpine/amd64/
 
     dotnet run --project ./test/test.csproj azurefunctions.azurecr.io/public/azure-functions/powershell:$(BuildNumber)-alpine
 
-    docker push azurefunctions.azurecr.io/public/azure-functions/powershell:$(BuildNumber)-alpine
+    if [ "$(BuildNumber)" != "dev" ]; then
+      docker push azurefunctions.azurecr.io/public/azure-functions/powershell:$(BuildNumber)-alpine
+    fi
+
     docker rmi azurefunctions.azurecr.io/public/azure-functions/powershell:$(BuildNumber)-alpine
     docker system prune -f
   displayName: build alpine powershell image
@@ -204,7 +214,7 @@ steps:
 #     # build alpine python image
 #     # docker pull azurefunctions.azurecr.io/public/azure-functions/python:2.0-alpine
 #     docker build -t azurefunctions.azurecr.io/public/azure-functions/python:$(BuildNumber)-alpine \
-#       --build-arg BASE_IMAGE=azurefunctions.azurecr.io/public/azure-functions/base:$(BuildNumber)-alpine \
+#       --build-arg BASE_IMAGE=azurefunctions.azurecr.io/public/azure-functions/base:$(BuildNumber) \
 #       --cache-from azurefunctions.azurecr.io/public/azure-functions/python:2.0-alpine \
 #       -f host/2.0/alpine/amd64/python.Dockerfile \
 #       host/2.0/alpine/amd64/
