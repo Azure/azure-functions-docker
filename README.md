@@ -1,3 +1,5 @@
+[![Build Status](https://azure-functions.visualstudio.com/azure-functions-docker/_apis/build/status/build?branchName=master)](https://azure-functions.visualstudio.com/azure-functions-docker/_build/latest?definitionId=4&branchName=master)
+
 # Dockerhub
 
 Images can be found here: https://hub.docker.com/r/microsoft/azure-functions/
