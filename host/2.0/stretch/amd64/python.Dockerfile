@@ -38,8 +38,8 @@ RUN PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install $PYTHON_VERSION && \
     pyenv global $PYTHON_VERSION && \
     pip install pip==$PYTHON_PIP_VERSION
 
-RUN export WORKER_TAG=1.0.0a6 && \
-    export AZURE_FUNCTIONS_PACKAGE_VERSION=1.0.0a5 &&\
+RUN export WORKER_TAG=1.0.0b3 && \
+    export AZURE_FUNCTIONS_PACKAGE_VERSION=1.0.0b3 &&\
     wget --quiet https://github.com/Azure/azure-functions-python-worker/archive/$WORKER_TAG.tar.gz && \
     tar xvzf $WORKER_TAG.tar.gz && \
     mv azure-functions-python-worker-* azure-functions-python-worker && \
