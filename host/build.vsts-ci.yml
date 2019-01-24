@@ -146,27 +146,10 @@ steps:
 
 - bash: |
     set -e
-    # build alpine base image
-    # docker pull azurefunctions.azurecr.io/public/azure-functions/base:2.0-alpine
-    docker build -t azurefunctions.azurecr.io/public/azure-functions/base:$(BuildNumber)-alpine \
-      --cache-from azurefunctions.azurecr.io/public/azure-functions/base:2.0-alpine \
-      -f host/2.0/alpine/amd64/base.Dockerfile \
-      host/2.0/alpine/amd64/
-
-    if [ "$(BuildNumber)" != "dev"]; then
-      docker push azurefunctions.azurecr.io/public/azure-functions/base:$(BuildNumber)-alpine
-    fi
-
-    docker system prune -f
-  displayName: build alpine base image
-  continueOnError: false
-
-- bash: |
-    set -e
     # build alpine dotnet image
     # docker pull azurefunctions.azurecr.io/public/azure-functions/dotnet:2.0-alpine
     docker build -t azurefunctions.azurecr.io/public/azure-functions/dotnet:$(BuildNumber)-alpine \
-      --build-arg BASE_IMAGE=azurefunctions.azurecr.io/public/azure-functions/base:$(BuildNumber)-alpine \
+      --build-arg BASE_IMAGE=azurefunctions.azurecr.io/public/azure-functions/base:$(BuildNumber) \
       --cache-from azurefunctions.azurecr.io/public/azure-functions/dotnet:2.0-alpine \
       -f host/2.0/alpine/amd64/dotnet.Dockerfile \
       host/2.0/alpine/amd64/
@@ -187,7 +170,7 @@ steps:
 #     # build alpine node image
 #     # docker pull azurefunctions.azurecr.io/public/azure-functions/node:2.0-alpine
 #     docker build -t azurefunctions.azurecr.io/public/azure-functions/node:$(BuildNumber)-alpine \
-#       --build-arg BASE_IMAGE=azurefunctions.azurecr.io/public/azure-functions/base:$(BuildNumber)-alpine \
+#       --build-arg BASE_IMAGE=azurefunctions.azurecr.io/public/azure-functions/base:$(BuildNumber) \
 #       --cache-from azurefunctions.azurecr.io/public/azure-functions/node:2.0-alpine \
 #       -f host/2.0/alpine/amd64/node.Dockerfile \
 #       host/2.0/alpine/amd64/
@@ -205,7 +188,7 @@ steps:
     # build alpine powershell image
     # docker pull azurefunctions.azurecr.io/public/azure-functions/powershell:2.0-alpine
     docker build -t azurefunctions.azurecr.io/public/azure-functions/powershell:$(BuildNumber)-alpine \
-      --build-arg BASE_IMAGE=azurefunctions.azurecr.io/public/azure-functions/base:$(BuildNumber)-alpine \
+      --build-arg BASE_IMAGE=azurefunctions.azurecr.io/public/azure-functions/base:$(BuildNumber) \
       --cache-from azurefunctions.azurecr.io/public/azure-functions/powershell:2.0-alpine \
       -f host/2.0/alpine/amd64/powershell.Dockerfile \
       host/2.0/alpine/amd64/
@@ -226,7 +209,7 @@ steps:
 #     # build alpine python image
 #     # docker pull azurefunctions.azurecr.io/public/azure-functions/python:2.0-alpine
 #     docker build -t azurefunctions.azurecr.io/public/azure-functions/python:$(BuildNumber)-alpine \
-#       --build-arg BASE_IMAGE=azurefunctions.azurecr.io/public/azure-functions/base:$(BuildNumber)-alpine \
+#       --build-arg BASE_IMAGE=azurefunctions.azurecr.io/public/azure-functions/base:$(BuildNumber) \
 #       --cache-from azurefunctions.azurecr.io/public/azure-functions/python:2.0-alpine \
 #       -f host/2.0/alpine/amd64/python.Dockerfile \
 #       host/2.0/alpine/amd64/
