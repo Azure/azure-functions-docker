@@ -34,7 +34,7 @@ steps:
 
     done
 
-    images=( base dotnet powershell )
+    images=( dotnet powershell )
     for i in "${images[@]}"
     do
       # Pull
