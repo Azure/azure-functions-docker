@@ -219,3 +219,24 @@ steps:
 #     docker system prune -f
 #   displayName: build alpine python image
 #   continueOnError: false
+
+- bash: |
+    set -e
+    # build alpine java image
+    docker pull azurefunctions.azurecr.io/public/azure-functions/java:2.0-alpine
+    docker build -t azurefunctions.azurecr.io/public/azure-functions/java:$(BuildNumber)-alpine \
+      --build-arg BASE_IMAGE=azurefunctions.azurecr.io/public/azure-functions/base:$(BuildNumber) \
+      --cache-from azurefunctions.azurecr.io/public/azure-functions/java:2.0-alpine \
+      -f host/2.0/alpine/amd64/java.Dockerfile \
+      host/2.0/alpine/amd64/
+
+    dotnet run --project ./test/test.csproj azurefunctions.azurecr.io/public/azure-functions/java:$(BuildNumber)-alpine
+
+    if [ "$(BuildNumber)" != "dev" ]; then
+      docker push azurefunctions.azurecr.io/public/azure-functions/java:$(BuildNumber)-alpine
+    fi
+
+    docker rmi azurefunctions.azurecr.io/public/azure-functions/java:$(BuildNumber)-alpine
+    docker system prune -f
+  displayName: build alpine java image
+  continueOnError: false
