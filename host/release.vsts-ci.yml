@@ -21,16 +21,21 @@ steps:
     do
       # Pull
       docker pull $(dockerId).azurecr.io/public/azure-functions/$i:$(ReleaseVersion)
+      docker pull $(dockerId).azurecr.io/public/azure-functions/$i:$(ReleaseVersion)-appservice
 
       # tag
       docker tag $(dockerId).azurecr.io/public/azure-functions/$i:$(ReleaseVersion) $(dockerId).azurecr.io/public/azure-functions/$i:2.0
       docker tag $(dockerId).azurecr.io/public/azure-functions/$i:$(ReleaseVersion) $(dockerId).azurecr.io/public/azure-functions/$i:latest
       docker tag $(dockerId).azurecr.io/public/azure-functions/$i:$(ReleaseVersion) $(dockerId).azurecr.io/public/azure-functions/$i:2.0-iot-edge
 
+      docker tag $(dockerId).azurecr.io/public/azure-functions/$i:$(ReleaseVersion)-appservice $(dockerId).azurecr.io/public/azure-functions/$i:2.0-appservice
+
       # Push
       docker push $(dockerId).azurecr.io/public/azure-functions/$i:2.0
       docker push $(dockerId).azurecr.io/public/azure-functions/$i:latest
       docker push $(dockerId).azurecr.io/public/azure-functions/$i:2.0-iot-edge
+
+      docker push $(dockerId).azurecr.io/public/azure-functions/$i:2.0-appservice
 
     done
 
