@@ -28,8 +28,8 @@ RUN apt-get update && \
     xz-utils tk-dev libpq-dev python3-dev libevent-dev unixodbc-dev && \
     curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
 
-ENV PYTHON_VERSION=3.6.6 \
-    PYTHON_PIP_VERSION=18.0 \
+ENV PYTHON_VERSION=3.6.8 \
+    PYTHON_PIP_VERSION=19.0 \
     PYENV_ROOT=/root/.pyenv \
     PATH=/root/.pyenv/shims:/root/.pyenv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 

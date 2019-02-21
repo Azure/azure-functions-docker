@@ -7,7 +7,7 @@ ENV WORKER_TAG=1.0.0b4 \
     AZURE_FUNCTIONS_PACKAGE_VERSION=1.0.0b3 \
     LANG=C.UTF-8 \
     PYTHON_VERSION=3.7.2 \
-    PYTHON_PIP_VERSION=18.0 \
+    PYTHON_PIP_VERSION=19.0 \
     PYENV_ROOT=/root/.pyenv \
     PATH=/root/.pyenv/shims:/root/.pyenv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
