@@ -21,25 +21,31 @@ steps:
     do
       # Pull
       docker pull $(dockerId).azurecr.io/public/azure-functions/$i:$(ReleaseVersion)
-      docker pull $(dockerId).azurecr.io/public/azure-functions/$i:$(ReleaseVersion)-appservice
+      if [ "$i" != "base" ]; then
+        docker pull $(dockerId).azurecr.io/public/azure-functions/$i:$(ReleaseVersion)-appservice
+      fi
 
       # tag
       docker tag $(dockerId).azurecr.io/public/azure-functions/$i:$(ReleaseVersion) $(dockerId).azurecr.io/public/azure-functions/$i:2.0
       docker tag $(dockerId).azurecr.io/public/azure-functions/$i:$(ReleaseVersion) $(dockerId).azurecr.io/public/azure-functions/$i:latest
       docker tag $(dockerId).azurecr.io/public/azure-functions/$i:$(ReleaseVersion) $(dockerId).azurecr.io/public/azure-functions/$i:2.0-iot-edge
 
-      docker tag $(dockerId).azurecr.io/public/azure-functions/$i:$(ReleaseVersion)-appservice $(dockerId).azurecr.io/public/azure-functions/$i:2.0-appservice
+      if [ "$i" != "base" ]; then
+        docker tag $(dockerId).azurecr.io/public/azure-functions/$i:$(ReleaseVersion)-appservice $(dockerId).azurecr.io/public/azure-functions/$i:2.0-appservice
+      fi
 
       # Push
       docker push $(dockerId).azurecr.io/public/azure-functions/$i:2.0
       docker push $(dockerId).azurecr.io/public/azure-functions/$i:latest
       docker push $(dockerId).azurecr.io/public/azure-functions/$i:2.0-iot-edge
 
-      docker push $(dockerId).azurecr.io/public/azure-functions/$i:2.0-appservice
+      if [ "$i" != "base" ]; then
+        docker push $(dockerId).azurecr.io/public/azure-functions/$i:2.0-appservice
+      fi
 
     done
 
-    images=( dotnet powershell )
+    images=( dotnet powershell java )
     for i in "${images[@]}"
     do
       # Pull
