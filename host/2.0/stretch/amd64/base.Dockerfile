@@ -1,8 +1,8 @@
 FROM microsoft/dotnet:2.2-sdk AS installer-env
 
 ENV PublishWithAspNetCoreTargetManifest=false \
-    HOST_VERSION=2.0.12309 \
-    HOST_COMMIT=739a1134bd9495c44d3258f56acba883650f4160
+    HOST_VERSION=2.0.12332 \
+    HOST_COMMIT=287a2708f3f164e303bd371049101cfa48d1766b
 
 RUN BUILD_NUMBER=$(echo $HOST_VERSION | cut -d'.' -f 3) && \
     wget https://github.com/Azure/azure-functions-host/archive/$HOST_COMMIT.tar.gz && \
