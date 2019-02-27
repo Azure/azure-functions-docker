@@ -16,9 +16,7 @@ steps:
 - bash: |
     set -e
     # build base image
-    docker pull azurefunctions.azurecr.io/public/azure-functions/base:dev
     docker build -t azurefunctions.azurecr.io/public/azure-functions/base:$(Build.SourceBranchName) \
-      --cache-from azurefunctions.azurecr.io/azure-functions/base:dev \
       -f host/2.0/stretch/amd64/base.Dockerfile \
       host/2.0/stretch/amd64/
 
