@@ -4,7 +4,15 @@ FROM ${BASE_IMAGE} as runtime-image
 FROM microsoft/dotnet:2.2-aspnetcore-runtime
 
 ENV LANG=C.UTF-8 \
-    ACCEPT_EULA=Y
+    ACCEPT_EULA=Y \
+    PYTHON_VERSION=3.6.8 \
+    PYTHON_PIP_VERSION=19.0 \
+    PYENV_ROOT=/root/.pyenv \
+    PATH=/root/.pyenv/shims:/root/.pyenv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
+    AzureWebJobsScriptRoot=/home/site/wwwroot \
+    HOME=/home \
+    FUNCTIONS_WORKER_RUNTIME=python	
+	
 
 # Install Python dependencies
 RUN apt-get update && \
@@ -26,19 +34,14 @@ RUN apt-get update && \
     git make build-essential libssl-dev zlib1g-dev libbz2-dev  \
     libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev \
     xz-utils tk-dev libpq-dev python3-dev libevent-dev unixodbc-dev && \
-    curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
-
-ENV PYTHON_VERSION=3.6.8 \
-    PYTHON_PIP_VERSION=19.0 \
-    PYENV_ROOT=/root/.pyenv \
-    PATH=/root/.pyenv/shims:/root/.pyenv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-
-# Install Python
-RUN PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install $PYTHON_VERSION && \
+    curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash && \
+	\
+	# Install Python
+    PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install $PYTHON_VERSION && \
     pyenv global $PYTHON_VERSION && \
-    pip install pip==$PYTHON_PIP_VERSION
-
-RUN export WORKER_TAG=1.0.0b4 && \
+    pip install pip==$PYTHON_PIP_VERSION && \
+	\
+    export WORKER_TAG=1.0.0b4 && \
     export AZURE_FUNCTIONS_PACKAGE_VERSION=1.0.0b3 &&\
     wget --quiet https://github.com/Azure/azure-functions-python-worker/archive/$WORKER_TAG.tar.gz && \
     tar xvzf $WORKER_TAG.tar.gz && \
@@ -47,9 +50,6 @@ RUN export WORKER_TAG=1.0.0b4 && \
     rm -rf $WORKER_TAG.tar.gz /azure-functions-python-worker && \
     pip install azure-functions==$AZURE_FUNCTIONS_PACKAGE_VERSION azure-functions-worker==$WORKER_TAG
 
-ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
-    HOME=/home \
-    FUNCTIONS_WORKER_RUNTIME=python
 
 COPY --from=runtime-image ["/azure-functions-host", "/azure-functions-host"]
 RUN mv /python /azure-functions-host/workers
