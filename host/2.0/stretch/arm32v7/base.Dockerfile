@@ -1,6 +1,6 @@
 ARG HOST_COMMIT=dev
 ARG BUILD_NUMBER=00001
-FROM microsoft/dotnet:2.1-sdk AS installer-env
+FROM mcr.microsoft.com/dotnet/core/sdk:2.2 AS installer-env
 ARG HOST_COMMIT
 ARG BUILD_NUMBER
 
@@ -28,7 +28,7 @@ RUN apt-get update && apt-get install -y wget && \
     echo "$grpc_sha256 libgrpc_csharp_ext.so.1.12.1" | sha256sum -c -
 
 # Runtime image
-FROM microsoft/dotnet:2.1-aspnetcore-runtime-stretch-slim-arm32v7
+FROM mcr.microsoft.com/dotnet/core/aspnet:2.2-stretch-slim-arm32v7
 
 COPY ./qemu-arm-static /usr/bin
 

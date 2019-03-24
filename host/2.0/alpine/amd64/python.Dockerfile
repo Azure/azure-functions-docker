@@ -1,7 +1,7 @@
 ARG BASE_IMAGE=mcr.microsoft.com/azure-functions/base:2.0-alpine
 FROM ${BASE_IMAGE} as runtime-image
 
-FROM microsoft/dotnet:2.2-aspnetcore-runtime-alpine
+FROM mcr.microsoft.com/dotnet/core/aspnet:2.2-alpine
 
 # Install Python dependencies
 RUN apk add --no-cache libc6-compat libnsl wget git curl bash libffi-dev openssl-dev bzip2-dev zlib-dev readline-dev sqlite-dev build-base && \

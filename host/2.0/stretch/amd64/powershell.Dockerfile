@@ -1,6 +1,6 @@
 ARG BASE_IMAGE=mcr.microsoft.com/azure-functions/base:2.0
 FROM ${BASE_IMAGE} as runtime-image
-FROM microsoft/dotnet:2.2-aspnetcore-runtime
+FROM mcr.microsoft.com/dotnet/core/aspnet:2.2
 
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     HOME=/home \
