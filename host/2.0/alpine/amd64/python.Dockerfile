@@ -1,11 +1,10 @@
 ARG BASE_IMAGE=mcr.microsoft.com/azure-functions/base:2.0-alpine
 FROM ${BASE_IMAGE} as runtime-image
 
-FROM mcr.microsoft.com/dotnet/core/aspnet:2.2-alpine
+FROM python:3.6-alpine
 
 # Install Python dependencies
-RUN apk add --no-cache libc6-compat libnsl wget git curl bash libffi-dev openssl-dev bzip2-dev zlib-dev readline-dev sqlite-dev build-base && \
-    curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash && \
+RUN apk add --no-cache libc6-compat libnsl && \
     # workaround for https://github.com/grpc/grpc/issues/17255
     ln -s /usr/lib/libnsl.so.2 /usr/lib/libnsl.so.1
 
@@ -13,10 +12,6 @@ ENV PYENV_ROOT=/root/.pyenv \
     PATH=/root/.pyenv/shims:/root/.pyenv/bin:$PATH
 
 # Install Python
-RUN PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install 3.6.8 && \
-    pyenv global 3.6.8 && \
-    pip install pip==19.0
-
 RUN export WORKER_TAG=1.0.0a6 && \
     export AZURE_FUNCTIONS_PACKAGE_VERSION=1.0.0a5 && \
     wget --quiet https://github.com/Azure/azure-functions-python-worker/archive/$WORKER_TAG.tar.gz && \
@@ -37,4 +32,4 @@ COPY ./python-context/start.sh /azure-functions-host/workers/python/
 COPY ./python-context/worker.config.json /azure-functions-host/workers/python/
 RUN chmod +x /azure-functions-host/workers/python/start.sh
 
-CMD [ "dotnet", "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost.dll" ]
+CMD [ "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost" ]

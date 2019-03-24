@@ -1,7 +1,7 @@
 ARG BASE_IMAGE=mcr.microsoft.com/azure-functions/base:2.0-alpine
 FROM ${BASE_IMAGE} as runtime-image
 
-FROM mcr.microsoft.com/dotnet/core/aspnet:2.2alpine
+FROM mcr.microsoft.com/dotnet/core/runtime-deps:2.2-alpine
 
 RUN apk add --no-cache libc6-compat libnsl nodejs=8.14.0-r0 nodejs-npm=8.14.0-r0 && \
     # workaround for https://github.com/grpc/grpc/issues/17255
@@ -14,4 +14,4 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
 COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
 COPY --from=runtime-image [ "/workers/node", "/azure-functions-host/workers/node" ]
 
-CMD [ "dotnet", "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost.dll" ]
+CMD [ "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost" ]
