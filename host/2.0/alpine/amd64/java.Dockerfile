@@ -4,7 +4,7 @@ FROM ${BASE_IMAGE} as runtime-image
 FROM openjdk:8-jdk-alpine as jdk
 RUN mkdir -p /usr/lib/jvm/java-1.8-openjdk
 
-FROM mcr.microsoft.com/dotnet/core/aspnet:2.2alpine
+FROM mcr.microsoft.com/dotnet/core/runtime-deps:2.2-alpine
 
 RUN apk add --no-cache libc6-compat libnsl && \
     # workaround for https://github.com/grpc/grpc/issues/17255
@@ -20,4 +20,4 @@ COPY --from=runtime-image [ "/workers/java", "/azure-functions-host/workers/java
 COPY --from=jdk /usr/lib/jvm/java-1.8-openjdk /usr/lib/jvm/java-1.8-openjdk
 ENV JAVA_HOME /usr/lib/jvm/java-1.8-openjdk
 
-CMD [ "dotnet", "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost.dll" ]
+CMD [ "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost" ]

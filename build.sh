@@ -17,11 +17,16 @@ function build_image {
     local tag=$2
     local base_dir=$3
     local base_lang=$4
+    local base_tag=$5
+
+    if [ -z "$base_tag" ]; then
+        base_tag=$tag
+    fi
 
     if [ -z "$base_lang" ]; then
-        base_image=$ACR/$ACR_NAMESPACE/base:$branch
+        base_image=$ACR/$ACR_NAMESPACE/base:$base_tag
     else
-        base_image=$ACR/$ACR_NAMESPACE/$base_lang:$branch
+        base_image=$ACR/$ACR_NAMESPACE/$base_lang:$base_tag
     fi
 
     if [ -z "$base_dir" ]; then
@@ -58,7 +63,7 @@ function push_image {
 
 
 function build_all_stretch {
-    local languages=( base dotnet node powershell python mesh )
+    local languages=( base dotnet node powershell python mesh java )
     for language in "${languages[@]}"
     do
         if [ "$language" == "mesh" ]; then
@@ -74,10 +79,10 @@ function build_all_stretch {
 }
 
 function build_all_appservice {
-    local languages=( dotnet node powershell python )
+    local languages=( dotnet node powershell python java )
     for language in "${languages[@]}"
     do
-        build_image $language $branch-appservice $DIR/host/2.0/stretch/amd64/appservice $language
+        build_image $language $branch-appservice $DIR/host/2.0/stretch/amd64/appservice $language $branch
 
         if [[ "$branch" == 2\.0\.* ]]; then
             push_image $language
@@ -86,7 +91,7 @@ function build_all_appservice {
 }
 
 function build_all_alpine {
-    local languages=( dotnet node powershell )
+    local languages=( dotnet node powershell python java )
     for language in "${languages[@]}"
     do
         build_image $language $branch-alpine $DIR/host/2.0/alpine/amd64/ base
@@ -117,7 +122,7 @@ elif [ "$1" == "appservice" ]; then
 elif [ "$1" == "alpine" ]; then
     build_all_alpine
 elif ! [ -z "$1" ] && ! [ -z "$2" ]; then
-    build_image $1 $2 $3 $4
+    build_image $1 $2 $3 $4 $5
 fi
 
 if ! [ -z "$CI_RUN" ]; then

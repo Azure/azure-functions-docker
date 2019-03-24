@@ -1,18 +1,15 @@
 ARG BASE_IMAGE=mcr.microsoft.com/azure-functions/base:2.0
 FROM ${BASE_IMAGE} as runtime-image
 
-FROM mcr.microsoft.com/dotnet/core/aspnet:2.2
+FROM python:3.6-slim-stretch
 
 ENV LANG=C.UTF-8 \
     ACCEPT_EULA=Y \
-    PYTHON_VERSION=3.6.8 \
-    PYTHON_PIP_VERSION=19.0 \
-    PYENV_ROOT=/root/.pyenv \
-    PATH=/root/.pyenv/shims:/root/.pyenv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
     AzureWebJobsScriptRoot=/home/site/wwwroot \
     HOME=/home \
-    FUNCTIONS_WORKER_RUNTIME=python	
-	
+    FUNCTIONS_WORKER_RUNTIME=python \
+    WORKER_TAG=1.0.0b4 \
+    AZURE_FUNCTIONS_PACKAGE_VERSION=1.0.0b3
 
 # Install Python dependencies
 RUN apt-get update && \
@@ -30,19 +27,7 @@ RUN apt-get update && \
     locale-gen && \
     # install MS SQL related packages
     apt-get update && \
-    apt-get install -y debconf libcurl3 libc6 openssl libstdc++6 libkrb5-3 unixodbc msodbcsql17 mssql-tools libssl1.0.0 \
-    git make build-essential libssl-dev zlib1g-dev libbz2-dev  \
-    libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev \
-    xz-utils tk-dev libpq-dev python3-dev libevent-dev unixodbc-dev && \
-    curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash && \
-	\
-	# Install Python
-    PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install $PYTHON_VERSION && \
-    pyenv global $PYTHON_VERSION && \
-    pip install pip==$PYTHON_PIP_VERSION && \
-	\
-    export WORKER_TAG=1.0.0b4 && \
-    export AZURE_FUNCTIONS_PACKAGE_VERSION=1.0.0b3 &&\
+    apt-get install -y unixodbc msodbcsql17 mssql-tools && \
     wget --quiet https://github.com/Azure/azure-functions-python-worker/archive/$WORKER_TAG.tar.gz && \
     tar xvzf $WORKER_TAG.tar.gz && \
     mv azure-functions-python-worker-* azure-functions-python-worker && \
@@ -59,4 +44,4 @@ COPY ./python-context/start.sh /azure-functions-host/workers/python/
 COPY ./python-context/worker.config.json /azure-functions-host/workers/python/
 RUN chmod +x /azure-functions-host/workers/python/start.sh
 
-CMD [ "dotnet", "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost.dll" ]
+CMD [ "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost" ]

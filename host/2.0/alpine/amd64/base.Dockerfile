@@ -9,10 +9,10 @@ RUN BUILD_NUMBER=$(echo $HOST_VERSION | cut -d'.' -f 3) && \
     wget https://github.com/Azure/azure-functions-host/archive/$HOST_COMMIT.tar.gz && \
     tar xzf $HOST_COMMIT.tar.gz && \
     cd azure-functions-host-* && \
-    dotnet publish -v q /p:BuildNumber=$BUILD_NUMBER /p:CommitHash=$HOST_COMMIT src/WebJobs.Script.WebHost/WebJobs.Script.WebHost.csproj --output /azure-functions-host && \
+    dotnet publish -v q /p:BuildNumber=$BUILD_NUMBER /p:CommitHash=$HOST_COMMIT src/WebJobs.Script.WebHost/WebJobs.Script.WebHost.csproj --output /azure-functions-host --runtime linux-musl-x64 && \
     mv /azure-functions-host/workers /workers && mkdir /azure-functions-host/workers
 
-FROM mcr.microsoft.com/dotnet/core/aspnet:2.2-alpine
+FROM mcr.microsoft.com/dotnet/core/runtime-deps:2.2-alpine
 
 RUN apk add --no-cache libc6-compat libnsl && \
     # workaround for https://github.com/grpc/grpc/issues/17255
@@ -25,4 +25,4 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
 COPY --from=installer-env ["/azure-functions-host", "/azure-functions-host"]
 COPY --from=installer-env ["/workers", "/workers"]
 
-CMD [ "dotnet", "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost.dll" ]
+CMD [ "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost" ]

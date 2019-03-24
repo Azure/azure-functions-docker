@@ -1,5 +1,20 @@
-ARG BASE_IMAGE=mcr.microsoft.com/azure-functions/base:2.0
-FROM ${BASE_IMAGE} as runtime-image
+FROM mcr.microsoft.com/dotnet/core/sdk:2.2 AS runtime-image
+
+ENV PublishWithAspNetCoreTargetManifest=false \
+    HOST_VERSION=2.0.12334 \
+    HOST_COMMIT=0b0a85d7410e9178de43af2064341e4f82e4b4c2
+
+RUN BUILD_NUMBER=$(echo $HOST_VERSION | cut -d'.' -f 3) && \
+    wget https://github.com/Azure/azure-functions-host/archive/$HOST_COMMIT.tar.gz && \
+    tar xzf $HOST_COMMIT.tar.gz && \
+    cd azure-functions-host-* && \
+    dotnet publish -v q /p:BuildNumber=$BUILD_NUMBER /p:CommitHash=$HOST_COMMIT src/WebJobs.Script.WebHost/WebJobs.Script.WebHost.csproj --output /azure-functions-host && \
+    mv /azure-functions-host/workers /workers && mkdir /azure-functions-host/workers && \
+    rm -rf /workers/powershell/runtimes/win* && \
+    rm -rf /workers/powershell/runtimes/osx && \
+    rm -rf /workers/powershell/runtimes/unix && \
+    rm -rf /workers/powershell/runtimes/*arm*
+
 FROM mcr.microsoft.com/dotnet/core/aspnet:2.2
 
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot \

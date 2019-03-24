@@ -14,7 +14,10 @@ RUN BUILD_NUMBER=$(echo $HOST_VERSION | cut -d'.' -f 3) && \
 
 FROM ${BASE_IMAGE}
 
-ENV FUNCTIONS_WORKER_RUNTIME=
+ENV ASPNETCORE_URLS=http://+:80 \
+    DOTNET_RUNNING_IN_CONTAINER=true \
+    ASPNETCORE_VERSION=2.2.3 \
+    FUNCTIONS_WORKER_RUNTIME=
 
 # Install node
 RUN mv /azure-functions-host/workers/python /python && \
@@ -23,7 +26,20 @@ RUN mv /azure-functions-host/workers/python /python && \
     apt-get install -y gnupg wget unzip curl && \
     curl -sL https://deb.nodesource.com/setup_8.x | bash - && \
     apt-get update && \
-    apt-get install -y nodejs
+    apt-get install -y nodejs && \
+    apt-get install -y --no-install-recommends ca-certificates \
+    # .NET Core dependencies
+    libc6 libgcc1 libgssapi-krb5-2 libicu57 liblttng-ust0 libssl1.0.2 libstdc++6 zlib1g && \
+    rm -rf /var/lib/apt/lists/* && \
+    # .NET Core
+    curl -SL --output aspnetcore.tar.gz https://dotnetcli.blob.core.windows.net/dotnet/aspnetcore/Runtime/$ASPNETCORE_VERSION/aspnetcore-runtime-$ASPNETCORE_VERSION-linux-x64.tar.gz \
+    && aspnetcore_sha512='53be8489aafa132c1a7824339c9a0d25f33e6ab0c42f414a8bda014b60ff82a20144032bd7e887d375dc275bb5dbeb71d38c7f90c39016895df8d3cf3c4b7a95' \
+    && echo "$aspnetcore_sha512  aspnetcore.tar.gz" | sha512sum -c - \
+    && mkdir -p /usr/share/dotnet \
+    && tar -zxf aspnetcore.tar.gz -C /usr/share/dotnet \
+    && rm aspnetcore.tar.gz \
+    && ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet
+
 
 # Add all workers
 COPY --from=installer-env ["/azure-functions-host", "/azure-functions-host"]
