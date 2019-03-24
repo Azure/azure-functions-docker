@@ -1,6 +1,6 @@
 
 ARG HOST_TAG=v2.0.11888-alpha
-FROM microsoft/dotnet:2.1-sdk as host-build-env
+FROM mcr.microsoft.com/dotnet/core/sdk:2.2 as host-build-env
 ARG HOST_TAG
 
 ENV PublishWithAspNetCoreTargetManifest false
@@ -13,7 +13,7 @@ RUN BUILD_NUMBER=$(echo ${HOST_TAG} | cut -d'.' -f 3 | cut -d'-' -f 1) && \
     dotnet build /p:BuildNumber="$BUILD_NUMBER" WebJobs.Script.sln && \
     dotnet publish /p:BuildNumber="$BUILD_NUMBER" src/WebJobs.Script.WebHost/WebJobs.Script.WebHost.csproj --output /azure-functions-host
 
-FROM microsoft/dotnet:2.1-aspnetcore-runtime-bionic-arm32v7
+FROM mcr.microsoft.com/dotnet/core/aspnet:2.2-bionic-arm32v7
 ARG HOST_TAG
 
 COPY --from=host-build-env ["/azure-functions-host", "/azure-functions-host"]

@@ -4,7 +4,7 @@ FROM ${BASE_IMAGE} as runtime-image
 FROM openjdk:8-jdk-alpine as jdk
 RUN mkdir -p /usr/lib/jvm/java-1.8-openjdk
 
-FROM microsoft/dotnet:2.2-aspnetcore-runtime-alpine
+FROM mcr.microsoft.com/dotnet/core/aspnet:2.2alpine
 
 RUN apk add --no-cache libc6-compat libnsl && \
     # workaround for https://github.com/grpc/grpc/issues/17255

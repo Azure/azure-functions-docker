@@ -1,4 +1,4 @@
-FROM microsoft/dotnet:2.2-sdk AS installer-env
+FROM mcr.microsoft.com/dotnet/core/sdk:2.2 AS installer-env
 
 ENV PublishWithAspNetCoreTargetManifest=false \
     HOST_VERSION=2.0.12334 \

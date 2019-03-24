@@ -1,4 +1,4 @@
-FROM microsoft/dotnet:2.2-sdk AS installer-env
+FROM mcr.microsoft.com/dotnet/core/sdk:2.2 AS installer-env
 
 ENV PublishWithAspNetCoreTargetManifest=false \
     HOST_VERSION=2.0.12334 \
@@ -12,7 +12,7 @@ RUN BUILD_NUMBER=$(echo $HOST_VERSION | cut -d'.' -f 3) && \
     dotnet publish -v q /p:BuildNumber=$BUILD_NUMBER /p:CommitHash=$HOST_COMMIT src/WebJobs.Script.WebHost/WebJobs.Script.WebHost.csproj --output /azure-functions-host && \
     mv /azure-functions-host/workers /workers && mkdir /azure-functions-host/workers
 
-FROM microsoft/dotnet:2.2-aspnetcore-runtime-alpine
+FROM mcr.microsoft.com/dotnet/core/aspnet:2.2-alpine
 
 RUN apk add --no-cache libc6-compat libnsl && \
     # workaround for https://github.com/grpc/grpc/issues/17255
