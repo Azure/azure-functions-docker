@@ -9,7 +9,10 @@ ENV LANG=C.UTF-8 \
     HOME=/home \
     FUNCTIONS_WORKER_RUNTIME=python \
     WORKER_TAG=1.0.0b4 \
-    AZURE_FUNCTIONS_PACKAGE_VERSION=1.0.0b3
+    AZURE_FUNCTIONS_PACKAGE_VERSION=1.0.0b3 \
+    ASPNETCORE_URLS=http://+:80 \
+    DOTNET_RUNNING_IN_CONTAINER=true \
+    ASPNETCORE_VERSION=2.2.3
 
 # Install Python dependencies
 RUN apt-get update && \
