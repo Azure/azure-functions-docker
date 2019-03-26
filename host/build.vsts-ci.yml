@@ -15,9 +15,9 @@ steps:
 
 - bash: |
     set -e
-    branch=$(Build.SourceBranchName)
-    CI_RUN=1
-    RUN_TESTS=1
+    export branch=$(Build.SourceBranchName)
+    export CI_RUN=1
+    export RUN_TESTS=1
     ./build.sh all
   displayName: build images
   continueOnError: false

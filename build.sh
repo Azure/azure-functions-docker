@@ -3,6 +3,13 @@
 set -e
 
 DIR=$(dirname $0)
+ESC_SEQ="\033["
+CONSOLE_RESET=$ESC_SEQ"39;49;00m"
+COLOR_RED=$ESC_SEQ"31;01m"
+COLOR_GREEN=$ESC_SEQ"32;01m"
+COLOR_YELLOW=$ESC_SEQ"33;01m"
+COLOR_CYAN=$ESC_SEQ"36;01m"
+CONSOLE_BOLD=$ESC_SEQ"1m"
 
 # Building stretch
 ACR=azurefunctions.azurecr.io
@@ -39,6 +46,7 @@ function build_image {
 
 
     local current_image=$ACR/$ACR_NAMESPACE/$language:$tag
+    echo -e "${CONSOLE_BOLD}${COLOR_GREEN}: Building $current_image ${CONSOLE_RESET}"
 
     if [ "$language" == "base" ]; then
         docker build -t $current_image -f $base_dir/$language.Dockerfile $base_dir
@@ -48,6 +56,7 @@ function build_image {
             $base_dir
     fi
 
+    echo -e "${CONSOLE_BOLD}${COLOR_GREEN}Testing $current_image ${CONSOLE_RESET}"
     if ! [ -z "$RUN_TESTS" ] && [ "$language" != "base" ]; then
         dotnet run --project $DIR/test/test.csproj $current_image
     fi
@@ -123,6 +132,15 @@ elif [ "$1" == "alpine" ]; then
     build_all_alpine
 elif ! [ -z "$1" ] && ! [ -z "$2" ]; then
     build_image $1 $2 $3 $4 $5
+else
+    echo "Examples:"
+    echo -e "\t$0 all"
+    echo -e "\tBuilds all images tagged with current branch"
+    echo ""
+    echo -e "\t$0 python"
+    echo -e "\tBuilds stretch python image"
+    echo ""
+    echo "FULL USAGE: $0 <language> <tag> <base_dir> <base_dir> <base_language> <base_tag>"
 fi
 
 if ! [ -z "$CI_RUN" ]; then
