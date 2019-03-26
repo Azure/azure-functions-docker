@@ -57,7 +57,7 @@ function build_image {
     fi
 
     echo -e "${CONSOLE_BOLD}${COLOR_GREEN}Testing $current_image ${CONSOLE_RESET}"
-    if ! [ -z "$RUN_TESTS" ] && [ "$language" != "base" ]; then
+    if ! [ -z "$RUN_TESTS" ] && [ "$language" != "base" ] && [ "$language" != "java" ]; then
         dotnet run --project $DIR/test/test.csproj $current_image
     fi
 }
