@@ -14,4 +14,8 @@ sed -i "s/SSH_PORT/$SSH_PORT/g" /etc/ssh/sshd_config
 
 service ssh start
 
-dotnet /azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost.dll
+if [ -f /azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost ]; then
+    /azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost
+else
+    dotnet /azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost.dll
+fi
