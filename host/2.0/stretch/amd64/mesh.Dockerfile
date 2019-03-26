@@ -27,8 +27,8 @@ RUN mv /azure-functions-host/workers/python /python && \
     curl -sL https://deb.nodesource.com/setup_8.x | bash - && \
     apt-get update && \
     apt-get install -y nodejs && \
-    apt-get install -y --no-install-recommends ca-certificates \
     # .NET Core dependencies
+    apt-get install -y --no-install-recommends ca-certificates \
     libc6 libgcc1 libgssapi-krb5-2 libicu57 liblttng-ust0 libssl1.0.2 libstdc++6 zlib1g && \
     rm -rf /var/lib/apt/lists/* && \
     # .NET Core
