@@ -12,7 +12,6 @@ RUN BUILD_NUMBER=$(echo $HOST_VERSION | cut -d'.' -f 3) && \
     mv /azure-functions-host/workers /workers && mkdir /azure-functions-host/workers && \
     rm -rf /workers/powershell/runtimes/win* && \
     rm -rf /workers/powershell/runtimes/osx && \
-    rm -rf /workers/powershell/runtimes/unix && \
     rm -rf /workers/powershell/runtimes/*arm*
 
 FROM mcr.microsoft.com/dotnet/core/aspnet:2.2
