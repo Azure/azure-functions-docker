@@ -34,6 +34,10 @@ namespace Test
             {
                 RunMeshTests(imageName);
             }
+            else if (imageName.IndexOf("/azure-functions/java") != -1)
+            {
+                RunJavaTests(imageName);
+            }
             else
             {
                 throw new Exception($"Can't find tests for image {imageName}");
@@ -89,6 +93,16 @@ namespace Test
             RunTest(imageName,
                 "https://functionstests.blob.core.windows.net/public/docker/dotnet-functions.zip",
                 "/api/CSharpHttpFunction?name=Test",
+                "Hello, Test",
+                additionalEnv
+            );
+        }
+
+        private static void RunJavaTests(string imageName, Dictionary<string, string> additionalEnv = null)
+        {
+            RunTest(imageName,
+                "https://functionstests.blob.core.windows.net/public/docker/java-functions.zip",
+                "/api/HttpTrigger-Java?name=Test",
                 "Hello, Test",
                 additionalEnv
             );
