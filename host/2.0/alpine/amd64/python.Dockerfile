@@ -9,7 +9,14 @@ RUN apk add --no-cache libc6-compat libnsl && \
     ln -s /usr/lib/libnsl.so.2 /usr/lib/libnsl.so.1
 
 ENV PYENV_ROOT=/root/.pyenv \
-    PATH=/root/.pyenv/shims:/root/.pyenv/bin:$PATH
+    PATH=/root/.pyenv/shims:/root/.pyenv/bin:$PATH \
+    ASPNETCORE_URLS=http://+:80 \
+    DOTNET_RUNNING_IN_CONTAINER=true \
+    ASPNETCORE_VERSION=2.2.3 \
+    AzureWebJobsScriptRoot=/home/site/wwwroot \
+    HOME=/home \
+    FUNCTIONS_WORKER_RUNTIME=python \
+    DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=true
 
 # Install Python
 RUN export WORKER_TAG=1.0.0a6 && \
@@ -18,11 +25,10 @@ RUN export WORKER_TAG=1.0.0a6 && \
     tar xvzf $WORKER_TAG.tar.gz && \
     mv azure-functions-python-worker-* azure-functions-python-worker && \
     mv /azure-functions-python-worker/python /python && \
-    rm -rf $WORKER_TAG.tar.gz /azure-functions-python-worker
-
-ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
-    HOME=/home \
-    FUNCTIONS_WORKER_RUNTIME=python
+    rm -rf $WORKER_TAG.tar.gz /azure-functions-python-worker && \
+    apk add --no-cache ca-certificates \
+    # .NET Core dependencies
+    krb5-libs libgcc libintl libssl1.1 libstdc++ tzdata userspace-rcu zlib lttng-ust
 
 COPY --from=runtime-image ["/azure-functions-host", "/azure-functions-host"]
 RUN mv /python /azure-functions-host/workers
