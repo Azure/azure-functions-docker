@@ -4,10 +4,6 @@ FROM ${BASE_IMAGE} as runtime-image
 FROM python:3.6-alpine
 
 # Install Python dependencies
-RUN apk add --no-cache libc6-compat libnsl && \
-    # workaround for https://github.com/grpc/grpc/issues/17255
-    ln -s /usr/lib/libnsl.so.2 /usr/lib/libnsl.so.1
-
 ENV PYENV_ROOT=/root/.pyenv \
     PATH=/root/.pyenv/shims:/root/.pyenv/bin:$PATH \
     ASPNETCORE_URLS=http://+:80 \
@@ -19,7 +15,10 @@ ENV PYENV_ROOT=/root/.pyenv \
     DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=true
 
 # Install Python
-RUN export WORKER_TAG=1.0.0a6 && \
+RUN apk add --no-cache libc6-compat libnsl && \
+    # workaround for https://github.com/grpc/grpc/issues/17255
+    ln -s /usr/lib/libnsl.so.2 /usr/lib/libnsl.so.1 && \
+    export WORKER_TAG=1.0.0a6 && \
     export AZURE_FUNCTIONS_PACKAGE_VERSION=1.0.0a5 && \
     wget --quiet https://github.com/Azure/azure-functions-python-worker/archive/$WORKER_TAG.tar.gz && \
     tar xvzf $WORKER_TAG.tar.gz && \
@@ -28,14 +27,14 @@ RUN export WORKER_TAG=1.0.0a6 && \
     rm -rf $WORKER_TAG.tar.gz /azure-functions-python-worker && \
     apk add --no-cache ca-certificates \
     # .NET Core dependencies
-    krb5-libs libgcc libintl libssl1.1 libstdc++ tzdata userspace-rcu zlib lttng-ust
+    krb5-libs libgcc libintl libssl1.1 libstdc++ tzdata userspace-rcu zlib lttng-ust && \
+    mkdir -p /azure-functions-host/workers && \
+    mv /python /azure-functions-host/workers
 
 COPY --from=runtime-image ["/azure-functions-host", "/azure-functions-host"]
-RUN mv /python /azure-functions-host/workers
 
 # Add custom worker config
-COPY ./python-context/start.sh /azure-functions-host/workers/python/
-COPY ./python-context/worker.config.json /azure-functions-host/workers/python/
+COPY ./python-context/start.sh ./python-context/worker.config.json /azure-functions-host/workers/python/
 RUN chmod +x /azure-functions-host/workers/python/start.sh
 
 CMD [ "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost" ]
