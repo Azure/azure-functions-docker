@@ -11,8 +11,7 @@ ENV LANG=C.UTF-8 \
     WORKER_TAG=1.0.0b4 \
     AZURE_FUNCTIONS_PACKAGE_VERSION=1.0.0b3 \
     ASPNETCORE_URLS=http://+:80 \
-    DOTNET_RUNNING_IN_CONTAINER=true \
-    ASPNETCORE_VERSION=2.2.3
+    DOTNET_RUNNING_IN_CONTAINER=true
 
 # Install Python dependencies
 RUN apt-get update && \
@@ -41,22 +40,13 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends ca-certificates \
     libc6 libgcc1 libgssapi-krb5-2 libicu57 liblttng-ust0 libssl1.0.2 libstdc++6 zlib1g && \
     rm -rf /var/lib/apt/lists/* && \
-    # .NET Core
-    curl -SL --output aspnetcore.tar.gz https://dotnetcli.blob.core.windows.net/dotnet/aspnetcore/Runtime/$ASPNETCORE_VERSION/aspnetcore-runtime-$ASPNETCORE_VERSION-linux-x64.tar.gz \
-    && aspnetcore_sha512='53be8489aafa132c1a7824339c9a0d25f33e6ab0c42f414a8bda014b60ff82a20144032bd7e887d375dc275bb5dbeb71d38c7f90c39016895df8d3cf3c4b7a95' \
-    && echo "$aspnetcore_sha512  aspnetcore.tar.gz" | sha512sum -c - \
-    && mkdir -p /usr/share/dotnet \
-    && tar -zxf aspnetcore.tar.gz -C /usr/share/dotnet \
-    && rm aspnetcore.tar.gz \
-    && ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet
-
+    mkdir -p /azure-functions-host/workers && \
+    mv /python /azure-functions-host/workers
 
 COPY --from=runtime-image ["/azure-functions-host", "/azure-functions-host"]
-RUN mv /python /azure-functions-host/workers
 
 # Add custom worker config
-COPY ./python-context/start.sh /azure-functions-host/workers/python/
-COPY ./python-context/worker.config.json /azure-functions-host/workers/python/
+COPY ./python-context/start.sh ./python-context/worker.config.json /azure-functions-host/workers/python/
 RUN chmod +x /azure-functions-host/workers/python/start.sh
 
 CMD [ "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost" ]
