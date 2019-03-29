@@ -82,7 +82,7 @@ function build_all_stretch {
         fi
 
         if [[ "$branch" == 2\.0\.* ]]; then
-            push_image $language
+            push_image $language $branch
         fi
     done
 }
@@ -94,7 +94,7 @@ function build_all_appservice {
         build_image $language $branch-appservice $DIR/host/2.0/stretch/amd64/appservice $language $branch
 
         if [[ "$branch" == 2\.0\.* ]]; then
-            push_image $language $branch
+            push_image $language $branch-appservice
         fi
     done
 }
@@ -106,7 +106,7 @@ function build_all_alpine {
         build_image $language $branch-alpine $DIR/host/2.0/alpine/amd64/ base
 
         if [[ "$branch" == 2\.0\.* ]]; then
-            push_image $language
+            push_image $language $branch-alpine
         fi
     done
 }
