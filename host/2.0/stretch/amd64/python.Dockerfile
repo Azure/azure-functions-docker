@@ -1,7 +1,7 @@
 ARG BASE_IMAGE=mcr.microsoft.com/azure-functions/base:2.0
 FROM ${BASE_IMAGE} as runtime-image
 
-FROM python:3.6-slim-stretch
+FROM python:3.6-slim-stretch as layered
 
 ENV LANG=C.UTF-8 \
     ACCEPT_EULA=Y \
@@ -49,4 +49,7 @@ COPY --from=runtime-image ["/azure-functions-host", "/azure-functions-host"]
 COPY ./python-context/start.sh ./python-context/worker.config.json /azure-functions-host/workers/python/
 RUN chmod +x /azure-functions-host/workers/python/start.sh
 
+# Now compress everything to a single layer
+FROM scratch
+COPY --from=layered / /
 CMD [ "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost" ]
