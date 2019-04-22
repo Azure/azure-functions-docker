@@ -50,6 +50,20 @@ function build_image {
 
     if [ "$language" == "base" ]; then
         docker build -t $current_image -f $base_dir/$language.Dockerfile $base_dir
+    elif [ "$language" == "python" ]; then
+        docker build -t $current_image-python3.6-deps \
+            -f $base_dir/python-deps.Dockerfile \
+            $base_dir
+
+        docker build -t $current_image-python3.6-buildenv --build-arg BASE_IMAGE=$base_image \
+            --build-arg BASE_PYTHON_IMAGE=$current_image-python3.6-deps \
+            -f $base_dir/python-buildenv.Dockerfile \
+            $base_dir
+
+        docker build -t $current_image --build-arg BASE_IMAGE=$base_image \
+            --build-arg BASE_PYTHON_IMAGE=$current_image-python3.6-deps \
+            -f $base_dir/python.Dockerfile \
+            $base_dir
     else
         docker build -t $current_image --build-arg BASE_IMAGE=$base_image \
             -f $base_dir/$language.Dockerfile \
@@ -68,6 +82,11 @@ function push_image {
 
     current_image=$ACR/$ACR_NAMESPACE/$language:$tag
     docker push $current_image
+
+    if [ "$language" == "python" ]; then
+        docker push $current_image-python3.6-buildenv
+        docker push $current_image-python3.6-deps
+    fi
 }
 
 
