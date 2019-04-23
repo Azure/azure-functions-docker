@@ -83,7 +83,7 @@ function push_image {
     current_image=$ACR/$ACR_NAMESPACE/$language:$tag
     docker push $current_image
 
-    if [ "$language" == "python" ]; then
+    if [ "$language" == "python" ] && [[ $tag != *"appservice"* ]]; then
         docker push $current_image-python3.6-buildenv
         docker push $current_image-python3.6-deps
     fi
