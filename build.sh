@@ -50,7 +50,7 @@ function build_image {
 
     if [ "$language" == "base" ]; then
         docker build -t $current_image -f $base_dir/$language.Dockerfile $base_dir
-    elif [ "$language" == "python" ]; then
+    elif [ "$language" == "python" ] && [[ $base_dir != *"appservice"* ]]; then
         docker build -t $current_image-python3.6-deps \
             -f $base_dir/python-deps.Dockerfile \
             $base_dir
