@@ -15,4 +15,6 @@ COPY --from=runtime-image [ "/workers/java", "/azure-functions-host/workers/java
 COPY --from=jdk /docker-java-home /docker-java-home
 ENV JAVA_HOME /docker-java-home
 
+COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
+
 CMD [ "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost" ]

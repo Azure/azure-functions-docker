@@ -16,6 +16,7 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
 
 COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
 COPY --from=runtime-image [ "/workers/java", "/azure-functions-host/workers/java" ]
+COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
 
 COPY --from=jdk /usr/lib/jvm/java-1.8-openjdk /usr/lib/jvm/java-1.8-openjdk
 ENV JAVA_HOME /usr/lib/jvm/java-1.8-openjdk
