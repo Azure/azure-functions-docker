@@ -15,4 +15,6 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
 
 COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
 
+COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
+
 CMD [ "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost" ]
