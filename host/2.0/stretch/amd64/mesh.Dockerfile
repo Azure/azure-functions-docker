@@ -3,8 +3,8 @@ ARG BASE_IMAGE=mcr.microsoft.com/azure-functions/python:2.0
 FROM mcr.microsoft.com/dotnet/core/sdk:2.2 AS installer-env
 
 ENV PublishWithAspNetCoreTargetManifest=false \
-    HOST_VERSION=2.0.12452 \
-    HOST_COMMIT=6d7e3bbc4eacd2deda66aedd12dab5a7753c5c2b
+    HOST_VERSION=2.0.12490 \
+    HOST_COMMIT=47c594d8ba823cf5a2db5475fbfcbb6d83e7deca
 
 RUN BUILD_NUMBER=$(echo $HOST_VERSION | cut -d'.' -f 3) && \
     wget https://github.com/Azure/azure-functions-host/archive/$HOST_COMMIT.tar.gz && \
