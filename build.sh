@@ -119,7 +119,7 @@ function build_all_appservice {
 }
 
 function build_all_alpine {
-    local languages=( dotnet node powershell python java )
+    local languages=( dotnet node python )
     for language in "${languages[@]}"
     do
         build_image $language $branch-alpine $DIR/host/2.0/alpine/amd64/ base
@@ -142,7 +142,7 @@ if [ "$1" == "all" ]; then
     build_all_stretch
     build_all_appservice
     # build_all_stretch_slim
-    # build_all_alpine
+    build_all_alpine
 elif [ "$1" == "stretch" ]; then
     build_all_stretch
 elif [ "$1" == "appservice" ]; then
