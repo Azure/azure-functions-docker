@@ -119,7 +119,7 @@ function build_all_appservice {
 }
 
 function build_all_alpine {
-    local languages=( dotnet node python )
+    local languages=( dotnet )
     for language in "${languages[@]}"
     do
         build_image $language $branch-alpine $DIR/host/2.0/alpine/amd64/ base
