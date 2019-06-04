@@ -1,13 +1,18 @@
 #!/usr/bin/env bash
 
 if [ -z $PORT ]; then
-  ASPNETCORE_URLS=http://*:80
+  export ASPNETCORE_URLS=http://*:80
 else
-  ASPNETCORE_URLS=http://*:$PORT
+  export ASPNETCORE_URLS=http://*:$PORT
 fi
 
 if [ -z $SSH_PORT ]; then
-  SSH_PORT=2222
+  export SSH_PORT=2222
+fi
+
+if [ "$APPSVC_REMOTE_DEBUGGING" == "TRUE" ]; then
+    export languageWorkers__node__arguments="--inspect=0.0.0.0:$APPSVC_TUNNEL_PORT"
+    export languageWorkers__python__arguments="-m ptvsd --server --port $APPSVC_TUNNEL_PORT"
 fi
 
 sed -i "s/SSH_PORT/$SSH_PORT/g" /etc/ssh/sshd_config

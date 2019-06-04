@@ -5,7 +5,8 @@ EXPOSE 2222 80
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends openssh-server dialog && \
-    echo "root:Docker!" | chpasswd
+    echo "root:Docker!" | chpasswd && \
+    pip install ptvsd
 
 COPY sshd_config /etc/ssh/
 COPY start.sh /azure-functions-host/
