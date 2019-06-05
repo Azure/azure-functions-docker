@@ -40,7 +40,7 @@ do
     fi
 done
 
-images=( dotnet powershell java )
+images=( dotnet )
 for i in "${images[@]}"
 do
     current_image=$ACR/$ACR_NAMESPACE/$i:$ReleaseVersion-alpine
