@@ -2,7 +2,7 @@
 
 # Dockerhub
 
-Images can be found here: https://hub.docker.com/r/microsoft/azure-functions/
+Images can be found here: https://hub.docker.com/_/microsoft-azure-functions-base
 
 # Contributing
 
