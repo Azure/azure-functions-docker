@@ -38,6 +38,15 @@ RUN mv /azure-functions-host/workers/python /python && \
     apt-get install -y nodejs && \
     mkdir -p /azure-functions-host/workers && \
     mv /python /azure-functions-host/workers && \
+    #Install certificates
+    mkdir -p /azure-functions-host/certificates && \
+    wget -O /azure-functions-host/certificates/ameroot.der http://crl.microsoft.com/pkiinfra/Certs/AMEROOT_ameroot.crt &&\
+    wget -O /azure-functions-host/certificates/ameinfra01.der http://crl.microsoft.com/pkiinfra/Certs/BY2PKIINTCA01.AME.GBL_AME%20Infra%20CA%2001.crt &&\
+    wget -O /azure-functions-host/certificates/ameinfra02.der http://crl.microsoft.com/pkiinfra/Certs/BL2PKIINTCA01.AME.GBL_AME%20Infra%20CA%2002.crt &&\
+    openssl x509 -in /azure-functions-host/certificates/ameroot.der -inform der -out /usr/local/share/ca-certificates/ameroot.crt -outform pem &&\
+    openssl x509 -in /azure-functions-host/certificates/ameinfra01.der -inform der -out /usr/local/share/ca-certificates/ameinfra01.crt -outform pem &&\
+    openssl x509 -in /azure-functions-host/certificates/ameinfra02.der -inform der -out /usr/local/share/ca-certificates/ameinfra02.crt -outform pem &&\
+    update-ca-certificates && \
     # Install fuze-zip
     apt-get install -y fuse-zip liblzo2-2 liblz4-1 liblzma5 zlib1g squashfs-tools && \
     # .NET Core for powershell
