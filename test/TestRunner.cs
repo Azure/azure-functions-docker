@@ -55,12 +55,6 @@ namespace Test
         private static void RunPythonTests(string imageName, Dictionary<string, string> additionalEnv = null)
         {
             RunTest(imageName,
-                "https://functionstests.blob.core.windows.net/public/docker/python-functions-pyinstaller.zip",
-                "/api/PythonHttpTrigger?name=Test",
-                "Hello Test!",
-                additionalEnv
-            );
-            RunTest(imageName,
                 "https://functionstests.blob.core.windows.net/public/docker/python-functions-no-pyinstaller.zip",
                 "/api/PythonHttpTrigger?name=Test",
                 "Hello Test!",
