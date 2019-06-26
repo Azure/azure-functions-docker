@@ -77,7 +77,6 @@ ENV LANG=C.UTF-8 \
     DOTNET_RUNNING_IN_CONTAINER=true \
     TERM=xterm \
     PYTHON_VERSION=3.6.8 \
-    WEBSITE_MOUNT_ENABLED=1 \
     PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/squashfuse
 
 CMD [ "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost" ]
