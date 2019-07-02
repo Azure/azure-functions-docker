@@ -12,7 +12,7 @@ fi
 
 if [ "$APPSVC_REMOTE_DEBUGGING" == "TRUE" ]; then
     export languageWorkers__node__arguments="--inspect=0.0.0.0:$APPSVC_TUNNEL_PORT"
-    export languageWorkers__python__arguments="-m ptvsd --server --port $APPSVC_TUNNEL_PORT"
+    export languageWorkers__python__arguments="-m ptvsd --host localhost --port $APPSVC_TUNNEL_PORT"
 fi
 
 sed -i "s/SSH_PORT/$SSH_PORT/g" /etc/ssh/sshd_config
