@@ -38,16 +38,12 @@ groupadd -g $GROUP_ID $GROUP_NAME
 useradd -u $USER_ID -g $GROUP_NAME $USER_NAME
 chown -R $USER_NAME:$GROUP_NAME /tmp
 
-/bin/bash -c "benv node=9 npm=6 pm2 start /opt/webssh/index.js -o /home/LogFiles/webssh/pm2.log -e /home/LogFiles/webssh/pm2.err &"
-
 export KUDU_RUN_USER="$USER_NAME"
 export HOME=/home
 export WEBSITE_SITE_NAME=$SITE_NAME
 export APPSETTING_SCM_USE_LIBGIT2SHARP_REPOSITORY=0
 export KUDU_APPPATH=/opt/Kudu
 export APPDATA=/opt/Kudu/local
-
-service ssh restart
 
 cd /opt/Kudu
 
