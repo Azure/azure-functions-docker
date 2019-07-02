@@ -3,11 +3,11 @@ ARG BASE_IMAGE=mcr.microsoft.com/azure-functions/python:2.0
 FROM mcr.microsoft.com/dotnet/core/sdk:2.2 AS installer-env
 
 ENV PublishWithAspNetCoreTargetManifest=false \
-    HOST_VERSION=2.0.12544 \
-    HOST_COMMIT=634ae0ed32f48aad4585716748c6ad2f9ce3ddec
+    HOST_VERSION=2.0.23456 \
+    HOST_COMMIT=a53a3dcf283ed150f44cb5692d1fb7cae8ffc62f
 
 RUN BUILD_NUMBER=$(echo $HOST_VERSION | cut -d'.' -f 3) && \
-    wget https://github.com/Azure/azure-functions-host/archive/$HOST_COMMIT.tar.gz && \
+    wget https://github.com/pragnagopa/azure-functions-host/archive/$HOST_COMMIT.tar.gz && \
     tar xzf $HOST_COMMIT.tar.gz && \
     cd azure-functions-host-* && \
     dotnet publish -v q /p:BuildNumber=$BUILD_NUMBER /p:CommitHash=$HOST_COMMIT src/WebJobs.Script.WebHost/WebJobs.Script.WebHost.csproj --runtime debian.9-x64 --output /azure-functions-host
@@ -64,6 +64,25 @@ COPY --from=squashfuse-build-env [ "/squashfuse", "/squashfuse" ]
 
 ENV PATH="${PATH}:/squashfuse"
 
+RUN wget https://github.com/pragnagopa/azure-functions-nodejs-worker/archive/7dcd31cb0230132655439a8c3cf08b6e34521531.tar.gz && \
+    tar xzf 7dcd31cb0230132655439a8c3cf08b6e34521531.tar.gz && \
+    cd azure-functions-nodejs-worker-* && \
+    npm install && \
+    npm run build-nomaps && \
+    mkdir -p ./pkg/deps/grpc/etc/ && \
+    mkdir -p ./pkg/grpc/ && \
+    mkdir -p ./pkg/dist/src && \
+    cp ./node_modules/grpc/deps/grpc/etc/roots.pem ./pkg/deps/grpc/etc/ && \
+    cp ./node_modules/grpc/package.json ./pkg/grpc/ && \
+    cp ./dist/src/nodejsWorker.js ./pkg/dist/src/ && \
+    cp ./worker.config.json pkg && \
+    cp ./src/functionCode.js ./pkg/dist/src/ && \
+    ./node_modules/.bin/webpack && \
+    # Node 8 support
+    ./node_modules/.bin/node-pre-gyp install -C pkg/grpc --target_arch=x64 --target=8.4.0 --target_platform=linux --target_libc=glibc || true && \
+    mv pkg node && \
+    rm -rf /azure-functions-host/workers/node && \
+    mv node /azure-functions-host/workers/
 
 FROM scratch
 
