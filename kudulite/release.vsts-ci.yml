@@ -1,0 +1,19 @@
+queue: Hosted Ubuntu 1604
+trigger: none
+variables:
+  dockerId: azurefunctions
+
+steps:
+- bash: |
+    echo $pswd | docker login -u $(dockerId) --password-stdin $(dockerId).azurecr.io
+  displayName: login
+  continueOnError: false
+  env:
+    pswd: $(dockerPassword)
+
+- bash: |
+    export ReleaseVersion=$(ReleaseVersion)
+    export tag=dev
+    ./kudulite/tag.sh
+  displayName: tag and push images
+  continueOnError: false

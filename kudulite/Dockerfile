@@ -1,5 +1,5 @@
-FROM oryxprod/build:20190521.9 as main
-
+FROM mcr.microsoft.com/oryx/build:20190704.2 as main
+ARG BRANCH
 ENV DEBIAN_FRONTEND noninteractive
 
 # Install dependencies
@@ -39,7 +39,7 @@ ENV PATH=$PATH:/root/.dotnet/tools
 RUN cd /tmp \
     && git clone https://github.com/Azure-App-Service/KuduLite.git \
     && cd ./KuduLite \
-    && git checkout dev \
+    && git checkout $BRANCH \
     && cd ./Kudu.Services.Web \
     && benv dotnet=2.2 dotnet publish -c Release -o /opt/Kudu \
     && chmod 777 /opt/Kudu/Kudu.Services.Web.dll \
