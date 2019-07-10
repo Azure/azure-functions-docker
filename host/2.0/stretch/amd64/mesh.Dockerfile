@@ -48,7 +48,7 @@ RUN mv /azure-functions-host/workers/python /python && \
     openssl x509 -in /azure-functions-host/certificates/ameinfra02.der -inform der -out /usr/local/share/ca-certificates/ameinfra02.crt -outform pem &&\
     update-ca-certificates && \
     # Install fuze-zip
-    apt-get install -y fuse-zip liblzo2-2 liblz4-1 liblzma5 zlib1g squashfs-tools && \
+    apt-get install -y fuse-zip liblzo2-2 liblz4-1 liblzma5 zlib1g squashfs-tools aria2 && \
     # .NET Core for powershell
     curl -SL --output aspnetcore.tar.gz https://dotnetcli.blob.core.windows.net/dotnet/aspnetcore/Runtime/$ASPNETCORE_VERSION/aspnetcore-runtime-$ASPNETCORE_VERSION-linux-x64.tar.gz \
     && aspnetcore_sha512='53be8489aafa132c1a7824339c9a0d25f33e6ab0c42f414a8bda014b60ff82a20144032bd7e887d375dc275bb5dbeb71d38c7f90c39016895df8d3cf3c4b7a95' \
