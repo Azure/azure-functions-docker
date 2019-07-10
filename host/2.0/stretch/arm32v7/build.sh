@@ -2,7 +2,7 @@
 set -e
 
 HostCommit=dev
-BuildNumber=2.0.12134
+BuildNumber=2.0.12562
 
 images=( base node python powershell )
 for i in "${images[@]}"
