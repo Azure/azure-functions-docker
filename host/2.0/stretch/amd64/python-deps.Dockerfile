@@ -5,8 +5,8 @@ ENV LANG=C.UTF-8 \
     AzureWebJobsScriptRoot=/home/site/wwwroot \
     HOME=/home \
     FUNCTIONS_WORKER_RUNTIME=python \
-    WORKER_TAG=1.0.0b8 \
-    AZURE_FUNCTIONS_PACKAGE_VERSION=1.0.0b4 \
+    WORKER_TAG=1.0.0b9 \
+    AZURE_FUNCTIONS_PACKAGE_VERSION=1.0.0b5 \
     ASPNETCORE_URLS=http://+:80 \
     DOTNET_RUNNING_IN_CONTAINER=true
 
