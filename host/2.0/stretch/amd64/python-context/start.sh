@@ -12,4 +12,4 @@ echo "python == $(which python)"
 echo "PYTHONPATH == $PYTHONPATH"
 
 echo "starting the python worker"
-python $DIR/worker.py $@
+exec python $DIR/worker.py $@
