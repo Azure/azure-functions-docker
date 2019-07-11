@@ -4,7 +4,7 @@ FROM mcr.microsoft.com/dotnet/core/sdk:2.2 AS installer-env
 
 ENV PublishWithAspNetCoreTargetManifest=false \
     HOST_VERSION=2.0.12563 \
-    HOST_COMMIT=675aff0429c2c08c9ff9095c6b19062cc3b642fd
+    HOST_COMMIT=b008e7f19a6882d15d04665f9a27754e2450a78b
 
 RUN BUILD_NUMBER=$(echo $HOST_VERSION | cut -d'.' -f 3) && \
     wget https://github.com/Azure/azure-functions-host/archive/$HOST_COMMIT.tar.gz && \
