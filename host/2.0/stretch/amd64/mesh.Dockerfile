@@ -85,8 +85,6 @@ ENV LANG=C.UTF-8 \
     DOTNET_RUNNING_IN_CONTAINER=true \
     TERM=xterm \
     PYTHON_VERSION=3.6.8 \
-    PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/squashfuse \
-    COMPlus_PerfMapEnabled=1 \
-    COMPlus_EnableEventLog=1
+    PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/squashfuse
 
 CMD [ "/start.sh" ]
