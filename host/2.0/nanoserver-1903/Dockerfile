@@ -1,7 +1,7 @@
 # escape=`
 
 # Installer image
-FROM mcr.microsoft.com/windows/servercore:1803 AS installer-env
+FROM mcr.microsoft.com/windows/servercore:1903 AS installer-env
 
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
@@ -34,7 +34,7 @@ RUN [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tl
 
 
 # Runtime image
-FROM mcr.microsoft.com/dotnet/core/aspnet:2.2.6-nanoserver-1803
+FROM mcr.microsoft.com/dotnet/core/aspnet:2.2.6-nanoserver-1903
 
 COPY --from=installer-env ["C:\\runtime", "C:\\runtime"]
 
