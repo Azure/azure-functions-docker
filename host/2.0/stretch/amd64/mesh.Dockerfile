@@ -1,16 +1,22 @@
-ARG BASE_IMAGE=mcr.microsoft.com/azure-functions/python:2.0
+ARG BASE_IMAGE=mcr.microsoft.com/azure-functions/python:2.0.12564.1
 
 FROM mcr.microsoft.com/dotnet/core/sdk:2.2 AS installer-env
 
 ENV PublishWithAspNetCoreTargetManifest=false \
-    HOST_VERSION=2.0.12564 \
-    HOST_COMMIT=d05ffdb6914b08330c6675474579a64bc5afee06
+    HOST_VERSION=2.0.12570 \
+    HOST_COMMIT=3b02b552f1969ea8ef16ebe95a0fab5a0405d761
 
 RUN BUILD_NUMBER=$(echo $HOST_VERSION | cut -d'.' -f 3) && \
-    wget https://github.com/Azure/azure-functions-host/archive/$HOST_COMMIT.tar.gz && \
+    wget https://github.com/azure/azure-functions-host/archive/$HOST_COMMIT.tar.gz && \
     tar xzf $HOST_COMMIT.tar.gz && \
     cd azure-functions-host-* && \
     dotnet publish -v q /p:BuildNumber=$BUILD_NUMBER /p:CommitHash=$HOST_COMMIT src/WebJobs.Script.WebHost/WebJobs.Script.WebHost.csproj --runtime debian.9-x64 --output /azure-functions-host
+#    find / -iname crossgen && \
+#    for dll in /azure-functions-host/*.dll; do (/root/.nuget/packages/runtime.linux-x64.microsoft.netcore.app/2.2.6/tools/crossgen /JITPath /azure-functions-host/libclrjit.so /Platform_Assemblies_Paths /azure-functions-host /nologo $dll || true); done
+
+COPY ./mesh /mesh
+
+RUN dotnet publish -v q /mesh/WarmupHelper/WarmupHelper.csproj --output /warmup-helper
 
 FROM ubuntu:18.04 as squashfuse-build-env
 
@@ -60,6 +66,8 @@ RUN mv /azure-functions-host/workers/python /python && \
 
 # Add all workers
 COPY --from=installer-env ["/azure-functions-host", "/azure-functions-host"]
+COPY --from=installer-env ["/warmup-helper", "/warmup-helper"]
+COPY --from=installer-env ["/mesh/start.sh", "/start.sh"]
 COPY --from=squashfuse-build-env [ "/squashfuse", "/squashfuse" ]
 
 ENV PATH="${PATH}:/squashfuse"
@@ -77,6 +85,8 @@ ENV LANG=C.UTF-8 \
     DOTNET_RUNNING_IN_CONTAINER=true \
     TERM=xterm \
     PYTHON_VERSION=3.6.8 \
-    PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/squashfuse
+    PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/squashfuse \
+    COMPlus_PerfMapEnabled=1 \
+    COMPlus_EnableEventLog=1
 
-CMD [ "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost" ]
+CMD [ "/start.sh" ]
