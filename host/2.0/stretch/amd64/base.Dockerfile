@@ -6,6 +6,8 @@ ENV HOST_COMMIT=557678059e699fc61f298d226ccd91c1302d1388
 
 RUN apt-get update && \
     apt-get install -y unzip && \
+    echo ${HOST_ARTIFACT_PATH} && \
+    echo "Value is above" && \
     cp ${HOST_ARTIFACT_PATH} /azure-functions-host.zip && \
     unzip /azure-functions-host.zip -d /azure-functions-host -y && \
     rm -f /azure-functions-host.zip && \
