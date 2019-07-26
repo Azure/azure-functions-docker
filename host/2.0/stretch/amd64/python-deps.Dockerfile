@@ -1,5 +1,7 @@
 FROM python:3.6-slim-stretch
 
+# Needs $PYTHON_WORKER_SRC_URL
+
 ENV LANG=C.UTF-8 \
     ACCEPT_EULA=Y \
     AzureWebJobsScriptRoot=/home/site/wwwroot \
@@ -27,12 +29,12 @@ RUN apt-get update && \
     # install MS SQL related packages
     apt-get update && \
     apt-get install -y unixodbc msodbcsql17 mssql-tools && \
-    wget --quiet https://github.com/Azure/azure-functions-python-worker/archive/$WORKER_TAG.tar.gz && \
-    tar xvzf $WORKER_TAG.tar.gz && \
+    wget --quiet ${PYTHON_WORKER_SRC_URL} && \
+    tar xvzf *.tar.gz && \
     mv azure-functions-python-worker-* azure-functions-python-worker && \
     mv /azure-functions-python-worker/python /python && \
-    rm -rf $WORKER_TAG.tar.gz /azure-functions-python-worker && \
-    pip install azure-functions==$AZURE_FUNCTIONS_PACKAGE_VERSION azure-functions-worker==$WORKER_TAG && \
+    rm -rf *.tar.gz && \
+    python -m pip install -U -e /azure-functions-python-worker azure-functions==$AZURE_FUNCTIONS_PACKAGE_VERSION && \
     # .NET Core dependencies
     apt-get install -y --no-install-recommends ca-certificates \
     libc6 libgcc1 libgssapi-krb5-2 libicu57 liblttng-ust0 libssl1.0.2 libstdc++6 zlib1g && \
