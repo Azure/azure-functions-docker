@@ -6,14 +6,11 @@ ENV PublishWithAspNetCoreTargetManifest=false \
     HOST_VERSION=2.0.12570 \
     HOST_COMMIT=3b02b552f1969ea8ef16ebe95a0fab5a0405d761
 
-RUN apt-get update && \
-    apt-get install -y powershell && \
-    BUILD_NUMBER=$(echo $HOST_VERSION | cut -d'.' -f 3) && \
+RUN BUILD_NUMBER=$(echo $HOST_VERSION | cut -d'.' -f 3) && \
     wget https://github.com/azure/azure-functions-host/archive/$HOST_COMMIT.tar.gz && \
     tar xzf $HOST_COMMIT.tar.gz && \
     cd azure-functions-host-* && \
-    power
-    #dotnet publish -v q /p:BuildNumber=$BUILD_NUMBER /p:CommitHash=$HOST_COMMIT src/WebJobs.Script.WebHost/WebJobs.Script.WebHost.csproj --runtime debian.9-x64 --output /azure-functions-host
+    dotnet publish -v q /p:BuildNumber=$BUILD_NUMBER /p:CommitHash=$HOST_COMMIT src/WebJobs.Script.WebHost/WebJobs.Script.WebHost.csproj --runtime debian.9-x64 --output /azure-functions-host
 #    find / -iname crossgen && \
 #    for dll in /azure-functions-host/*.dll; do (/root/.nuget/packages/runtime.linux-x64.microsoft.netcore.app/2.2.6/tools/crossgen /JITPath /azure-functions-host/libclrjit.so /Platform_Assemblies_Paths /azure-functions-host /nologo $dll || true); done
 
