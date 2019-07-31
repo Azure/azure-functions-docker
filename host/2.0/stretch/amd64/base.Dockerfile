@@ -1,15 +1,14 @@
-ARG HOST_PATH_LOCAL=./host.zip
 FROM mcr.microsoft.com/dotnet/core/sdk:2.2 AS runtime-image
 
 ENV PublishWithAspNetCoreTargetManifest=false
 ENV HOST_VERSION=v2.0.12562
 ENV HOST_COMMIT=557678059e699fc61f298d226ccd91c1302d1388
 
-COPY ${HOST_PATH_LOCAL} /azure-functions-host.zip
+COPY ./host.zip /azure-functions-host.zip
 
 RUN apt-get update && \
     apt-get install -y unzip && \
-    unzip /azure-functions-host.zip -d /azure-functions-host -y && \
+    unzip /azure-functions-host.zip -d /azure-functions-host && \
     rm -f /azure-functions-host.zip && \
     mv /azure-functions-host/workers /workers && mkdir /azure-functions-host/workers
 
