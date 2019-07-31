@@ -18,7 +18,8 @@ FROM mcr.microsoft.com/dotnet/core/aspnet:2.2
 
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     HOME=/home \
-    FUNCTIONS_WORKER_RUNTIME=powershell
+    FUNCTIONS_WORKER_RUNTIME=powershell \
+    DOTNET_USE_POLLING_FILE_WATCHER=true
 
 RUN apt-get update && \
     apt-get install -y gnupg wget unzip && \

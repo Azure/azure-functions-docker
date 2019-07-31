@@ -8,7 +8,8 @@ ENV LANG=C.UTF-8 \
     WORKER_TAG=1.0.0b10 \
     AZURE_FUNCTIONS_PACKAGE_VERSION=1.0.0b5 \
     ASPNETCORE_URLS=http://+:80 \
-    DOTNET_RUNNING_IN_CONTAINER=true
+    DOTNET_RUNNING_IN_CONTAINER=true \
+    DOTNET_USE_POLLING_FILE_WATCHER=true
 
 # Install Python dependencies
 RUN apt-get update && \

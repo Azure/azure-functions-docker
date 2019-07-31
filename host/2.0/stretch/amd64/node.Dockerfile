@@ -11,7 +11,8 @@ RUN apt-get update && \
 
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     HOME=/home \
-    FUNCTIONS_WORKER_RUNTIME=node
+    FUNCTIONS_WORKER_RUNTIME=node \
+    DOTNET_USE_POLLING_FILE_WATCHER=true
 
 COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
 COPY --from=runtime-image [ "/workers/node", "/azure-functions-host/workers/node" ]

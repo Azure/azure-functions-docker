@@ -5,7 +5,8 @@ FROM mcr.microsoft.com/dotnet/core/runtime-deps:2.2
 
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     HOME=/home \
-    FUNCTIONS_WORKER_RUNTIME=java
+    FUNCTIONS_WORKER_RUNTIME=java \
+    DOTNET_USE_POLLING_FILE_WATCHER=true
 
 COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
 COPY --from=runtime-image [ "/workers/java", "/azure-functions-host/workers/java" ]

@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+export DOTNET_USE_POLLING_FILE_WATCHER=true
+
 if [ -z $PORT ]; then
   export ASPNETCORE_URLS=http://*:80
 else
