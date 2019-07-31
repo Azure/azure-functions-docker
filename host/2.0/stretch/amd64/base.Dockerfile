@@ -1,4 +1,4 @@
-ARG HOST_PATH_LOCAL=${HOST_ARTIFACT_PATH}
+ARG HOST_PATH_LOCAL=./host.zip
 FROM mcr.microsoft.com/dotnet/core/sdk:2.2 AS runtime-image
 
 ENV PublishWithAspNetCoreTargetManifest=false
