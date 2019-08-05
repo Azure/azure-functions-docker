@@ -1,0 +1,24 @@
+queue: Hosted Ubuntu 1604
+variables:
+  dockerId: azurefunctions
+
+steps:
+- bash: |
+    # login
+    set -e
+    echo $pswd | docker login -u azurefunctions --password-stdin azurefunctions.azurecr.io
+
+  displayName: login to registry
+  continueOnError: false
+  env:
+    pswd: $(dockerPassword)
+
+- bash: |
+    set -e
+    export branch=$(Build.SourceBranchName)
+    export tag=dev
+    export CI_RUN=1
+    export RUN_TESTS=1
+    ./kudulite/build.sh
+  displayName: build images
+  continueOnError: false
