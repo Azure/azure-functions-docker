@@ -12,9 +12,7 @@ namespace Helper
         static void Main(string[] args)
         {
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(10));
-            const string content = @"{
-  ""isWarmup"": true
-}";
+            const string content = "{\"isWarmup\":\"true\"}";
 
             var key = Environment.GetEnvironmentVariable("CONTAINER_ENCRYPTION_KEY");
             var token = SimpleWebTokenHelper.CreateToken(DateTime.UtcNow.AddMinutes(1), Convert.FromBase64String(key));
