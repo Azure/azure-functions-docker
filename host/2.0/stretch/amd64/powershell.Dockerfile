@@ -1,8 +1,8 @@
 FROM mcr.microsoft.com/dotnet/core/sdk:2.2 AS runtime-image
 
 ENV PublishWithAspNetCoreTargetManifest=false \
-    HOST_VERSION=2.0.12562 \
-    HOST_COMMIT=557678059e699fc61f298d226ccd91c1302d1388
+    HOST_VERSION=2.0.12625 \
+    HOST_COMMIT=58f5a4a1133357a41f9d5810ee1cf105b9c68363
 
 RUN BUILD_NUMBER=$(echo $HOST_VERSION | cut -d'.' -f 3) && \
     wget https://github.com/Azure/azure-functions-host/archive/$HOST_COMMIT.tar.gz && \
