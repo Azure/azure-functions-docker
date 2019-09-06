@@ -91,7 +91,7 @@ function push_image {
 
 
 function build_all_stretch {
-    local languages=( base dotnet node powershell python mesh java )
+    local languages=( base dotnet node powershell python java )
     for language in "${languages[@]}"
     do
         if [ "$language" == "mesh" ]; then
