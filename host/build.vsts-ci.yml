@@ -3,21 +3,58 @@ variables:
   dockerId: azurefunctions
 
 steps:
-- bash: |
-    # login
-    set -e
-    echo $pswd | docker login -u azurefunctions --password-stdin azurefunctions.azurecr.io
+  - bash: |
+      # login
+      set -e
+      echo $pswd | docker login -u azurefunctions --password-stdin azurefunctions.azurecr.io
 
-  displayName: login to registry
-  continueOnError: false
-  env:
-    pswd: $(dockerPassword)
+    displayName: login to registry
+    continueOnError: false
+    env:
+      pswd: $(dockerPassword)
 
-- bash: |
-    set -e
-    export branch=$(Build.SourceBranchName)
-    export CI_RUN=1
-    export RUN_TESTS=1
-    ./build.sh all
-  displayName: build images
-  continueOnError: false
+  - bash: |
+      set -e
+
+      HOST_VERSION=$(Build.SourceBranchName)
+
+      if [[ "$HOST_VERSION" == 2\.0\.* ]]; then
+        REGISTRY=azurefunctions.azurecr.io/public/azure-functions/
+      else
+        REGISTRY=azurefunctions.azurecr.io/azure-functions/
+      fi
+
+      echo "##vso[task.setvariable variable=HOST_VERSION]$HOST_VERSION"
+      echo "##vso[task.setvariable variable=REGISTRY]$REGISTRY"
+    displayName: set env
+    continueOnError: false
+
+  - bash: |
+      set -e
+      ./build/dotnet.sh all
+    displayName: build dotnet images
+    continueOnError: false
+
+  - bash: |
+      set -e
+      ./build/java.sh all
+    displayName: build java images
+    continueOnError: false
+
+  - bash: |
+      set -e
+      ./build/node.sh all
+    displayName: build node images
+    continueOnError: false
+
+  - bash: |
+      set -e
+      ./build/powershell.sh all
+    displayName: build powershell images
+    continueOnError: false
+
+  - bash: |
+      set -e
+      ./build/python.sh all
+    displayName: build python images
+    continueOnError: false

@@ -1,11 +1,11 @@
-ARG BASE_IMAGE=mcr.microsoft.com/azure-functions/base:2.0
+ARG BASE_IMAGE
 FROM ${BASE_IMAGE} as runtime-image
 
 FROM mcr.microsoft.com/dotnet/core/runtime-deps:2.2
 
 RUN apt-get update && \
     apt-get install -y curl gnupg && \
-    curl -sL https://deb.nodesource.com/setup_8.x | bash - && \
+    curl -sL https://deb.nodesource.com/setup_10.x | bash - && \
     apt-get update && \
     apt-get install -y nodejs
 

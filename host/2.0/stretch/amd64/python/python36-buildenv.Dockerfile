@@ -1,4 +1,4 @@
-ARG BASE_PYTHON_IMAGE=mcr.microsoft.com/azure-functions/python:2.0-python3.6-deps
+ARG BASE_PYTHON_IMAGE
 FROM ${BASE_PYTHON_IMAGE}
 
 RUN apt-get update && \
