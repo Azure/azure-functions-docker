@@ -1,4 +1,4 @@
-ARG BASE_IMAGE=mcr.microsoft.com/azure-functions/python:2.0
+ARG BASE_IMAGE
 FROM ${BASE_IMAGE}
 
 EXPOSE 2222 80

@@ -1,0 +1,8 @@
+{
+    "description":{
+        "language":"python",
+        "extensions":[".py"],
+        "defaultExecutablePath":"bash",
+        "defaultWorkerPath":"start.sh"
+    }
+}
