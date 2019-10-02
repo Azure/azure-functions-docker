@@ -1,8 +1,8 @@
 FROM mcr.microsoft.com/dotnet/core/sdk:2.2 AS runtime-image
 
 ENV PublishWithAspNetCoreTargetManifest=false \
-    HOST_VERSION=2.0.12673 \
-    HOST_COMMIT=f47891a1e7b5032fb7a13b97a905feb2a416d193
+    HOST_VERSION=2.0.12733 \
+    HOST_COMMIT=1725a6c52a213f9130429b5814df30bf9cf98fff
 
 RUN BUILD_NUMBER=$(echo $HOST_VERSION | cut -d'.' -f 3) && \
     # apk add --no-cache wget tar && \
