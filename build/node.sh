@@ -83,6 +83,43 @@ function purge {
   docker rmi "${REGISTRY}node:${HOST_VERSION}-node12-appservice"
 }
 
+function tag_push {
+  # tag & push default node:2.0, node:2.0-appservice, and node:2.0-appservice-quickstart images
+  docker pull "${REGISTRY}node:${RELEASE_VERSION}"
+  docker pull "${REGISTRY}node:${RELEASE_VERSION}-appservice"
+  docker pull "${REGISTRY}node:${RELEASE_VERSION}-appservice-quickstart"
+  docker tag  "${REGISTRY}node:${RELEASE_VERSION}"                       "${REGISTRY}node:2.0"
+  docker tag  "${REGISTRY}node:${RELEASE_VERSION}-appservice"            "${REGISTRY}node:2.0-appservice"
+  docker tag  "${REGISTRY}node:${RELEASE_VERSION}-appservice-quickstart" "${REGISTRY}node:2.0-appservice-quickstart"
+  docker push "${REGISTRY}node:2.0"
+  docker push "${REGISTRY}node:2.0-appservice"
+  docker push "${REGISTRY}node:2.0-appservice-quickstart"
+
+  # tag & push default node:2.0-node8 and node:2.0-node8-appservice images
+  docker pull "${REGISTRY}node:${RELEASE_VERSION}-node8"
+  docker pull "${REGISTRY}node:${RELEASE_VERSION}-node8-appservice"
+  docker tag  "${REGISTRY}node:${RELEASE_VERSION}-node8"            "${REGISTRY}node:2.0-node8"
+  docker tag  "${REGISTRY}node:${RELEASE_VERSION}-node8-appservice" "${REGISTRY}node:2.0-node8-appservice"
+  docker push "${REGISTRY}node:2.0-node8"
+  docker push "${REGISTRY}node:2.0-node8-appservice"
+
+  # tag & push default node:2.0-node10 and node:2.0-node10-appservice images
+  docker pull "${REGISTRY}node:${RELEASE_VERSION}-node10"
+  docker pull "${REGISTRY}node:${RELEASE_VERSION}-node10-appservice"
+  docker tag  "${REGISTRY}node:${RELEASE_VERSION}-node10"            "${REGISTRY}node:2.0-node10"
+  docker tag  "${REGISTRY}node:${RELEASE_VERSION}-node10-appservice" "${REGISTRY}node:2.0-node10-appservice"
+  docker push "${REGISTRY}node:2.0-node10"
+  docker push "${REGISTRY}node:2.0-node10-appservice"
+
+  # tag & push default node:2.0-node12 and node:2.0-node12-appservice images
+  docker pull "${REGISTRY}node:${RELEASE_VERSION}-node12"
+  docker pull "${REGISTRY}node:${RELEASE_VERSION}-node12-appservice"
+  docker tag  "${REGISTRY}node:${RELEASE_VERSION}-node12"            "${REGISTRY}node:2.0-node12"
+  docker tag  "${REGISTRY}node:${RELEASE_VERSION}-node12-appservice" "${REGISTRY}node:2.0-node12-appservice"
+  docker push "${REGISTRY}node:2.0-node12"
+  docker push "${REGISTRY}node:2.0-node12-appservice"
+}
+
 if [ "$1" == "build" ]; then
   build
 elif [ "$1" == "push" ]; then
@@ -93,6 +130,12 @@ elif [ "$1" == "all" ]; then
   build
   push
   purge
+elif [ "$1" == "tag_push" ]; then
+  if [ -z "$RELEASE_VERSION" ]; then
+    echo "ERROR: RELEASE_VERSION is required when running tag_push"
+    exit 1
+  fi
+  tag_push
 else
   echo "Unknown option $1"
   echo "Examples:"
@@ -107,5 +150,11 @@ else
   echo ""
   echo -e "\t$0 all"
   echo -e "\tBuild, push and purge"
+  echo ""
+  echo -e "\t$0 tag_push"
+  echo -e "\tTags \$RELEASE_VERSION images with 2.0 and pushes them"
+  echo ""
+  echo -e "\t$0 tag_push"
+  echo -e "\tTags \$RELEASE_VERSION images with 2.0 and pushes them"
   echo ""
 fi

@@ -12,7 +12,36 @@ steps:
     pswd: $(dockerPassword)
 
 - bash: |
-    export ReleaseVersion=$(ReleaseVersion)
-    ./tag.sh
-  displayName: tag and push images
+    set -e
+    REGISTRY=azurefunctions.azurecr.io/public/azure-functions/
+    RELEASE_VERSION=$(ReleaseVersion)
+
+    echo "##vso[task.setvariable variable=REGISTRY]$REGISTRY"
+    echo "##vso[task.setvariable variable=RELEASE_VERSION]$RELEASE_VERSION"
+  displayName: set env
+  continueOnError: false
+
+- bash: |
+    ./build/dotnet.sh tag_push
+  displayName: tag and push dotnet images
+  continueOnError: false
+
+- bash: |
+    ./build/java.sh tag_push
+  displayName: tag and push java images
+  continueOnError: false
+
+- bash: |
+    ./build/node.sh tag_push
+  displayName: tag and push node images
+  continueOnError: false
+
+- bash: |
+    ./build/powershell.sh tag_push
+  displayName: tag and push powershell images
+  continueOnError: false
+
+- bash: |
+    ./build/python.sh tag_push
+  displayName: tag and push python images
   continueOnError: false

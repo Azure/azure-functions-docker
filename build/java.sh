@@ -55,6 +55,27 @@ function purge {
   docker rmi "${REGISTRY}java:${HOST_VERSION}-java8-appservice"
 }
 
+function tag_push {
+  # tag & push default java:2.0 and java:2.0-appservice images
+  docker pull "${REGISTRY}java:${RELEASE_VERSION}"
+  docker pull "${REGISTRY}java:${RELEASE_VERSION}-appservice"
+  docker pull "${REGISTRY}java:${RELEASE_VERSION}-appservice-quickstart"
+  docker tag  "${REGISTRY}java:${RELEASE_VERSION}"                       "${REGISTRY}java:2.0"
+  docker tag  "${REGISTRY}java:${RELEASE_VERSION}-appservice"            "${REGISTRY}java:2.0-appservice"
+  docker tag  "${REGISTRY}java:${RELEASE_VERSION}-appservice-quickstart" "${REGISTRY}java:2.0-appservice-quickstart"
+  docker push "${REGISTRY}java:2.0"
+  docker push "${REGISTRY}java:2.0-appservice"
+  docker push "${REGISTRY}java:2.0-appservice-quickstart"
+
+  # tag & push default java:2.0-java8 and java:2.0-java8-appservice images
+  docker pull "${REGISTRY}java:${RELEASE_VERSION}-java8"
+  docker pull "${REGISTRY}java:${RELEASE_VERSION}-java8-appservice"
+  docker tag  "${REGISTRY}java:${RELEASE_VERSION}-java8"            "${REGISTRY}java:2.0-java8"
+  docker tag  "${REGISTRY}java:${RELEASE_VERSION}-java8-appservice" "${REGISTRY}java:2.0-java8-appservice"
+  docker push "${REGISTRY}java:2.0-java8"
+  docker push "${REGISTRY}java:2.0-java8-appservice"
+}
+
 if [ "$1" == "build" ]; then
   build
 elif [ "$1" == "push" ]; then
@@ -65,6 +86,12 @@ elif [ "$1" == "all" ]; then
   build
   push
   purge
+elif [ "$1" == "tag_push" ]; then
+  if [ -z "$RELEASE_VERSION" ]; then
+    echo "ERROR: RELEASE_VERSION is required when running tag_push"
+    exit 1
+  fi
+  tag_push
 else
   echo "Unknown option $1"
   echo "Examples:"
@@ -79,5 +106,8 @@ else
   echo ""
   echo -e "\t$0 all"
   echo -e "\tBuild, push and purge"
+  echo ""
+  echo -e "\t$0 tag_push"
+  echo -e "\tTags \$RELEASE_VERSION images with 2.0 and pushes them"
   echo ""
 fi

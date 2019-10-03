@@ -43,6 +43,19 @@ function purge {
   docker rmi "${REGISTRY}dotnet:${HOST_VERSION}-appservice-quickstart"
 }
 
+function tag_push {
+  # push default dotnet:2.0 and dotnet:2.0-appservice images
+  docker pull "${REGISTRY}dotnet:${RELEASE_VERSION}"
+  docker pull "${REGISTRY}dotnet:${RELEASE_VERSION}-appservice"
+  docker pull "${REGISTRY}dotnet:${RELEASE_VERSION}-appservice-quickstart"
+  docker tag  "${REGISTRY}dotnet:${RELEASE_VERSION}"                       "${REGISTRY}dotnet:2.0"
+  docker tag  "${REGISTRY}dotnet:${RELEASE_VERSION}-appservice"            "${REGISTRY}dotnet:2.0-appservice"
+  docker tag  "${REGISTRY}dotnet:${RELEASE_VERSION}-appservice-quickstart" "${REGISTRY}dotnet:2.0-appservice-quickstart"
+  docker push "${REGISTRY}dotnet:2.0"
+  docker push "${REGISTRY}dotnet:2.0-appservice"
+  docker push "${REGISTRY}dotnet:2.0-appservice-quickstart"
+}
+
 if [ "$1" == "build" ]; then
   build
 elif [ "$1" == "push" ]; then
@@ -53,6 +66,12 @@ elif [ "$1" == "all" ]; then
   build
   push
   purge
+elif [ "$1" == "tag_push" ]; then
+  if [ -z "$RELEASE_VERSION" ]; then
+    echo "ERROR: RELEASE_VERSION is required when running tag_push"
+    exit 1
+  fi
+  tag_push
 else
   echo "Unknown option $1"
   echo "Examples:"
@@ -67,5 +86,8 @@ else
   echo ""
   echo -e "\t$0 all"
   echo -e "\tBuild, push and purge"
+  echo ""
+  echo -e "\t$0 tag_push"
+  echo -e "\tTags \$RELEASE_VERSION images with 2.0 and pushes them"
   echo ""
 fi
