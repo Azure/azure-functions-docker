@@ -15,6 +15,10 @@ CONSOLE_BOLD=$ESC_SEQ"1m"
 ACR=azurefunctions.azurecr.io
 ACR_NAMESPACE=public/azure-functions
 
+if [ -z "$namespace" ]; then
+    namespace="Azure-App-Service"
+fi
+
 if [ -z "$branch" ]; then
     branch=master
 fi
@@ -28,7 +32,7 @@ base_dir=$DIR
 
 current_image=$ACR/$ACR_NAMESPACE/$name:$tag
 echo -e "${CONSOLE_BOLD}${COLOR_GREEN}: Building $current_image ${CONSOLE_RESET}"
-docker build --build-arg BRANCH="$branch" -t $current_image -f "$base_dir/Dockerfile" "$base_dir"
+docker build --build-arg BRANCH="$branch" --build-arg NAMESPACE="$namespace" -t $current_image -f "$base_dir/Dockerfile" "$base_dir"
 docker push "$current_image"
 
 if ! [ -z "$CI_RUN" ]; then
