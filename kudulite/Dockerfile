@@ -1,5 +1,6 @@
 FROM mcr.microsoft.com/oryx/build:20190730.1 as main
 ARG BRANCH
+ARG NAMESPACE
 ENV DEBIAN_FRONTEND noninteractive
 
 # Install dependencies
@@ -32,12 +33,12 @@ ENV DOTNET_USE_POLLING_FILE_WATCHER=true
 # Skip extraction of XML docs - generally not useful within an image/container - helps performance
 ENV NUGET_XMLDOC_MODE=skip
 
-RUN dotnet tool install -g dotnet-aspnet-codegenerator
+RUN dotnet tool install -g dotnet-aspnet-codegenerator --version 2.2.4
 ENV PATH=$PATH:/root/.dotnet/tools
 
 #Instal Kudu
 RUN cd /tmp \
-    && git clone https://github.com/Azure-App-Service/KuduLite.git \
+    && git clone https://github.com/$NAMESPACE/KuduLite.git \
     && cd ./KuduLite \
     && git checkout $BRANCH \
     && cd ./Kudu.Services.Web \
