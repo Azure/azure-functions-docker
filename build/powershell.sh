@@ -21,8 +21,8 @@ function test_image {
 
 function build {
   # build powershell:$IMAGE_TAG_VERSION.x-powershell6 and powershell:$IMAGE_TAG_VERSION.x-powershell6-appservice
-  docker build -t "${REGISTRY}powershell:${IMAGE_TAG_VERSION}-powershell6"            -f $DIR/../host/$DOCKERFILE_BASE/amd64/powershell6.Dockerfile            $DIR/../host/$DOCKERFILE_BASE/amd64/
-  docker build -t "${REGISTRY}powershell:${IMAGE_TAG_VERSION}-powershell6-appservice" -f $DIR/../host/$DOCKERFILE_BASE/amd64/appservice/powershell6.Dockerfile $DIR/../host/$DOCKERFILE_BASE/amd64/appservice
+  docker build -t "${REGISTRY}powershell:${IMAGE_TAG_VERSION}-powershell6"            -f $DIR/../host/$DOCKERFILE_BASE/amd64/powershell6.Dockerfile                                                                                             $DIR/../host/$DOCKERFILE_BASE/amd64/
+  docker build -t "${REGISTRY}powershell:${IMAGE_TAG_VERSION}-powershell6-appservice" -f $DIR/../host/$DOCKERFILE_BASE/amd64/appservice/powershell6.Dockerfile --build-arg BASE_IMAGE="${REGISTRY}powershell:${IMAGE_TAG_VERSION}-powershell6" $DIR/../host/$DOCKERFILE_BASE/amd64/appservice
   test_image "${REGISTRY}powershell:${IMAGE_TAG_VERSION}-powershell6"
   test_image "${REGISTRY}powershell:${IMAGE_TAG_VERSION}-powershell6-appservice"
 
