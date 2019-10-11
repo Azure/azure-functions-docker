@@ -15,9 +15,15 @@ steps:
     set -e
     REGISTRY=azurefunctions.azurecr.io/public/azure-functions/
     RELEASE_VERSION=$(ReleaseVersion)
+    if [[ "$IMAGE_TAG_VERSION" == 2\.0\.* ]]; then
+      MAJOR_VERSION=2.0
+    elif [[ "$IMAGE_TAG_VERSION" == 3\.0\.* ]]; then
+      MAJOR_VERSION=3.0
+    fi
 
     echo "##vso[task.setvariable variable=REGISTRY]$REGISTRY"
     echo "##vso[task.setvariable variable=RELEASE_VERSION]$RELEASE_VERSION"
+    echo "##vso[task.setvariable variable=MAJOR_VERSION]$MAJOR_VERSION"
   displayName: set env
   continueOnError: false
 

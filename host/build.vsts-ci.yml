@@ -16,15 +16,15 @@ steps:
   - bash: |
       set -e
 
-      HOST_VERSION=$(Build.SourceBranchName)
+      IMAGE_TAG_VERSION=$(Build.SourceBranchName)
 
-      if [[ "$HOST_VERSION" == 2\.0\.* ]]; then
+      if [[ "$IMAGE_TAG_VERSION" == 2\.0\.* ]] || [[ "$IMAGE_TAG_VERSION" == 3\.0\.* ]]; then
         REGISTRY=azurefunctions.azurecr.io/public/azure-functions/
       else
         REGISTRY=azurefunctions.azurecr.io/azure-functions/
       fi
 
-      echo "##vso[task.setvariable variable=HOST_VERSION]$HOST_VERSION"
+      echo "##vso[task.setvariable variable=IMAGE_TAG_VERSION]$IMAGE_TAG_VERSION"
       echo "##vso[task.setvariable variable=REGISTRY]$REGISTRY"
     displayName: set env
     continueOnError: false
