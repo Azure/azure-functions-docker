@@ -39,4 +39,8 @@ RUN apt-get update && \
     libc6 libgcc1 libgssapi-krb5-2 libicu57 liblttng-ust0 libssl1.0.2 libstdc++6 zlib1g && \
     rm -rf /var/lib/apt/lists/* && \
     mkdir -p /azure-functions-host/workers && \
-    mv /python /azure-functions-host/workers
+    mv /python /azure-functions-host/workers && \
+    # Custom dependencies:
+    #  OpenCV dependencies:
+    apt-get update && \
+    apt-get install -y libglib2.0-0 libsm6 libxext6 libxrender-dev
