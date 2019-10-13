@@ -1,4 +1,4 @@
-FROM python:3.7-slim-stretch
+FROM python:3.6-slim-buster
 
 ENV LANG=C.UTF-8 \
     ACCEPT_EULA=Y \
@@ -36,7 +36,7 @@ RUN apt-get update && \
     pip install azure-functions==$AZURE_FUNCTIONS_PACKAGE_VERSION azure-functions-worker==$WORKER_TAG && \
     # .NET Core dependencies
     apt-get install -y --no-install-recommends ca-certificates \
-    libc6 libgcc1 libgssapi-krb5-2 libicu57 liblttng-ust0 libssl1.0.2 libstdc++6 zlib1g && \
+    libc6 libgcc1 libgssapi-krb5-2 libicu63 libssl1.1 libstdc++6 zlib1g && \
     rm -rf /var/lib/apt/lists/* && \
     mkdir -p /azure-functions-host/workers && \
     mv /python /azure-functions-host/workers && \
