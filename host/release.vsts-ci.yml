@@ -1,11 +1,9 @@
 queue: Hosted Ubuntu 1604
 trigger: none
-variables:
-  dockerId: azurefunctions
 
 steps:
 - bash: |
-    echo $pswd | docker login -u $(dockerId) --password-stdin $(dockerId).azurecr.io
+    echo $pswd | docker login -u $(dockerUsername) --password-stdin azurefunctions.azurecr.io
   displayName: login
   continueOnError: false
   env:
