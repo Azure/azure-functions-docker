@@ -17,6 +17,8 @@ steps:
     export tag=dev
     export CI_RUN=1
     export RUN_TESTS=1
+
+    chmod +x ./kudulite/build.sh
     ./kudulite/build.sh
   displayName: build images
   continueOnError: false
