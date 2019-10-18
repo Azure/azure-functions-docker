@@ -16,7 +16,7 @@ steps:
     if [[ "$IMAGE_TAG_VERSION" == 2\.0\.* ]]; then
       MAJOR_VERSION=2.0
     elif [[ "$IMAGE_TAG_VERSION" == 3\.0\.* ]]; then
-      MAJOR_VERSION=3.0
+      MAJOR_VERSION=3.0-preview
     fi
 
     echo "##vso[task.setvariable variable=REGISTRY]$REGISTRY"
