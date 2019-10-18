@@ -13,9 +13,9 @@ steps:
     set -e
     REGISTRY=azurefunctions.azurecr.io/public/azure-functions/
     RELEASE_VERSION=$(ReleaseVersion)
-    if [[ "$IMAGE_TAG_VERSION" == 2\.0\.* ]]; then
+    if [[ "$RELEASE_VERSION" == 2\.0\.* ]]; then
       MAJOR_VERSION=2.0
-    elif [[ "$IMAGE_TAG_VERSION" == 3\.0\.* ]]; then
+    elif [[ "$RELEASE_VERSION" == 3\.0\.* ]]; then
       MAJOR_VERSION=3.0-preview
     fi
 
