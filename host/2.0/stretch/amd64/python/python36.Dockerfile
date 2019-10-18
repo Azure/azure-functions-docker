@@ -5,6 +5,7 @@ ARG BASE_PYTHON_IMAGE
 FROM ${BASE_PYTHON_IMAGE}
 
 COPY --from=runtime-image ["/azure-functions-host", "/azure-functions-host"]
+COPY --from=runtime-image [ "/workers/python", "/azure-functions-host/workers/python" ]
 COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
 
 CMD [ "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost" ]
