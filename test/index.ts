@@ -1,7 +1,7 @@
 import axios from "axios";
 import chalk from "chalk";
 import path from "path";
-import shell, { test } from "shelljs";
+import shell from "shelljs";
 
 if (process.argv.length < 2) {
   console.error(chalk.red.bold("expected an image name"));
@@ -46,6 +46,7 @@ const testData = (function() {
   else if (imageName.indexOf("powershell") !== -1) return map.powershell;
   else if (imageName.indexOf("python") !== -1) return map.python;
   else if (imageName.indexOf("node") !== -1) return map.node;
+  else if (imageName.indexOf("mesh") !== -1) return map;
   else return map.dotnet;
 })();
 
@@ -63,63 +64,73 @@ const random = () => {
 const dockerFile = path.join(__dirname, "test.Dockerfile");
 const name = random();
 
-if (
-  shell.exec(
-    `docker build -t ${name} --build-arg BASE_IMAGE=${imageName} --build-arg CONTENT_URL=${testData.package} -f ${dockerFile} ${__dirname}`
-  ).code !== 0
-) {
-  console.error("Error building image");
-  process.exit(1);
-}
+const runTest = async (data: typeof map.dotnet, envStr = "") => {
+  if (
+    shell.exec(
+      `docker build -t ${name} --build-arg BASE_IMAGE=${imageName} --build-arg CONTENT_URL=${data.package} -f ${dockerFile} ${__dirname}`
+    ).code !== 0
+  ) {
+    console.error("Error building image");
+    process.exit(1);
+  }
 
-const { stdout: containerId, code: exitCode } = shell.exec(
-  `docker run --rm -p 9097:80 -d ${name}`
-);
+  const { stdout: containerId, code: exitCode } = shell.exec(
+    `docker run --rm -p 9097:80 ${envStr} -d ${name}`
+  );
 
-//const containerId = stdout
-if (exitCode !== 0) {
-  console.error("Error running container");
-  process.exit(1);
-}
+  //const containerId = stdout
+  if (exitCode !== 0) {
+    console.error("Error running container");
+    process.exit(1);
+  }
 
-console.log(chalk.yellow.bold("current containerId: " + containerId));
+  console.log(chalk.yellow.bold("current containerId: " + containerId));
 
-let error = false;
-setTimeout(() => {
-  axios
-    .get(`http://localhost:9097${testData.invoke}`)
-    .then(res => {
-      if (res.data !== testData.response) {
-        console.error(
-          chalk.red.bold(
-            "Error: Expected: " +
-              chalk.green(testData.response) +
-              " but got: " +
-              chalk.yellow(res.data)
-          )
-        );
-        error = true;
-      } else {
-        console.log(
-          chalk.green(
-            `${imageName} successfully ran ${chalk.blue(
-              testData.invoke
-            )} function with: ${chalk.grey(
-              `(${res.status}: ${res.statusText})`
-            )} ${chalk.grey(res.data)}`
-          )
-        );
-      }
-    })
-    .catch(e => {
-      console.error(chalk.red(e));
+  let error = false;
+  const timeout = (ms: number) => new Promise(res => setTimeout(res, ms));
+  try {
+    await timeout(5000);
+    const res = await axios.get(`http://localhost:9097${data.invoke}`);
+    if (res.data !== data.response) {
+      console.error(
+        chalk.red.bold(
+          "Error: Expected: " +
+            chalk.green(data.response) +
+            " but got: " +
+            chalk.yellow(res.data)
+        )
+      );
       error = true;
-    })
-    .finally(() => {
-      shell.exec(`docker kill ${containerId}`);
-      shell.exec(`docker rmi ${name}`);
-      if (error) {
-        process.exit(1);
-      }
-    });
-}, 5000);
+    } else {
+      console.log(
+        chalk.green(
+          `${imageName} successfully ran ${chalk.blue(
+            data.invoke
+          )} function with: ${chalk.grey(
+            `(${res.status}: ${res.statusText})`
+          )} ${chalk.grey(res.data)}`
+        )
+      );
+    }
+  } catch (e) {
+    console.error(chalk.red(e));
+    error = true;
+  }
+  shell.exec(`docker kill ${containerId}`);
+  shell.exec(`docker rmi ${name}`);
+  if (error) {
+    process.exit(1);
+  }
+};
+
+async function main() {
+  if ("package" in testData) {
+    await runTest(testData);
+  } else {
+    await runTest(testData.dotnet, "-e FUNCTIONS_WORKER_RUNTIME=dotnet");
+    await runTest(testData.node, "-e FUNCTIONS_WORKER_RUNTIME=node");
+    await runTest(testData.python, "-e FUNCTIONS_WORKER_RUNTIME=python");
+  }
+}
+
+main();
