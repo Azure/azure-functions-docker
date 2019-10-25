@@ -13,8 +13,6 @@ steps:
 
 - bash: |
     set -e
-    export branch=$(Build.SourceBranchName)
-    export tag=dev
     export CI_RUN=1
     export RUN_TESTS=1
 

@@ -27,11 +27,12 @@ if [ -z "$tag" ]; then
     tag=dev
 fi
 
-name="kudulite"
 base_dir=$DIR
 
-current_image=$ACR/$ACR_NAMESPACE/$name:$tag
+current_image="$ACR/$ACR_NAMESPACE/kudulite:$tag"
 echo -e "${CONSOLE_BOLD}${COLOR_GREEN}: Building $current_image ${CONSOLE_RESET}"
+echo -e "${CONSOLE_BOLD}${COLOR_YELLOW}: Source Image $namespace/KuduLite $branch ${CONSOLE_RESET}"
+echo -e "${CONSOLE_BOLD}${COLOR_YELLOW}: Destination Image $current_image ${CONSOLE_RESET}"
 docker build --build-arg BRANCH="$branch" --build-arg NAMESPACE="$namespace" -t $current_image -f "$base_dir/Dockerfile" "$base_dir"
 docker push "$current_image"
 
