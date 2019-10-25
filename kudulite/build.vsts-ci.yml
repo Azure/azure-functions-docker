@@ -15,7 +15,9 @@ steps:
     set -e
     export CI_RUN=1
     export RUN_TESTS=1
-
+    export namespace=$(namespace)
+    export branch=$(branch)
+    export tag=$(tag)
     chmod +x ./kudulite/build.sh
     ./kudulite/build.sh
   displayName: build images
