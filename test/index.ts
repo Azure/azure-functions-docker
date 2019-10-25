@@ -130,6 +130,7 @@ async function main() {
     await runTest(testData.dotnet, "-e FUNCTIONS_WORKER_RUNTIME=dotnet");
     await runTest(testData.node, "-e FUNCTIONS_WORKER_RUNTIME=node");
     await runTest(testData.python, "-e FUNCTIONS_WORKER_RUNTIME=python");
+    await runTest(testData.java, "-e FUNCTIONS_WORKER_RUNTIME=java");
   }
 }
 
