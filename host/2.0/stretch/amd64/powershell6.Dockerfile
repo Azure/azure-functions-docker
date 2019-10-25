@@ -1,13 +1,13 @@
+ARG HOST_VERSION=2.0.12835
 FROM mcr.microsoft.com/dotnet/core/sdk:2.2 AS runtime-image
+ARG HOST_VERSION
 
-ENV PublishWithAspNetCoreTargetManifest=false \
-    HOST_VERSION=2.0.12835 \
-    HOST_COMMIT=a26a1f601d8819f1ed3b4513c28fef2f3bdbc648
+ENV PublishWithAspNetCoreTargetManifest=false
 
-RUN BUILD_NUMBER=$(echo $HOST_VERSION | cut -d'.' -f 3) && \
-    wget https://github.com/Azure/azure-functions-host/archive/$HOST_COMMIT.tar.gz && \
-    tar xzf $HOST_COMMIT.tar.gz && \
-    cd azure-functions-host-* && \
+RUN BUILD_NUMBER=$(echo ${HOST_VERSION} | cut -d'.' -f 3) && \
+    git clone --branch ${HOST_VERSION} https://github.com/Azure/azure-functions-host /src/azure-functions-host && \
+    cd /src/azure-functions-host && \
+    HOST_COMMIT=$(git rev-list -1 HEAD) && \
     dotnet publish -v q /p:BuildNumber=$BUILD_NUMBER /p:CommitHash=$HOST_COMMIT src/WebJobs.Script.WebHost/WebJobs.Script.WebHost.csproj --output /azure-functions-host && \
     mv /azure-functions-host/workers /workers && mkdir /azure-functions-host/workers && \
     rm -rf /workers/powershell/runtimes/win* && \
