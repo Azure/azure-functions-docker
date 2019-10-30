@@ -49,6 +49,7 @@ function purge {
 
 function tag_push {
   # push default dotnet:$MAJOR_VERSION and dotnet:$MAJOR_VERSION-appservice images
+  DOTNET_MAJOR_VERSION=${MAJOR_VERSION%%.*}
   docker pull "${REGISTRY}dotnet:${RELEASE_VERSION}"
   docker pull "${REGISTRY}dotnet:${RELEASE_VERSION}-appservice"
   docker pull "${REGISTRY}dotnet:${RELEASE_VERSION}-appservice-quickstart"
@@ -57,6 +58,7 @@ function tag_push {
   docker tag  "${REGISTRY}dotnet:${RELEASE_VERSION}-appservice-quickstart" "${REGISTRY}dotnet:$MAJOR_VERSION-appservice-quickstart"
   docker push "${REGISTRY}dotnet:$MAJOR_VERSION"
   docker push "${REGISTRY}dotnet:$MAJOR_VERSION-appservice"
+  docker push "${REGISTRY}dotnet:$MAJOR_VERSION-dotnet${DOTNET_MAJOR_VERSION}-appservice"
   docker push "${REGISTRY}dotnet:$MAJOR_VERSION-appservice-quickstart"
 }
 
