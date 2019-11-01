@@ -55,6 +55,7 @@ function tag_push {
   docker pull "${REGISTRY}dotnet:${RELEASE_VERSION}-appservice-quickstart"
   docker tag  "${REGISTRY}dotnet:${RELEASE_VERSION}"                       "${REGISTRY}dotnet:$MAJOR_VERSION"
   docker tag  "${REGISTRY}dotnet:${RELEASE_VERSION}-appservice"            "${REGISTRY}dotnet:$MAJOR_VERSION-appservice"
+  docker tag  "${REGISTRY}dotnet:${RELEASE_VERSION}-appservice"            "${REGISTRY}dotnet:$MAJOR_VERSION-dotnet${DOTNET_MAJOR_VERSION}-appservice"
   docker tag  "${REGISTRY}dotnet:${RELEASE_VERSION}-appservice-quickstart" "${REGISTRY}dotnet:$MAJOR_VERSION-appservice-quickstart"
   docker push "${REGISTRY}dotnet:$MAJOR_VERSION"
   docker push "${REGISTRY}dotnet:$MAJOR_VERSION-appservice"
