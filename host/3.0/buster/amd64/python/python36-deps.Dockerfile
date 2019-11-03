@@ -43,4 +43,6 @@ RUN apt-get update && \
     # Custom dependencies:
     #  OpenCV dependencies:
     apt-get update && \
-    apt-get install -y libglib2.0-0 libsm6 libxext6 libxrender-dev
+    apt-get install -y libglib2.0-0 libsm6 libxext6 libxrender-dev && \
+    #  binutils
+    apt-get install -y binutils
