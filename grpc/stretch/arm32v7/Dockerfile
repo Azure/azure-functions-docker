@@ -2,7 +2,7 @@ FROM arm32v7/debian:stretch-slim
 
 COPY ./qemu-arm-static /usr/bin/
 
-ENV GRPC_VERSION=v1.12.x
+ENV GRPC_VERSION=v1.20.x
 
 RUN apt-get update && \
     apt-get install --yes build-essential autoconf libtool pkg-config \
