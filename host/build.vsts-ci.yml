@@ -1,5 +1,27 @@
 queue: Hosted Ubuntu 1604
 
+pr:
+  branches:
+    include:
+    - master
+  paths:
+    include:
+    - build/*
+    - grpc/*
+    - host/*
+    - test/*
+
+trigger:
+  branches:
+    include:
+    - master
+  paths:
+    include:
+    - build/*
+    - grpc/*
+    - host/*
+    - test/*
+
 steps:
   - bash: |
       # login

@@ -1,5 +1,21 @@
 queue: Hosted Ubuntu 1604
 
+pr:
+  branches:
+    include:
+    - master
+  paths:
+    include:
+    - kudulite/*
+
+trigger:
+  branches:
+    include:
+    - master
+  paths:
+    include:
+    - kudulite/*
+
 steps:
 - bash: |
     # login
