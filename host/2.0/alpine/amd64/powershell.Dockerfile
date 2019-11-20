@@ -27,10 +27,10 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
 
 RUN apk update && \
     apk add --no-cache gnupg wget unzip && \
-    wget https://functionscdn.azureedge.net/public/ExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/1.0.0/Microsoft.Azure.Functions.ExtensionBundle.1.0.0.zip && \
-    mkdir -p /FuncExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/1.0.0 && \
-    unzip /Microsoft.Azure.Functions.ExtensionBundle.1.0.0.zip -d /FuncExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/1.0.0 && \
-    rm -f /Microsoft.Azure.Functions.ExtensionBundle.1.0.0.zip
+    wget https://functionscdn.azureedge.net/public/ExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/1.1.0/Microsoft.Azure.Functions.ExtensionBundle.1.1.0.zip && \
+    mkdir -p /FuncExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/1.1.0 && \
+    unzip /Microsoft.Azure.Functions.ExtensionBundle.1.1.0.zip -d /FuncExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/1.1.0 && \
+    rm -f /Microsoft.Azure.Functions.ExtensionBundle.1.1.0.zip
 
 COPY --from=runtime-image ["/azure-functions-host", "/azure-functions-host"]
 COPY --from=runtime-image [ "/workers/powershell", "/azure-functions-host/workers/powershell" ]
