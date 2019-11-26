@@ -15,6 +15,10 @@ if [ -z "$DOCKERFILE_BASE" ]; then
   DOCKERFILE_BASE="3.0/buster"
 fi
 
+if [ -z "ZULU_MAVEN_VERSION" ]; then
+  ZULU_MAVEN_VERSION="8u212-zulu-debian9"
+fi
+
 function test_image {
   npm run test $1 --prefix $DIR/../test
 }
@@ -35,6 +39,10 @@ function build {
 
   # tag quickstart image
   docker tag "${REGISTRY}java:${IMAGE_TAG_VERSION}-appservice" "${REGISTRY}java:${IMAGE_TAG_VERSION}-appservice-quickstart"
+
+  # pull & tag microsoft maven zulu this used for bring your own container
+  docker pull "mcr.microsoft.com/java/maven:${ZULU_MAVEN_VERSION}"
+  docker tag  "mcr.microsoft.com/java/maven:${ZULU_MAVEN_VERSION}" "${REGISTRY}java:${IMAGE_TAG_VERSION}-java8-build"
 }
 
 function push {
@@ -46,6 +54,9 @@ function push {
   # push default java:$IMAGE_TAG_VERSION.x-java8 and java:$IMAGE_TAG_VERSION.x-java8-appservice images
   docker push "${REGISTRY}java:${IMAGE_TAG_VERSION}-java8"
   docker push "${REGISTRY}java:${IMAGE_TAG_VERSION}-java8-appservice"
+
+  # push default ${REGISTRY}java:${IMAGE_TAG_VERSION}-java8-build this used for bring your own container
+  docker push "${REGISTRY}java:${IMAGE_TAG_VERSION}-java8-build"
 }
 
 function purge {
@@ -57,6 +68,10 @@ function purge {
   # purge default java:$IMAGE_TAG_VERSION.x-java8 and java:$IMAGE_TAG_VERSION.x-java8-appservice images
   docker rmi "${REGISTRY}java:${IMAGE_TAG_VERSION}-java8"
   docker rmi "${REGISTRY}java:${IMAGE_TAG_VERSION}-java8-appservice"
+
+  # purge default ${REGISTRY}java:${IMAGE_TAG_VERSION}-java8-build this used for bring your own container
+  docker rmi "${REGISTRY}java:${IMAGE_TAG_VERSION}-java8-build"
+  docker rmi "mcr.microsoft.com/java/maven:${ZULU_MAVEN_VERSION}"
 }
 
 function tag_push {
@@ -70,6 +85,11 @@ function tag_push {
   docker push "${REGISTRY}java:$MAJOR_VERSION"
   docker push "${REGISTRY}java:$MAJOR_VERSION-appservice"
   docker push "${REGISTRY}java:$MAJOR_VERSION-appservice-quickstart"
+
+  # pull & tag & push java:$MAJOR_VERSION microsoft maven zulu this used for bring your own container
+  docker pull "${REGISTRY}java:${RELEASE_VERSION}-java8-build"
+  docker tag  "${REGISTRY}java:${RELEASE_VERSION}-java8-build" "${REGISTRY}java:$MAJOR_VERSION-java8-build"
+  docker push "${REGISTRY}java:$MAJOR_VERSION-java8-build"
 
   # tag & push default java:$MAJOR_VERSION-java8 and java:$MAJOR_VERSION-java8-appservice images
   docker pull "${REGISTRY}java:${RELEASE_VERSION}-java8"
