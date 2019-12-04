@@ -1,20 +1,24 @@
 ARG HOST_TAG=2.0.12835
-# FROM arm32v7/debian:stretch-slim as grpc-build-env-base
+FROM ubuntu:18.04 as grpc-build-env
 
-# COPY ./qemu-arm-static /usr/bin/
+ENV GRPC_VERSION=v1.20.x
 
-# FROM grpc-build-env-base as grpc-build-env
+RUN apt-get update && \
+    apt-get install --yes build-essential autoconf libtool pkg-config \
+    libgflags-dev libgtest-dev clang libc++-dev automake git qemu-user qemu-user-static \
+    gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf binutils-arm-linux-gnueabihf
 
-# ENV GRPC_VERSION=v1.20.x
-
-# RUN apt-get update && \
-#     apt-get install --yes build-essential autoconf libtool pkg-config \
-#     libgflags-dev libgtest-dev clang libc++-dev automake git
-
-# RUN git clone --depth 1 -b "$GRPC_VERSION" https://github.com/grpc/grpc && \
-#     cd grpc && \
-#     git submodule update --init && \
-#     make grpc_csharp_ext
+RUN git clone --depth 1 -b "$GRPC_VERSION" https://github.com/grpc/grpc && \
+    cd grpc && \
+    git submodule update --init && \
+    make HAS_PKG_CONFIG=false \
+        CC=arm-linux-gnueabihf-gcc \
+        CXX=arm-linux-gnueabihf-g++ \
+        RANLIB=arm-linux-gnueabihf-ranlib \
+        LD=arm-linux-gnueabihf-gcc \
+        LDXX=arm-linux-gnueabihf-g++ \
+        PROTOBUF_CONFIG_OPTS="--host=arm-linux-gnueabihf --with-protoc=/usr/local/bin/protoc" \
+        grpc_csharp_ext
 
 FROM mcr.microsoft.com/dotnet/core/sdk:2.2 as host-build-env
 ARG HOST_TAG
@@ -34,10 +38,9 @@ ARG HOST_TAG
 
 COPY --from=host-build-env ["/azure-functions-host", "/azure-functions-host"]
 
-# COPY --from=grpc-build-env ["/grpc/libs/opt/libgrpc_csharp_ext.so.1.20.1", "/azure-functions-host/libgrpc_csharp_ext.so"]
-# COPY --from=grpc-build-env ["/grpc/libs/opt/libgrpc_csharp_ext.so.1.20.1", "/azure-functions-host/libgrpc_csharp_ext.x86.so"]
-
-COPY ./qemu-arm-static /usr/bin/
+COPY --from=grpc-build-env ["/grpc/libs/opt/libgrpc_csharp_ext.so.1.20.1", "/azure-functions-host/libgrpc_csharp_ext.so"]
+COPY --from=grpc-build-env ["/grpc/libs/opt/libgrpc_csharp_ext.so.1.20.1", "/azure-functions-host/libgrpc_csharp_ext.x86.so"]
+COPY --from=grpc-build-env ["/usr/bin/qemu-arm-static", "/usr/bin/qemu-arm-static"]
 
 RUN mkdir -p /home/site/wwwroot
 
@@ -53,7 +56,6 @@ RUN apt-get update && \
     mkdir -p /FuncExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/1.1.1 && \
     unzip /Microsoft.Azure.Functions.ExtensionBundle.1.1.1.zip -d /FuncExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/1.1.1 && \
     rm -f /Microsoft.Azure.Functions.ExtensionBundle.1.1.1.zip
-    # rm -f /usr/bin/qemu-arm-static
 
 EXPOSE 80
 
