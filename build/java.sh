@@ -15,7 +15,7 @@ if [ -z "$DOCKERFILE_BASE" ]; then
   DOCKERFILE_BASE="3.0/buster"
 fi
 
-if [ -z "ZULU_MAVEN_VERSION" ]; then
+if [ -z "$ZULU_MAVEN_VERSION" ]; then
   ZULU_MAVEN_VERSION="8u212-zulu-debian9"
 fi
 
