@@ -47,8 +47,8 @@ steps:
 
   - bash: |
       set -e
-      apt-get update
-      apt-get install -y qemu-user qemu-user-static
+      sudo apt-get update
+      sudo apt-get install -y qemu-user qemu-user-static
       cp $(which qemu-arm-static) host/2.0/bionic/arm32v7/dotnet-core/
       docker build -t "${REGISTRY}dotnet:${IMAGE_TAG_VERSION}-arm32v7" -f host/2.0/bionic/arm32v7/dotnet-core/Dockerfile host/2.0/bionic/arm32v7/dotnet-core/
     displayName: build arm image
