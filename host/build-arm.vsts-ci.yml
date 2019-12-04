@@ -51,5 +51,6 @@ steps:
       sudo apt-get install -y qemu-user qemu-user-static
       cp $(which qemu-arm-static) host/2.0/bionic/arm32v7/dotnet-core/
       docker build -t "${REGISTRY}dotnet:${IMAGE_TAG_VERSION}-arm32v7" -f host/2.0/bionic/arm32v7/dotnet-core/Dockerfile host/2.0/bionic/arm32v7/dotnet-core/
+      npm run test "${REGISTRY}dotnet:${IMAGE_TAG_VERSION}-arm32v7" --prefix test/
     displayName: build arm image
     continueOnError: false
