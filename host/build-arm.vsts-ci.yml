@@ -1,0 +1,55 @@
+queue: Hosted Ubuntu 1604
+
+pr:
+  branches:
+    include:
+    - master
+  paths:
+    include:
+    - host/2.0/bionic/arm32v7/*
+
+trigger:
+  branches:
+    include:
+    - master
+  paths:
+    include:
+    - host/2.0/bionic/arm32v7/*
+
+steps:
+  - bash: |
+      # login
+      set -e
+      # echo $pswd | docker login -u $(dockerUsername) --password-stdin azurefunctions.azurecr.io
+
+    displayName: login to registry
+    continueOnError: false
+    env:
+      pswd: $(dockerPassword)
+
+  - bash: |
+      set -e
+
+      IMAGE_TAG_VERSION=$(Build.SourceBranchName)
+
+      if [[ "$IMAGE_TAG_VERSION" == 2\.0\.* ]]; then
+        REGISTRY=azurefunctions.azurecr.io/public/azure-functions/
+      elif [[ "$IMAGE_TAG_VERSION" == 3\.0\.* ]]; then
+        REGISTRY=azurefunctions.azurecr.io/public/azure-functions/
+      else
+        REGISTRY=azurefunctions.azurecr.io/azure-functions/
+      fi
+
+      echo "##vso[task.setvariable variable=IMAGE_TAG_VERSION]$IMAGE_TAG_VERSION"
+      echo "##vso[task.setvariable variable=REGISTRY]$REGISTRY"
+    displayName: set env
+    continueOnError: false
+
+  - bash: |
+      set -e
+      apt-get update
+      apt-get install -y qemu-user qemu-user-static
+      cp $(which qemu-arm-static) host/2.0/bionic/arm32v7/dotnet-core/
+      docker build -t "${REGISTRY}dotnet:${IMAGE_TAG_VERSION}-arm32v7" -f host/2.0/bionic/arm32v7/dotnet-core/Dockerfile host/2.0/bionic/arm32v7/dotnet-core/
+    displayName: build arm image
+    continueOnError: false
