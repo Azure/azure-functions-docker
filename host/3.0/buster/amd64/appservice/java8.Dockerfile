@@ -7,7 +7,7 @@ ARG BASE_IMAGE
 FROM ${BASE_IMAGE} as runtime-image
 # mcr.microsoft.com/java/jdk doesn't have a debian 10 image yet.
 FROM mcr.microsoft.com/java/jre:8u212-zulu-debian9 as jre
-FROM mcr.microsoft.com/dotnet/core/runtime-deps:3.0
+FROM mcr.microsoft.com/dotnet/core/runtime-deps:3.1
 
 EXPOSE 2222 80
 

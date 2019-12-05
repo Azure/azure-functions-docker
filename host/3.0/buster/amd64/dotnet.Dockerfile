@@ -3,7 +3,7 @@ FROM ${BASE_IMAGE} as runtime-image
 
 RUN rm -rf /azure-functions-host/runtimes
 
-FROM mcr.microsoft.com/dotnet/core/runtime-deps:3.0
+FROM mcr.microsoft.com/dotnet/core/runtime-deps:3.1
 
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     HOME=/home \

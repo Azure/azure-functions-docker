@@ -1,7 +1,7 @@
 ARG BASE_IMAGE
 FROM ${BASE_IMAGE} as runtime-image
 
-FROM mcr.microsoft.com/dotnet/core/runtime-deps:3.0
+FROM mcr.microsoft.com/dotnet/core/runtime-deps:3.1
 
 RUN apt-get update && \
     apt-get install -y curl gnupg && \
