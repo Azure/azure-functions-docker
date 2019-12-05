@@ -1,7 +1,7 @@
 ARG BASE_IMAGE
 FROM ${BASE_IMAGE} as runtime-image
 FROM openjdk:8-jdk as jdk
-FROM mcr.microsoft.com/dotnet/core/runtime-deps:3.0
+FROM mcr.microsoft.com/dotnet/core/runtime-deps:3.1
 
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     HOME=/home \
