@@ -35,4 +35,6 @@ RUN apt-get update && \
     apt-get update && \
     apt-get install -y libglib2.0-0 libsm6 libxext6 libxrender-dev && \
     #  binutils
-    apt-get install -y binutils
+    apt-get install -y binutils && \
+    #  OpenMP dependencies
+    apt-get install -y libgomp1
