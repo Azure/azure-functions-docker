@@ -2,7 +2,7 @@ FROM mcr.microsoft.com/dotnet/core/sdk:2.2 AS installer-env
 
 ENV PublishWithAspNetCoreTargetManifest=false \
     HOST_VERSION=1.0.12922 \
-    HOST_COMMIT=0043a6195fd84b5a5eba501977a28423f0f3595d
+    HOST_COMMIT=
 
 RUN BUILD_NUMBER=$(echo $HOST_VERSION | cut -d'.' -f 3) && \
     # apk add --no-cache wget tar && \
