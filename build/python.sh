@@ -40,10 +40,10 @@ function build {
   test_image "${REGISTRY}python:${IMAGE_TAG_VERSION}-python3.7-appservice"
 
   # build python:$IMAGE_TAG_VERSION.x-python3.8 and python:$IMAGE_TAG_VERSION.x-python3.8-appservice
-  docker build -t "${REGISTRY}python:${IMAGE_TAG_VERSION}-python3.8-deps"       -f $DIR/../host/$DOCKERFILE_BASE/amd64/python/python38-deps.Dockerfile $DIR/../host/$DOCKERFILE_BASE/amd64/python
-  docker build -t "${REGISTRY}python:${IMAGE_TAG_VERSION}-python3.8-buildenv"   -f $DIR/../host/$DOCKERFILE_BASE/amd64/python/python38-buildenv.Dockerfile --build-arg BASE_PYTHON_IMAGE="${REGISTRY}python:${IMAGE_TAG_VERSION}-python3.8-deps"                                                          $DIR/../host/$DOCKERFILE_BASE/amd64/python
-  docker build -t "${REGISTRY}python:${IMAGE_TAG_VERSION}-python3.8"            -f $DIR/../host/$DOCKERFILE_BASE/amd64/python/python38.Dockerfile          --build-arg BASE_IMAGE="${REGISTRY}base:${IMAGE_TAG_VERSION}" --build-arg BASE_PYTHON_IMAGE="${REGISTRY}python:${IMAGE_TAG_VERSION}-python3.8-deps" $DIR/../host/$DOCKERFILE_BASE/amd64/python
-  docker build -t "${REGISTRY}python:${IMAGE_TAG_VERSION}-python3.8-appservice" -f $DIR/../host/$DOCKERFILE_BASE/amd64/appservice/python38.Dockerfile      --build-arg BASE_IMAGE="${REGISTRY}python:${IMAGE_TAG_VERSION}-python3.8"                                                                      $DIR/../host/$DOCKERFILE_BASE/amd64/appservice
+  docker build -t "${REGISTRY}python:${IMAGE_TAG_VERSION}-python3.8-deps"       -f $DIR/../host/$DOCKERFILE_BASE/amd64/python/python3-deps.Dockerfile $DIR/../host/$DOCKERFILE_BASE/amd64/python
+  docker build -t "${REGISTRY}python:${IMAGE_TAG_VERSION}-python3.8-buildenv"   -f $DIR/../host/$DOCKERFILE_BASE/amd64/python/python3-buildenv.Dockerfile --build-arg BASE_PYTHON_IMAGE="${REGISTRY}python:${IMAGE_TAG_VERSION}-python3.8-deps"                                                          $DIR/../host/$DOCKERFILE_BASE/amd64/python
+  docker build -t "${REGISTRY}python:${IMAGE_TAG_VERSION}-python3.8"            -f $DIR/../host/$DOCKERFILE_BASE/amd64/python/python3.Dockerfile          --build-arg BASE_IMAGE="${REGISTRY}base:${IMAGE_TAG_VERSION}" --build-arg BASE_PYTHON_IMAGE="${REGISTRY}python:${IMAGE_TAG_VERSION}-python3.8-deps" $DIR/../host/$DOCKERFILE_BASE/amd64/python
+  docker build -t "${REGISTRY}python:${IMAGE_TAG_VERSION}-python3.8-appservice" -f $DIR/../host/$DOCKERFILE_BASE/amd64/appservice/python3.Dockerfile      --build-arg BASE_IMAGE="${REGISTRY}python:${IMAGE_TAG_VERSION}-python3.8"                                                                      $DIR/../host/$DOCKERFILE_BASE/amd64/appservice
   test_image "${REGISTRY}python:${IMAGE_TAG_VERSION}-python3.8"
   test_image "${REGISTRY}python:${IMAGE_TAG_VERSION}-python3.8-appservice"
 
@@ -124,9 +124,9 @@ function tag_push {
   docker pull "${REGISTRY}python:${RELEASE_VERSION}"
   docker pull "${REGISTRY}python:${RELEASE_VERSION}-appservice"
   docker pull "${REGISTRY}python:${RELEASE_VERSION}-appservice-quickstart"
-  docker tag  "${REGISTRY}python:${RELEASE_VERSION}"                      "${REGISTRY}python:$MJOR_VERSION"
-  docker tag  "${REGISTRY}python:${RELEASE_VERSION}-appservice"           "${REGISTRY}python:$MAJOR_VERSION-appservice"
-  docker tag  "${REGISTRY}python:${RELEASE_VERSION}-appservice-uickstart" "${REGISTRY}python:$MAJOR_VERSION-appservice-quickstart"
+  docker tag  "${REGISTRY}python:${RELEASE_VERSION}"                       "${REGISTRY}python:$MAJOR_VERSION"
+  docker tag  "${REGISTRY}python:${RELEASE_VERSION}-appservice"            "${REGISTRY}python:$MAJOR_VERSION-appservice"
+  docker tag  "${REGISTRY}python:${RELEASE_VERSION}-appservice-quickstart" "${REGISTRY}python:$MAJOR_VERSION-appservice-quickstart"
   docker push "${REGISTRY}python:$MAJOR_VERSION"
   docker push "${REGISTRY}python:$MAJOR_VERSION-appservice"
   docker push "${REGISTRY}python:$MAJOR_VERSION-appservice-quickstart"
