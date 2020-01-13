@@ -36,8 +36,8 @@ function build {
   test_image "${REGISTRY}node:${IMAGE_TAG_VERSION}-node10-appservice"
 
   # build node:$IMAGE_TAG_VERSION.x-node12 and node:$IMAGE_TAG_VERSION.x-node12-appservice
-  docker build -t "${REGISTRY}node:${IMAGE_TAG_VERSION}-node12"            -f $DIR/../host/$DOCKERFILE_BASE/amd64/node8.Dockerfile            --build-arg BASE_IMAGE="${REGISTRY}base:${IMAGE_TAG_VERSION}"        $DIR/../host/$DOCKERFILE_BASE/amd64/
-  docker build -t "${REGISTRY}node:${IMAGE_TAG_VERSION}-node12-appservice" -f $DIR/../host/$DOCKERFILE_BASE/amd64/appservice/node8.Dockerfile --build-arg BASE_IMAGE="${REGISTRY}node:${IMAGE_TAG_VERSION}-node12" $DIR/../host/$DOCKERFILE_BASE/amd64/appservice
+  docker build -t "${REGISTRY}node:${IMAGE_TAG_VERSION}-node12"            -f $DIR/../host/$DOCKERFILE_BASE/amd64/node12.Dockerfile            --build-arg BASE_IMAGE="${REGISTRY}base:${IMAGE_TAG_VERSION}"        $DIR/../host/$DOCKERFILE_BASE/amd64/
+  docker build -t "${REGISTRY}node:${IMAGE_TAG_VERSION}-node12-appservice" -f $DIR/../host/$DOCKERFILE_BASE/amd64/appservice/node12.Dockerfile --build-arg BASE_IMAGE="${REGISTRY}node:${IMAGE_TAG_VERSION}-node12" $DIR/../host/$DOCKERFILE_BASE/amd64/appservice
   test_image "${REGISTRY}node:${IMAGE_TAG_VERSION}-node12"
   test_image "${REGISTRY}node:${IMAGE_TAG_VERSION}-node12-appservice"
 
