@@ -39,14 +39,6 @@ function build {
   test_image "${REGISTRY}python:${IMAGE_TAG_VERSION}-python3.7"
   test_image "${REGISTRY}python:${IMAGE_TAG_VERSION}-python3.7-appservice"
 
-  # build python:$IMAGE_TAG_VERSION.x-python3.8 and python:$IMAGE_TAG_VERSION.x-python3.8-appservice
-  docker build -t "${REGISTRY}python:${IMAGE_TAG_VERSION}-python3.8-deps"       -f $DIR/../host/$DOCKERFILE_BASE/amd64/python/python38-deps.Dockerfile $DIR/../host/$DOCKERFILE_BASE/amd64/python
-  docker build -t "${REGISTRY}python:${IMAGE_TAG_VERSION}-python3.8-buildenv"   -f $DIR/../host/$DOCKERFILE_BASE/amd64/python/python38-buildenv.Dockerfile --build-arg BASE_PYTHON_IMAGE="${REGISTRY}python:${IMAGE_TAG_VERSION}-python3.8-deps"                                                          $DIR/../host/$DOCKERFILE_BASE/amd64/python
-  docker build -t "${REGISTRY}python:${IMAGE_TAG_VERSION}-python3.8"            -f $DIR/../host/$DOCKERFILE_BASE/amd64/python/python38.Dockerfile          --build-arg BASE_IMAGE="${REGISTRY}base:${IMAGE_TAG_VERSION}" --build-arg BASE_PYTHON_IMAGE="${REGISTRY}python:${IMAGE_TAG_VERSION}-python3.8-deps" $DIR/../host/$DOCKERFILE_BASE/amd64/python
-  docker build -t "${REGISTRY}python:${IMAGE_TAG_VERSION}-python3.8-appservice" -f $DIR/../host/$DOCKERFILE_BASE/amd64/appservice/python38.Dockerfile      --build-arg BASE_IMAGE="${REGISTRY}python:${IMAGE_TAG_VERSION}-python3.8"                                                                      $DIR/../host/$DOCKERFILE_BASE/amd64/appservice
-  test_image "${REGISTRY}python:${IMAGE_TAG_VERSION}-python3.8"
-  test_image "${REGISTRY}python:${IMAGE_TAG_VERSION}-python3.8-appservice"
-
   # tag default python:$IMAGE_TAG_VERSION.x and python:$IMAGE_TAG_VERSION.x-appservice
   docker tag "${REGISTRY}python:${IMAGE_TAG_VERSION}-python3.6" "${REGISTRY}python:${IMAGE_TAG_VERSION}"
   docker tag "${REGISTRY}python:${IMAGE_TAG_VERSION}-python3.6-appservice" "${REGISTRY}python:${IMAGE_TAG_VERSION}-appservice"
@@ -59,7 +51,6 @@ function push {
   # push build-env images
   docker push "${REGISTRY}python:${IMAGE_TAG_VERSION}-python3.6-buildenv"
   docker push "${REGISTRY}python:${IMAGE_TAG_VERSION}-python3.7-buildenv"
-  docker push "${REGISTRY}python:${IMAGE_TAG_VERSION}-python3.8-buildenv"
 
   # push default python:$IMAGE_TAG_VERSION.x and python:$IMAGE_TAG_VERSION.x-appservice images
   docker push "${REGISTRY}python:${IMAGE_TAG_VERSION}"
@@ -73,22 +64,16 @@ function push {
   # push default python:$IMAGE_TAG_VERSION.x-python3.7 and python:$IMAGE_TAG_VERSION.x-python3.7-appservice images
   docker push "${REGISTRY}python:${IMAGE_TAG_VERSION}-python3.7"
   docker push "${REGISTRY}python:${IMAGE_TAG_VERSION}-python3.7-appservice"
-
-  # push default python:$IMAGE_TAG_VERSION.x-python3.8 and python:$IMAGE_TAG_VERSION.x-python3.8-appservice images
-  docker push "${REGISTRY}python:${IMAGE_TAG_VERSION}-python3.8"
-  docker push "${REGISTRY}python:${IMAGE_TAG_VERSION}-python3.8-appservice"
 }
 
 function purge {
   # purge deps image
   docker rmi "${REGISTRY}python:${IMAGE_TAG_VERSION}-python3.6-deps"
   docker rmi "${REGISTRY}python:${IMAGE_TAG_VERSION}-python3.7-deps"
-  docker rmi "${REGISTRY}python:${IMAGE_TAG_VERSION}-python3.8-deps"
 
   # purge build-env images
   docker rmi "${REGISTRY}python:${IMAGE_TAG_VERSION}-python3.6-buildenv"
   docker rmi "${REGISTRY}python:${IMAGE_TAG_VERSION}-python3.7-buildenv"
-  docker rmi "${REGISTRY}python:${IMAGE_TAG_VERSION}-python3.8-buildenv"
 
   # purge default python:$IMAGE_TAG_VERSION.x and python:$IMAGE_TAG_VERSION.x-appservice images
   docker rmi "${REGISTRY}python:${IMAGE_TAG_VERSION}"
@@ -102,23 +87,16 @@ function purge {
   # purge default python:$IMAGE_TAG_VERSION.x-python3.7 and python:$IMAGE_TAG_VERSION.x-python3.7-appservice images
   docker rmi "${REGISTRY}python:${IMAGE_TAG_VERSION}-python3.7"
   docker rmi "${REGISTRY}python:${IMAGE_TAG_VERSION}-python3.7-appservice"
-
-  # purge default python:$IMAGE_TAG_VERSION.x-python3.8 and python:$IMAGE_TAG_VERSION.x-python3.8-appservice images
-  docker rmi "${REGISTRY}python:${IMAGE_TAG_VERSION}-python3.8"
-  docker rmi "${REGISTRY}python:${IMAGE_TAG_VERSION}-python3.8-appservice"
 }
 
 function tag_push {
   # tag & push build-env images
   docker pull "${REGISTRY}python:${RELEASE_VERSION}-python3.6-buildenv"
   docker pull "${REGISTRY}python:${RELEASE_VERSION}-python3.7-buildenv"
-  docker pull "${REGISTRY}python:${RELEASE_VERSION}-python3.8-buildenv"
   docker tag  "${REGISTRY}python:${RELEASE_VERSION}-python3.6-buildenv" "${REGISTRY}python:$MAJOR_VERSION-python3.6-buildenv"
   docker tag  "${REGISTRY}python:${RELEASE_VERSION}-python3.7-buildenv" "${REGISTRY}python:$MAJOR_VERSION-python3.7-buildenv"
-  docker tag  "${REGISTRY}python:${RELEASE_VERSION}-python3.8-buildenv" "${REGISTRY}python:$MAJOR_VERSION-python3.8-buildenv"
   docker push "${REGISTRY}python:$MAJOR_VERSION-python3.6-buildenv"
   docker push "${REGISTRY}python:$MAJOR_VERSION-python3.7-buildenv"
-  docker push "${REGISTRY}python:$MAJOR_VERSION-python3.8-buildenv"
 
   # tag & push default python:$MAJOR_VERSION and python:$MAJOR_VERSION-appservice images
   docker pull "${REGISTRY}python:${RELEASE_VERSION}"
@@ -146,14 +124,6 @@ function tag_push {
   docker tag  "${REGISTRY}python:${RELEASE_VERSION}-python3.7-appservice" "${REGISTRY}python:$MAJOR_VERSION-python3.7-appservice"
   docker push "${REGISTRY}python:$MAJOR_VERSION-python3.7"
   docker push "${REGISTRY}python:$MAJOR_VERSION-python3.7-appservice"
-
-  # tag & push default python:$MAJOR_VERSION-python3.8 and python:$MAJOR_VERSION-python3.8-appservice images
-  docker pull "${REGISTRY}python:${RELEASE_VERSION}-python3.8"
-  docker pull "${REGISTRY}python:${RELEASE_VERSION}-python3.8-appservice"
-  docker tag  "${REGISTRY}python:${RELEASE_VERSION}-python3.8"            "${REGISTRY}python:$MAJOR_VERSION-python3.8"
-  docker tag  "${REGISTRY}python:${RELEASE_VERSION}-python3.8-appservice" "${REGISTRY}python:$MAJOR_VERSION-python3.8-appservice"
-  docker push "${REGISTRY}python:$MAJOR_VERSION-python3.8"
-  docker push "${REGISTRY}python:$MAJOR_VERSION-python3.8-appservice"
 }
 
 if [ "$1" == "build" ]; then
