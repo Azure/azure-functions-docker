@@ -130,7 +130,7 @@ function tag_push {
   docker tag  "${REGISTRY}python:${RELEASE_VERSION}-python3.7-buildenv" "${REGISTRY}python:$MAJOR_VERSION-python3.7-buildenv"
   docker push "${REGISTRY}python:$MAJOR_VERSION-python3.7-buildenv"
 
-  if [ "$DOCKERFILE_BASE" != "2.0/stretch" ]; then
+  if [ "$MAJOR_VERSION" != "2.0" ]; then
     docker pull "${REGISTRY}python:${RELEASE_VERSION}-python3.8-buildenv"
     docker tag  "${REGISTRY}python:${RELEASE_VERSION}-python3.8-buildenv" "${REGISTRY}python:$MAJOR_VERSION-python3.8-buildenv"
     docker push "${REGISTRY}python:$MAJOR_VERSION-python3.8-buildenv"
@@ -164,7 +164,7 @@ function tag_push {
   docker push "${REGISTRY}python:$MAJOR_VERSION-python3.7-appservice"
 
   # tag & push default python:$MAJOR_VERSION-python3.8 and python:$MAJOR_VERSION-python3.8-appservice images
-  if [ "$DOCKERFILE_BASE" != "2.0/stretch" ]; then
+  if [ "$MAJOR_VERSION" != "2.0" ]; then
     docker pull "${REGISTRY}python:${RELEASE_VERSION}-python3.8"
     docker pull "${REGISTRY}python:${RELEASE_VERSION}-python3.8-appservice"
     docker tag  "${REGISTRY}python:${RELEASE_VERSION}-python3.8"            "${REGISTRY}python:$MAJOR_VERSION-python3.8"
