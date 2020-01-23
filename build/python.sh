@@ -129,7 +129,6 @@ function tag_push {
   docker pull "${REGISTRY}python:${RELEASE_VERSION}-python3.7-buildenv"
   docker tag  "${REGISTRY}python:${RELEASE_VERSION}-python3.7-buildenv" "${REGISTRY}python:$MAJOR_VERSION-python3.7-buildenv"
   docker push "${REGISTRY}python:$MAJOR_VERSION-python3.7-buildenv"
-  docker push "${REGISTRY}python:$MAJOR_VERSION-python3.8-buildenv"
 
   if [ "$DOCKERFILE_BASE" != "2.0/stretch" ]; then
     docker pull "${REGISTRY}python:${RELEASE_VERSION}-python3.8-buildenv"
