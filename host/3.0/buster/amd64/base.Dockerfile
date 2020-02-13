@@ -1,7 +1,7 @@
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS runtime-image
 
 ENV PublishWithAspNetCoreTargetManifest=false
-ENV HOST_VERSION=3.0.13130
+ENV HOST_VERSION=3.0.13134
 ENV HOST_COMMIT=9656f4eabffb807bf673c624685836affc6f0bcd
 
 RUN BUILD_NUMBER=$(echo $HOST_VERSION | cut -d'.' -f 3) && \
