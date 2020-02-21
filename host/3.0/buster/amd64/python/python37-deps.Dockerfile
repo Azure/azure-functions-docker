@@ -37,4 +37,6 @@ RUN apt-get update && \
     #  binutils
     apt-get install -y binutils && \
     #  OpenMP dependencies
-    apt-get install -y libgomp1
+    apt-get install -y libgomp1 && \
+    #  Python DB API 2.0 psycopg2
+    apt-get install -y libpq-dev
