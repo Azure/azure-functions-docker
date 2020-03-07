@@ -16,7 +16,7 @@ if [ -z "$DOCKERFILE_BASE" ]; then
 fi
 
 if [ -z "$ZULU_MAVEN_VERSION" ]; then
-  ZULU_MAVEN_VERSION="8u212-zulu-debian9"
+  ZULU_MAVEN_VERSION="8-zulu-debian9"
 fi
 
 function test_image {
