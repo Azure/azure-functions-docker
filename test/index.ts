@@ -61,7 +61,20 @@ const random = () => {
   );
 };
 
-const dockerFile = path.join(__dirname, "test.Dockerfile");
+const dockerFile = (function() {
+  let fileName = "test.Dockerfile";
+
+  if (imageName.indexOf("nanoserver") !== -1) {
+    fileName = "test-win.Dockerfile";
+  } else if (imageName.indexOf("arm32v7") !== -1) {
+    fileName = "test-arm32v7.Dockerfile";
+  } else if (imageName.indexOf("alpine") !== -1) {
+    fileName = "test-alpine.Dockerfile";
+  }
+
+  return path.join(__dirname, fileName);
+})();
+
 const name = random();
 
 const runTest = async (data: typeof map.dotnet, envStr = "") => {
@@ -84,38 +97,58 @@ const runTest = async (data: typeof map.dotnet, envStr = "") => {
     process.exit(1);
   }
 
+  const container = shell.exec(`docker logs -f ${containerId}`, {
+    async: true
+  });
+  container.stdout && container.stdout.pipe(process.stdout);
+
+  container.stderr && container.stderr.pipe(process.stderr);
+
   console.log(chalk.yellow.bold("current containerId: " + containerId));
 
   let error = false;
+  let trials = 0;
+
   const timeout = (ms: number) => new Promise(res => setTimeout(res, ms));
-  try {
-    await timeout(5000);
-    const res = await axios.get(`http://localhost:9097${data.invoke}`);
-    if (res.data !== data.response) {
-      console.error(
-        chalk.red.bold(
-          "Error: Expected: " +
-            chalk.green(data.response) +
-            " but got: " +
-            chalk.yellow(res.data)
-        )
-      );
+  // arm32 builds are slow
+  await timeout(imageName.indexOf("arm32v7") === -1 ? 5_000 : 30_000);
+  do {
+    trials++;
+    try {
+      const res = await axios.get(`http://localhost:9097${data.invoke}`, {
+        timeout: 10_000
+      });
+      if (res.data !== data.response) {
+        console.error(
+          chalk.red.bold(
+            "Error: Expected: " +
+              chalk.green(data.response) +
+              " but got: " +
+              chalk.yellow(res.data)
+          )
+        );
+        error = true;
+      } else {
+        error = false;
+        console.log(
+          chalk.green(
+            `${imageName} successfully ran ${chalk.blue(
+              data.invoke
+            )} function with: ${chalk.grey(
+              `(${res.status}: ${res.statusText})`
+            )} ${chalk.grey(res.data)}`
+          )
+        );
+      }
+    } catch (e) {
+      console.error(chalk.red(e));
       error = true;
-    } else {
-      console.log(
-        chalk.green(
-          `${imageName} successfully ran ${chalk.blue(
-            data.invoke
-          )} function with: ${chalk.grey(
-            `(${res.status}: ${res.statusText})`
-          )} ${chalk.grey(res.data)}`
-        )
-      );
     }
-  } catch (e) {
-    console.error(chalk.red(e));
-    error = true;
-  }
+    if (error) {
+      await timeout(5_000);
+    }
+  } while (error && trials < 10);
+
   shell.exec(`docker kill ${containerId}`);
   shell.exec(`docker rmi ${name}`);
   if (error) {

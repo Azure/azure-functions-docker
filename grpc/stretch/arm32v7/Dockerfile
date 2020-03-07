@@ -1,4 +1,4 @@
-FROM arm32v7/debian:stretch-slim
+FROM arm32v7/debian:stretch-slim as build-env
 
 COPY ./qemu-arm-static /usr/bin/
 
@@ -13,4 +13,8 @@ RUN git clone --depth 1 -b "$GRPC_VERSION" https://github.com/grpc/grpc && \
     git submodule update --init && \
     make grpc_csharp_ext
 
-CMD cp /grpc/libs/opt/libgrpc_csharp_ext.so.* /output
+FROM scratch
+
+COPY --from=build-env ["/grpc/libs/opt/libgrpc_csharp_ext.so.1.20.1", "/"]
+
+CMD ["dotnet", "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost.dll"]
