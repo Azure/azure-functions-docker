@@ -17,7 +17,7 @@ fi
 if [ -z "$2" ]; then
   echo -e "FullVersion is required.\n"
   print_usage
-  exit
+  exit 1
 fi
 
 find $DIR/$1 -name "*Dockerfile" -exec sed -i "s/\bHOST_VERSION=$1\..*/HOST_VERSION=$2/g" "$0" {} \;
