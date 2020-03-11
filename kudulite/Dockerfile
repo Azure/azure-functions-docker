@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/oryx/build:20200114.13 as main
+FROM mcr.microsoft.com/oryx/build:20200310.1 as main
 ARG BRANCH
 ARG NAMESPACE
 ENV DEBIAN_FRONTEND noninteractive
