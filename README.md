@@ -13,22 +13,22 @@ Linux amd64 Tags
 
 | Tags     | Dockerfile     | OS Version    |
 | -------- | -------------- | ------------- |
-| 3.0      | [Dockerfile]() |   Debian 10   |
-| 3.0-slim | [Dockerfile]() |   Debian 10   |
-| 3.0-appservice, 3.0-dotnet3-appservice, 3.0-appservice-quickstart | [Dockerfile]() | Debian 10 |
+| `3.0`      | [Dockerfile]() |   Debian 10   |
+| `3.0-slim` | [Dockerfile]() |   Debian 10   |
+| `3.0-appservice`, `3.0-dotnet3-appservice`, `3.0-appservice-quickstart` | [Dockerfile]() | Debian 10 |
 
 Linux arm32v7 Tags
 
 | Tags               | Dockerfile     | OS Version    |
 | ------------------ | -------------- | ------------- |
-| 3.0-arm32v7        | [Dockerfile]() | Debian 10     |
-| 3.0-bionic-arm32v7 | [Dockerfile]() | Ubuntu 18.04  |
+| `3.0-arm32v7`        | [Dockerfile]() | Debian 10     |
+| `3.0-bionic-arm32v7` | [Dockerfile]() | Ubuntu 18.04  |
 
 Windows Server
 
 | Tags                | Dockerfile     | OS Version          |
 | ------------------- | -------------- | ------------------- |
-| 3.0-nanoserver-1809 | [Dockerfile]() | Windows Server 1809 |
+| `3.0-nanoserver-1809` | [Dockerfile]() | Windows Server 1809 |
 
 #### Node
 
@@ -38,12 +38,12 @@ Linux amd64 Tags
 
 | Tags                      | Dockerfile      | OS Version   |
 | ------------------------- | --------------- | ------------ |
-| 3.0, 3.0-node10           | [Dockerfile]()  | Debian 10    |
-| 3.0-slim, 3.0-node10-slim | [Dockerfile]()  | Debian 10    |
-| 3.0-appservice, 3.0-appservice-quickstart, 3.0-node10-appservice, 3.0-node10-appservice-quickstart | [Dockerfile]() | Debian 10 |
-| 3.0-node12                | [Dockerfile]()  | Debian 10    |
-| 3.0-node12-slim           | [Dockerfile]()  | Debian 10    |
-| 3.0-node12-appservice, 3.0-node12-appservice-quickstart | [Dockerfile]() | Debian 10 |
+| `3.0`, `3.0-node10`           | [Dockerfile]()  | Debian 10    |
+| `3.0-slim`, `3.0-node10-slim` | [Dockerfile]()  | Debian 10    |
+| `3.0-appservice`, `3.0-appservice-quickstart`, `3.0-node10-appservice`, `3.0-node10-appservice-quickstart` | [Dockerfile]() | Debian 10 |
+| `3.0-node12`                | [Dockerfile]()  | Debian 10    |
+| `3.0-node12-slim`           | [Dockerfile]()  | Debian 10    |
+| `3.0-node12-appservice`, `3.0-node12-appservice-quickstart` | [Dockerfile]() | Debian 10 |
 
 #### Powershell
 
@@ -53,9 +53,9 @@ Linux amd64 Tags
 
 | Tags                           | Dockerfile      | OS Version   |
 | ------------------------------ | --------------- | ------------ |
-| 3.0, 3.0-powershell6           | [Dockerfile]()  | Debian 10    |
-| 3.0-slim, 3.0-powershell6-slim | [Dockerfile]()  | Debian 10    |
-| 3.0-appservice, 3.0-appservice-quickstart, 3.0-powershell6-appservice, 3.0-powershell6-appservice-quickstart | [Dockerfile]() | Debian 10 |
+| `3.0`, `3.0-powershell6`           | [Dockerfile]()  | Debian 10    |
+| `3.0-slim`, `3.0-powershell6-slim` | [Dockerfile]()  | Debian 10    |
+| `3.0-appservice`, `3.0-appservice-quickstart`, `3.0-powershell6-appservice`, `3.0-powershell6-appservice-quickstart` | [Dockerfile]() | Debian 10 |
 
 #### Java
 
@@ -65,7 +65,7 @@ Linux amd64 Tags
 
 | Tags                     | Dockerfile      | OS Version   |
 | ------------------------ | --------------- | ------------ |
-| 3.0, 3.0-java8           | [Dockerfile]()  | Debian 10    |
+| `3.0`, `3.0-java8`           | [Dockerfile]()  | Debian 10    |
 | 3.0-slim, 3.0-java8-slim | [Dockerfile]()  | Debian 10    |
 | 3.0-appservice, 3.0-appservice-quickstart, 3.0-java8-appservice, 3.0-java8-appservice-quickstart | [Dockerfile]() | Debian 10 |
 | 3.0-java8-build          | [Dockerfile]()  | Debian 9     |
@@ -207,10 +207,6 @@ Linux amd64 Tags
 | 2.0-python3.7-slim           | [Dockerfile]()  | Debian 9     |
 | 2.0-python3.7-appservice, 2.0-python3.7-appservice-quickstart | [Dockerfile]() | Debian 9  |
 | 2.0-python3.7-buildenv       | [Dockerfile]()  | Debian 9     |
-| 2.0-python3.8                | [Dockerfile]()  | Debian 9     |
-| 2.0-python3.8-slim           | [Dockerfile]()  | Debian 9     |
-| 2.0-python3.8-appservice, 2.0-python3.8-appservice-quickstart | [Dockerfile]() | Debian 9  |
-| 2.0-python3.8-buildenv       | [Dockerfile]()  | Debian 9     |
 
 # Contributing
 
