@@ -82,7 +82,7 @@ Linux amd64 Tags
 | `3.0-slim`, `3.0-python3.6-slim`             | [Dockerfile](host/3.0/buster/amd64/python/python36/python36-slim.Dockerfile)       | Debian 10  |
 | `3.0-appservice`, `3.0-python3.6-appservice` | [Dockerfile](host/3.0/buster/amd64/python/python36/python36-appservice.Dockerfile) | Debian 10  |
 | `3.0-python3.6-buildenv`                     | [Dockerfile](host/3.0/buster/amd64/python/python36/python36-buildenv.Dockerfile)   | Debian 10  |
-| `3.0-python3.7`                              | [Dockerfile](host/3.0/buster/amd64/python/python36/python37.Dockerfile)            | Debian 10  |
+| `3.0-python3.7`                              | [Dockerfile](host/3.0/buster/amd64/python/python37/python37.Dockerfile)            | Debian 10  |
 | `3.0-python3.7-slim`                         | [Dockerfile](host/3.0/buster/amd64/python/python37/python37-slim.Dockerfile)       | Debian 10  |
 | `3.0-python3.7-appservice`                   | [Dockerfile](host/3.0/buster/amd64/python/python37/python37-appservice.Dockerfile) | Debian 10  |
 | `3.0-python3.7-buildenv`                     | [Dockerfile](host/3.0/buster/amd64/python/python37/python37-buildenv.Dockerfile)   | Debian 10  |
@@ -107,10 +107,10 @@ Linux amd64 Tags
 
 Linux arm32v7 Tags
 
-| Tags                 | Dockerfile                                                  | OS Version   |
-|----------------------|-------------------------------------------------------------|--------------|
-| `2.0-arm32v7`        | [Dockerfile](host/2.0/stretch/arm32v7/dotnet/dotnet.Docker) | Debian 9     |
-| `2.0-bionic-arm32v7` | [Dockerfile](host/2.0/bionic/arm32v7/dotnet/dotnet.Docker)  | Ubuntu 18.04 |
+| Tags                 | Dockerfile                                                      | OS Version   |
+|----------------------|-----------------------------------------------------------------|--------------|
+| `2.0-arm32v7`        | [Dockerfile](host/2.0/stretch/arm32v7/dotnet/dotnet.Dockerfile) | Debian 9     |
+| `2.0-bionic-arm32v7` | [Dockerfile](host/2.0/bionic/arm32v7/dotnet/dotnet.Dockerfile)  | Ubuntu 18.04 |
 
 Linux alpine Tags
 
@@ -194,10 +194,10 @@ Linux amd64 Tags
 | `2.0-slim`, `2.0-python3.6-slim`             | [Dockerfile](host/2.0/stretch/amd64/python/python36/python36-slim.Dockerfile)       | Debian 9   |
 | `2.0-appservice`, `2.0-python3.6-appservice` | [Dockerfile](host/2.0/stretch/amd64/python/python36/python36-appservice.Dockerfile) | Debian 9   |
 | `2.0-python3.6-buildenv`                     | [Dockerfile](host/2.0/stretch/amd64/python/python36/python36-buildenv.Dockerfile)   | Debian 9   |
-| `2.0-python3.7`                              | [Dockerfile](host/2.0/stretch/amd64/python/python36/python37.Dockerfile)            | Debian 9   |
-| `2.0-python3.7-slim`                         | [Dockerfile](host/2.0/stretch/amd64/python/python36/python37-slim.Dockerfile)       | Debian 9   |
-| `2.0-python3.7-appservice`                   | [Dockerfile](host/2.0/stretch/amd64/python/python36/python37-appservice.Dockerfile) | Debian 9   |
-| `2.0-python3.7-buildenv`                     | [Dockerfile](host/2.0/stretch/amd64/python/python36/python37-buildenv.Dockerfile)   | Debian 9   |
+| `2.0-python3.7`                              | [Dockerfile](host/2.0/stretch/amd64/python/python37/python37.Dockerfile)            | Debian 9   |
+| `2.0-python3.7-slim`                         | [Dockerfile](host/2.0/stretch/amd64/python/python37/python37-slim.Dockerfile)       | Debian 9   |
+| `2.0-python3.7-appservice`                   | [Dockerfile](host/2.0/stretch/amd64/python/python37/python37-appservice.Dockerfile) | Debian 9   |
+| `2.0-python3.7-buildenv`                     | [Dockerfile](host/2.0/stretch/amd64/python/python37/python37-buildenv.Dockerfile)   | Debian 9   |
 
 # Contributing
 
