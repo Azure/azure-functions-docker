@@ -11,24 +11,24 @@
 
 Linux amd64 Tags
 
-| Tags     | Dockerfile     | OS Version    |
-| -------- | -------------- | ------------- |
-| `3.0`      | [Dockerfile]() |   Debian 10   |
-| `3.0-slim` | [Dockerfile]() |   Debian 10   |
-| `3.0-appservice`, `3.0-dotnet3-appservice`, `3.0-appservice-quickstart` | [Dockerfile]() | Debian 10 |
+| Tags                                       | Dockerfile                                                              | OS Version |
+|--------------------------------------------|-------------------------------------------------------------------------|------------|
+| `3.0`                                      | [Dockerfile](host/3.0/buster/amd64/dotnet/dotnet.Dockerfile)            | Debian 10  |
+| `3.0-slim`                                 | [Dockerfile](host/3.0/buster/amd64/dotnet/dotnet-slim.Dockerfile)       | Debian 10  |
+| `3.0-appservice`, `3.0-dotnet3-appservice` | [Dockerfile](host/3.0/buster/amd64/dotnet/dotnet-appservice.Dockerfile) | Debian 10  |
 
 Linux arm32v7 Tags
 
-| Tags               | Dockerfile     | OS Version    |
-| ------------------ | -------------- | ------------- |
-| `3.0-arm32v7`        | [Dockerfile]() | Debian 10     |
-| `3.0-bionic-arm32v7` | [Dockerfile]() | Ubuntu 18.04  |
+| Tags                 | Dockerfile                                                     | OS Version   |
+|----------------------|----------------------------------------------------------------|--------------|
+| `3.0-arm32v7`        | [Dockerfile](host/3.0/buster/arm32v7/dotnet/dotnet.Dockerfile) | Debian 10    |
+| `3.0-bionic-arm32v7` | [Dockerfile](host/3.0/bionic/arm32v7/dotnet/dotnet.Dockerfile) | Ubuntu 18.04 |
 
 Windows Server
 
-| Tags                | Dockerfile     | OS Version          |
-| ------------------- | -------------- | ------------------- |
-| `3.0-nanoserver-1809` | [Dockerfile]() | Windows Server 1809 |
+| Tags                  | Dockerfile                                               | OS Version          |
+|-----------------------|----------------------------------------------------------|---------------------|
+| `3.0-nanoserver-1809` | [Dockerfile](host/3.0/nanoserver/1809/dotnet.Dockerfile) | Windows Server 1809 |
 
 #### Node
 
@@ -36,14 +36,14 @@ Windows Server
 
 Linux amd64 Tags
 
-| Tags                      | Dockerfile      | OS Version   |
-| ------------------------- | --------------- | ------------ |
-| `3.0`, `3.0-node10`           | [Dockerfile]()  | Debian 10    |
-| `3.0-slim`, `3.0-node10-slim` | [Dockerfile]()  | Debian 10    |
-| `3.0-appservice`, `3.0-appservice-quickstart`, `3.0-node10-appservice`, `3.0-node10-appservice-quickstart` | [Dockerfile]() | Debian 10 |
-| `3.0-node12`                | [Dockerfile]()  | Debian 10    |
-| `3.0-node12-slim`           | [Dockerfile]()  | Debian 10    |
-| `3.0-node12-appservice`, `3.0-node12-appservice-quickstart` | [Dockerfile]() | Debian 10 |
+| Tags                                      | Dockerfile                                                                   | OS Version |
+|-------------------------------------------|------------------------------------------------------------------------------|------------|
+| `3.0`, `3.0-node10`                       | [Dockerfile](host/3.0/buster/amd64/node/node10/node10.Dockerfile)            | Debian 10  |
+| `3.0-slim`, `3.0-node10-slim`             | [Dockerfile](host/3.0/buster/amd64/node/node10/node10-slim.Dockerfile)       | Debian 10  |
+| `3.0-appservice`, `3.0-node10-appservice` | [Dockerfile](host/3.0/buster/amd64/node/node10/node10-appservice.Dockerfile) | Debian 10  |
+| `3.0-node12`                              | [Dockerfile](host/3.0/buster/amd64/node/node12/node12.Dockerfile)            | Debian 10  |
+| `3.0-node12-slim`                         | [Dockerfile](host/3.0/buster/amd64/node/node12/node12-slim.Dockerfile)       | Debian 10  |
+| `3.0-node12-appservice`                   | [Dockerfile](host/3.0/buster/amd64/node/node12/node12-appservice.Dockerfile) | Debian 10  |
 
 #### Powershell
 
@@ -51,11 +51,11 @@ Linux amd64 Tags
 
 Linux amd64 Tags
 
-| Tags                           | Dockerfile      | OS Version   |
-| ------------------------------ | --------------- | ------------ |
-| `3.0`, `3.0-powershell6`           | [Dockerfile]()  | Debian 10    |
-| `3.0-slim`, `3.0-powershell6-slim` | [Dockerfile]()  | Debian 10    |
-| `3.0-appservice`, `3.0-appservice-quickstart`, `3.0-powershell6-appservice`, `3.0-powershell6-appservice-quickstart` | [Dockerfile]() | Debian 10 |
+| Tags                                           | Dockerfile                                                                       | OS Version |
+|------------------------------------------------|----------------------------------------------------------------------------------|------------|
+| `3.0`, `3.0-powershell6`                       | [Dockerfile](host/3.0/buster/amd64/powershell/powershell6.Dockerfile)            | Debian 10  |
+| `3.0-slim`, `3.0-powershell6-slim`             | [Dockerfile](host/3.0/buster/amd64/powershell/powershell6-slim.Dockerfile)       | Debian 10  |
+| `3.0-appservice`, `3.0-powershell6-appservice` | [Dockerfile](host/3.0/buster/amd64/powershell/powershell6-appservice.Dockerfile) | Debian 10  |
 
 #### Java
 
@@ -63,12 +63,12 @@ Linux amd64 Tags
 
 Linux amd64 Tags
 
-| Tags                     | Dockerfile      | OS Version   |
-| ------------------------ | --------------- | ------------ |
-| `3.0`, `3.0-java8`           | [Dockerfile]()  | Debian 10    |
-| 3.0-slim, 3.0-java8-slim | [Dockerfile]()  | Debian 10    |
-| 3.0-appservice, 3.0-appservice-quickstart, 3.0-java8-appservice, 3.0-java8-appservice-quickstart | [Dockerfile]() | Debian 10 |
-| 3.0-java8-build          | [Dockerfile]()  | Debian 9     |
+| Tags                                     | Dockerfile                                                           | OS Version |
+|------------------------------------------|----------------------------------------------------------------------|------------|
+| `3.0`, `3.0-java8`                       | [Dockerfile](host/3.0/buster/amd64/java/java8.Dockerfile)            | Debian 10  |
+| `3.0-slim`, `3.0-java8-slim`             | [Dockerfile](host/3.0/buster/amd64/java/java8-slim.Dockerfile)       | Debian 10  |
+| `3.0-appservice`, `3.0-java8-appservice` | [Dockerfile](host/3.0/buster/amd64/java/java8-appservice.Dockerfile) | Debian 10  |
+| `3.0-java8-build`                        | `N/A`                                                                | Debian 9   |
 
 ### Python
 
@@ -76,21 +76,20 @@ Linux amd64 Tags
 
 Linux amd64 Tags
 
-| Tags                      | Dockerfile      | OS Version   |
-| ------------------------- | --------------- | ------------ |
-| 3.0, 3.0-python3.6           | [Dockerfile]()  | Debian 10    |
-| 3.0-slim, 3.0-python3.6-slim | [Dockerfile]()  | Debian 10    |
-| 3.0-appservice, 3.0-appservice-quickstart, 3.0-python3.6-appservice, 3.0-python3.6-appservice-quickstart | [Dockerfile]() | Debian 10 |
-| 3.0-python3.6-buildenv       | [Dockerfile]()  | Debian 10    |
-| 3.0-python3.7                | [Dockerfile]()  | Debian 10    |
-| 3.0-python3.7-slim           | [Dockerfile]()  | Debian 10    |
-| 3.0-python3.7-appservice, 3.0-python3.7-appservice-quickstart | [Dockerfile]() | Debian 10 |
-| 3.0-python3.7-buildenv       | [Dockerfile]()  | Debian 10    |
-| 3.0-python3.8                | [Dockerfile]()  | Debian 10    |
-| 3.0-python3.8-slim           | [Dockerfile]()  | Debian 10    |
-| 3.0-python3.8-appservice, 3.0-python3.8-appservice-quickstart | [Dockerfile]() | Debian 10 |
-| 3.0-python3.8-buildenv       | [Dockerfile]()  | Debian 10    |
-
+| Tags                                         | Dockerfile                                                                         | OS Version |
+|----------------------------------------------|------------------------------------------------------------------------------------|------------|
+| `3.0`, `3.0-python3.6`                       | [Dockerfile](host/3.0/buster/amd64/python/python36/python36.Dockerfile)            | Debian 10  |
+| `3.0-slim`, `3.0-python3.6-slim`             | [Dockerfile](host/3.0/buster/amd64/python/python36/python36-slim.Dockerfile)       | Debian 10  |
+| `3.0-appservice`, `3.0-python3.6-appservice` | [Dockerfile](host/3.0/buster/amd64/python/python36/python36-appservice.Dockerfile) | Debian 10  |
+| `3.0-python3.6-buildenv`                     | [Dockerfile](host/3.0/buster/amd64/python/python36/python36-buildenv.Dockerfile)   | Debian 10  |
+| `3.0-python3.7`                              | [Dockerfile](host/3.0/buster/amd64/python/python36/python37.Dockerfile)            | Debian 10  |
+| `3.0-python3.7-slim`                         | [Dockerfile](host/3.0/buster/amd64/python/python37/python37-slim.Dockerfile)       | Debian 10  |
+| `3.0-python3.7-appservice`                   | [Dockerfile](host/3.0/buster/amd64/python/python37/python37-appservice.Dockerfile) | Debian 10  |
+| `3.0-python3.7-buildenv`                     | [Dockerfile](host/3.0/buster/amd64/python/python37/python37-buildenv.Dockerfile)   | Debian 10  |
+| `3.0-python3.8`                              | [Dockerfile](host/3.0/buster/amd64/python/python38/python38.Dockerfile)            | Debian 10  |
+| `3.0-python3.8-slim`                         | [Dockerfile](host/3.0/buster/amd64/python/python38/python38-slim.Dockerfile)       | Debian 10  |
+| `3.0-python3.8-appservice`                   | [Dockerfile](host/3.0/buster/amd64/python/python38/python38-appservice.Dockerfile) | Debian 10  |
+| `3.0-python3.8-buildenv`                     | [Dockerfile](host/3.0/buster/amd64/python/python38/python38-buildenv.Dockerfile)   | Debian 10  |
 
 ## V2 Images
 
@@ -100,31 +99,31 @@ Linux amd64 Tags
 
 Linux amd64 Tags
 
-| Tags     | Dockerfile     | OS Version    |
-| -------- | -------------- | ------------- |
-| 2.0      | [Dockerfile]() |   Debian 9    |
-| 2.0-slim | [Dockerfile]() |   Debian 9    |
-| 2.0-appservice, 2.0-dotnet2-appservice, 2.0-appservice-quickstart | [Dockerfile]() | Debian 9 |
+| Tags                                       | Dockerfile                                                               | OS Version |
+|--------------------------------------------|--------------------------------------------------------------------------|------------|
+| `2.0`                                      | [Dockerfile](host/2.0/stretch/amd64/dotnet/dotnet.Dockerfile)            | Debian 9   |
+| `2.0-slim`                                 | [Dockerfile](host/2.0/stretch/amd64/dotnet/dotnet-slim.Dockerfile)       | Debian 9   |
+| `2.0-appservice`, `2.0-dotnet2-appservice` | [Dockerfile](host/2.0/stretch/amd64/dotnet/dotnet-appservice.Dockerfile) | Debian 9   |
 
 Linux arm32v7 Tags
 
-| Tags               | Dockerfile     | OS Version    |
-| ------------------ | -------------- | ------------- |
-| 2.0-arm32v7        | [Dockerfile]() | Debian 9      |
-| 2.0-bionic-arm32v7 | [Dockerfile]() | Ubuntu 18.04  |
+| Tags                 | Dockerfile                                                  | OS Version   |
+|----------------------|-------------------------------------------------------------|--------------|
+| `2.0-arm32v7`        | [Dockerfile](host/2.0/stretch/arm32v7/dotnet/dotnet.Docker) | Debian 9     |
+| `2.0-bionic-arm32v7` | [Dockerfile](host/2.0/bionic/arm32v7/dotnet/dotnet.Docker)  | Ubuntu 18.04 |
 
 Linux alpine Tags
 
-| Tags               | Dockerfile     | OS Version    |
-| ------------------ | -------------- | ------------- |
-| 2.0-alpine         | [Dockerfile]() | Alpine 3.8    |
+| Tags         | Dockerfile                                                   | OS Version |
+|--------------|--------------------------------------------------------------|------------|
+| `2.0-alpine` | [Dockerfile](host/2.0/alpine/amd64/dotnet/dotnet.Dockerfile) | Alpine 3.8 |
 
 Windows Server
 
-| Tags                | Dockerfile     | OS Version          |
-| ------------------- | -------------- | ------------------- |
-| 2.0-nanoserver-1803 | [Dockerfile]() | Windows Server 1803 |
-| 2.0-nanoserver-1809 | [Dockerfile]() | Windows Server 1809 |
+| Tags                  | Dockerfile                                               | OS Version          |
+|-----------------------|----------------------------------------------------------|---------------------|
+| `2.0-nanoserver-1803` | [Dockerfile](host/2.0/nanoserver/1803/dotnet.Dockerfile) | Windows Server 1803 |
+| `2.0-nanoserver-1809` | [Dockerfile](host/2.0/nanoserver/1809/dotnet.Dockerfile) | Windows Server 1809 |
 
 #### Node
 
@@ -132,25 +131,17 @@ Windows Server
 
 Linux amd64 Tags
 
-| Tags                      | Dockerfile      | OS Version   |
-| ------------------------- | --------------- | ------------ |
-| 2.0, 2.0-node8            | [Dockerfile]()  | Debian 9     |
-| 2.0-slim, 2.0-node8-slim  | [Dockerfile]()  | Debian 9     |
-| 2.0-appservice, 2.0-appservice-quickstart, 2.0-node8-appservice, 2.0-node8-appservice-quickstart | [Dockerfile]() | Debian 9  |
-| 2.0-node10                | [Dockerfile]()  | Debian 9     |
-| 2.0-node10-slim           | [Dockerfile]()  | Debian 9     |
-| 2.0-node10-appservice, 2.0-node10-appservice-quickstart | [Dockerfile]() | Debian 9  |
-| 2.0-node12                | [Dockerfile]()  | Debian 9     |
-| 2.0-node12-slim           | [Dockerfile]()  | Debian 9     |
-| 2.0-node12-appservice, 2.0-node12-appservice-quickstart | [Dockerfile]() | Debian 9  |
-
-Linux alpine Tags
-
-| Tags                         | Dockerfile     | OS Version    |
-| ---------------------------- | -------------- | ------------- |
-| 2.0-alpine, 2.0-node8-alpine | [Dockerfile]() | Alpine 3.8    |
-| 2.0-node10-alpine            | [Dockerfile]() | Alpine 3.8    |
-| 2.0-node12-alpine            | [Dockerfile]() | Alpine 3.8    |
+| Tags                                     | Dockerfile                                                                    | OS Version |
+|------------------------------------------|-------------------------------------------------------------------------------|------------|
+| `2.0`, `2.0-node8`                       | [Dockerfile](host/2.0/stretch/amd64/node/node8/node8.Dockerfile)              | Debian 9   |
+| `2.0-slim`, `2.0-node8-slim`             | [Dockerfile](host/2.0/stretch/amd64/node/node8/node8-slim.Dockerfile)         | Debian 9   |
+| `2.0-appservice`, `2.0-node8-appservice` | [Dockerfile](host/2.0/stretch/amd64/node/node8/node8-appservice.Dockerfile)   | Debian 9   |
+| `2.0-node10`                             | [Dockerfile](host/2.0/stretch/amd64/node/node10/node10.Dockerfile)            | Debian 9   |
+| `2.0-node10-slim`                        | [Dockerfile](host/2.0/stretch/amd64/node/node10/node10-slim.Dockerfile)       | Debian 9   |
+| `2.0-node10-appservice`                  | [Dockerfile](host/2.0/stretch/amd64/node/node10/node10-appservice.Dockerfile) | Debian 9   |
+| `2.0-node12`                             | [Dockerfile](host/2.0/stretch/amd64/node/node12/node12.Dockerfile)            | Debian 9   |
+| `2.0-node12-slim`                        | [Dockerfile](host/2.0/stretch/amd64/node/node12/node12-slim.Dockerfile)       | Debian 9   |
+| `2.0-node12-appservice`                  | [Dockerfile](host/2.0/stretch/amd64/node/node12/node12-appservice.Dockerfile) | Debian 9   |
 
 #### Powershell
 
@@ -158,17 +149,17 @@ Linux alpine Tags
 
 Linux amd64 Tags
 
-| Tags                           | Dockerfile      | OS Version   |
-| ------------------------------ | --------------- | ------------ |
-| 2.0, 2.0-powershell6           | [Dockerfile]()  | Debian 9     |
-| 2.0-slim, 2.0-powershell6-slim | [Dockerfile]()  | Debian 9     |
-| 2.0-appservice, 2.0-appservice-quickstart, 2.0-powershell6-appservice, 2.0-powershell6-appservice-quickstart | [Dockerfile]() | Debian 9  |
+| Tags                                           | Dockerfile                                                                        | OS Version |
+|------------------------------------------------|-----------------------------------------------------------------------------------|------------|
+| `2.0`, `2.0-powershell6`                       | [Dockerfile](host/2.0/stretch/amd64/powershell/powershell6.Dockerfile)            | Debian 9   |
+| `2.0-slim`, `2.0-powershell6-slim`             | [Dockerfile](host/2.0/stretch/amd64/powershell/powershell6-slim.Dockerfile)       | Debian 9   |
+| `2.0-appservice`, `2.0-powershell6-appservice` | [Dockerfile](host/2.0/stretch/amd64/powershell/powershell6-appservice.Dockerfile) | Debian 9   |
 
 Linux alpine Tags
 
-| Tags                               | Dockerfile     | OS Version    |
-| ---------------------------------- | -------------- | ------------- |
-| 2.0-alpine, 2.0-powershell6-alpine | [Dockerfile]() | Alpine 3.8    |
+| Tags                                   | Dockerfile                                                            | OS Version |
+|----------------------------------------|-----------------------------------------------------------------------|------------|
+| `2.0-alpine`, `2.0-powershell6-alpine` | [Dockerfile](host/2.0/alpine/amd64/powershell/powershell6.Dockerfile) | Alpine 3.8 |
 
 
 #### Java
@@ -177,18 +168,18 @@ Linux alpine Tags
 
 Linux amd64 Tags
 
-| Tags                     | Dockerfile      | OS Version   |
-| ------------------------ | --------------- | ------------ |
-| 2.0, 2.0-java8           | [Dockerfile]()  | Debian 9     |
-| 2.0-slim, 2.0-java8-slim | [Dockerfile]()  | Debian 9     |
-| 2.0-appservice, 2.0-appservice-quickstart, 2.0-java8-appservice, 2.0-java8-appservice-quickstart | [Dockerfile]() | Debian 10 |
-| 2.0-java8-build          | [Dockerfile]()  | Debian 9     |
+| Tags                                     | Dockerfile                                                            | OS Version |
+|------------------------------------------|-----------------------------------------------------------------------|------------|
+| `2.0`, `2.0-java8`                       | [Dockerfile](host/2.0/stretch/amd64/java/java8.Dockerfile)            | Debian 9   |
+| `2.0-slim`, `2.0-java8-slim`             | [Dockerfile](host/2.0/stretch/amd64/java/java8-slim.Dockerfile)       | Debian 9   |
+| `2.0-appservice`, `2.0-java8-appservice` | [Dockerfile](host/2.0/stretch/amd64/java/java8-appservice.Dockerfile) | Debian 10  |
+| `2.0-java8-build`                        | `N/A`                                                                 | Debian 9   |
 
 Linux alpine Tags
 
-| Tags                         | Dockerfile     | OS Version    |
-| ---------------------------- | -------------- | ------------- |
-| 2.0-alpine, 2.0-java8-alpine | [Dockerfile]() | Alpine 3.8    |
+| Tags                             | Dockerfile                                                | OS Version |
+|----------------------------------|-----------------------------------------------------------|------------|
+| `2.0-alpine`, `2.0-java8-alpine` | [Dockerfile](host/2.0/alpine/amd64/java/java8.Dockerfile) | Alpine 3.8 |
 
 
 ### Python
@@ -197,16 +188,16 @@ Linux alpine Tags
 
 Linux amd64 Tags
 
-| Tags                      | Dockerfile      | OS Version   |
-| ------------------------- | --------------- | ------------ |
-| 2.0, 2.0-python3.6           | [Dockerfile]()  | Debian 9     |
-| 2.0-slim, 2.0-python3.6-slim | [Dockerfile]()  | Debian 9     |
-| 2.0-appservice, 2.0-appservice-quickstart, 2.0-python3.6-appservice, 2.0-python3.6-appservice-quickstart | [Dockerfile]() | Debian 9  |
-| 2.0-python3.6-buildenv       | [Dockerfile]()  | Debian 9     |
-| 2.0-python3.7                | [Dockerfile]()  | Debian 9     |
-| 2.0-python3.7-slim           | [Dockerfile]()  | Debian 9     |
-| 2.0-python3.7-appservice, 2.0-python3.7-appservice-quickstart | [Dockerfile]() | Debian 9  |
-| 2.0-python3.7-buildenv       | [Dockerfile]()  | Debian 9     |
+| Tags                                         | Dockerfile                                                                          | OS Version |
+|----------------------------------------------|-------------------------------------------------------------------------------------|------------|
+| `2.0`, `2.0-python3.6`                       | [Dockerfile](host/2.0/stretch/amd64/python/python36/python36.Dockerfile)            | Debian 9   |
+| `2.0-slim`, `2.0-python3.6-slim`             | [Dockerfile](host/2.0/stretch/amd64/python/python36/python36-slim.Dockerfile)       | Debian 9   |
+| `2.0-appservice`, `2.0-python3.6-appservice` | [Dockerfile](host/2.0/stretch/amd64/python/python36/python36-appservice.Dockerfile) | Debian 9   |
+| `2.0-python3.6-buildenv`                     | [Dockerfile](host/2.0/stretch/amd64/python/python36/python36-buildenv.Dockerfile)   | Debian 9   |
+| `2.0-python3.7`                              | [Dockerfile](host/2.0/stretch/amd64/python/python36/python37.Dockerfile)            | Debian 9   |
+| `2.0-python3.7-slim`                         | [Dockerfile](host/2.0/stretch/amd64/python/python36/python37-slim.Dockerfile)       | Debian 9   |
+| `2.0-python3.7-appservice`                   | [Dockerfile](host/2.0/stretch/amd64/python/python36/python37-appservice.Dockerfile) | Debian 9   |
+| `2.0-python3.7-buildenv`                     | [Dockerfile](host/2.0/stretch/amd64/python/python36/python37-buildenv.Dockerfile)   | Debian 9   |
 
 # Contributing
 
