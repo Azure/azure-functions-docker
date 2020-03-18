@@ -1,0 +1,98 @@
+queue: Hosted Ubuntu 1604
+
+pr:
+  branches:
+    include:
+      - master
+  paths:
+    include:
+      - host/3.0/buster/amd64/dotnet/*
+      - host/3.0/buster/arm32v7/dotnet/*
+      - host/3.0/bionic/arm32v7/dotnet/*
+
+trigger:
+  branches:
+    include:
+      - master
+  paths:
+    include:
+      - host/3.0/buster/amd64/dotnet/*
+      - host/3.0/buster/arm32v7/dotnet/*
+      - host/3.0/bionic/arm32v7/dotnet/*
+
+steps:
+  - bash: |
+      # login
+      set -e
+      echo $pswd | docker login -u $(dockerUsername) --password-stdin azurefunctions.azurecr.io
+
+    displayName: login to registry
+    continueOnError: false
+    env:
+      pswd: $(dockerPassword)
+
+  - bash: |
+      set -e
+      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/dotnet:$(Build.SourceBranchName)
+
+      docker build -t $IMAGE_NAME \
+                  -f host/3.0/buster/amd64/dotnet/dotnet.Dockerfile \
+                  host/3.0/buster/amd64/dotnet/
+      npm run test $IMAGE_NAME --prefix test/
+      docker push $IMAGE_NAME
+    displayName: dotnet
+    continueOnError: false
+
+  - bash: |
+      set -e
+      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/dotnet:$(Build.SourceBranchName)-slim
+
+      docker build -t $IMAGE_NAME \
+                  -f host/3.0/buster/amd64/dotnet/dotnet-slim.Dockerfile \
+                  host/3.0/buster/amd64/dotnet/
+      npm run test $IMAGE_NAME --prefix  test/
+      docker push $IMAGE_NAME
+    displayName: dotnet-slim
+    continueOnError: false
+
+  - bash: |
+      set -e
+      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/dotnet:$(Build.SourceBranchName)-appservice
+
+      docker build -t $IMAGE_NAME \
+                  -f host/3.0/buster/amd64/dotnet/dotnet-appservice.Dockerfile \
+                  host/3.0/buster/amd64/dotnet/
+      npm run test $IMAGE_NAME --prefix  test/
+      docker push $IMAGE_NAME
+    displayName: dotnet-appservice
+    continueOnError: false
+
+  - bash: |
+      set -e
+      docker run --rm --privileged multiarch/qemu-user-static:register --reset
+    displayName: register qemu
+    continueOnError: false
+
+  - bash: |
+      set -e
+      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/dotnet:$(Build.SourceBranchName)-arm32v7
+
+      docker build -t $IMAGE_NAME \
+                  -f host/3.0/buster/arm32v7/dotnet/dotnet.Dockerfile \
+                  host/3.0/buster/arm32v7/dotnet/
+      # npm run test $IMAGE_NAME --prefix test/
+      docker push $IMAGE_NAME
+    displayName: dotnet arm32v7
+    continueOnError: false
+
+  - bash: |
+      set -e
+      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/dotnet:$(Build.SourceBranchName)-bionic-arm32v7
+
+      docker build -t $IMAGE_NAME \
+                  -f host/3.0/bionic/arm32v7/dotnet/dotnet.Dockerfile \
+                  host/3.0/bionic/arm32v7/dotnet/
+      # npm run test $IMAGE_NAME --prefix test/
+      docker push $IMAGE_NAME
+    displayName: dotnet bionic arm32v7
+    continueOnError: false

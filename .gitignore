@@ -289,3 +289,4 @@ __pycache__/
 
 qemu-arm-static
 libgrpc_csharp_ext.so.*
+.ionide/

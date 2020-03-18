@@ -1,0 +1,194 @@
+queue: Hosted Ubuntu 1604
+trigger: none
+
+steps:
+  - bash: |
+      echo $pswd | docker login -u $(dockerUsername) --password-stdin azurefunctions.azurecr.io
+    displayName: login
+    continueOnError: false
+    env:
+      pswd: $(dockerPassword)
+
+  - bash: |
+      set -e
+      SOURCE_REGISTRY=azurefunctions.azurecr.io/azure-functions/3.0
+      TARGET_REGISTRY=azurefunctions.azurecr.io/public/azure-functions
+
+      if [ -z "$(TargetVersion)" ]; then
+        echo "ERROR: TargetVersion is required"
+        exit 1
+      fi
+
+      if [ -z "$(PrivateVersion)" ]; then
+        echo "ERROR: TargetVersion is required"
+        exit 1
+      fi
+
+      echo "##vso[task.setvariable variable=SOURCE_REGISTRY]$SOURCE_REGISTRY"
+      echo "##vso[task.setvariable variable=TARGET_REGISTRY]$TARGET_REGISTRY"
+    displayName: set env
+    continueOnError: false
+
+  - bash: |
+      docker pull $SOURCE_REGISTRY/dotnet:$(PrivateVersion)
+      docker pull $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-slim
+      docker pull $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-appservice
+      docker pull $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-arm32v7
+      docker pull $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-bionic-arm32v7
+
+      docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion) $TARGET_REGISTRY/dotnet:$(TargetVersion)
+      docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-slim $TARGET_REGISTRY/dotnet:$(TargetVersion)-slim
+      docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-appservice $TARGET_REGISTRY/dotnet:$(TargetVersion)-appservice
+      docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-appservice $TARGET_REGISTRY/dotnet:$(TargetVersion)-dotnet3-appservice
+      docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-appservice $TARGET_REGISTRY/dotnet:$(TargetVersion)-appservice-quickstart
+      docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-arm32v7 $TARGET_REGISTRY/dotnet:$(TargetVersion)-arm32v7
+      docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-bionic-arm32v7 $TARGET_REGISTRY/dotnet:$(TargetVersion)-bionic-arm32v7
+
+      docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)
+      docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-slim
+      docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-appservice
+      docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-dotnet3-appservice
+      docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-appservice-quickstart
+      docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-arm32v7
+      docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-bionic-arm32v7
+
+      docker system prune -a -f
+    displayName: tag and push dotnet images
+    continueOnError: false
+
+  - bash: |
+      docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java8
+      docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-slim
+      docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-appservice
+      docker pull mcr.microsoft.com/java/maven:8-zulu-debian9
+
+      docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8 $TARGET_REGISTRY/java:$(TargetVersion)
+      docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-slim $TARGET_REGISTRY/java:$(TargetVersion)-slim
+      docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-appservice $TARGET_REGISTRY/java:$(TargetVersion)-appservice
+      docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-appservice $TARGET_REGISTRY/java:$(TargetVersion)-appservice-quickstart
+
+      docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8 $TARGET_REGISTRY/java:$(TargetVersion)-java8
+      docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-slim $TARGET_REGISTRY/java:$(TargetVersion)-java8-slim
+      docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-appservice $TARGET_REGISTRY/java:$(TargetVersion)-java8-appservice
+      docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-appservice $TARGET_REGISTRY/java:$(TargetVersion)-java8-appservice-quickstart
+
+      docker tag mcr.microsoft.com/java/maven:8-zulu-debian9 $TARGET_REGISTRY/java:$(TargetVersion)-java8-build
+
+      docker push $TARGET_REGISTRY/java:$(TargetVersion)
+      docker push $TARGET_REGISTRY/java:$(TargetVersion)-slim
+      docker push $TARGET_REGISTRY/java:$(TargetVersion)-appservice
+      docker push $TARGET_REGISTRY/java:$(TargetVersion)-appservice-quickstart
+
+      docker push $TARGET_REGISTRY/java:$(TargetVersion)-java8
+      docker push $TARGET_REGISTRY/java:$(TargetVersion)-java8-slim
+      docker push $TARGET_REGISTRY/java:$(TargetVersion)-java8-appservice
+      docker push $TARGET_REGISTRY/java:$(TargetVersion)-java8-appservice-quickstart
+
+      docker push $TARGET_REGISTRY/java:$(TargetVersion)-java8-build
+
+      docker system prune -a -f
+    displayName: tag and push java images
+    continueOnError: false
+
+  - bash: |
+      docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node10
+      docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-slim
+      docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-appservice
+      docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node12
+      docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node12-slim
+      docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node12-appservice
+
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node10 $TARGET_REGISTRY/node:$(TargetVersion)
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-slim $TARGET_REGISTRY/node:$(TargetVersion)-slim
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-appservice $TARGET_REGISTRY/node:$(TargetVersion)-appservice
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-appservice $TARGET_REGISTRY/node:$(TargetVersion)-appservice-quickstart
+
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node10 $TARGET_REGISTRY/node:$(TargetVersion)-node10
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-slim $TARGET_REGISTRY/node:$(TargetVersion)-node10-slim
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-appservice $TARGET_REGISTRY/node:$(TargetVersion)-node10-appservice
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-appservice $TARGET_REGISTRY/node:$(TargetVersion)-node10-appservice-quickstart
+
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node12 $TARGET_REGISTRY/node:$(TargetVersion)-node12
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node12-slim $TARGET_REGISTRY/node:$(TargetVersion)-node12-slim
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node12-appservice $TARGET_REGISTRY/node:$(TargetVersion)-node12-appservice
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node12-appservice $TARGET_REGISTRY/node:$(TargetVersion)-node12-appservice-quickstart
+
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)-slim
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)-appservice
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)-appservice-quickstart
+
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)-node10
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)-node10-slim
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)-node10-appservice
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)-node10-appservice-quickstart
+
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)-node12
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)-node12-slim
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)-node12-appservice
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)-node12-appservice-quickstart
+
+      docker system prune -a -f
+    displayName: tag and push node images
+    continueOnError: false
+
+  - bash: |
+      docker pull $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell6
+      docker pull $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell6-slim
+      docker pull $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell6-appservice
+
+      docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell6 $TARGET_REGISTRY/powershell:$(TargetVersion)
+      docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell6-slim $TARGET_REGISTRY/powershell:$(TargetVersion)-slim
+      docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell6-appservice $TARGET_REGISTRY/powershell:$(TargetVersion)-appservice
+      docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell6-appservice $TARGET_REGISTRY/powershell:$(TargetVersion)-appservice-quickstart
+
+      docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell6 $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell6
+      docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell6-slim $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell6-slim
+      docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell6-appservice $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell6-appservice
+      docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell6-appservice $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell6-appservice-quickstart
+
+      docker push $TARGET_REGISTRY/powershell:$(TargetVersion)
+      docker push $TARGET_REGISTRY/powershell:$(TargetVersion)-slim
+      docker push $TARGET_REGISTRY/powershell:$(TargetVersion)-appservice
+      docker push $TARGET_REGISTRY/powershell:$(TargetVersion)-appservice-quickstart
+
+      docker push $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell6
+      docker push $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell6-slim
+      docker push $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell6-appservice
+      docker push $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell6-appservice-quickstart
+
+      docker system prune -a -f
+    displayName: tag and push powershell images
+    continueOnError: false
+
+  - bash: |
+      docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7
+      docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7-slim
+      docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7-appservice
+      docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7-buildenv
+      docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8
+      docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8-slim
+      docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8-appservice
+      docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8-buildenv
+
+      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7 $TARGET_REGISTRY/python:$(TargetVersion)
+      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7-slim $TARGET_REGISTRY/python:$(TargetVersion)-slim
+      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7-appservice $TARGET_REGISTRY/python:$(TargetVersion)-appservice
+      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7-appservice $TARGET_REGISTRY/python:$(TargetVersion)-appservice-quickstart
+      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7-buildenv $TARGET_REGISTRY/python:$(TargetVersion)-buildenv
+
+      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7 $TARGET_REGISTRY/python:$(TargetVersion)-python3.7
+      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7-slim $TARGET_REGISTRY/python:$(TargetVersion)-python3.7-slim
+      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.7-appservice
+      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.7-appservice-quickstart
+      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7-buildenv $TARGET_REGISTRY/python:$(TargetVersion)-python3.7-buildenv
+
+      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8 $TARGET_REGISTRY/python:$(TargetVersion)-python3.8
+      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8-slim $TARGET_REGISTRY/python:$(TargetVersion)-python3.8-slim
+      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.8-appservice
+      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.8-appservice-quickstart
+      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8-buildenv $TARGET_REGISTRY/python:$(TargetVersion)-python3.8-buildenv
+
+      docker system prune -a -f
+    displayName: tag and push python images
+    continueOnError: false
