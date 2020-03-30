@@ -62,7 +62,9 @@ RUN apt-get update && \
     #  binutils
     apt-get install -y binutils && \
     #  OpenMP dependencies
-    apt-get install -y libgomp1
+    apt-get install -y libgomp1 && \
+    # mysql dependencies
+    apt-get install -y default-libmysqlclient-dev
 
 # install build tools
 RUN apt-get update && \
