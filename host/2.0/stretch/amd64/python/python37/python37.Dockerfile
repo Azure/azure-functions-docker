@@ -62,7 +62,9 @@ RUN apt-get update && \
     #  binutils
     apt-get install -y binutils && \
     #  OpenMP dependencies
-    apt-get install -y libgomp1
+    apt-get install -y libgomp1 && \
+    # mysql dependencies
+    apt-get install -y default-libmysqlclient-dev
 
 COPY --from=runtime-image ["/azure-functions-host", "/azure-functions-host"]
 COPY --from=runtime-image [ "/workers/python", "/azure-functions-host/workers/python" ]
