@@ -20,7 +20,7 @@ steps:
       fi
 
       if [ -z "$(PrivateVersion)" ]; then
-        echo "ERROR: TargetVersion is required"
+        echo "ERROR: PrivateVersion is required"
         exit 1
       fi
 
