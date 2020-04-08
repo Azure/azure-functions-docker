@@ -21,8 +21,8 @@ Linux arm32v7 Tags
 
 | Tags                 | Dockerfile                                                     | OS Version   |
 |----------------------|----------------------------------------------------------------|--------------|
-| `3.0-arm32v7`        | [Dockerfile](host/3.0/buster/arm32v7/dotnet/dotnet.Dockerfile) | Debian 10    |
-| `3.0-bionic-arm32v7` | [Dockerfile](host/3.0/bionic/arm32v7/dotnet/dotnet.Dockerfile) | Ubuntu 18.04 |
+| `testv3-arm32v7`        | [Dockerfile](host/3.0/buster/arm32v7/dotnet/dotnet.Dockerfile) | Debian 10    |
+| `testv3-bionic-arm32v7` | [Dockerfile](host/3.0/bionic/arm32v7/dotnet/dotnet.Dockerfile) | Ubuntu 18.04 |
 
 Windows Server
 
