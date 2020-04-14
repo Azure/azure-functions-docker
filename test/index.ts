@@ -9,11 +9,11 @@ if (process.argv.length < 2) {
 }
 
 const storagePath =
-  "https://functionstests.blob.core.windows.net/public/docker";
+  "https://functionsdockertests.blob.core.windows.net/public/docker";
 
 const map = {
   python: {
-    package: `https://functionstestsahmels.blob.core.windows.net/public/python-functions.zip`,
+    package: `${storagePath}/python-functions.zip`,
     invoke: "/api/PythonHttpTrigger?name=Test",
     response: "Hello Test!"
   },
