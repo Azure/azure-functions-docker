@@ -25,7 +25,7 @@ ENV ASPNETCORE_URLS=http://+:80 `
     HOST_VERSION=3.0.13142
 
 RUN [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; `
-    $BuildNumber = $Env:HOST_VERSION.split('.')[-1] `
+    $BuildNumber = $Env:HOST_VERSION.split('.')[-1]; `
     Invoke-WebRequest -OutFile host.zip https://github.com/Azure/azure-functions-host/archive/v$Env:HOST_VERSION.zip; `
     Expand-Archive host.zip .; `
     cd azure-functions-host-$Env:HOST_VERSION; `
