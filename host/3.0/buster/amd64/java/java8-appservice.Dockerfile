@@ -4,7 +4,7 @@
 # and are not intended to be used for any other purpose.
 
 # Build the runtime from source
-ARG HOST_VERSION=3.0.13142
+ARG HOST_VERSION=3.0.13113
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS runtime-image
 ARG HOST_VERSION
 
