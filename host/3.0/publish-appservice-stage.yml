@@ -11,7 +11,7 @@ steps:
 
   - bash: |
       set -e
-      SOURCE_REGISTRY=azurefunctions.azurecr.io/azure-functions/3.0
+      SOURCE_REGISTRY=mcr.microsoft.com/azure-functions
       TARGET_REGISTRY=azurefunctions.azurecr.io/public/azure-functions
 
       if [ -z "$(TargetVersion)" ]; then
