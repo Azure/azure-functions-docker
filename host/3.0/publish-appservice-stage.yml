@@ -49,12 +49,15 @@ steps:
 
   - bash: |
       docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-appservice
+      docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-coretools
 
       docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-appservice $TARGET_REGISTRY/java:$(TargetVersion)-appservice-stage$(StageNumber)
       docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-appservice $TARGET_REGISTRY/java:$(TargetVersion)-java8-appservice-stage$(StageNumber)
+      docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-coretools $TARGET_REGISTRY/java:$(TargetVersion)-java8-coretools-stage$(StageNumber)
 
       docker push $TARGET_REGISTRY/java:$(TargetVersion)-appservice-stage$(StageNumber)
       docker push $TARGET_REGISTRY/java:$(TargetVersion)-java8-appservice-stage$(StageNumber)
+      docker push $TARGET_REGISTRY/java:$(TargetVersion)-java8-coretools-stage$(StageNumber)
 
       docker system prune -a -f
     displayName: tag and push java images
