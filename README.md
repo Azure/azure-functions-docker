@@ -68,6 +68,7 @@ Linux amd64 Tags
 | `3.0`, `3.0-java8`                       | [Dockerfile](host/3.0/buster/amd64/java/java8.Dockerfile)            | Debian 10  |
 | `3.0-slim`, `3.0-java8-slim`             | [Dockerfile](host/3.0/buster/amd64/java/java8-slim.Dockerfile)       | Debian 10  |
 | `3.0-appservice`, `3.0-java8-appservice` | [Dockerfile](host/3.0/buster/amd64/java/java8-appservice.Dockerfile) | Debian 10  |
+| `3.0-java8-core-tools`                    | [Dockerfile](host/3.0/buster/amd64/java/java8-core-tools.Dockerfile)  | Debian 9   |
 | `3.0-java8-build`                        | `N/A`                                                                | Debian 9   |
 
 ### Python
