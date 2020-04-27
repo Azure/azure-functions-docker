@@ -60,7 +60,7 @@ steps:
       docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java8
       docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-slim
       docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-appservice
-      docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-coretools
+      docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-core-tools
       docker pull mcr.microsoft.com/java/maven:8-zulu-debian9
 
       docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8 $TARGET_REGISTRY/java:$(TargetVersion)
@@ -72,7 +72,7 @@ steps:
       docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-slim $TARGET_REGISTRY/java:$(TargetVersion)-java8-slim
       docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-appservice $TARGET_REGISTRY/java:$(TargetVersion)-java8-appservice
       docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-appservice $TARGET_REGISTRY/java:$(TargetVersion)-java8-appservice-quickstart
-      docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-coretools $TARGET_REGISTRY/java:$(TargetVersion)-java8-coretools
+      docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-core-tools $TARGET_REGISTRY/java:$(TargetVersion)-java8-core-tools
 
       docker tag mcr.microsoft.com/java/maven:8-zulu-debian9 $TARGET_REGISTRY/java:$(TargetVersion)-java8-build
 
@@ -85,7 +85,7 @@ steps:
       docker push $TARGET_REGISTRY/java:$(TargetVersion)-java8-slim
       docker push $TARGET_REGISTRY/java:$(TargetVersion)-java8-appservice
       docker push $TARGET_REGISTRY/java:$(TargetVersion)-java8-appservice-quickstart
-      docker push $TARGET_REGISTRY/java:$(TargetVersion)-java8-coretools
+      docker push $TARGET_REGISTRY/java:$(TargetVersion)-java8-core-tools
 
       docker push $TARGET_REGISTRY/java:$(TargetVersion)-java8-build
 

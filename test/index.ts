@@ -88,7 +88,7 @@ const runTest = async (data: typeof map.dotnet, envStr = "") => {
   }
 
   // test for host images
-  if (imageName.indexOf("-coretools") === -1) {
+  if (imageName.indexOf("-core-tools") === -1) {
 
     const { stdout: containerId, code: exitCode } = shell.exec(
       `docker run --rm -p 9097:80 ${envStr} -d ${name}`
@@ -159,7 +159,7 @@ const runTest = async (data: typeof map.dotnet, envStr = "") => {
       process.exit(1);
     }
     
-    // test for coretools images
+    // test for core-tools images
   } else {
     if (shell.exec(`docker run ${name} func --help`).code !== 0) {
       console.error("Azure Functions Core Tools Not found.");

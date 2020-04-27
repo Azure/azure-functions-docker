@@ -63,12 +63,12 @@ steps:
 
   - bash: |
       set -e
-      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/java:$(Build.SourceBranchName)-java8-coretools
+      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/java:$(Build.SourceBranchName)-java8-core-tools
       docker build -t $IMAGE_NAME \
-                  -f host/3.0/buster/amd64/java/java8-coretools.Dockerfile \
+                  -f host/3.0/buster/amd64/java/java8-core-tools.Dockerfile \
                   host/3.0/buster/amd64/java/
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
-    displayName: java8-coretools
+    displayName: java8-core-tools
     continueOnError: false
 
