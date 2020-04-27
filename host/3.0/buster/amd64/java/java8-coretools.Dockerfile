@@ -3,7 +3,8 @@
 # Licensed under the MIT License. See https://go.microsoft.com/fwlink/?linkid=2090316 for license information.
 #-------------------------------------------------------------------------------------------------------------
 
-FROM mcr.microsoft.com/azure-functions/java:3.0-java8-build
+# TODO Change this to mcr.microsoft.com/azure-functions/java:3.0-java8-build
+FROM mcr.microsoft.com/java/maven:8-zulu-debian9
 
 # Avoid warnings by switching to noninteractive
 ENV DEBIAN_FRONTEND=noninteractive
