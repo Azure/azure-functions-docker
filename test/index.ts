@@ -87,73 +87,90 @@ const runTest = async (data: typeof map.dotnet, envStr = "") => {
     process.exit(1);
   }
 
-  const { stdout: containerId, code: exitCode } = shell.exec(
-    `docker run --rm -p 9097:80 ${envStr} -d ${name}`
-  );
+  // test for host images
+  if (imageName.indexOf("-core-tools") === -1) {
 
-  //const containerId = stdout
-  if (exitCode !== 0) {
-    console.error("Error running container");
-    process.exit(1);
-  }
+    const { stdout: containerId, code: exitCode } = shell.exec(
+      `docker run --rm -p 9097:80 ${envStr} -d ${name}`
+    );
 
-  const container = shell.exec(`docker logs -f ${containerId}`, {
-    async: true
-  });
-  container.stdout && container.stdout.pipe(process.stdout);
+    //const containerId = stdout
+    if (exitCode !== 0) {
+      console.error("Error running container");
+      process.exit(1);
+    }
 
-  container.stderr && container.stderr.pipe(process.stderr);
+    const container = shell.exec(`docker logs -f ${containerId}`, {
+      async: true
+    });
+    container.stdout && container.stdout.pipe(process.stdout);
 
-  console.log(chalk.yellow.bold("current containerId: " + containerId));
+    container.stderr && container.stderr.pipe(process.stderr);
 
-  let error = false;
-  let trials = 0;
+    console.log(chalk.yellow.bold("current containerId: " + containerId));
 
-  const timeout = (ms: number) => new Promise(res => setTimeout(res, ms));
-  // arm32 builds are slow
-  await timeout(imageName.indexOf("arm32v7") === -1 ? 5_000 : 30_000);
-  do {
-    trials++;
-    try {
-      const res = await axios.get(`http://localhost:9097${data.invoke}`, {
-        timeout: 10_000
-      });
-      if (res.data !== data.response) {
-        console.error(
-          chalk.red.bold(
-            "Error: Expected: " +
-              chalk.green(data.response) +
-              " but got: " +
-              chalk.yellow(res.data)
-          )
-        );
+    let error = false;
+    let trials = 0;
+
+    const timeout = (ms: number) => new Promise(res => setTimeout(res, ms));
+    // arm32 builds are slow
+    await timeout(imageName.indexOf("arm32v7") === -1 ? 5_000 : 30_000);
+
+    do {
+      trials++;
+      try {
+        const res = await axios.get(`http://localhost:9097${data.invoke}`, {
+          timeout: 10_000
+        });
+        if (res.data !== data.response) {
+          console.error(
+            chalk.red.bold(
+              "Error: Expected: " +
+                chalk.green(data.response) +
+                " but got: " +
+                chalk.yellow(res.data)
+            )
+          );
+          error = true;
+        } else {
+          error = false;
+          console.log(
+            chalk.green(
+              `${imageName} successfully ran ${chalk.blue(
+                data.invoke
+              )} function with: ${chalk.grey(
+                `(${res.status}: ${res.statusText})`
+              )} ${chalk.grey(res.data)}`
+            )
+          );
+        }
+      } catch (e) {
+        console.error(chalk.red(e));
         error = true;
-      } else {
-        error = false;
-        console.log(
-          chalk.green(
-            `${imageName} successfully ran ${chalk.blue(
-              data.invoke
-            )} function with: ${chalk.grey(
-              `(${res.status}: ${res.statusText})`
-            )} ${chalk.grey(res.data)}`
-          )
-        );
       }
-    } catch (e) {
-      console.error(chalk.red(e));
-      error = true;
-    }
-    if (error) {
-      await timeout(5_000);
-    }
-  } while (error && trials < 10);
+      if (error) {
+        await timeout(5_000);
+      }
+    } while (error && trials < 10);
 
-  shell.exec(`docker kill ${containerId}`);
-  shell.exec(`docker rmi ${name}`);
-  if (error) {
-    process.exit(1);
+    shell.exec(`docker kill ${containerId}`);
+    shell.exec(`docker rmi ${name}`);
+    if (error) {
+      process.exit(1);
+    }
+    
+    // test for core-tools images
+  } else {
+    if (shell.exec(`docker run ${name} func --help`).code !== 0) {
+      console.error("Azure Functions Core Tools Not found.");
+      process.exit(1);
+    }
+    if (shell.exec(`docker run ${name} az --help`).code !== 0) {
+      console.error("Azure CLI Not Found.")
+      process.exit(1);
+    }
   }
+
 };
 
 async function main() {
