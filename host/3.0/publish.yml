@@ -97,39 +97,47 @@ steps:
       docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node10
       docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-slim
       docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-appservice
+      docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-core-tools
       docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node12
       docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node12-slim
       docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node12-appservice
+      docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node12-core-tools
 
       docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node10 $TARGET_REGISTRY/node:$(TargetVersion)
       docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-slim $TARGET_REGISTRY/node:$(TargetVersion)-slim
       docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-appservice $TARGET_REGISTRY/node:$(TargetVersion)-appservice
       docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-appservice $TARGET_REGISTRY/node:$(TargetVersion)-appservice-quickstart
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-appservice $TARGET_REGISTRY/node:$(TargetVersion)-core-tools
 
       docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node10 $TARGET_REGISTRY/node:$(TargetVersion)-node10
       docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-slim $TARGET_REGISTRY/node:$(TargetVersion)-node10-slim
       docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-appservice $TARGET_REGISTRY/node:$(TargetVersion)-node10-appservice
       docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-appservice $TARGET_REGISTRY/node:$(TargetVersion)-node10-appservice-quickstart
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-appservice $TARGET_REGISTRY/node:$(TargetVersion)-node10-core-tools
 
       docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node12 $TARGET_REGISTRY/node:$(TargetVersion)-node12
       docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node12-slim $TARGET_REGISTRY/node:$(TargetVersion)-node12-slim
       docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node12-appservice $TARGET_REGISTRY/node:$(TargetVersion)-node12-appservice
       docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node12-appservice $TARGET_REGISTRY/node:$(TargetVersion)-node12-appservice-quickstart
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node12-appservice $TARGET_REGISTRY/node:$(TargetVersion)-node12-core-tools
 
       docker push $TARGET_REGISTRY/node:$(TargetVersion)
       docker push $TARGET_REGISTRY/node:$(TargetVersion)-slim
       docker push $TARGET_REGISTRY/node:$(TargetVersion)-appservice
       docker push $TARGET_REGISTRY/node:$(TargetVersion)-appservice-quickstart
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)-core-tools
 
       docker push $TARGET_REGISTRY/node:$(TargetVersion)-node10
       docker push $TARGET_REGISTRY/node:$(TargetVersion)-node10-slim
       docker push $TARGET_REGISTRY/node:$(TargetVersion)-node10-appservice
       docker push $TARGET_REGISTRY/node:$(TargetVersion)-node10-appservice-quickstart
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)-node10-core-tools
 
       docker push $TARGET_REGISTRY/node:$(TargetVersion)-node12
       docker push $TARGET_REGISTRY/node:$(TargetVersion)-node12-slim
       docker push $TARGET_REGISTRY/node:$(TargetVersion)-node12-appservice
       docker push $TARGET_REGISTRY/node:$(TargetVersion)-node12-appservice-quickstart
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)-node12-core-tools
 
       docker system prune -a -f
     displayName: tag and push node images
