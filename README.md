@@ -4,7 +4,6 @@
 
 ## V3 Images
 
-
 #### Dotnet
 
 `mcr.microsoft.com/azure-functions/dotnet`
@@ -93,6 +92,18 @@ Linux amd64 Tags
 | `3.0-python3.8-slim`                         | [Dockerfile](host/3.0/buster/amd64/python/python38/python38-slim.Dockerfile)       | Debian 10  |
 | `3.0-python3.8-appservice`                   | [Dockerfile](host/3.0/buster/amd64/python/python38/python38-appservice.Dockerfile) | Debian 10  |
 | `3.0-python3.8-buildenv`                     | [Dockerfile](host/3.0/buster/amd64/python/python38/python38-buildenv.Dockerfile)   | Debian 10  |
+
+#### Base
+
+`mcr.microsoft.com/azure-functions/base`
+
+Linux amd64 Tags
+
+| Tags             | Dockerfile                                                              | OS Version |
+|------------------|-------------------------------------------------------------------------|------------|
+| `3.0`            | [Dockerfile](host/3.0/buster/amd64/dotnet/dotnet.Dockerfile)            | Debian 10  |
+| `3.0-slim`       | [Dockerfile](host/3.0/buster/amd64/dotnet/dotnet-slim.Dockerfile)       | Debian 10  |
+| `3.0-appservice` | [Dockerfile](host/3.0/buster/amd64/dotnet/dotnet-appservice.Dockerfile) | Debian 10  |
 
 ## V2 Images
 
@@ -201,6 +212,18 @@ Linux amd64 Tags
 | `2.0-python3.7-slim`                         | [Dockerfile](host/2.0/stretch/amd64/python/python37/python37-slim.Dockerfile)       | Debian 9   |
 | `2.0-python3.7-appservice`                   | [Dockerfile](host/2.0/stretch/amd64/python/python37/python37-appservice.Dockerfile) | Debian 9   |
 | `2.0-python3.7-buildenv`                     | [Dockerfile](host/2.0/stretch/amd64/python/python37/python37-buildenv.Dockerfile)   | Debian 9   |
+
+#### Base
+
+`mcr.microsoft.com/azure-functions/base`
+
+Linux amd64 Tags
+
+| Tags             | Dockerfile                                                              | OS Version |
+|------------------|-------------------------------------------------------------------------|------------|
+| `2.0`            | [Dockerfile](host/2.0/buster/amd64/dotnet/dotnet.Dockerfile)            | Debian 9   |
+| `2.0-slim`       | [Dockerfile](host/2.0/buster/amd64/dotnet/dotnet-slim.Dockerfile)       | Debian 9   |
+| `2.0-appservice` | [Dockerfile](host/2.0/buster/amd64/dotnet/dotnet-appservice.Dockerfile) | Debian 9   |
 
 # Contributing
 

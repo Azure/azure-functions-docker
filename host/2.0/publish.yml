@@ -46,6 +46,10 @@ steps:
       docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-arm32v7 $TARGET_REGISTRY/dotnet:$(TargetVersion)-arm32v7
       docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-bionic-arm32v7 $TARGET_REGISTRY/dotnet:$(TargetVersion)-bionic-arm32v7
 
+      docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion) $TARGET_REGISTRY/base:$(TargetVersion)
+      docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-slim $TARGET_REGISTRY/base:$(TargetVersion)-slim
+      docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-appservice $TARGET_REGISTRY/base:$(TargetVersion)-appservice
+
       docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)
       docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-slim
       docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-appservice
@@ -54,6 +58,9 @@ steps:
       docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-alpine
       docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-arm32v7
       docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-bionic-arm32v7
+      docker push $TARGET_REGISTRY/base:$(TargetVersion)
+      docker push $TARGET_REGISTRY/base:$(TargetVersion)-slim
+      docker push $TARGET_REGISTRY/base:$(TargetVersion)-appservice
 
       docker system prune -a -f
     displayName: tag and push dotnet images
