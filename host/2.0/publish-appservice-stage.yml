@@ -3,6 +3,7 @@ trigger: none
 
 steps:
   - bash: |
+      set -e
       echo $pswd | docker login -u $(dockerUsername) --password-stdin azurefunctions.azurecr.io
     displayName: login
     continueOnError: false
@@ -35,6 +36,7 @@ steps:
     continueOnError: false
 
   - bash: |
+      set -e
       docker pull $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-appservice
 
       docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-appservice $TARGET_REGISTRY/dotnet:$(TargetVersion)-appservice-stage$(StageNumber)
@@ -48,6 +50,7 @@ steps:
     continueOnError: false
 
   - bash: |
+      set -e
       docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-appservice
 
       docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-appservice $TARGET_REGISTRY/java:$(TargetVersion)-appservice-stage$(StageNumber)
@@ -61,6 +64,7 @@ steps:
     continueOnError: false
 
   - bash: |
+      set -e
       docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node8-appservice
       docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-appservice
       docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node12-appservice
@@ -80,6 +84,7 @@ steps:
     continueOnError: false
 
   - bash: |
+      set -e
       docker pull $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell6-appservice
 
       docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell6-appservice $TARGET_REGISTRY/powershell:$(TargetVersion)-appservice-stage$(StageNumber)
@@ -93,6 +98,7 @@ steps:
     continueOnError: false
 
   - bash: |
+      set -e
       docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-appservice
       docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7-appservice
       docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8-appservice
