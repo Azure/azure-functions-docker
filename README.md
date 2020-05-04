@@ -41,9 +41,11 @@ Linux amd64 Tags
 | `3.0`, `3.0-node10`                       | [Dockerfile](host/3.0/buster/amd64/node/node10/node10.Dockerfile)            | Debian 10  |
 | `3.0-slim`, `3.0-node10-slim`             | [Dockerfile](host/3.0/buster/amd64/node/node10/node10-slim.Dockerfile)       | Debian 10  |
 | `3.0-appservice`, `3.0-node10-appservice` | [Dockerfile](host/3.0/buster/amd64/node/node10/node10-appservice.Dockerfile) | Debian 10  |
+| `3.0-core-tools`, `3.0-node10-core-tools` | [Dockerfile](host/3.0/buster/amd64/node/node10/node10-core-tools.Dockerfile) | Debian 9  |
 | `3.0-node12`                              | [Dockerfile](host/3.0/buster/amd64/node/node12/node12.Dockerfile)            | Debian 10  |
 | `3.0-node12-slim`                         | [Dockerfile](host/3.0/buster/amd64/node/node12/node12-slim.Dockerfile)       | Debian 10  |
 | `3.0-node12-appservice`                   | [Dockerfile](host/3.0/buster/amd64/node/node12/node12-appservice.Dockerfile) | Debian 10  |
+| `3.0-node12-core-tools`                   | [Dockerfile](host/3.0/buster/amd64/node/node12/node12-core-tools.Dockerfile) | Debian 9  |
 
 #### Powershell
 
