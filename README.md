@@ -66,11 +66,17 @@ Linux amd64 Tags
 
 | Tags                                     | Dockerfile                                                           | OS Version |
 |------------------------------------------|----------------------------------------------------------------------|------------|
-| `3.0`, `3.0-java8`                       | [Dockerfile](host/3.0/buster/amd64/java/java8.Dockerfile)            | Debian 10  |
-| `3.0-slim`, `3.0-java8-slim`             | [Dockerfile](host/3.0/buster/amd64/java/java8-slim.Dockerfile)       | Debian 10  |
-| `3.0-appservice`, `3.0-java8-appservice` | [Dockerfile](host/3.0/buster/amd64/java/java8-appservice.Dockerfile) | Debian 10  |
-| `3.0-java8-core-tools`                    | [Dockerfile](host/3.0/buster/amd64/java/java8-core-tools.Dockerfile)  | Debian 9   |
-| `3.0-java8-build`                        | `N/A`                                                                | Debian 9   |
+| `3.0`, `3.0-java8`                       | [Dockerfile](host/3.0/buster/amd64/java/java8/java8.Dockerfile)            | Debian 10  |
+| `3.0-slim`, `3.0-java8-slim`             | [Dockerfile](host/3.0/buster/amd64/java/java8/java8-slim.Dockerfile)       | Debian 10  |
+| `3.0-appservice`, `3.0-java8-appservice` | [Dockerfile](host/3.0/buster/amd64/java/java8/java8-appservice.Dockerfile) | Debian 10  |
+| `3.0-java8-core-tools`                   | [Dockerfile](host/3.0/buster/amd64/java/java8/java8-core-tools.Dockerfile) | Debian 10   |
+| `3.0-java8-build`                        | `N/A`                                                                        | Debian 10   |
+| `3.0-java11`                             | [Dockerfile](host/3.0/buster/amd64/java/java11/java11.Dockerfile)            | Debian 10  |
+| `3.0-java11-slim`                        | [Dockerfile](host/3.0/buster/amd64/java/java11/java11-slim.Dockerfile)       | Debian 10  |
+| `3.0-java11-appservice`                  | [Dockerfile](host/3.0/buster/amd64/java/java11/java11-appservice.Dockerfile) | Debian 10  |
+| `3.0-java11-core-tools`                  | [Dockerfile](host/3.0/buster/amd64/java/java11/java11-core-tools.Dockerfile) | Debian 10   |
+| `3.0-java11-build`                       | `N/A`                                                                        | Debian 10  |                                                             
+
 
 ### Python
 

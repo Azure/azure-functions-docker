@@ -20,9 +20,12 @@ RUN apt-get update && \
     unzip /Microsoft.Azure.Functions.ExtensionBundle.1.1.1.zip -d /FuncExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/1.1.1 && \
     rm -f /Microsoft.Azure.Functions.ExtensionBundle.1.1.1.zip
 
-FROM openjdk:8-jdk as jdk
+# mcr.microsoft.com/java/jdk doesn't have a debian 10 image yet.
+FROM mcr.microsoft.com/java/jre:8u212-zulu-debian9 as jre
 FROM mcr.microsoft.com/dotnet/core/runtime-deps:3.1
 ARG HOST_VERSION
+
+EXPOSE 2222 80
 
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     HOME=/home \
@@ -32,10 +35,18 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
 
 COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
 COPY --from=runtime-image [ "/workers/java", "/azure-functions-host/workers/java" ]
-COPY --from=jdk [ "/usr/local/openjdk-8", "/usr/local/openjdk-8" ]
-
-ENV JAVA_HOME /usr/local/openjdk-8
-
+COPY --from=jre [ "/usr/lib/jvm/zre-8-azure-amd64", "/usr/lib/jvm/zre-8-azure-amd64" ]
+COPY sshd_config /etc/ssh/
+COPY start.sh /azure-functions-host/
 COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
 
-CMD [ "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost" ]
+ENV JAVA_HOME /usr/lib/jvm/zre-8-azure-amd64
+ENV FUNCTIONS_WORKER_RUNTIME_VERSION=1.8
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends openssh-server dialog && \
+    echo "root:Docker!" | chpasswd
+
+RUN chmod +x /azure-functions-host/start.sh
+
+ENTRYPOINT ["/azure-functions-host/start.sh"]
