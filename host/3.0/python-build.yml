@@ -120,3 +120,14 @@ steps:
       docker push $IMAGE_NAME
     displayName: python3.7-buildenv
     continueOnError: false
+
+  - bash: |
+      set -e
+      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/python:$(Build.SourceBranchName)-python3.8-core-tools
+
+      docker build -t $IMAGE_NAME \
+                  -f host/3.0/buster/amd64/python/python38/python38-buildenv.Dockerfile \
+                  host/3.0/buster/amd64/python/python38/
+      docker push $IMAGE_NAME
+    displayName: python3.8-core-tools
+    continueOnError: false
