@@ -92,6 +92,7 @@ Linux amd64 Tags
 | `3.0-python3.8-slim`                         | [Dockerfile](host/3.0/buster/amd64/python/python38/python38-slim.Dockerfile)       | Debian 10  |
 | `3.0-python3.8-appservice`                   | [Dockerfile](host/3.0/buster/amd64/python/python38/python38-appservice.Dockerfile) | Debian 10  |
 | `3.0-python3.8-buildenv`                     | [Dockerfile](host/3.0/buster/amd64/python/python38/python38-buildenv.Dockerfile)   | Debian 10  |
+| `3.0-python3.8-core-tools`                     | [Dockerfile](host/3.0/buster/amd64/python/python38/python38-core-tools.Dockerfile)   | Debian 10  |
 
 #### Base
 
