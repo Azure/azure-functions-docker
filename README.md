@@ -15,6 +15,7 @@ Linux amd64 Tags
 | `3.0`                                      | [Dockerfile](host/3.0/buster/amd64/dotnet/dotnet.Dockerfile)            | Debian 10  |
 | `3.0-slim`                                 | [Dockerfile](host/3.0/buster/amd64/dotnet/dotnet-slim.Dockerfile)       | Debian 10  |
 | `3.0-appservice`, `3.0-dotnet3-appservice` | [Dockerfile](host/3.0/buster/amd64/dotnet/dotnet-appservice.Dockerfile) | Debian 10  |
+| `3.0-dotnet3-core-tools` | [Dockerfile](host/3.0/buster/amd64/dotnet/dotnet-core-tools.Dockerfile) | Debian 10  |
 
 Linux arm32v7 Tags
 
