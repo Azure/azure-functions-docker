@@ -6,7 +6,7 @@ pr:
       - master
   paths:
     include:
-      - host/2.0/stretch/amd64/python/python37/*
+      - host/2.0/stretch/amd64/python/*
 
 trigger:
   branches:
@@ -14,7 +14,7 @@ trigger:
       - master
   paths:
     include:
-      - host/2.0/stretch/amd64/python/python37/*
+      - host/2.0/stretch/amd64/python/*
 
 steps:
   - bash: |

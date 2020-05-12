@@ -30,6 +30,7 @@ steps:
     continueOnError: false
 
   - bash: |
+      set -e
       docker pull $SOURCE_REGISTRY/dotnet:$(PrivateVersion)
       docker pull $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-slim
       docker pull $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-appservice
@@ -67,6 +68,7 @@ steps:
     continueOnError: false
 
   - bash: |
+      set -e
       docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java8
       docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-slim
       docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-appservice
@@ -106,6 +108,7 @@ steps:
     continueOnError: false
 
   - bash: |
+      set -e
       docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node8
       docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node8-slim
       docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node8-appservice
@@ -172,6 +175,7 @@ steps:
     continueOnError: false
 
   - bash: |
+      set -e
       docker pull $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell6
       docker pull $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell6-slim
       docker pull $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell6-appservice
@@ -206,6 +210,7 @@ steps:
     continueOnError: false
 
   - bash: |
+      set -e
       docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6
       docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-slim
       docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-appservice
