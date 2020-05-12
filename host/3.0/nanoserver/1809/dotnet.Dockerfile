@@ -22,7 +22,7 @@ ENV ASPNETCORE_URLS=http://+:80 `
     DOTNET_USE_POLLING_FILE_WATCHER=true `
     NUGET_XMLDOC_MODE=skip `
     PublishWithAspNetCoreTargetManifest=false `
-    HOST_VERSION=3.0.13353
+    HOST_VERSION=3.0.13614
 
 RUN [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; `
     $BuildNumber = $Env:HOST_VERSION.split('.')[-1]; `
