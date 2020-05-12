@@ -1,6 +1,6 @@
 # Build the runtime from source
 ARG HOST_VERSION=3.0.13353
-FROM mcr.microsoft.com/azure-functions/base:grpc-1.20-arm32v7 as grpc-image
+FROM mcr.microsoft.com/azure-functions/base:grpc-2.27-arm32v7 as grpc-image
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS runtime-image
 ARG HOST_VERSION
 
@@ -31,15 +31,15 @@ ARG HOST_VERSION
 COPY --from=runtime-image ["/usr/bin/qemu-arm-static", "/usr/bin"]
 COPY --from=runtime-image ["/azure-functions-host", "/azure-functions-host"]
 COPY --from=runtime-image ["/FuncExtensionBundles", "/FuncExtensionBundles"]
-COPY --from=grpc-image ["/libgrpc_csharp_ext.so.1.20.1", "/"]
+COPY --from=grpc-image ["/libgrpc_csharp_ext.so.2.27.3", "/"]
 
 RUN rm -f /azure-functions-host/runtimes/linux/native/* && \
-    mv libgrpc_csharp_ext.so.1.20.1 /azure-functions-host/runtimes/linux/native/ && \
+    mv libgrpc_csharp_ext.so.2.27.3 /azure-functions-host/runtimes/linux/native/ && \
     cd /azure-functions-host/runtimes/linux/native/ && \
-    ln -s libgrpc_csharp_ext.so.1.20.1 libgrpc_csharp_ext.so && \
-    ln -s libgrpc_csharp_ext.so.1.20.1 libgrpc_csharp_ext.x64.so && \
-    ln -s libgrpc_csharp_ext.so.1.20.1 libgrpc_csharp_ext.x86.so && \
-    ln -s libgrpc_csharp_ext.so.1.20.1 libgrpc_csharp_ext.arm32v7.so
+    ln -s libgrpc_csharp_ext.so.2.27.3 libgrpc_csharp_ext.so && \
+    ln -s libgrpc_csharp_ext.so.2.27.3 libgrpc_csharp_ext.x64.so && \
+    ln -s libgrpc_csharp_ext.so.2.27.3 libgrpc_csharp_ext.x86.so && \
+    ln -s libgrpc_csharp_ext.so.2.27.3 libgrpc_csharp_ext.arm32v7.so
 
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     HOME=/home \

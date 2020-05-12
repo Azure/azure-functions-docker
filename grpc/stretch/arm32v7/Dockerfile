@@ -2,7 +2,7 @@ FROM arm32v7/debian:stretch-slim as build-env
 
 COPY ./qemu-arm-static /usr/bin/
 
-ENV GRPC_VERSION=v1.20.x
+ENV GRPC_VERSION=v1.27.x
 
 RUN apt-get update && \
     apt-get install --yes build-essential autoconf libtool pkg-config \
@@ -15,6 +15,6 @@ RUN git clone --depth 1 -b "$GRPC_VERSION" https://github.com/grpc/grpc && \
 
 FROM scratch
 
-COPY --from=build-env ["/grpc/libs/opt/libgrpc_csharp_ext.so.1.20.1", "/"]
+COPY --from=build-env ["/grpc/libs/opt/libgrpc_csharp_ext.so.2.27.3", "/"]
 
 CMD ["dotnet", "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost.dll"]
