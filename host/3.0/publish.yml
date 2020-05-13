@@ -34,6 +34,7 @@ steps:
       docker pull $SOURCE_REGISTRY/dotnet:$(PrivateVersion)
       docker pull $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-slim
       docker pull $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-appservice
+      docker pull $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-core-tools
       docker pull $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-arm32v7
       docker pull $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-bionic-arm32v7
 
@@ -42,6 +43,7 @@ steps:
       docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-appservice $TARGET_REGISTRY/dotnet:$(TargetVersion)-appservice
       docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-appservice $TARGET_REGISTRY/dotnet:$(TargetVersion)-dotnet3-appservice
       docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-appservice $TARGET_REGISTRY/dotnet:$(TargetVersion)-appservice-quickstart
+      docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-appservice $TARGET_REGISTRY/dotnet:$(TargetVersion)-dotnet3-core-tools
       docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-arm32v7 $TARGET_REGISTRY/dotnet:$(TargetVersion)-arm32v7
       docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-bionic-arm32v7 $TARGET_REGISTRY/dotnet:$(TargetVersion)-bionic-arm32v7
 
@@ -54,6 +56,7 @@ steps:
       docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-appservice
       docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-dotnet3-appservice
       docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-appservice-quickstart
+      docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-dotnet3-core-tools
       docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-arm32v7
       docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-bionic-arm32v7
       docker push $TARGET_REGISTRY/base:$(TargetVersion)
