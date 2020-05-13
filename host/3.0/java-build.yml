@@ -6,7 +6,8 @@ pr:
       - master
   paths:
     include:
-      - host/3.0/buster/amd64/java/*
+      - host/3.0/buster/amd64/java/java8/*
+      - host/3.0/buster/amd64/java/java11/*
 
 trigger:
   branches:
@@ -14,7 +15,8 @@ trigger:
       - master
   paths:
     include:
-      - host/3.0/buster/amd64/java/*
+      - host/3.0/buster/amd64/java/java8/*
+      - host/3.0/buster/amd64/java/java11/*
 
 steps:
   - bash: |
@@ -32,8 +34,8 @@ steps:
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/java:$(Build.SourceBranchName)-java8
 
       docker build -t $IMAGE_NAME \
-                  -f host/3.0/buster/amd64/java/java8.Dockerfile \
-                  host/3.0/buster/amd64/java/
+                  -f host/3.0/buster/amd64/java/java8/java8.Dockerfile \
+                  host/3.0/buster/amd64/java/java8
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
     displayName: java8
@@ -43,8 +45,8 @@ steps:
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/java:$(Build.SourceBranchName)-java8-slim
       docker build -t $IMAGE_NAME \
-                  -f host/3.0/buster/amd64/java/java8-slim.Dockerfile \
-                  host/3.0/buster/amd64/java/
+                  -f host/3.0/buster/amd64/java/java8/java8-slim.Dockerfile \
+                  host/3.0/buster/amd64/java/java8
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
     displayName: java8-slim
@@ -54,8 +56,8 @@ steps:
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/java:$(Build.SourceBranchName)-java8-appservice
       docker build -t $IMAGE_NAME \
-                  -f host/3.0/buster/amd64/java/java8-appservice.Dockerfile \
-                  host/3.0/buster/amd64/java/
+                  -f host/3.0/buster/amd64/java/java8/java8-appservice.Dockerfile \
+                  host/3.0/buster/amd64/java/java8
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
     displayName: java8-appservice
@@ -65,10 +67,57 @@ steps:
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/java:$(Build.SourceBranchName)-java8-core-tools
       docker build -t $IMAGE_NAME \
-                  -f host/3.0/buster/amd64/java/java8-core-tools.Dockerfile \
-                  host/3.0/buster/amd64/java/
+                  -f host/3.0/buster/amd64/java/java8/java8-core-tools.Dockerfile \
+                  host/3.0/buster/amd64/java/java8
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
     displayName: java8-core-tools
     continueOnError: false
+
+  - bash: |
+      set -e
+      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/java:$(Build.SourceBranchName)-java11
+
+      docker build -t $IMAGE_NAME \
+                -f host/3.0/buster/amd64/java/java11/java11.Dockerfile \
+                host/3.0/buster/amd64/java/java11
+      npm run test $IMAGE_NAME --prefix  test/
+      docker push $IMAGE_NAME
+    displayName: java11
+    continueOnError: false
+
+  - bash: |
+      set -e
+      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/java:$(Build.SourceBranchName)-java11-slim
+      docker build -t $IMAGE_NAME \
+                  -f host/3.0/buster/amd64/java/java11/java11-slim.Dockerfile \
+                  host/3.0/buster/amd64/java/java11
+      npm run test $IMAGE_NAME --prefix  test/
+      docker push $IMAGE_NAME
+    displayName: java11-slim
+    continueOnError: false
+
+  - bash: |
+      set -e
+      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/java:$(Build.SourceBranchName)-java11-appservice
+      docker build -t $IMAGE_NAME \
+                  -f host/3.0/buster/amd64/java/java11/java11-appservice.Dockerfile \
+                  host/3.0/buster/amd64/java/java11
+      npm run test $IMAGE_NAME --prefix  test/
+      docker push $IMAGE_NAME
+    displayName: java11-appservice
+    continueOnError: false
+
+  - bash: |
+      set -e
+      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/java:$(Build.SourceBranchName)-java11-core-tools
+      docker build -t $IMAGE_NAME \
+                  -f host/3.0/buster/amd64/java/java11/java11-core-tools.Dockerfile \
+                  host/3.0/buster/amd64/java/java11
+      npm run test $IMAGE_NAME --prefix  test/
+      docker push $IMAGE_NAME
+    displayName: java11-core-tools
+    continueOnError: false
+
+
 
