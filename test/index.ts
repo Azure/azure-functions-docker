@@ -171,7 +171,7 @@ const runTest = async (data: typeof map.dotnet, envStr = "") => {
     }
     // Powershell module tests Az module
     if (imageName.indexOf("powershell") !== -1) {
-      if (parseInt(shell.exec('docker run ${name} pwsh -Command "(Get-InstalledModule).count"').stdout) === 0){
+      if (parseInt(shell.exec(`docker run ${name} pwsh -Command "(Get-InstalledModule).count"`).stdout) === 0){
         console.error("Az Module Not Found.")
         process.exit(1);
       }
