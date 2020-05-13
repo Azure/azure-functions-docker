@@ -6,8 +6,7 @@ pr:
       - master
   paths:
     include:
-      - host/3.0/buster/amd64/node/node10/*
-      - host/3.0/buster/amd64/node/node12/*
+      - host/3.0/buster/amd64/node/*
 
 trigger:
   branches:
@@ -15,8 +14,7 @@ trigger:
       - master
   paths:
     include:
-      - host/3.0/buster/amd64/node/node10/*
-      - host/3.0/buster/amd64/node/node12/*
+      - host/3.0/buster/amd64/node/*
 
 steps:
   - bash: |
