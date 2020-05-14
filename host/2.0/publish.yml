@@ -219,10 +219,6 @@ steps:
       docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7-slim
       docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7-appservice
       docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7-buildenv
-      docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8
-      docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8-slim
-      docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8-appservice
-      docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8-buildenv
 
       docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6 $TARGET_REGISTRY/python:$(TargetVersion)
       docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-slim $TARGET_REGISTRY/python:$(TargetVersion)-slim
@@ -242,12 +238,6 @@ steps:
       docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.7-appservice-quickstart
       docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7-buildenv $TARGET_REGISTRY/python:$(TargetVersion)-python3.7-buildenv
 
-      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8 $TARGET_REGISTRY/python:$(TargetVersion)-python3.8
-      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8-slim $TARGET_REGISTRY/python:$(TargetVersion)-python3.8-slim
-      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.8-appservice
-      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.8-appservice-quickstart
-      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8-buildenv $TARGET_REGISTRY/python:$(TargetVersion)-python3.8-buildenv
-
       docker push $TARGET_REGISTRY/python:$(TargetVersion)
       docker push $TARGET_REGISTRY/python:$(TargetVersion)-slim
       docker push $TARGET_REGISTRY/python:$(TargetVersion)-appservice
@@ -265,12 +255,6 @@ steps:
       docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.7-appservice
       docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.7-appservice-quickstart
       docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.7-buildenv
-
-      docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.8
-      docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.8-slim
-      docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.8-appservice
-      docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.8-appservice-quickstart
-      docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.8-buildenv
 
       docker system prune -a -f
     displayName: tag and push python images
