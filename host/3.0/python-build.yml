@@ -1,5 +1,3 @@
-queue: Hosted Ubuntu 1604
-
 pr:
   branches:
     include:
@@ -16,7 +14,12 @@ trigger:
     include:
       - host/3.0/buster/amd64/python/*
 
-steps:
+jobs:
+- job: python36
+  displayName: python 3.6
+  pool:
+    vmImage: ubuntu-18.04
+  steps: 
   - bash: |
       # login
       set -e
@@ -26,7 +29,6 @@ steps:
     continueOnError: false
     env:
       pswd: $(dockerPassword)
-
   - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/python:$(Build.SourceBranchName)-python3.6
@@ -38,6 +40,8 @@ steps:
       docker push $IMAGE_NAME
     displayName: python3.6
     continueOnError: false
+    env:
+      DOCKER_BUILDKIT: 1
 
   - bash: |
       set -e
@@ -50,6 +54,8 @@ steps:
       docker push $IMAGE_NAME
     displayName: python3.6-slim
     continueOnError: false
+    env:
+      DOCKER_BUILDKIT: 1
 
   - bash: |
       set -e
@@ -62,6 +68,8 @@ steps:
       docker push $IMAGE_NAME
     displayName: python3.6-appservice
     continueOnError: false
+    env:
+      DOCKER_BUILDKIT: 1
 
   - bash: |
       set -e
@@ -73,6 +81,23 @@ steps:
       docker push $IMAGE_NAME
     displayName: python3.6-buildenv
     continueOnError: false
+    env:
+      DOCKER_BUILDKIT: 1
+
+- job: python37
+  displayName: python 3.7
+  pool:
+    vmImage: ubuntu-18.04
+  steps:
+  - bash: |
+      # login
+      set -e
+      echo $pswd | docker login -u $(dockerUsername) --password-stdin azurefunctions.azurecr.io
+
+    displayName: login to registry
+    continueOnError: false
+    env:
+      pswd: $(dockerPassword)
 
   - bash: |
       set -e
@@ -85,6 +110,8 @@ steps:
       docker push $IMAGE_NAME
     displayName: python3.7
     continueOnError: false
+    env:
+      DOCKER_BUILDKIT: 1
 
   - bash: |
       set -e
@@ -97,6 +124,8 @@ steps:
       docker push $IMAGE_NAME
     displayName: python3.7-slim
     continueOnError: false
+    env:
+      DOCKER_BUILDKIT: 1
 
   - bash: |
       set -e
@@ -109,6 +138,8 @@ steps:
       docker push $IMAGE_NAME
     displayName: python3.7-appservice
     continueOnError: false
+    env:
+      DOCKER_BUILDKIT: 1
 
   - bash: |
       set -e
@@ -120,6 +151,23 @@ steps:
       docker push $IMAGE_NAME
     displayName: python3.7-buildenv
     continueOnError: false
+    env:
+      DOCKER_BUILDKIT: 1
+
+- job: python38
+  displayName: python 3.8
+  pool:
+    vmImage: ubuntu-18.04
+  steps:
+  - bash: |
+      # login
+      set -e
+      echo $pswd | docker login -u $(dockerUsername) --password-stdin azurefunctions.azurecr.io
+
+    displayName: login to registry
+    continueOnError: false
+    env:
+      pswd: $(dockerPassword)
 
   - bash: |
       set -e
@@ -132,6 +180,8 @@ steps:
       docker push $IMAGE_NAME
     displayName: python3.8
     continueOnError: false
+    env:
+      DOCKER_BUILDKIT: 1
 
   - bash: |
       set -e
@@ -144,6 +194,8 @@ steps:
       docker push $IMAGE_NAME
     displayName: python3.8-slim
     continueOnError: false
+    env:
+      DOCKER_BUILDKIT: 1
 
   - bash: |
       set -e
@@ -156,6 +208,8 @@ steps:
       docker push $IMAGE_NAME
     displayName: python3.8-appservice
     continueOnError: false
+    env:
+      DOCKER_BUILDKIT: 1
 
   - bash: |
       set -e
@@ -167,14 +221,19 @@ steps:
       docker push $IMAGE_NAME
     displayName: python3.8-buildenv
     continueOnError: false
+    env:
+      DOCKER_BUILDKIT: 1
 
   - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/python:$(Build.SourceBranchName)-python3.8-core-tools
 
       docker build -t $IMAGE_NAME \
-                  -f host/3.0/buster/amd64/python/python38/python38-buildenv.Dockerfile \
+                  -f host/3.0/buster/amd64/python/python38/python38-core-tools.Dockerfile \
                   host/3.0/buster/amd64/python/python38/
+      npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
     displayName: python3.8-core-tools
     continueOnError: false
+    env:
+      DOCKER_BUILDKIT: 1
