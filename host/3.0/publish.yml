@@ -31,50 +31,6 @@ steps:
 
   - bash: |
       set -e
-      docker pull $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-core-tools
-      docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-core-tools $TARGET_REGISTRY/dotnet:$(TargetVersion)-dotnet3-core-tools
-      docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-dotnet3-core-tools
-
-      docker system prune -a -f
-    displayName: tag and push dotnet images
-    continueOnError: false
-
-  - bash: |
-      set -e
-      docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-core-tools
-      docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java11-core-tools
-
-      docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-core-tools $TARGET_REGISTRY/java:$(TargetVersion)-java-core-tools
-      docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-core-tools $TARGET_REGISTRY/java:$(TargetVersion)-java8-core-tools
-      docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java11-core-tools $TARGET_REGISTRY/java:$(TargetVersion)-java11-core-tools
-
-      docker push $TARGET_REGISTRY/java:$(TargetVersion)-java-core-tools    
-      docker push $TARGET_REGISTRY/java:$(TargetVersion)-java8-core-tools
-      docker push $TARGET_REGISTRY/java:$(TargetVersion)-java11-core-tools
-
-      docker system prune -a -f
-    displayName: tag and push java images
-    continueOnError: false
-
-  - bash: |
-      set -e
-      docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-core-tools
-      docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node12-core-tools
-
-      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-core-tools $TARGET_REGISTRY/node:$(TargetVersion)-core-tools
-      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-core-tools $TARGET_REGISTRY/node:$(TargetVersion)-node10-core-tools
-      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node12-core-tools $TARGET_REGISTRY/node:$(TargetVersion)-node12-core-tools
-
-      docker push $TARGET_REGISTRY/node:$(TargetVersion)-core-tools
-      docker push $TARGET_REGISTRY/node:$(TargetVersion)-node10-core-tools
-      docker push $TARGET_REGISTRY/node:$(TargetVersion)-node12-core-tools
-
-      docker system prune -a -f
-    displayName: tag and push node images
-    continueOnError: false
-
-  - bash: |
-      set -e
       docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8-core-tools
       docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8-core-tools $TARGET_REGISTRY/python:$(TargetVersion)-python3.8-core-tools
       docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.8-core-tools
