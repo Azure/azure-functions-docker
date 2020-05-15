@@ -40,6 +40,8 @@ jobs:
       docker push $IMAGE_NAME
     displayName: python3.6
     continueOnError: false
+    env:
+      DOCKER_BUILDKIT: 1
 
   - bash: |
       set -e
@@ -52,6 +54,8 @@ jobs:
       docker push $IMAGE_NAME
     displayName: python3.6-slim
     continueOnError: false
+    env:
+      DOCKER_BUILDKIT: 1
 
   - bash: |
       set -e
@@ -64,6 +68,8 @@ jobs:
       docker push $IMAGE_NAME
     displayName: python3.6-appservice
     continueOnError: false
+    env:
+      DOCKER_BUILDKIT: 1
 
   - bash: |
       set -e
@@ -75,6 +81,8 @@ jobs:
       docker push $IMAGE_NAME
     displayName: python3.6-buildenv
     continueOnError: false
+    env:
+      DOCKER_BUILDKIT: 1
 
 - job: python37
   displayName: python 3.7
@@ -102,6 +110,8 @@ jobs:
       docker push $IMAGE_NAME
     displayName: python3.7
     continueOnError: false
+    env:
+      DOCKER_BUILDKIT: 1
 
   - bash: |
       set -e
@@ -114,6 +124,8 @@ jobs:
       docker push $IMAGE_NAME
     displayName: python3.7-slim
     continueOnError: false
+    env:
+      DOCKER_BUILDKIT: 1
 
   - bash: |
       set -e
@@ -126,6 +138,8 @@ jobs:
       docker push $IMAGE_NAME
     displayName: python3.7-appservice
     continueOnError: false
+    env:
+      DOCKER_BUILDKIT: 1
 
   - bash: |
       set -e
@@ -137,6 +151,8 @@ jobs:
       docker push $IMAGE_NAME
     displayName: python3.7-buildenv
     continueOnError: false
+    env:
+      DOCKER_BUILDKIT: 1
 
 - job: python38
   displayName: python 3.8
@@ -164,6 +180,8 @@ jobs:
       docker push $IMAGE_NAME
     displayName: python3.8
     continueOnError: false
+    env:
+      DOCKER_BUILDKIT: 1
 
   - bash: |
       set -e
@@ -176,6 +194,8 @@ jobs:
       docker push $IMAGE_NAME
     displayName: python3.8-slim
     continueOnError: false
+    env:
+      DOCKER_BUILDKIT: 1
 
   - bash: |
       set -e
@@ -188,6 +208,8 @@ jobs:
       docker push $IMAGE_NAME
     displayName: python3.8-appservice
     continueOnError: false
+    env:
+      DOCKER_BUILDKIT: 1
 
   - bash: |
       set -e
@@ -199,6 +221,8 @@ jobs:
       docker push $IMAGE_NAME
     displayName: python3.8-buildenv
     continueOnError: false
+    env:
+      DOCKER_BUILDKIT: 1
 
   - bash: |
       set -e
@@ -211,3 +235,5 @@ jobs:
       docker push $IMAGE_NAME
     displayName: python3.8-core-tools
     continueOnError: false
+    env:
+      DOCKER_BUILDKIT: 1
