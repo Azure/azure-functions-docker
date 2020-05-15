@@ -18,7 +18,7 @@ RUN apt-get update && \
     wget https://functionscdn.azureedge.net/public/ExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/1.3.0/Microsoft.Azure.Functions.ExtensionBundle.1.3.0.zip && \
     mkdir -p /FuncExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/1.3.0 && \
     unzip /Microsoft.Azure.Functions.ExtensionBundle.1.3.0.zip -d /FuncExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/1.3.0 && \
-    rm -f /Microsoft.Azure.Functions.ExtensionBundle.1.3.0.zi
+    rm -f /Microsoft.Azure.Functions.ExtensionBundle.1.3.0.zip
 
 # runtime image
 FROM mcr.microsoft.com/dotnet/core/runtime-deps:2.2-alpine3.8

@@ -18,7 +18,7 @@ RUN apt-get update && \
     wget https://functionscdn.azureedge.net/public/ExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/1.3.0/Microsoft.Azure.Functions.ExtensionBundle.1.3.0.zip && \
     mkdir -p /FuncExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/1.3.0 && \
     unzip /Microsoft.Azure.Functions.ExtensionBundle.1.3.0.zip -d /FuncExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/1.3.0 && \
-    rm -f /Microsoft.Azure.Functions.ExtensionBundle.1.3.0.zi
+    rm -f /Microsoft.Azure.Functions.ExtensionBundle.1.3.0.zip
 
 FROM openjdk:8-jdk-alpine as jdk
 RUN mkdir -p /usr/lib/jvm/java-1.8-openjdk
