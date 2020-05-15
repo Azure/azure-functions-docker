@@ -1,5 +1,3 @@
-queue: Hosted Ubuntu 1604
-
 pr:
   branches:
     include:
@@ -17,7 +15,10 @@ trigger:
       - host/3.0/buster/amd64/python/*
 
 jobs:
-- job: python3.6
+- job: python36
+  displayName: python 3.6
+  pool:
+    vmImage: 'Hosted Ubuntu 1604'
   steps: 
   - bash: |
       # login
@@ -75,7 +76,10 @@ jobs:
     displayName: python3.6-buildenv
     continueOnError: false
 
-- job: python3.7
+- job: python37
+  displayName: python 3.7
+  pool:
+    vmImage: 'Hosted Ubuntu 1604'
   steps:
   - bash: |
       # login
@@ -134,7 +138,10 @@ jobs:
     displayName: python3.7-buildenv
     continueOnError: false
 
-- job: python3.8
+- job: python38
+  displayName: python 3.8
+  pool:
+    vmImage: 'Hosted Ubuntu 1604'
   steps:
   - bash: |
       # login
