@@ -16,7 +16,9 @@ trigger:
     include:
       - host/3.0/buster/amd64/python/*
 
-steps:
+jobs:
+- job: python3.6
+  steps: 
   - bash: |
       # login
       set -e
@@ -26,7 +28,6 @@ steps:
     continueOnError: false
     env:
       pswd: $(dockerPassword)
-
   - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/python:$(Build.SourceBranchName)-python3.6
@@ -74,6 +75,18 @@ steps:
     displayName: python3.6-buildenv
     continueOnError: false
 
+- job: python3.7
+  steps:
+  - bash: |
+      # login
+      set -e
+      echo $pswd | docker login -u $(dockerUsername) --password-stdin azurefunctions.azurecr.io
+
+    displayName: login to registry
+    continueOnError: false
+    env:
+      pswd: $(dockerPassword)
+
   - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/python:$(Build.SourceBranchName)-python3.7
@@ -120,6 +133,18 @@ steps:
       docker push $IMAGE_NAME
     displayName: python3.7-buildenv
     continueOnError: false
+
+- job: python3.8
+  steps:
+  - bash: |
+      # login
+      set -e
+      echo $pswd | docker login -u $(dockerUsername) --password-stdin azurefunctions.azurecr.io
+
+    displayName: login to registry
+    continueOnError: false
+    env:
+      pswd: $(dockerPassword)
 
   - bash: |
       set -e
