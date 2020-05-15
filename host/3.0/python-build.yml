@@ -18,7 +18,7 @@ jobs:
 - job: python36
   displayName: python 3.6
   pool:
-    vmImage: 'Hosted Ubuntu 1604'
+    vmImage: ubuntu-16.04
   steps: 
   - bash: |
       # login
@@ -79,7 +79,7 @@ jobs:
 - job: python37
   displayName: python 3.7
   pool:
-    vmImage: 'Hosted Ubuntu 1604'
+    vmImage: ubuntu-16.04
   steps:
   - bash: |
       # login
@@ -141,7 +141,7 @@ jobs:
 - job: python38
   displayName: python 3.8
   pool:
-    vmImage: 'Hosted Ubuntu 1604'
+    vmImage: ubuntu-16.04
   steps:
   - bash: |
       # login
