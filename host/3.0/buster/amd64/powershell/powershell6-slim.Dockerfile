@@ -13,13 +13,14 @@ RUN BUILD_NUMBER=$(echo ${HOST_VERSION} | cut -d'.' -f 3) && \
     mv /azure-functions-host/workers /workers && mkdir /azure-functions-host/workers && \
     rm -rf /root/.local /root/.nuget /src
 
-RUN apt-get update && \
+RUN EXTENSION_BUNDLE_VERSION=1.3.0 && \
+    EXTENSION_BUNDLE_FILENAME=Microsoft.Azure.Functions.ExtensionBundle.1.3.0_linux-x64.zip && \
+    apt-get update && \
     apt-get install -y gnupg wget unzip && \
-    wget https://functionscdn.azureedge.net/public/ExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/1.3.0/Microsoft.Azure.Functions.ExtensionBundle.1.3.0.zip && \
-    mkdir -p /FuncExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/1.3.0 && \
-    unzip /Microsoft.Azure.Functions.ExtensionBundle.1.3.0.zip -d /FuncExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/1.3.0 && \
-    rm -f /Microsoft.Azure.Functions.ExtensionBundle.1.3.0.zip
-
+    wget https://functionscdn.azureedge.net/public/ExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION/$EXTENSION_BUNDLE_FILENAME && \
+    mkdir -p /FuncExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION && \
+    unzip /$EXTENSION_BUNDLE_FILENAME -d /FuncExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION && \
+    rm -f /$EXTENSION_BUNDLE_FILENAME
 
 FROM mcr.microsoft.com/dotnet/core/aspnet:2.2
 ARG HOST_VERSION
@@ -30,12 +31,14 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     DOTNET_USE_POLLING_FILE_WATCHER=true \
     HOST_VERSION=${HOST_VERSION}
 
-RUN apt-get update && \
+RUN EXTENSION_BUNDLE_VERSION=1.3.0 && \
+    EXTENSION_BUNDLE_FILENAME=Microsoft.Azure.Functions.ExtensionBundle.1.3.0_linux-x64.zip && \
+    apt-get update && \
     apt-get install -y gnupg wget unzip && \
-    wget https://functionscdn.azureedge.net/public/ExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/1.3.0/Microsoft.Azure.Functions.ExtensionBundle.1.3.0.zip && \
-    mkdir -p /FuncExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/1.3.0 && \
-    unzip /Microsoft.Azure.Functions.ExtensionBundle.1.3.0.zip -d /FuncExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/1.3.0 && \
-    rm -f /Microsoft.Azure.Functions.ExtensionBundle.1.3.0.zip
+    wget https://functionscdn.azureedge.net/public/ExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION/$EXTENSION_BUNDLE_FILENAME && \
+    mkdir -p /FuncExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION && \
+    unzip /$EXTENSION_BUNDLE_FILENAME -d /FuncExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION && \
+    rm -f /$EXTENSION_BUNDLE_FILENAME
 
 COPY --from=runtime-image ["/azure-functions-host", "/azure-functions-host"]
 COPY --from=runtime-image [ "/workers/powershell", "/azure-functions-host/workers/powershell" ]
