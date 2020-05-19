@@ -65,17 +65,6 @@ steps:
 
   - bash: |
       set -e
-      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/java:$(Build.SourceBranchName)-java8-core-tools
-      docker build -t $IMAGE_NAME \
-                  -f host/3.0/buster/amd64/java/java8/java8-core-tools.Dockerfile \
-                  host/3.0/buster/amd64/java/java8
-      npm run test $IMAGE_NAME --prefix  test/
-      docker push $IMAGE_NAME
-    displayName: java8-core-tools
-    continueOnError: false
-
-  - bash: |
-      set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/java:$(Build.SourceBranchName)-java11
 
       docker build -t $IMAGE_NAME \
@@ -108,16 +97,6 @@ steps:
     displayName: java11-appservice
     continueOnError: false
 
-  - bash: |
-      set -e
-      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/java:$(Build.SourceBranchName)-java11-core-tools
-      docker build -t $IMAGE_NAME \
-                  -f host/3.0/buster/amd64/java/java11/java11-core-tools.Dockerfile \
-                  host/3.0/buster/amd64/java/java11
-      npm run test $IMAGE_NAME --prefix  test/
-      docker push $IMAGE_NAME
-    displayName: java11-core-tools
-    continueOnError: false
 
 
 

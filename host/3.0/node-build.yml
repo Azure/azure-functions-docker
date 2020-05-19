@@ -65,18 +65,6 @@ steps:
 
   - bash: |
       set -e
-      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/node:$(Build.SourceBranchName)-node10-core-tools
-
-      docker build -t $IMAGE_NAME \
-                  -f host/3.0/buster/amd64/node/node10/node10-core-tools.Dockerfile \
-                  host/3.0/buster/amd64/node/node10/
-      npm run test $IMAGE_NAME --prefix  test/
-      docker push $IMAGE_NAME
-    displayName: node10-core-tools
-    continueOnError: false
-
-  - bash: |
-      set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/node:$(Build.SourceBranchName)-node12
 
       docker build -t $IMAGE_NAME \
@@ -111,14 +99,3 @@ steps:
     displayName: node12-appservice
     continueOnError: false
 
-  - bash: |
-      set -e
-      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/node:$(Build.SourceBranchName)-node12-core-tools
-
-      docker build -t $IMAGE_NAME \
-                  -f host/3.0/buster/amd64/node/node12/node12-core-tools.Dockerfile \
-                  host/3.0/buster/amd64/node/node12/
-      npm run test $IMAGE_NAME --prefix  test/
-      docker push $IMAGE_NAME
-    displayName: node12-core-tools
-    continueOnError: false
