@@ -28,6 +28,23 @@ steps:
       echo "##vso[task.setvariable variable=TARGET_REGISTRY]$TARGET_REGISTRY"
     displayName: set env
     continueOnError: false
+    
+  - bash: |
+      set -e
+      docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-core-tools
+      docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node12-core-tools
+
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-core-tools $TARGET_REGISTRY/node:$(TargetVersion)-core-tools
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-core-tools $TARGET_REGISTRY/node:$(TargetVersion)-node10-core-tools
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node12-core-tools $TARGET_REGISTRY/node:$(TargetVersion)-node12-core-tools
+
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)-core-tools
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)-node10-core-tools
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)-node12-core-tools
+
+      docker system prune -a -f
+    displayName: tag and push node images
+    continueOnError: false
 
   - bash: |
       set -e
