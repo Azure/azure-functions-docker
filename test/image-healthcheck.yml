@@ -14,49 +14,49 @@ steps:
       set -e
       ImageName="mcr.microsoft.com/azure-functions/dotnet:3.0-dotnet3-core-tools"
       docker run $ImageName az --version
-      CurrentVersion=`docker $ImageName func --version`
+      CurrentVersion=`docker run $ImageName func --version`
       echo "Azure Functions Core Tools: Current: ${CurrentVersion} Latest: $(LatestVersion)"
     displayName: DotNet 3.0 core-tools 
   - bash: |
       set -e
       ImageName="mcr.microsoft.com/azure-functions/node:3.0-core-tools"
       docker run $ImageName az --version
-      CurrentVersion=`docker $ImageName func --version`
+      CurrentVersion=`docker run $ImageName func --version`
       echo "Azure Functions Core Tools: Current: ${CurrentVersion} Latest: $(LatestVersion)"
     displayName: Node core-tools 
   - bash: |
       set -e
       ImageName="mcr.microsoft.com/azure-functions/node:3.0-node10-core-tools"
       docker run $ImageName az --version
-      CurrentVersion=`docker $ImageName func --version`
+      CurrentVersion=`docker run $ImageName func --version`
       echo "Azure Functions Core Tools: Current: ${CurrentVersion} Latest: $(LatestVersion)"
     displayName: Node10 core-tools 
   - bash: |
       set -e
       ImageName="mcr.microsoft.com/azure-functions/node:3.0-node12-core-tools"
       docker run $ImageName az --version
-      CurrentVersion=`docker $ImageName func --version`
+      CurrentVersion=`docker run $ImageName func --version`
       echo "Azure Functions Core Tools: Current: ${CurrentVersion} Latest: $(LatestVersion)"
     displayName: Node12 core-tools 
   - bash: |
       set -e
       ImageName="mcr.microsoft.com/azure-functions/java:3.0-java8-core-tools"
       docker run $ImageName az --version
-      CurrentVersion=`docker $ImageName func --version`
+      CurrentVersion=`docker run $ImageName func --version`
       echo "Azure Functions Core Tools: Current: ${CurrentVersion} Latest: $(LatestVersion)"
     displayName: java8 core-tools 
   - bash: |
       set -e
       ImageName="mcr.microsoft.com/azure-functions/java:3.0-java11-core-tools"
       docker run $ImageName az --version
-      CurrentVersion=`docker $ImageName func --version`
+      CurrentVersion=`docker run $ImageName func --version`
       echo "Azure Functions Core Tools: Current: ${CurrentVersion} Latest: $(LatestVersion)"
     displayName: java11 core-tools 
   - bash: |
       set -e
       ImageName="mcr.microsoft.com/azure-functions/python:3.0-python3.8-core-tools"
       docker run $ImageName az --version
-      CurrentVersion=`docker $ImageName func --version`
+      CurrentVersion=`docker run $ImageName func --version`
       echo "Azure Functions Core Tools: Current: ${CurrentVersion} Latest: $(LatestVersion)"
     displayName: python3.8 core-tools 
   
