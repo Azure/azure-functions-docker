@@ -2,7 +2,7 @@ schedules:
 - cron: "0 * * * *"
   branches:
     include:
-    - master
+    - tsushi/healthcheck
   always: true
 
 pool:
