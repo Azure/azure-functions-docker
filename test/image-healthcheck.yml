@@ -1,4 +1,9 @@
-trigger: none
+schedules:
+- cron: "0 * * * *"
+  branches:
+    include:
+    - master
+  always: true
 
 pool:
   vmImage: ubuntu-18.04
