@@ -1,4 +1,6 @@
-[![Build Status](https://azure-functions.visualstudio.com/azure-functions-docker/_apis/build/status/build?branchName=master)](https://azure-functions.visualstudio.com/azure-functions-docker/_build/latest?definitionId=4&branchName=master)
+Build Status: [![Build Status](https://azure-functions.visualstudio.com/azure-functions-docker/_apis/build/status/build?branchName=master)](https://azure-functions.visualstudio.com/azure-functions-docker/_build/latest?definitionId=4&branchName=master)
+
+CoreTools Healthcheck: [![CoreTools healthcheck](https://azure-functions.visualstudio.com/azure-functions-docker/_apis/build/status/v3%20core-tools%20image%20health%20check?branchName=master)](https://azure-functions.visualstudio.com/azure-functions-docker/_build/latest?definitionId=43&branchName=master)
 
 # Dockerhub
 
