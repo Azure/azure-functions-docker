@@ -38,7 +38,6 @@ COPY --from=runtime-image [ "/workers/java", "/azure-functions-host/workers/java
 COPY --from=jre [ "/usr/lib/jvm/zre-8-azure-amd64", "/usr/lib/jvm/zre-8-azure-amd64" ]
 
 ENV JAVA_HOME /usr/lib/jvm/zre-8-azure-amd64
-ENV FUNCTIONS_WORKER_RUNTIME_VERSION=1.8
 
 COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
 

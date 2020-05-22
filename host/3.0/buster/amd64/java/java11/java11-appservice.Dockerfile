@@ -44,7 +44,6 @@ COPY start.sh /azure-functions-host/
 COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
 
 ENV JAVA_HOME /usr/lib/jvm/zre-11-azure-amd64
-ENV FUNCTIONS_WORKER_RUNTIME_VERSION=11
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends openssh-server dialog && \
