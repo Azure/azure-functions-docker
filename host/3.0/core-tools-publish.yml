@@ -219,7 +219,7 @@ stages:
         env:
           DOCKER_BUILDKIT: 1      
 - stage: publish
-  condition: ne(variables['BuildOnly'], 'true')
+  condition: and(succeeded(), ne(variables['BuildOnly'], 'true'))
   jobs:
   - job: testandpublish
     displayName: Test and Publish Images
