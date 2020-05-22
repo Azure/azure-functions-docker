@@ -102,4 +102,9 @@ In this case, you can ignore it and wait until the apt-get azure functions core 
 ### Pipeline has got stuck
 Sometimes, I see the issue that Azure Pipelinse stop working during pulling some images. Currently, I don't know the root cause, however, as a workaround, cancel the pipeline and execute it again after waiting for a while. Then  it will success. 
 
+### Pipeline Fails without change
+
+Sometimes Pipeline fails without any change. If you see the log, it could 500 of the Docker Registry, sometimes, network issues. If it is not caused by Dockerfile or tag images mistake, just re-run the pipeline, after waiting for a while. It could happen. Each stage is re-run separately. 
+
+
 
