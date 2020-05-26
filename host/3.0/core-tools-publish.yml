@@ -1,0 +1,466 @@
+trigger: none
+pr: none
+
+schedules:
+- cron: "30 22 * * *"
+  branches:
+    include:
+    - master
+  always: true
+
+pool:
+  vmImage: ubuntu-18.04
+
+stages:
+- stage: prepare
+  condition: eq(variables['PublishPrivateVersion'], '')
+  jobs:
+  - job: fetchlatest
+    displayName: Check CoreTools Version
+    steps:
+      - bash: |
+          sudo npm i -g azure-functions-core-tools@3 --unsafe-perm true
+          func --version > $(Build.ArtifactStagingDirectory)/core-tools-version.txt
+          date '+%w' > $(Build.ArtifactStagingDirectory)/week.txt
+      - task: PublishBuildArtifacts@1
+        inputs:
+          PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+          ArtifactName: 'drop'
+          publishLocation: 'Container'
+- stage: build
+  condition: eq(variables['PublishPrivateVersion'], '')
+  jobs:
+  - job: dotnetcore3
+    displayName: DotNet Core 3
+    steps: 
+      - task: DownloadBuildArtifacts@0
+        inputs:
+          buildType: 'current'
+          downloadType: 'single'
+          artifactName: 'drop'
+          itemPattern: 
+          downloadPath: '$(System.ArtifactsDirectory)'
+      - bash: |
+          targetVersion=`cat $(System.ArtifactsDirectory)/drop/core-tools-version.txt`
+          privateVersion=${targetVersion}.`cat $(System.ArtifactsDirectory)/drop/week.txt`
+          echo "targetVersion: ${targetVersion}"
+          echo "##vso[task.setvariable variable=TargetVersion;]${targetVersion}"
+          echo "privateVersion: ${privateVersion}"
+          echo "##vso[task.setvariable variable=PrivateVersion;]${privateVersion}"
+        displayName: share the targetVersion and PrivateVersion
+      - bash: |
+          # login
+          set -e
+          echo $pswd | docker login -u $(dockerUsername) --password-stdin azurefunctions.azurecr.io
+
+        displayName: login to registry
+        continueOnError: false
+        env:
+          pswd: $(dockerPassword)
+
+      - bash: |
+          set -e
+          IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/dotnet:$(PrivateVersion)-dotnet3-core-tools
+    
+          docker build -t $IMAGE_NAME \
+                      -f host/3.0/buster/amd64/dotnet/dotnet-core-tools.Dockerfile \
+                      host/3.0/buster/amd64/dotnet/
+          npm run test $IMAGE_NAME --prefix  test/
+          docker push $IMAGE_NAME
+        displayName: dotnet-core-tools
+        continueOnError: false
+        env:
+          DOCKER_BUILDKIT: 1
+
+  - job: java
+    displayName: Java
+    steps: 
+      - task: DownloadBuildArtifacts@0
+        inputs:
+          buildType: 'current'
+          downloadType: 'single'
+          artifactName: 'drop'
+          itemPattern: 
+          downloadPath: '$(System.ArtifactsDirectory)'
+      - bash: |
+          targetVersion=`cat $(System.ArtifactsDirectory)/drop/core-tools-version.txt`
+          privateVersion=${targetVersion}.`cat $(System.ArtifactsDirectory)/drop/week.txt`
+          echo "targetVersion: ${targetVersion}"
+          echo "##vso[task.setvariable variable=TargetVersion;]${targetVersion}"
+          echo "privateVersion: ${privateVersion}"
+          echo "##vso[task.setvariable variable=PrivateVersion;]${privateVersion}"
+        displayName: share the targetVersion and PrivateVersion
+      - bash: |
+          # login
+          set -e
+          echo $pswd | docker login -u $(dockerUsername) --password-stdin azurefunctions.azurecr.io
+
+        displayName: login to registry
+        continueOnError: false
+        env:
+          pswd: $(dockerPassword)
+      - bash: |
+          set -e
+          IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/java:$(PrivateVersion)-java8-core-tools
+          docker build -t $IMAGE_NAME \
+                      -f host/3.0/buster/amd64/java/java8/java8-core-tools.Dockerfile \
+                      host/3.0/buster/amd64/java/java8
+          npm run test $IMAGE_NAME --prefix  test/
+          docker push $IMAGE_NAME
+        displayName: java8-core-tools
+        continueOnError: false
+        env:
+          DOCKER_BUILDKIT: 1
+      - bash: |
+          set -e
+          IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/java:$(PrivateVersion)-java11-core-tools
+          docker build -t $IMAGE_NAME \
+                      -f host/3.0/buster/amd64/java/java11/java11-core-tools.Dockerfile \
+                      host/3.0/buster/amd64/java/java11
+          npm run test $IMAGE_NAME --prefix  test/
+          docker push $IMAGE_NAME
+        displayName: java11-core-tools
+        continueOnError: false
+        env:
+          DOCKER_BUILDKIT: 1
+
+  - job: node
+    displayName: Node
+    steps:
+      - task: DownloadBuildArtifacts@0
+        inputs:
+          buildType: 'current'
+          downloadType: 'single'
+          artifactName: 'drop'
+          itemPattern: 
+          downloadPath: '$(System.ArtifactsDirectory)'
+      - bash: |
+          targetVersion=`cat $(System.ArtifactsDirectory)/drop/core-tools-version.txt`
+          privateVersion=${targetVersion}.`cat $(System.ArtifactsDirectory)/drop/week.txt`
+          echo "targetVersion: ${targetVersion}"
+          echo "##vso[task.setvariable variable=TargetVersion;]${targetVersion}"
+          echo "privateVersion: ${privateVersion}"
+          echo "##vso[task.setvariable variable=PrivateVersion;]${privateVersion}"
+        displayName: share the targetVersion and PrivateVersion
+      - bash: |
+          # login
+          set -e
+          echo $pswd | docker login -u $(dockerUsername) --password-stdin azurefunctions.azurecr.io
+
+        displayName: login to registry
+        continueOnError: false
+        env:
+          pswd: $(dockerPassword)
+      - bash: |
+          set -e
+          IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/node:$(PrivateVersion)-node10-core-tools
+
+          docker build -t $IMAGE_NAME \
+                      -f host/3.0/buster/amd64/node/node10/node10-core-tools.Dockerfile \
+                      host/3.0/buster/amd64/node/node10/
+          npm run test $IMAGE_NAME --prefix  test/
+          docker push $IMAGE_NAME
+        displayName: node10-core-tools
+        continueOnError: false
+        env:
+          DOCKER_BUILDKIT: 1
+      - bash: |
+          set -e
+          IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/node:$(PrivateVersion)-node12-core-tools
+
+          docker build -t $IMAGE_NAME \
+                      -f host/3.0/buster/amd64/node/node12/node12-core-tools.Dockerfile \
+                      host/3.0/buster/amd64/node/node12/
+          npm run test $IMAGE_NAME --prefix  test/
+          docker push $IMAGE_NAME
+        displayName: node12-core-tools
+        continueOnError: false
+        env:
+          DOCKER_BUILDKIT: 1
+
+  - job: python
+    displayName: python
+    steps:
+      - task: DownloadBuildArtifacts@0
+        inputs:
+          buildType: 'current'
+          downloadType: 'single'
+          artifactName: 'drop'
+          itemPattern: 
+          downloadPath: '$(System.ArtifactsDirectory)'
+      - bash: |
+          targetVersion=`cat $(System.ArtifactsDirectory)/drop/core-tools-version.txt`
+          privateVersion=${targetVersion}.`cat $(System.ArtifactsDirectory)/drop/week.txt`
+          echo "targetVersion: ${targetVersion}"
+          echo "##vso[task.setvariable variable=TargetVersion;]${targetVersion}"
+          echo "privateVersion: ${privateVersion}"
+          echo "##vso[task.setvariable variable=PrivateVersion;]${privateVersion}"
+        displayName: share the targetVersion and PrivateVersion
+      - bash: |
+          # login
+          set -e
+          echo $pswd | docker login -u $(dockerUsername) --password-stdin azurefunctions.azurecr.io
+
+        displayName: login to registry
+        continueOnError: false
+        env:
+          pswd: $(dockerPassword)           
+      - bash: |
+          set -e
+          IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/python:$(PrivateVersion)-python3.8-core-tools
+
+          docker build -t $IMAGE_NAME \
+                      -f host/3.0/buster/amd64/python/python38/python38-core-tools.Dockerfile \
+                      host/3.0/buster/amd64/python/python38/
+          npm run test $IMAGE_NAME --prefix  test/
+          docker push $IMAGE_NAME
+        displayName: python3.8-core-tools
+        continueOnError: false
+        env:
+          DOCKER_BUILDKIT: 1      
+- stage: publish
+  condition: and(not(failed('build')), ne(variables['BuildOnly'], 'true'))
+  jobs:
+  - job: testandpublish
+    displayName: Test and Publish Images
+    steps:
+      - task: DownloadBuildArtifacts@0
+        inputs:
+          buildType: 'current'
+          downloadType: 'single'
+          artifactName: 'drop'
+          itemPattern: 
+          downloadPath: '$(System.ArtifactsDirectory)'
+        condition: eq(variables['PublishPrivateVersion'], '')
+      - bash: |
+          targetVersion=""
+          privateVersion=""
+          if [[ ! -z "${publishPrivateVersion}" ]]; then
+            targetVersion="${publishTargetVersion}"
+            privateVersion="${publishPrivateVersion}"
+          else
+            targetVersion=`cat $(System.ArtifactsDirectory)/drop/core-tools-version.txt`
+            privateVersion=${targetVersion}.`cat $(System.ArtifactsDirectory)/drop/week.txt`
+          fi
+          echo "targetVersion: ${targetVersion}"
+          echo "##vso[task.setvariable variable=TargetVersion;]${targetVersion}"
+          echo "privateVersion: ${privateVersion}"
+          echo "##vso[task.setvariable variable=PrivateVersion;]${privateVersion}"
+        displayName: share the targetVersion and PrivateVersion
+        env:
+          publishPrivateVersion: $(PublishPrivateVersion)
+          publishTargetVersion: $(PublishTargetVersion)
+      - bash: |
+          echo $pswd | docker login -u $(dockerUsername) --password-stdin azurefunctions.azurecr.io
+        displayName: login
+        continueOnError: false
+        env:
+          pswd: $(dockerPassword)
+    
+      - bash: |
+          set -e
+          SOURCE_REGISTRY=azurefunctions.azurecr.io/azure-functions/3.0
+          TARGET_REGISTRY=azurefunctions.azurecr.io/public/azure-functions
+
+          MAJOR_VERSION=3.0
+    
+          if [ -z "$(TargetVersion)" ]; then
+            echo "ERROR: TargetVersion is required"
+            exit 1
+          fi
+    
+          echo "##vso[task.setvariable variable=MajorVersion]$MAJOR_VERSION"    
+          echo "##vso[task.setvariable variable=SOURCE_REGISTRY]$SOURCE_REGISTRY"
+          echo "##vso[task.setvariable variable=TARGET_REGISTRY]$TARGET_REGISTRY"
+        displayName: set env
+        continueOnError: false
+    
+      - bash: |
+          set -e
+          docker pull $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-dotnet3-core-tools
+
+          docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-dotnet3-core-tools $TARGET_REGISTRY/dotnet:$(TargetVersion)-dotnet3-core-tools
+          docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-dotnet3-core-tools $TARGET_REGISTRY/dotnet:$(MajorVersion)-dotnet3-core-tools  
+          
+        displayName: tag dotnet images
+        continueOnError: false
+      - bash: |
+          set -e 
+          PrivateImageId=`docker image inspect $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-dotnet3-core-tools --format='{{.Id}}'`
+          MajorImageId=`docker image inspect $TARGET_REGISTRY/dotnet:$(MajorVersion)-dotnet3-core-tools --format='{{.Id}}'`
+          if [[ "$PrivateImageId" != "$MajorImageId" ]]; then
+            echo "unmatch the Target image id and Major image id ${PrivateImageId} and ${MajorImageId}";
+            exit 1;
+          fi
+          ActualVersion=`docker run $TARGET_REGISTRY/dotnet:$(MajorVersion)-dotnet3-core-tools func --version`
+          if [[ "$ActualVersion" != "$(TargetVersion)" ]]; then
+            echo "unmatch the ActualVersion and TargetVersion ${ActualVersion} and $(TargetVersion)";
+            exit 1; 
+          fi
+          docker run $TARGET_REGISTRY/dotnet:$(MajorVersion)-dotnet3-core-tools az --version
+        displayName: test dotnet images
+        continueOnError: false
+      - bash: |
+          set -e 
+          docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-dotnet3-core-tools
+          docker push $TARGET_REGISTRY/dotnet:$(MajorVersion)-dotnet3-core-tools
+          docker system prune -a -f
+        displayName: push dotnet images
+        continueOnError: false
+        condition: ne(variables['SkipProduction'], 'true')
+        
+      - bash: |
+          set -e
+          docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-core-tools
+          docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java11-core-tools
+    
+          docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-core-tools $TARGET_REGISTRY/java:$(TargetVersion)-java8-core-tools
+          docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java11-core-tools $TARGET_REGISTRY/java:$(TargetVersion)-java11-core-tools
+  
+          docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-core-tools $TARGET_REGISTRY/java:$(MajorVersion)-java8-core-tools
+          docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java11-core-tools $TARGET_REGISTRY/java:$(MajorVersion)-java11-core-tools  
+    
+        displayName: tag java images
+        continueOnError: false
+      - bash: |
+          set -e 
+          PrivateImageId=`docker image inspect $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-core-tools --format='{{.Id}}'`
+          MajorImageId=`docker image inspect $TARGET_REGISTRY/java:$(MajorVersion)-java8-core-tools --format='{{.Id}}'`
+          if [[ "$PrivateImageId" != "$MajorImageId" ]]; then
+            echo "unmatch the Target image id and Major image id ${PrivateImageId} and ${MajorImageId}";
+            exit 1;
+          fi
+          PrivateImageId=`docker image inspect $SOURCE_REGISTRY/java:$(PrivateVersion)-java11-core-tools --format='{{.Id}}'`
+          MajorImageId=`docker image inspect $TARGET_REGISTRY/java:$(MajorVersion)-java11-core-tools --format='{{.Id}}'`
+          if [[ "$PrivateImageId" != "$MajorImageId" ]]; then
+            echo "unmatch the Target image id and Major image id ${PrivateImageId} and ${MajorImageId}";
+            exit 1; 
+          fi
+
+          ActualVersion=`docker run $TARGET_REGISTRY/java:$(MajorVersion)-java8-core-tools func --version`
+          if [[ "$ActualVersion" != "$(TargetVersion)" ]]; then
+            echo "unmatch the ActualVersion and TargetVersion ${ActualVersion} and $(TargetVersion)";
+            exit 1;
+          fi
+          docker run $TARGET_REGISTRY/java:$(MajorVersion)-java8-core-tools az --version
+          ActualVersion=`docker run $TARGET_REGISTRY/java:$(MajorVersion)-java11-core-tools func --version`
+          if [[ "$ActualVersion" != "$(TargetVersion)" ]]; then
+            echo "unmatch the ActualVersion and TargetVersion ${ActualVersion} and $(TargetVersion)";
+            exit 1;
+          fi
+          docker run $TARGET_REGISTRY/java:$(MajorVersion)-java11-core-tools az --version
+        displayName: test java images
+        continueOnError: false
+      - bash: |
+          set -e
+          docker push $TARGET_REGISTRY/java:$(TargetVersion)-java8-core-tools
+          docker push $TARGET_REGISTRY/java:$(TargetVersion)-java11-core-tools
+
+          docker push $TARGET_REGISTRY/java:$(MajorVersion)-java8-core-tools
+          docker push $TARGET_REGISTRY/java:$(MajorVersion)-java11-core-tools
+    
+          docker system prune -a -f
+        displayName: push java images
+        continueOnError: false
+        condition: ne(variables['SkipProduction'], 'true')
+
+      - bash: |
+          set -e
+          docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-core-tools
+          docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node12-core-tools
+    
+          docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-core-tools $TARGET_REGISTRY/node:$(TargetVersion)-core-tools   
+          docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-core-tools $TARGET_REGISTRY/node:$(TargetVersion)-node10-core-tools
+          docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node12-core-tools $TARGET_REGISTRY/node:$(TargetVersion)-node12-core-tools
+             
+          docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-core-tools $TARGET_REGISTRY/node:$(MajorVersion)-core-tools   
+          docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-core-tools $TARGET_REGISTRY/node:$(MajorVersion)-node10-core-tools
+          docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node12-core-tools $TARGET_REGISTRY/node:$(MajorVersion)-node12-core-tools
+
+        displayName: tag node images
+        continueOnError: false
+      - bash: |
+          set -e 
+          PrivateImageId=`docker image inspect $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-core-tools --format='{{.Id}}'`
+          MajorImageId=`docker image inspect $TARGET_REGISTRY/node:$(MajorVersion)-node10-core-tools --format='{{.Id}}'`
+          if [[ "$PrivateImageId" != "$MajorImageId" ]]; then
+            echo "unmatch the Target image id and Major image id ${PrivateImageId} and ${MajorImageId}";
+            exit 1;
+          fi
+          PrivateImageId=`docker image inspect $SOURCE_REGISTRY/node:$(PrivateVersion)-node12-core-tools --format='{{.Id}}'`
+          MajorImageId=`docker image inspect $TARGET_REGISTRY/node:$(MajorVersion)-node12-core-tools --format='{{.Id}}'`
+          if [[ "$PrivateImageId" != "$MajorImageId" ]]; then
+            echo "unmatch the Target image id and Major image id ${PrivateImageId} and ${MajorImageId}";
+            exit 1;
+          fi
+          PrivateImageId=`docker image inspect $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-core-tools --format='{{.Id}}'`
+          MajorImageId=`docker image inspect $TARGET_REGISTRY/node:$(MajorVersion)-core-tools --format='{{.Id}}'`
+          if [[ "$PrivateImageId" != "$MajorImageId" ]]; then
+            echo "unmatch the Target image id and Major image id ${PrivateImageId} and ${MajorImageId}";
+            exit 1;
+          fi
+          ActualVersion=`docker run $TARGET_REGISTRY/node:$(MajorVersion)-node10-core-tools func --version`
+          if [[ "$ActualVersion" != "$(TargetVersion)" ]]; then
+            echo "unmatch the ActualVersion and TargetVersion ${ActualVersion} and $(TargetVersion)";
+            exit 1;
+          fi
+          docker run $TARGET_REGISTRY/node:$(MajorVersion)-node10-core-tools az --version
+          ActualVersion=`docker run $TARGET_REGISTRY/node:$(MajorVersion)-node12-core-tools func --version`
+          if [[ "$ActualVersion" != "$(TargetVersion)" ]]; then
+            echo "unmatch the ActualVersion and TargetVersion ${ActualVersion} and $(TargetVersion)";
+            exit 1;
+          fi          
+          docker run $TARGET_REGISTRY/node:$(MajorVersion)-node12-core-tools az --version
+        displayName: test node images
+        continueOnError: false        
+      - bash: |
+          set -e
+          docker push $TARGET_REGISTRY/node:$(TargetVersion)-core-tools
+          docker push $TARGET_REGISTRY/node:$(TargetVersion)-node10-core-tools
+          docker push $TARGET_REGISTRY/node:$(TargetVersion)-node12-core-tools
+
+          docker push $TARGET_REGISTRY/node:$(MajorVersion)-core-tools
+          docker push $TARGET_REGISTRY/node:$(MajorVersion)-node10-core-tools
+          docker push $TARGET_REGISTRY/node:$(MajorVersion)-node12-core-tools
+    
+          docker system prune -a -f
+        displayName: push node images
+        continueOnError: false
+        condition: ne(variables['SkipProduction'], 'true')
+      - bash: |
+          set -e
+          docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8-core-tools
+    
+          docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8-core-tools $TARGET_REGISTRY/python:$(TargetVersion)-python3.8-core-tools
+ 
+          docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8-core-tools $TARGET_REGISTRY/python:$(MajorVersion)-python3.8-core-tools
+
+        displayName: tag python images
+        continueOnError: false
+
+      - bash: |
+          set -e 
+          PrivateImageId=`docker image inspect $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8-core-tools --format='{{.Id}}'`
+          MajorImageId=`docker image inspect $TARGET_REGISTRY/python:$(MajorVersion)-python3.8-core-tools --format='{{.Id}}'`
+          if [[ "$PrivateImageId" != "$MajorImageId" ]]; then
+            echo "unmatch the Target image id and Major image id ${PrivateImageId} and ${MajorImageId}";
+            exit 1;
+          fi
+          ActualVersion=`docker run $TARGET_REGISTRY/python:$(MajorVersion)-python3.8-core-tools func --version`
+          if [[ "$ActualVersion" != "$(TargetVersion)" ]]; then
+            echo "unmatch the ActualVersion and TargetVersion ${ActualVersion} and $(TargetVersion)";
+            exit 1;
+          fi
+          docker run $TARGET_REGISTRY/python:$(MajorVersion)-python3.8-core-tools az --version
+        displayName: test python images
+        continueOnError: false
+
+      - bash: |
+          set -e
+          docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.8-core-tools
+          docker push $TARGET_REGISTRY/python:$(MajorVersion)-python3.8-core-tools
+
+          docker system prune -a -f
+        displayName: push python images
+        continueOnError: false
+        condition: ne(variables['SkipProduction'], 'true')

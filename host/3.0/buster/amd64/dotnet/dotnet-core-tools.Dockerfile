@@ -48,12 +48,13 @@ RUN apt-get update \
     && chown root:root /etc/apt/sources.list.d/microsoft-prod.list \
     && echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $(lsb_release -cs) main" > /etc/apt/sources.list.d/azure-cli.list \
     && apt-get update \
-    && apt-get -y install azure-functions-core-tools-3 azure-cli \
+    && apt-get -y install azure-cli azure-functions-core-tools-3 \
     #
     # Clean up
     && apt-get autoremove -y \
     && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/*
+
 
 # Uncomment to opt out of Func CLI telemetry gathering
 #ENV FUNCTIONS_CORE_TOOLS_TELEMETRY_OPTOUT=true
