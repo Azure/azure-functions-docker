@@ -553,12 +553,24 @@ stages:
             exit 1;
           fi
           docker run $TARGET_REGISTRY/powershell:$(MajorVersion)-powershell6-core-tools az --version
+
+          AZ_MODULE_COUNT=`docker run $TARGET_REGISTRY/powershell:$(MajorVersion)-powershell6-core-tools pwsh  -Command "(Get-Module -ListAvailable Az*).count"`
+          if [ ! "$AZ_MODULE_COUNT" -gt "0" ]; then
+            echo "can not find Az Module for powershell6-core-tools. The number of the AzModule is $AZ_MODULE_COUNT"
+          fi
+
           ActualVersion=`docker run $TARGET_REGISTRY/powershell:$(MajorVersion)-powershell7-core-tools func --version`
           if [[ "$ActualVersion" != "$(TargetVersion)" ]]; then
             echo "unmatch the ActualVersion and TargetVersion ${ActualVersion} and $(TargetVersion)";
             exit 1;
           fi          
           docker run $TARGET_REGISTRY/powershell:$(MajorVersion)-powershell7-core-tools az --version
+
+          AZ_MODULE_COUNT=`docker run $TARGET_REGISTRY/powershell:$(MajorVersion)-powershell7-core-tools pwsh  -Command "(Get-Module -ListAvailable Az*).count"`
+          if [ ! "$AZ_MODULE_COUNT" -gt "0" ]; then
+            echo "can not find Az Module for powershell7-core-tools. The number of the AzModule is $AZ_MODULE_COUNT"
+          fi
+
         displayName: test powershell images
         continueOnError: false        
       - bash: |
