@@ -26,6 +26,7 @@ ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false \
     PSModuleAnalysisCachePath=/var/cache/microsoft/powershell/PSModuleAnalysisCache/ModuleAnalysisCache
 
 ENV FUNCTIONS_WORKER_RUNTIME=powershell
+ENV FUNCTIONS_WORKER_RUNTIME_VERSION=~6
 
 # Configure apt and install packages
 RUN apt-get update \
