@@ -81,7 +81,9 @@ RUN apt-get update \
         -Command " \
         Set-PSRepository PSGallery -InstallationPolicy Trusted; \
         Install-Module -Name Az -AllowClobber -Scope AllUsers -Confirm:\$False -Force" \
-    # intialize PowerShell module cache
+    # initialize PowerShell module cache
+    # invoke a non-existing command to force PowerShell to perform complete module analysis
+    && pwsh -NoLogo -NoProfile -Command "try { IAmSureThisCommandDoesNotExist } catch { exit 0 }" \
     && pwsh \
         -NoLogo \
         -NoProfile \
@@ -92,8 +94,6 @@ RUN apt-get update \
             Write-Host "'Waiting for $env:PSModuleAnalysisCachePath'" ; \
             Start-Sleep -Seconds 6 ; \
         }" \
-    # initialize PowerShell module cache
-    && pwsh -NoLogo -NoProfile -Command "try { IAmSureThisCommandDoesNotExist } catch { exit 0 }" \
     #
     # Clean up
     && apt-get autoremove -y \
