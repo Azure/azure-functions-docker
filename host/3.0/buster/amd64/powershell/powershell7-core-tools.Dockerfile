@@ -74,6 +74,13 @@ RUN apt-get update \
     && apt-get install -y sudo \
     && echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME\
     && chmod 0440 /etc/sudoers.d/$USERNAME \
+    # install Az module
+    && pwsh \
+        -NoLogo \
+        -NoProfile \
+        -Command " \
+        Set-PSRepository PSGallery -InstallationPolicy Trusted; \
+        Install-Module -Name Az -AllowClobber -Scope AllUsers -Confirm:\$False -Force" \
     # intialize powershell module cache
     && pwsh \
         -NoLogo \
@@ -85,13 +92,6 @@ RUN apt-get update \
             Write-Host "'Waiting for $env:PSModuleAnalysisCachePath'" ; \
             Start-Sleep -Seconds 6 ; \
         }" \
-    # install AzModule
-    && pwsh \
-        -NoLogo \
-        -NoProfile \
-        -Command " \
-        Set-PSRepository PSGallery -InstallationPolicy Trusted; \
-        Install-Module -Name Az -AllowClobber -Scope AllUsers -Confirm:\$False -Force" \
     # initialize powershell module cache
     && pwsh -NoLogo -NoProfile -Command "try { IAmSureThisCommandDoesNotExist } catch { exit 0 }" \
     #
