@@ -44,7 +44,7 @@ RUN apt-get update \
     apt-transport-https \
     gnupg2 \
     lsb-release \
-    # less is required for help in powershell
+    # less is required for help in PowerShell
     less \
     # requied to setup the locale
     locales \
@@ -57,7 +57,7 @@ RUN apt-get update \
     # generate locale
     && locale-gen && update-locale \
     && apt install -y /tmp/powershell.deb \
-    # remove powershell package
+    # remove PowerShell package
     && rm /tmp/powershell.deb \
     #
     # Install Azure Functions and Azure CLI
@@ -81,7 +81,7 @@ RUN apt-get update \
         -Command " \
         Set-PSRepository PSGallery -InstallationPolicy Trusted; \
         Install-Module -Name Az -AllowClobber -Scope AllUsers -Confirm:\$False -Force" \
-    # intialize powershell module cache
+    # intialize PowerShell module cache
     && pwsh \
         -NoLogo \
         -NoProfile \
@@ -92,7 +92,7 @@ RUN apt-get update \
             Write-Host "'Waiting for $env:PSModuleAnalysisCachePath'" ; \
             Start-Sleep -Seconds 6 ; \
         }" \
-    # initialize powershell module cache
+    # initialize PowerShell module cache
     && pwsh -NoLogo -NoProfile -Command "try { IAmSureThisCommandDoesNotExist } catch { exit 0 }" \
     #
     # Clean up
