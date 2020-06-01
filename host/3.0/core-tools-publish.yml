@@ -217,7 +217,60 @@ stages:
         displayName: python3.8-core-tools
         continueOnError: false
         env:
-          DOCKER_BUILDKIT: 1      
+          DOCKER_BUILDKIT: 1
+  - job: powershell
+    displayName: PowerShell
+    steps:
+      - task: DownloadBuildArtifacts@0
+        inputs:
+          buildType: 'current'
+          downloadType: 'single'
+          artifactName: 'drop'
+          itemPattern: 
+          downloadPath: '$(System.ArtifactsDirectory)'
+      - bash: |
+          targetVersion=`cat $(System.ArtifactsDirectory)/drop/core-tools-version.txt`
+          privateVersion=${targetVersion}.`cat $(System.ArtifactsDirectory)/drop/week.txt`
+          echo "targetVersion: ${targetVersion}"
+          echo "##vso[task.setvariable variable=TargetVersion;]${targetVersion}"
+          echo "privateVersion: ${privateVersion}"
+          echo "##vso[task.setvariable variable=PrivateVersion;]${privateVersion}"
+        displayName: share the targetVersion and PrivateVersion
+      - bash: |
+          # login
+          set -e
+          echo $pswd | docker login -u $(dockerUsername) --password-stdin azurefunctions.azurecr.io
+
+        displayName: login to registry
+        continueOnError: false
+        env:
+          pswd: $(dockerPassword)
+      - bash: |
+          set -e
+          IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/powershell:$(PrivateVersion)-powershell6-core-tools
+
+          docker build -t $IMAGE_NAME \
+                      -f host/3.0/buster/amd64/powershell/powershell6-core-tools.Dockerfile \
+                      host/3.0/buster/amd64/powershell/
+          npm run test $IMAGE_NAME --prefix  test/
+          docker push $IMAGE_NAME
+        displayName: powershell6-core-tools
+        continueOnError: false
+        env:
+          DOCKER_BUILDKIT: 1
+      - bash: |
+          set -e
+          IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/powershell:$(PrivateVersion)-powershell7-core-tools
+
+          docker build -t $IMAGE_NAME \
+                      -f host/3.0/buster/amd64/powershell/powershell7-core-tools.Dockerfile \
+                      host/3.0/buster/amd64/powershell/
+          npm run test $IMAGE_NAME --prefix  test/
+          docker push $IMAGE_NAME
+        displayName: powershell7-core-tools
+        continueOnError: false
+        env:
+          DOCKER_BUILDKIT: 1 
 - stage: publish
   condition: and(not(failed('build')), ne(variables['BuildOnly'], 'true'))
   jobs:
@@ -427,6 +480,8 @@ stages:
         displayName: push node images
         continueOnError: false
         condition: ne(variables['SkipProduction'], 'true')
+      - bash: docker system prune -a -f
+        displayName: clearn up docker images
       - bash: |
           set -e
           docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8-core-tools
@@ -462,5 +517,71 @@ stages:
 
           docker system prune -a -f
         displayName: push python images
+        continueOnError: false
+        condition: ne(variables['SkipProduction'], 'true')
+
+      - bash: |
+          set -e
+          docker pull $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell6-core-tools
+          docker pull $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7-core-tools
+    
+          docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell6-core-tools $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell6-core-tools
+          docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7-core-tools $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell7-core-tools
+               
+          docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell6-core-tools $TARGET_REGISTRY/powershell:$(MajorVersion)-powershell6-core-tools
+          docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7-core-tools $TARGET_REGISTRY/powershell:$(MajorVersion)-powershell7-core-tools
+
+        displayName: tag powershell images
+        continueOnError: false
+      - bash: |
+          set -e 
+          PrivateImageId=`docker image inspect $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell6-core-tools --format='{{.Id}}'`
+          MajorImageId=`docker image inspect $TARGET_REGISTRY/powershell:$(MajorVersion)-powershell6-core-tools --format='{{.Id}}'`
+          if [[ "$PrivateImageId" != "$MajorImageId" ]]; then
+            echo "unmatch the Target image id and Major image id ${PrivateImageId} and ${MajorImageId}";
+            exit 1;
+          fi
+          PrivateImageId=`docker image inspect $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7-core-tools --format='{{.Id}}'`
+          MajorImageId=`docker image inspect $TARGET_REGISTRY/powershell:$(MajorVersion)-powershell7-core-tools --format='{{.Id}}'`
+          if [[ "$PrivateImageId" != "$MajorImageId" ]]; then
+            echo "unmatch the Target image id and Major image id ${PrivateImageId} and ${MajorImageId}";
+            exit 1;
+          fi
+          ActualVersion=`docker run $TARGET_REGISTRY/powershell:$(MajorVersion)-powershell6-core-tools func --version`
+          if [[ "$ActualVersion" != "$(TargetVersion)" ]]; then
+            echo "unmatch the ActualVersion and TargetVersion ${ActualVersion} and $(TargetVersion)";
+            exit 1;
+          fi
+          docker run $TARGET_REGISTRY/powershell:$(MajorVersion)-powershell6-core-tools az --version
+
+          AZ_MODULE_COUNT=`docker run $TARGET_REGISTRY/powershell:$(MajorVersion)-powershell6-core-tools pwsh  -Command "(Get-Module -ListAvailable Az).count"`
+          if [ ! "$AZ_MODULE_COUNT" -gt "0" ]; then
+            echo "can not find Az module for powershell6-core-tools. The number of the AzModule is $AZ_MODULE_COUNT"
+          fi
+
+          ActualVersion=`docker run $TARGET_REGISTRY/powershell:$(MajorVersion)-powershell7-core-tools func --version`
+          if [[ "$ActualVersion" != "$(TargetVersion)" ]]; then
+            echo "unmatch the ActualVersion and TargetVersion ${ActualVersion} and $(TargetVersion)";
+            exit 1;
+          fi          
+          docker run $TARGET_REGISTRY/powershell:$(MajorVersion)-powershell7-core-tools az --version
+
+          AZ_MODULE_COUNT=`docker run $TARGET_REGISTRY/powershell:$(MajorVersion)-powershell7-core-tools pwsh  -Command "(Get-Module -ListAvailable Az).count"`
+          if [ ! "$AZ_MODULE_COUNT" -gt "0" ]; then
+            echo "can not find Az module for powershell7-core-tools. The number of the AzModule is $AZ_MODULE_COUNT"
+          fi
+
+        displayName: test powershell images
+        continueOnError: false        
+      - bash: |
+          set -e
+          docker push $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell6-core-tools
+          docker push $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell7-core-tools
+
+          docker push $TARGET_REGISTRY/powershell:$(MajorVersion)-powershell6-core-tools
+          docker push $TARGET_REGISTRY/powershell:$(MajorVersion)-powershell7-core-tools
+    
+          docker system prune -a -f
+        displayName: push powershell images
         continueOnError: false
         condition: ne(variables['SkipProduction'], 'true')
