@@ -556,7 +556,7 @@ stages:
 
           AZ_MODULE_COUNT=`docker run $TARGET_REGISTRY/powershell:$(MajorVersion)-powershell6-core-tools pwsh  -Command "(Get-Module -ListAvailable Az).count"`
           if [ ! "$AZ_MODULE_COUNT" -gt "0" ]; then
-            echo "can not find Az Module for powershell6-core-tools. The number of the AzModule is $AZ_MODULE_COUNT"
+            echo "can not find Az module for powershell6-core-tools. The number of the AzModule is $AZ_MODULE_COUNT"
           fi
 
           ActualVersion=`docker run $TARGET_REGISTRY/powershell:$(MajorVersion)-powershell7-core-tools func --version`
@@ -568,7 +568,7 @@ stages:
 
           AZ_MODULE_COUNT=`docker run $TARGET_REGISTRY/powershell:$(MajorVersion)-powershell7-core-tools pwsh  -Command "(Get-Module -ListAvailable Az).count"`
           if [ ! "$AZ_MODULE_COUNT" -gt "0" ]; then
-            echo "can not find Az Module for powershell7-core-tools. The number of the AzModule is $AZ_MODULE_COUNT"
+            echo "can not find Az module for powershell7-core-tools. The number of the AzModule is $AZ_MODULE_COUNT"
           fi
 
         displayName: test powershell images
