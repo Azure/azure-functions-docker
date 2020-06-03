@@ -95,17 +95,14 @@ steps:
   - bash: |
       docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-appservice
       docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7-appservice
-      docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8-appservice
 
       docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-appservice $TARGET_REGISTRY/python:$(TargetVersion)-appservice-stage$(StageNumber)
       docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.6-appservice-stage$(StageNumber)
       docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.7-appservice-stage$(StageNumber)
-      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.8-appservice-stage$(StageNumber)
 
       docker push $TARGET_REGISTRY/python:$(TargetVersion)-appservice-stage$(StageNumber)
       docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.6-appservice-stage$(StageNumber)
       docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.7-appservice-stage$(StageNumber)
-      docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.8-appservice-stage$(StageNumber)
 
       docker system prune -a -f
     displayName: tag and push python images
