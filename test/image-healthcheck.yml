@@ -123,7 +123,7 @@ steps:
       scriptType: 'bash'
       scriptLocation: 'inlineScript'
       inlineScript: |
-        ./update_status.sh -f azure-functions-core-tools.json -s 2 -n "Core Tools Image"
+        ./test/update_status.sh -f azure-functions-core-tools.json -s 2 -n "Core Tools Image"
     condition: failed()
     displayName: Update Status (Failure)
   - task: AzureCLI@2
@@ -137,7 +137,7 @@ steps:
           echo "Warning detected"
           status=1 
         fi
-        ./update_status.sh -f azure-functions-core-tools.json -s $status -n "Core Tools Image"
+        ./test/update_status.sh -f azure-functions-core-tools.json -s $status -n "Core Tools Image"
     condition: succeeded()
     displayName: Update Status (Success or Warning)
 
