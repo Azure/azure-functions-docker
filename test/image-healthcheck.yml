@@ -24,6 +24,10 @@ steps:
       docker run $ImageName az --version
       CurrentVersion=`docker run $ImageName func --version`
       echo "Azure Functions Core Tools: Current: ${CurrentVersion} Latest: $(LatestVersion)"
+      if [[ "$CurrentVersion" != "$LatestVersion" ]]; then
+        echo "unmatch the Current and Latest version";
+        echo "##vso[task.setvariable variable=UnmatchLatest;]true"                 
+      fi
     displayName: DotNet 3.0 core-tools 
   - bash: |
       set -e
@@ -31,6 +35,10 @@ steps:
       docker run $ImageName az --version
       CurrentVersion=`docker run $ImageName func --version`
       echo "Azure Functions Core Tools: Current: ${CurrentVersion} Latest: $(LatestVersion)"
+      if [[ "$CurrentVersion" != "$LatestVersion" ]]; then
+        echo "unmatch the Current and Latest version";
+        echo "##vso[task.setvariable variable=UnmatchLatest;]true"                 
+      fi
     displayName: Node core-tools 
   - bash: |
       set -e
@@ -38,6 +46,10 @@ steps:
       docker run $ImageName az --version
       CurrentVersion=`docker run $ImageName func --version`
       echo "Azure Functions Core Tools: Current: ${CurrentVersion} Latest: $(LatestVersion)"
+      if [[ "$CurrentVersion" != "$LatestVersion" ]]; then
+        echo "unmatch the Current and Latest version";
+        echo "##vso[task.setvariable variable=UnmatchLatest;]true"                 
+      fi
     displayName: Node10 core-tools 
   - bash: |
       set -e
@@ -45,6 +57,10 @@ steps:
       docker run $ImageName az --version
       CurrentVersion=`docker run $ImageName func --version`
       echo "Azure Functions Core Tools: Current: ${CurrentVersion} Latest: $(LatestVersion)"
+      if [[ "$CurrentVersion" != "$LatestVersion" ]]; then
+        echo "unmatch the Current and Latest version";
+        echo "##vso[task.setvariable variable=UnmatchLatest;]true"                 
+      fi
     displayName: Node12 core-tools 
   - bash: |
       set -e
@@ -52,6 +68,10 @@ steps:
       docker run $ImageName az --version
       CurrentVersion=`docker run $ImageName func --version`
       echo "Azure Functions Core Tools: Current: ${CurrentVersion} Latest: $(LatestVersion)"
+      if [[ "$CurrentVersion" != "$LatestVersion" ]]; then
+        echo "unmatch the Current and Latest version";
+        echo "##vso[task.setvariable variable=UnmatchLatest;]true"                 
+      fi
     displayName: java8 core-tools 
   - bash: |
       set -e
@@ -59,6 +79,10 @@ steps:
       docker run $ImageName az --version
       CurrentVersion=`docker run $ImageName func --version`
       echo "Azure Functions Core Tools: Current: ${CurrentVersion} Latest: $(LatestVersion)"
+      if [[ "$CurrentVersion" != "$LatestVersion" ]]; then
+        echo "unmatch the Current and Latest version";
+        echo "##vso[task.setvariable variable=UnmatchLatest;]true"                 
+      fi
     displayName: java11 core-tools 
   - bash: |
       set -e
@@ -66,6 +90,33 @@ steps:
       docker run $ImageName az --version
       CurrentVersion=`docker run $ImageName func --version`
       echo "Azure Functions Core Tools: Current: ${CurrentVersion} Latest: $(LatestVersion)"
+      if [[ "$CurrentVersion" != "$LatestVersion" ]]; then
+        echo "unmatch the Current and Latest version";
+        echo "##vso[task.setvariable variable=UnmatchLatest;]true"                 
+      fi
     displayName: python3.8 core-tools 
-  
+  - bash: |
+      set -e
+      ImageName="mcr.microsoft.com/azure-functions/powershell:3.0-powershell6-core-tools"
+      docker run $ImageName az --version
+      CurrentVersion=`docker run $ImageName func --version`
+      echo "Azure Functions Core Tools: Current: ${CurrentVersion} Latest: $(LatestVersion)"
+      if [[ "$CurrentVersion" != "$LatestVersion" ]]; then
+        echo "unmatch the Current and Latest version";
+        echo "##vso[task.setvariable variable=UnmatchLatest;]true"                 
+      fi
+    displayName: PowerShell6 core-tools   
+  - bash: |
+      set -e
+      ImageName="mcr.microsoft.com/azure-functions/powershell:3.0-powershell7-core-tools"
+      docker run $ImageName az --version
+      CurrentVersion=`docker run $ImageName func --version`
+      echo "Azure Functions Core Tools: Current: ${CurrentVersion} Latest: $(LatestVersion)"
+      if [[ "$CurrentVersion" != "$LatestVersion" ]]; then
+        echo "unmatch the Current and Latest version";
+        echo "##vso[task.setvariable variable=UnmatchLatest;]true"                 
+      fi
+    displayName: PowerShell7 core-tools
+
+
 
