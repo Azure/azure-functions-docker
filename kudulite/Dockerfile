@@ -1,3 +1,8 @@
+FROM golang:1.13.1 as go-build-env
+COPY /mesh /mesh
+RUN cd /mesh && \
+    CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o init
+
 FROM mcr.microsoft.com/oryx/build:20200310.1 as main
 ARG BRANCH
 ARG NAMESPACE
@@ -25,7 +30,11 @@ RUN mkdir -p /opt/Kudu/local \
   && chmod -R 777 /home \
   && rm -rf /tmp/*
 
+COPY --from=go-build-env [ "/mesh/init", "/root/mesh/init" ]
+
 ENV DOTNET_RUNNING_IN_CONTAINER=true
+
+ENV MESH_INIT_URI=http://localhost:6060/
 
 # Enable correct mode for dotnet watch (only mode supported in a container)
 ENV DOTNET_USE_POLLING_FILE_WATCHER=true

@@ -28,6 +28,8 @@ if [ -z "${PORT}" ]; then
     export PORT=80
 fi
 
+/root/mesh/init &
+
 GROUP_ID=$1
 GROUP_NAME=$2
 USER_ID=$3
