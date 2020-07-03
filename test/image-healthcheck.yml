@@ -68,4 +68,3 @@ steps:
       echo "Azure Functions Core Tools: Current: ${CurrentVersion} Latest: $(LatestVersion)"
     displayName: python3.8 core-tools 
   
-
