@@ -1,5 +1,5 @@
 # Build the runtime from source
-ARG HOST_VERSION=3.0.13978
+ARG HOST_VERSION=3.0.14063
 FROM mcr.microsoft.com/azure-functions/base:grpc-2.27-arm32v7 as grpc-image
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS runtime-image
 ARG HOST_VERSION
