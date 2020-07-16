@@ -12,6 +12,7 @@ trigger:
   branches:
     include:
       - master
+      - refs/tags/3.0.*
   paths:
     include:
       - host/3.0/buster/amd64/node/*
@@ -98,4 +99,3 @@ steps:
       docker push $IMAGE_NAME
     displayName: node12-appservice
     continueOnError: false
-

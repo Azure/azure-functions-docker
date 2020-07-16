@@ -13,6 +13,7 @@ trigger:
   branches:
     include:
       - master
+      - refs/tags/2.0.*
   paths:
     include:
       - host/2.0/nanoserver/*

@@ -13,6 +13,7 @@ trigger:
   branches:
     include:
       - master
+      - refs/tags/3.0.*
   paths:
     include:
       - host/3.0/buster/amd64/java/java8/*
@@ -96,7 +97,3 @@ steps:
       docker push $IMAGE_NAME
     displayName: java11-appservice
     continueOnError: false
-
-
-
-
