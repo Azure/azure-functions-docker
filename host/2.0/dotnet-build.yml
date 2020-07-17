@@ -15,6 +15,7 @@ trigger:
   branches:
     include:
       - master
+      - refs/tags/2.0.*
   paths:
     include:
       - host/2.0/stretch/amd64/dotnet/*
