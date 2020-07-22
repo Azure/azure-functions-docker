@@ -29,7 +29,7 @@ RUN EXTENSION_BUNDLE_VERSION=1.3.2 && \
     rm -f /$EXTENSION_BUNDLE_FILENAME_V2 &&\
     find /FuncExtensionBundles/ -type f -exec chmod 644 {} \;
 
-FROM mcr.microsoft.com/java/jre:8u212-zulu-debian9 as jre
+FROM mcr.microsoft.com/java/jre-headless:8u242-zulu-debian10-with-tools as jre
 FROM mcr.microsoft.com/dotnet/core/runtime-deps:3.1
 ARG HOST_VERSION
 
@@ -41,7 +41,7 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
 
 COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
 COPY --from=runtime-image [ "/workers/java", "/azure-functions-host/workers/java" ]
-COPY --from=jre [ "/usr/lib/jvm/zre-8-azure-amd64", "/usr/lib/jvm/zre-8-azure-amd64" ]
+COPY --from=jre [ "/usr/lib/jvm/zre-hl-8-azure-amd64", "/usr/lib/jvm/zre-8-azure-amd64" ]
 
 ENV JAVA_HOME /usr/lib/jvm/zre-8-azure-amd64
 
