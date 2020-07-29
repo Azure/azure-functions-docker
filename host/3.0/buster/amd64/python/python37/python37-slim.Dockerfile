@@ -27,7 +27,8 @@ RUN EXTENSION_BUNDLE_VERSION=1.3.2 && \
     wget https://functionscdn.azureedge.net/public/ExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION_V2/$EXTENSION_BUNDLE_FILENAME_V2 && \
     mkdir -p /FuncExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION_V2 && \
     unzip /$EXTENSION_BUNDLE_FILENAME_V2 -d /FuncExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION_V2 && \
-    rm -f /$EXTENSION_BUNDLE_FILENAME_V2
+    rm -f /$EXTENSION_BUNDLE_FILENAME_V2 &&\
+    find /FuncExtensionBundles/ -type f -exec chmod 644 {} \;
 
 FROM python:3.7-slim-buster
 ARG HOST_VERSION
