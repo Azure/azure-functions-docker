@@ -1,5 +1,5 @@
 # Build the runtime from source
-ARG HOST_VERSION=2.0.14192
+ARG HOST_VERSION=2.0.14248
 FROM mcr.microsoft.com/dotnet/core/sdk:2.2 AS runtime-image
 ARG HOST_VERSION
 
@@ -9,7 +9,7 @@ RUN BUILD_NUMBER=$(echo ${HOST_VERSION} | cut -d'.' -f 3) && \
     git clone --branch v${HOST_VERSION} https://github.com/Azure/azure-functions-host /src/azure-functions-host && \
     cd /src/azure-functions-host && \
     HOST_COMMIT=$(git rev-list -1 HEAD) && \
-    dotnet publish -v q /p:BuildNumber=$BUILD_NUMBER /p:CommitHash=$HOST_COMMIT src/WebJobs.Script.WebHost/WebJobs.Script.WebHost.csproj --output /azure-functions-host --runtime linux-x64 && \
+    dotnet publish -v q /p:BuildNumber=$BUILD_NUMBER /p:CommitHash=$HOST_COMMIT src/WebJobs.Script.WebHost/WebJobs.Script.WebHost.csproj --output /azure-functions-host --runtime linux-x64 --self-contained false && \
     mv /azure-functions-host/workers /workers && mkdir /azure-functions-host/workers && \
     rm -rf /root/.local /root/.nuget /src
 
@@ -30,6 +30,7 @@ RUN EXTENSION_BUNDLE_VERSION=1.3.2 && \
     find /FuncExtensionBundles/ -type f -exec chmod 644 {} \;
 
 # python36 image
+FROM mcr.microsoft.com/azure-functions/dotnet/core/runtime:2.2 as runtime-deps-image
 FROM python:3.6-slim-stretch
 ARG HOST_VERSION
 
@@ -51,6 +52,7 @@ RUN apt-get update && \
 COPY --from=runtime-image ["/azure-functions-host", "/azure-functions-host"]
 COPY --from=runtime-image [ "/workers/python", "/azure-functions-host/workers/python" ]
 COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
+COPY --from=runtime-deps-image [ "/usr/share/dotnet", "/usr/share/dotnet" ]
 
 ENV FUNCTIONS_WORKER_RUNTIME_VERSION=3.6
 
