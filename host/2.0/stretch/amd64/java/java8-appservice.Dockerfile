@@ -36,11 +36,7 @@ RUN EXTENSION_BUNDLE_VERSION=1.3.2 && \
 
 # java8-appservice image
 FROM mcr.microsoft.com/java/jre:8u212-zulu-debian9 as jre
-<<<<<<< HEAD
 FROM mcr.microsoft.com/azure-functions/dotnet/core/runtime:2.2
-=======
-FROM mcr.microsoft.com/dotnet/core/runtime-deps:2.1
->>>>>>> master
 ARG HOST_VERSION
 
 EXPOSE 2222 80
