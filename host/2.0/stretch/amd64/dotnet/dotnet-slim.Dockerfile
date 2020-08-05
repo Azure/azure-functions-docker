@@ -1,5 +1,5 @@
 # Build the runtime from source
-ARG HOST_VERSION=2.0.14192
+ARG HOST_VERSION=2.0.14248
 FROM mcr.microsoft.com/dotnet/core/sdk:2.2 AS runtime-image
 ARG HOST_VERSION
 
@@ -9,7 +9,7 @@ RUN BUILD_NUMBER=$(echo ${HOST_VERSION} | cut -d'.' -f 3) && \
     git clone --branch v${HOST_VERSION} https://github.com/Azure/azure-functions-host /src/azure-functions-host && \
     cd /src/azure-functions-host && \
     HOST_COMMIT=$(git rev-list -1 HEAD) && \
-    dotnet publish -v q /p:BuildNumber=$BUILD_NUMBER /p:CommitHash=$HOST_COMMIT src/WebJobs.Script.WebHost/WebJobs.Script.WebHost.csproj --output /azure-functions-host --runtime linux-x64 && \
+    dotnet publish -v q /p:BuildNumber=$BUILD_NUMBER /p:CommitHash=$HOST_COMMIT src/WebJobs.Script.WebHost/WebJobs.Script.WebHost.csproj --output /azure-functions-host --runtime linux-x64 --self-contained false && \
     mv /azure-functions-host/workers /workers && mkdir /azure-functions-host/workers && \
     rm -rf /root/.local /root/.nuget /src
 
@@ -30,7 +30,7 @@ RUN EXTENSION_BUNDLE_VERSION=1.3.2 && \
     find /FuncExtensionBundles/ -type f -exec chmod 644 {} \;
 
 # dotnet-slim image
-FROM mcr.microsoft.com/dotnet/core/runtime-deps:2.1
+FROM mcr.microsoft.com/azure-functions/dotnet/core/runtime:2.2
 ARG HOST_VERSION
 
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
