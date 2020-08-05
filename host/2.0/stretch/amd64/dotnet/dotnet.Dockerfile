@@ -30,7 +30,7 @@ RUN EXTENSION_BUNDLE_VERSION=1.3.2 && \
     find /FuncExtensionBundles/ -type f -exec chmod 644 {} \;
 
 # dotnet image
-FROM mcr.microsoft.com/dotnet/core/runtime-deps:2.1
+FROM mcr.microsoft.com/dotnet/core/runtime-deps:2.2
 ARG HOST_VERSION
 
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot \

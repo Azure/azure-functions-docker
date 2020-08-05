@@ -29,7 +29,7 @@ RUN EXTENSION_BUNDLE_VERSION=1.3.2 && \
     rm -f /$EXTENSION_BUNDLE_FILENAME_V2
 
 # node10-appservice image
-FROM mcr.microsoft.com/dotnet/core/runtime-deps:2.1
+FROM mcr.microsoft.com/dotnet/core/runtime-deps:2.2
 ARG HOST_VERSION
 
 RUN apt-get update && \
