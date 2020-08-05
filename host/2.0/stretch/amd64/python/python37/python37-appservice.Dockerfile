@@ -30,6 +30,7 @@ RUN EXTENSION_BUNDLE_VERSION=1.3.2 && \
     find /FuncExtensionBundles/ -type f -exec chmod 644 {} \;
 
 # python37 image
+FROM mcr.microsoft.com/azure-functions/dotnet/core/runtime:2.2 as runtime-deps-image
 FROM python:3.7-slim-stretch
 ARG HOST_VERSION
 
