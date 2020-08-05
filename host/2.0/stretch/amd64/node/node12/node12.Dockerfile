@@ -29,7 +29,7 @@ RUN EXTENSION_BUNDLE_VERSION=1.3.2 && \
     rm -f /$EXTENSION_BUNDLE_FILENAME_V2
 
 # node12 image
-FROM mcr.microsoft.com/dotnet/core/runtime-deps:2.2
+FROM mcr.microsoft.com/dotnet/core/runtime-deps:2.1
 ARG HOST_VERSION
 
 RUN apt-get update && \
