@@ -37,7 +37,6 @@ RUN apt-get update \
     && apt-get -y install \
     git \
     openssh-client \
-    less \
     iproute2 \
     procps \
     curl \
@@ -82,7 +81,7 @@ RUN apt-get update \
         Set-PSRepository PSGallery -InstallationPolicy Trusted; \
         Install-Module -Name Az -AllowClobber -Scope AllUsers -Confirm:\$False -Force" \
     # initialize PowerShell module cache
-    # invoke a non-existing command to force PowerShell to perform complete module analysis
+    # invoke a nonexistent command to force PowerShell to perform complete module analysis
     && pwsh -NoLogo -NoProfile -Command "try { IAmSureThisCommandDoesNotExist } catch { exit 0 }" \
     && pwsh \
         -NoLogo \
