@@ -27,12 +27,13 @@ steps:
   - bash: |
       # login
       set -e
-      echo $pswd | docker login -u $(dockerUsername) --password-stdin azurefunctions.azurecr.io
+      echo $pswd | docker login -u $dockerUsername --password-stdin azurefunctions.azurecr.io
 
     displayName: login to registry
     continueOnError: false
     env:
       pswd: $(dockerPassword)
+      dockerUsername: $(dockerUsername)
 
   - bash: |
       set -e
