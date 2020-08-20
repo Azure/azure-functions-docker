@@ -3,7 +3,7 @@ COPY /mesh /mesh
 RUN cd /mesh && \
     CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o init
 
-FROM mcr.microsoft.com/oryx/build:20200813.1 as main
+FROM mcr.microsoft.com/oryx/build:20200813.1 as pre-final-env
 ARG BRANCH
 ARG NAMESPACE
 ENV DEBIAN_FRONTEND noninteractive
@@ -74,5 +74,35 @@ ENV ENABLE_DYNAMIC_INSTALL=true
 
 EXPOSE 80
 
+# Squash all layers into a few
+FROM scratch
+
+COPY --from=pre-final-env / /
+
+ENV AZURE_FUNCTIONS_ENVIRONMENT=production \
+    DEBIAN_FRONTEND=noninteractive \
+    DOTNET_RUNNING_IN_CONTAINER=true \
+    DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1 \
+    DOTNET_USE_POLLING_FILE_WATCHER=true \
+    ENABLE_DYNAMIC_INSTALL=true \
+    HOME=/home \
+    LANG=C.UTF-8 \
+    MESH_INIT_URI=http://localhost:6060/ \
+    NUGET_PACKAGES=/var/nuget \
+    NUGET_XMLDOC_MODE=skip \
+    ORIGINAL_PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
+    ORYX_AI_INSTRUMENTATION_KEY=4aadba6b-30c8-42db-9b93-024d5c62b887 \
+    ORYX_PATHS=/opt/oryx:/opt/nodejs/lts/bin:/opt/dotnet/sdks/lts:/opt/python/latest/bin:/opt/php/lts/bin:/opt/php-composer:/opt/yarn/stable/bin:/opt/hugo/lts \
+    ORYX_SDK_STORAGE_BASE_URL=https://oryx-cdn.microsoft.io \
+    PATH=/opt/oryx:/opt/nodejs/lts/bin:/opt/dotnet/sdks/lts:/opt/python/latest/bin:/opt/php/lts/bin:/opt/php-composer:/opt/yarn/stable/bin:/opt/hugo/lts:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/.dotnet/tools:/opt/nodejs/9/bin \
+    PYTHONIOENCODING=UTF-8 \
+    SHLVL=1 \
+    TERM=xterm \
+    WEBSITE_MOUNT_ENABLED=1 \
+    WEBSITE_PLACEHOLDER_MODE=1
+
+WORKDIR /
+
 ENTRYPOINT [ "/startup.sh" ]
+
 CMD [ "1002", "kudu_group", "1001", "root", "localsite" ]
