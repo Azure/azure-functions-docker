@@ -4,9 +4,12 @@
   "license": "MIT",
   "scripts": {
     "test": "npm install && node_modules/.bin/ts-node index.ts",
-    "test-win": "ts-node index.ts"
+    "test-win": "ts-node index.ts",
+    "test-kudulite": "npm install && node_modules/.bin/ts-node kudulite",
+    "test-kudulite-win": "ts-node kudulite"
   },
   "dependencies": {
+    "@azure/storage-blob": "^12.2.0-preview.1",
     "@types/shelljs": "^0.8.6",
     "axios": "^0.19.2",
     "chalk": "^3.0.0",
