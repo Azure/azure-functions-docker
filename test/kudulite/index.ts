@@ -40,12 +40,6 @@ async function initialize(): Promise<IConfig> {
     process.exit(1);
   }
 
-  if (!process.env.SITE_RESTRICTED_TOKEN) {
-    console.error(chalk.red.bold("process.env.SITE_RESTRICTED_TOKEN is required"));
-    console.error(chalk.red.bold("This is the credential for calling the POST /api/settings to setup remote build"));
-    process.exit(1);
-  }
-
   const storageConnectionString = 'DefaultEndpointsProtocol=https;EndpointSuffix=core.windows.net;' +
     `AccountName=${process.env.STORAGE_ACCOUNT_NAME};` +
     `AccountKey=${process.env.STORAGE_ACCOUNT_KEY}`;
@@ -54,10 +48,9 @@ async function initialize(): Promise<IConfig> {
     testImageName: process.argv.reverse()[0],
     storageAccountName: process.env.STORAGE_ACCOUNT_NAME,
     storageAccountKey: process.env.STORAGE_ACCOUNT_KEY,
-    siteRestrictedToken: process.env.SITE_RESTRICTED_TOKEN,
     storageConnectionString: storageConnectionString,
     srcContainerName: 'testsrc',
-    destContainerName: 'testdest',
+    destContainerName: 'scm-releases',
   }
 }
 
@@ -79,10 +72,12 @@ async function main() {
 
   try {
     await Promise.all([
-      testHost20Python36.run(config),
       /*
+      testHost20Python36.run(config),
       testHost20Python37.run(config),
+      */
       testHost30Python36.run(config),
+      /*
       testHost30Python37.run(config),
       testHost30Python38.run(config),
       testHost20Node8.run(config),
