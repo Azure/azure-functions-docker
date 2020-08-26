@@ -1,6 +1,7 @@
 import { ITestCase, IConfig } from "./interfaces";
 import { KuduContainer } from "./containers";
 
+// Host 2.0 Python36 /api/zipdeploy
 export class Host20Python36 implements ITestCase {
   public async run(config: IConfig): Promise<void> {
     const container = new KuduContainer(config);
@@ -25,6 +26,7 @@ export class Host20Python36 implements ITestCase {
   }
 }
 
+// Host 2.0 Python37 /api/zipdeploy
 export class Host20Python37 implements ITestCase {
   public async run(config: IConfig): Promise<void> {
     const container = new KuduContainer(config);
@@ -49,10 +51,10 @@ export class Host20Python37 implements ITestCase {
   }
 }
 
+// Host 3.0 Python36 /api/zipdeploy?overwriteWebsiteRunFromPackage=true
 export class Host30Python36 implements ITestCase {
   public async run(config: IConfig): Promise<void> {
     const container = new KuduContainer(config);
-    const destSas = await container.generateDestBlobSas('host30_python36_dest.zip');
     const settings = {
       "ENABLE_ORYX_BUILD": true,
       "SCM_DO_BUILD_DURING_DEPLOYMENT": true,
@@ -62,14 +64,14 @@ export class Host30Python36 implements ITestCase {
       "FRAMEWORK": "python",
       "FUNCTIONS_WORKER_RUNTIME_VERSION": "3.6",
       "FRAMEWORK_VERSION": "3.6",
-      "SCM_RUN_FROM_PACKAGE": destSas
+      "AzureWebJobsStorage": config.storageConnectionString
     }
     await container.startContainer(settings);
     const localSrcPath = await container.downloadSrcBlob('KuduLitePython36.zip');
     await container.applyAppSettings(settings);
-    await container.createZipDeploy(localSrcPath);
-    await container.testBuiltArtifact('mcr.microsoft.com/azure-functions/python:3.0-python3.6', destSas);
-    container.killContainer();
+    await container.createZipDeploy(localSrcPath, { 'overwriteWebsiteRunFromPackage': 'true' });
+    //await container.testBuiltArtifact('mcr.microsoft.com/azure-functions/python:3.0-python3.6', destSas);
+    //container.killContainer();
   }
 }
 

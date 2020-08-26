@@ -10,9 +10,7 @@ import { IConfig } from './interfaces';
 export class KuduContainer {
   static envVars: Record<string, string> = {
     CONTAINER_ENCRYPTION_KEY: 'MDEyMzQ1Njc4OUFCQ0RFRjAxMjM0NTY3ODlBQkNERUY=',
-    WEBSITE_AUTH_ENCRYPTION_KEY: 'E782F47415EEC076F8087729FB30CF1CA1482610C2FA985E4F22531225722205',
-    WEBSITE_SITE_NAME: 'kudulitetest',
-    WEBSITE_HOSTNAME: 'kudulitetest.azurewebsites.net'
+    WEBSITE_AUTH_ENCRYPTION_KEY: 'E782F47415EEC076F8087729FB30CF1CA1482610C2FA985E4F22531225722205'
   }
 
   // Map of containerId -> port mapping
@@ -90,14 +88,16 @@ export class KuduContainer {
     console.log(chalk.yellow(`Starting container ${this.containerId} for testing...`));
 
     // Start container with run command, with environment variables
-    let runCommand = `docker run -p 0:80 -d --name ${this.containerName} -e CONTAINER_NAME=${this.containerName}`;
+    let runCommand = `docker run -p 0:80 -d --name ${this.containerName}`;
+    runCommand += ` -e CONTAINER_NAME=${this.containerName}`;
+    runCommand += ` -e WEBSITE_SITE_NAME=${this.containerName}`;
+    runCommand += ` -e WEBSITE_HOSTNAME=${this.containerName}.azurewebsites.net`;
     for (const [key, value] of Object.entries(KuduContainer.envVars)) {
-      runCommand += ` -e ${key}="${value}" `;
+      runCommand += ` -e ${key}="${value}"`;
     }
     for (const [key, value] of Object.entries(extraEnvVars)) {
-      runCommand += ` -e ${key}="${value}" `;
-    }
-    runCommand += `${this.config.testImageName}`;
+      runCommand += ` -e ${key}="${value}"`;    }
+    runCommand += ` ${this.config.testImageName}`;
 
     // Execute docker command
     if (shell.exec(runCommand).code !== 0) {
@@ -127,16 +127,35 @@ export class KuduContainer {
         headers: {
           'x-ms-site-restricted-token': this.config.siteRestrictedToken,
           'Content-Type': 'application/json'
-        }
+        },
+        // No need to throw exception on user errors
+        validateStatus: (status) => status >= 200 && status <= 499
       });
     });
   }
 
-  public async createZipDeploy(zipLocalPath: string) {
+  public async getAppSettings(): Promise<Record<string, string>> {
+    console.log(chalk.yellow(`Getting application settings from ${this.containerName}...`));
+    const response = await retry(async () => {
+      return await axios.get(`${this.url}/api/settings`, {
+        headers: {
+          'x-ms-site-restricted-token': this.config.siteRestrictedToken,
+          'Content-Type': 'application/json'
+        },
+        // No need to throw exception on user errors
+        validateStatus: (status) => status >= 200 && status <= 499
+      });
+    });
+    return response.data as Record<string, string>;
+  }
+
+  public async createZipDeploy(zipLocalPath: string, queryParams: Record<string, string>={}) {
     console.log(chalk.yellow(`Initiate remote build ${zipLocalPath} to ${this.containerId}...`));
     const file = fs.readFileSync(zipLocalPath);
+    const params = Object.entries(queryParams).map(([key, value]) => `${key}=${value}`).join('&');
+
     await retry(async () => {
-      return await axios.post(`${this.url}/api/zipdeploy`, file, {
+      return await axios.post(`${this.url}/api/zipdeploy?${params}`, file, {
         headers: {
           'x-ms-site-restricted-token': this.config.siteRestrictedToken,
           'Content-Type': 'application/octet-stream'
@@ -228,14 +247,21 @@ RUN wget -k -X GET -O ./artifact.squashfs -q '${blobSasUri}' \\
       console.log(chalk.red.bold(`Test FAILED on ${destContainerName} /api/HttpTrigger : ${error}`));
       success = false;
     } finally {
-      // Clean up
+      // Clean up container
       const killCommand = `docker rm -f ${destContainerName}`;
       const killResult = shell.exec(killCommand);
       if (killResult.code !== 0) {
         console.log(chalk.red.bold(`Failed to kill runtime container ${destContainerName}`));
-      } else {
-        delete KuduContainer.ports[destContainerName];
       }
+
+      // Clean up docker image
+      const rmiCommand = `docker rmi ${destImageTag}`;
+      const rmiResult = shell.exec(rmiCommand);
+      if (rmiResult.code !== 0) {
+        console.log(chalk.red.bold(`Failed to remove runtime image ${destImageTag}`));
+      }
+
+      delete KuduContainer.ports[destContainerName];
     }
 
     if (success) {

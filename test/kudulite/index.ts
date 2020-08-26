@@ -46,11 +46,16 @@ async function initialize(): Promise<IConfig> {
     process.exit(1);
   }
 
+  const storageConnectionString = 'DefaultEndpointsProtocol=https;EndpointSuffix=core.windows.net;' +
+    `AccountName=${process.env.STORAGE_ACCOUNT_NAME};` +
+    `AccountKey=${process.env.STORAGE_ACCOUNT_KEY}`;
+
   return {
     testImageName: process.argv.reverse()[0],
     storageAccountName: process.env.STORAGE_ACCOUNT_NAME,
     storageAccountKey: process.env.STORAGE_ACCOUNT_KEY,
     siteRestrictedToken: process.env.SITE_RESTRICTED_TOKEN,
+    storageConnectionString: storageConnectionString,
     srcContainerName: 'testsrc',
     destContainerName: 'testdest',
   }
@@ -75,6 +80,7 @@ async function main() {
   try {
     await Promise.all([
       testHost20Python36.run(config),
+      /*
       testHost20Python37.run(config),
       testHost30Python36.run(config),
       testHost30Python37.run(config),
@@ -83,6 +89,7 @@ async function main() {
       testHost20Node10.run(config),
       testHost30Node10.run(config),
       testHost30Node12.run(config)
+      */
     ]);
   } catch (error) {
     console.log(chalk.red.bold(error));
