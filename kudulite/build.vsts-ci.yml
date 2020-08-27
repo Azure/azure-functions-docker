@@ -7,6 +7,7 @@ pr:
   paths:
     include:
     - kudulite/*
+    - test/kudulite*
 
 trigger:
   branches:
@@ -15,6 +16,7 @@ trigger:
   paths:
     include:
     - kudulite/*
+    - test/kudulite*
 
 steps:
 - bash: |
@@ -34,6 +36,11 @@ steps:
     export namespace=$(namespace)
     export branch=$(branch)
     export tag=$(tag)
+    export storageAccountName=$(storageAccountName)
+    export storageAccountKey=$(storageAccountKey)
+    export siteRestrictedToken=$(siteRestrictedToken)
+    export v2RuntimeVersion=$(v2RuntimeVersion)
+    export v3RuntimeVersion=$(v3RuntimeVersion)
     chmod +x ./kudulite/build.sh
     ./kudulite/build.sh
   displayName: build images
