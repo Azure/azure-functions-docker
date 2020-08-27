@@ -28,5 +28,5 @@ docker push "$current_image"
 
 if ! [ -z "$CI_RUN" ]; then
     echo -e "${CONSOLE_BOLD}${COLOR_GREEN} Cleaning up... ${CONSOLE_RESET}"
-    docker system prune -f -a
+    docker system prune -f
 fi

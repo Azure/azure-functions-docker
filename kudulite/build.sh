@@ -32,7 +32,7 @@ base_dir=$DIR
 # Free up CI disk space
 if ! [ -z "$CI_RUN" ]; then
     echo -e "${CONSOLE_BOLD}${COLOR_GREEN} Cleaning up dangling images to free up CI space... ${CONSOLE_RESET}"
-    docker image prune -f
+    docker system prune -f
 fi
 
 # Build image
@@ -45,5 +45,5 @@ docker build --no-cache --build-arg BRANCH="$branch" --build-arg NAMESPACE="$nam
 # Remove the huge oryx build image
 if ! [ -z "$CI_RUN" ]; then
     echo -e "${CONSOLE_BOLD}${COLOR_GREEN} Deleting dangling oryx build image... ${CONSOLE_RESET}"
-    docker rmi -f $(docker images | grep 'mcr.microsoft.com/oryx/build')
+    docker image prune -f
 fi
