@@ -29,13 +29,14 @@ fi
 
 base_dir=$DIR
 
+# Free up CI disk space
+if ! [ -z "$CI_RUN" ]; then
+    echo -e "${CONSOLE_BOLD}${COLOR_GREEN} Cleaning up... ${CONSOLE_RESET}"
+    docker system prune -f -a
+fi
+
 current_image="$ACR/$ACR_NAMESPACE/kudulite:$tag"
 echo -e "${CONSOLE_BOLD}${COLOR_GREEN}: Building $current_image ${CONSOLE_RESET}"
 echo -e "${CONSOLE_BOLD}${COLOR_YELLOW}: Source Image $namespace/KuduLite $branch ${CONSOLE_RESET}"
 echo -e "${CONSOLE_BOLD}${COLOR_YELLOW}: Destination Image $current_image ${CONSOLE_RESET}"
 docker build --no-cache --build-arg BRANCH="$branch" --build-arg NAMESPACE="$namespace" -t $current_image -f "$base_dir/Dockerfile" "$base_dir"
-
-if ! [ -z "$CI_RUN" ]; then
-    echo -e "${CONSOLE_BOLD}${COLOR_GREEN} Cleaning up... ${CONSOLE_RESET}"
-    docker system prune -f -a
-fi
