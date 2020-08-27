@@ -50,4 +50,5 @@ export APPDATA=/opt/Kudu/local
 cd /opt/Kudu
 
 echo $(date) running .net core
+# TODO: This will be updated to dotnet 3.1 soon
 ASPNETCORE_URLS=http://0.0.0.0:"$PORT" runuser -p -u "$USER_NAME" -- benv dotnet=2.2 dotnet Kudu.Services.Web.dll

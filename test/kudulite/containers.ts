@@ -264,14 +264,12 @@ export class KuduContainer {
       }
 
       // Clean up docker image
-      /*
       console.log(chalk.yellow(`Cleaning up image ${baseImage}...`));
       const rmiCommand = `docker rmi -f ${baseImage}`;
       const rmiResult = shell.exec(rmiCommand);
       if (rmiResult.code !== 0) {
         console.log(chalk.red.bold(`Failed to remove runtime image ${baseImage}`));
       }
-      */
       delete KuduContainer.ports[destContainerName];
     }
 
