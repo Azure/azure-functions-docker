@@ -85,17 +85,16 @@ async function main() {
   const testHost30Node12 = new Host30Node12();
 
   try {
-    await Promise.all([
-      testHost20Python36.run(config, 'KuduLitePython36.zip', `mcr.microsoft.com/azure-functions/mesh:${config.v2RuntimeVersion}`),
-      testHost20Python37.run(config, 'KuduLitePython37.zip', `mcr.microsoft.com/azure-functions/mesh:${config.v2RuntimeVersion}-python3.7`),
-      testHost20Node8.run(config, 'KuduLiteNode8.zip', `mcr.microsoft.com/azure-functions/mesh:${config.v2RuntimeVersion}`),
-      testHost20Node10.run(config, 'KuduLiteNode10.zip', `mcr.microsoft.com/azure-functions/mesh:${config.v2RuntimeVersion}-node10`),
-      testHost30Python36.run(config, 'KuduLitePython36.zip', `mcr.microsoft.com/azure-functions/mesh:${config.v3RuntimeVersion}`),
-      testHost30Python37.run(config, 'KuduLitePython37.zip', `mcr.microsoft.com/azure-functions/mesh:${config.v3RuntimeVersion}-python3.7`),
-      testHost30Python38.run(config, 'KuduLitePython38.zip', `mcr.microsoft.com/azure-functions/mesh:${config.v3RuntimeVersion}-python3.8`),
-      testHost30Node10.run(config, 'KuduLiteNode10.zip', `mcr.microsoft.com/azure-functions/mesh:${config.v3RuntimeVersion}`),
-      testHost30Node12.run(config, 'KuduLiteNode12.zip', `mcr.microsoft.com/azure-functions/mesh:${config.v3RuntimeVersion}-node12`),
-    ]);
+    // CI disk space limitation hit, fail to run all tests parallelly.
+    await testHost20Python36.run(config, 'KuduLitePython36.zip', `mcr.microsoft.com/azure-functions/mesh:${config.v2RuntimeVersion}`);
+    await testHost20Python37.run(config, 'KuduLitePython37.zip', `mcr.microsoft.com/azure-functions/mesh:${config.v2RuntimeVersion}-python3.7`);
+    await testHost20Node8.run(config, 'KuduLiteNode8.zip', `mcr.microsoft.com/azure-functions/mesh:${config.v2RuntimeVersion}`);
+    await testHost20Node10.run(config, 'KuduLiteNode10.zip', `mcr.microsoft.com/azure-functions/mesh:${config.v2RuntimeVersion}-node10`);
+    await testHost30Python36.run(config, 'KuduLitePython36.zip', `mcr.microsoft.com/azure-functions/mesh:${config.v3RuntimeVersion}`);
+    await testHost30Python37.run(config, 'KuduLitePython37.zip', `mcr.microsoft.com/azure-functions/mesh:${config.v3RuntimeVersion}-python3.7`);
+    await testHost30Python38.run(config, 'KuduLitePython38.zip', `mcr.microsoft.com/azure-functions/mesh:${config.v3RuntimeVersion}-python3.8`);
+    await testHost30Node10.run(config, 'KuduLiteNode10.zip', `mcr.microsoft.com/azure-functions/mesh:${config.v3RuntimeVersion}`);
+    await testHost30Node12.run(config, 'KuduLiteNode12.zip', `mcr.microsoft.com/azure-functions/mesh:${config.v3RuntimeVersion}-node12`);
   } catch (error) {
     console.log(chalk.red.bold(error));
     process.exit(1)
