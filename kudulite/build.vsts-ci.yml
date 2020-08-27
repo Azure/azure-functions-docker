@@ -39,6 +39,8 @@ steps:
     export storageAccountName=$(storageAccountName)
     export storageAccountKey=$(storageAccountKey)
     export siteRestrictedToken=$(siteRestrictedToken)
+    export v2RuntimeVersion=$(v2RuntimeVersion)
+    export v3RuntimeVersion=$(v3RuntimeVersion)
     chmod +x ./kudulite/build.sh
     ./kudulite/build.sh
   displayName: build images

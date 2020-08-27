@@ -39,6 +39,8 @@ echo -e "${CONSOLE_BOLD}${COLOR_YELLOW} Testing $current_image ${CONSOLE_RESET}"
 export STORAGE_ACCOUNT_NAME="$storageAccountName"
 export STORAGE_ACCOUNT_KEY="$storageAccountKey"
 export SITE_RESTRICTED_TOKEN="$siteRestrictedToken"
+export V2_RUNTIME_VERSION="$v2RuntimeVersion"
+export V3_RUNTIME_VERSION="$v3RuntimeVersion"
 npm run test-kudulite $current_image --prefix test/
 
 echo -e "${CONSOLE_BOLD}${COLOR_GREEN} Test PASSED. Pushing $current_image ${CONSOLE_RESET}"

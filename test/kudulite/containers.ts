@@ -95,7 +95,7 @@ export class KuduContainer {
   }
 
   public async startKuduLiteContainer(extraEnvVars: Record<string, any> = {}): Promise<string> {
-    return this.startContainer(this.config.testImageName, this.containerName, extraEnvVars);
+    return this.startContainer(this.config.kuduliteImage, this.containerName, extraEnvVars);
   }
 
   public async startRuntimeContainer(image: string, extraEnvVars: Record<string, any> = {}): Promise<string> {
@@ -264,12 +264,14 @@ export class KuduContainer {
       }
 
       // Clean up docker image
+      /*
       console.log(chalk.yellow(`Cleaning up image ${baseImage}...`));
       const rmiCommand = `docker rmi -f ${baseImage}`;
       const rmiResult = shell.exec(rmiCommand);
       if (rmiResult.code !== 0) {
         console.log(chalk.red.bold(`Failed to remove runtime image ${baseImage}`));
       }
+      */
       delete KuduContainer.ports[destContainerName];
     }
 

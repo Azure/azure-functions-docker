@@ -40,17 +40,31 @@ async function initialize(): Promise<IConfig> {
     process.exit(1);
   }
 
+  if (!process.env.V2_RUNTIME_VERSION) {
+    console.error(chalk.red.bold("process.env.V2_RUNTIME_VERSION is required"));
+    console.error(chalk.red.bold("This defines the v2 runtime image version tags (e.g. 2.0.14248)"));
+    process.exit(1);
+  }
+
+  if (!process.env.V3_RUNTIME_VERSION) {
+    console.error(chalk.red.bold("process.env.V3_RUNTIME_VERSION is required"));
+    console.error(chalk.red.bold("This defines the v3 runtime image version tags (e.g. 3.0.14287)"));
+    process.exit(1);
+  }
+
   const storageConnectionString = 'DefaultEndpointsProtocol=https;EndpointSuffix=core.windows.net;' +
     `AccountName=${process.env.STORAGE_ACCOUNT_NAME};` +
     `AccountKey=${process.env.STORAGE_ACCOUNT_KEY}`;
 
   return {
-    testImageName: process.argv.reverse()[0],
+    kuduliteImage: process.argv.reverse()[0],
     storageAccountName: process.env.STORAGE_ACCOUNT_NAME,
     storageAccountKey: process.env.STORAGE_ACCOUNT_KEY,
+    v2RuntimeVersion: process.env.V2_RUNTIME_VERSION,
+    v3RuntimeVersion: process.env.V3_RUNTIME_VERSION,
     storageConnectionString: storageConnectionString,
     srcContainerName: 'testsrc',
-    destContainerName: 'scm-releases',
+    destContainerName: 'scm-releases'
   }
 }
 
@@ -72,19 +86,15 @@ async function main() {
 
   try {
     await Promise.all([
-      /*
-      testHost20Python36.run(config),
-      testHost20Python37.run(config),
-      */
-      testHost30Python36.run(config),
-      /*
-      testHost30Python37.run(config),
-      testHost30Python38.run(config),
-      testHost20Node8.run(config),
-      testHost20Node10.run(config),
-      testHost30Node10.run(config),
-      testHost30Node12.run(config)
-      */
+      testHost20Python36.run(config, 'KuduLitePython36.zip', `mcr.microsoft.com/azure-functions/mesh:${config.v2RuntimeVersion}`),
+      testHost20Python37.run(config, 'KuduLitePython37.zip', `mcr.microsoft.com/azure-functions/mesh:${config.v2RuntimeVersion}-python3.7`),
+      testHost20Node8.run(config, 'KuduLiteNode8.zip', `mcr.microsoft.com/azure-functions/mesh:${config.v2RuntimeVersion}`),
+      testHost20Node10.run(config, 'KuduLiteNode10.zip', `mcr.microsoft.com/azure-functions/mesh:${config.v2RuntimeVersion}-node10`),
+      testHost30Python36.run(config, 'KuduLitePython36.zip', `mcr.microsoft.com/azure-functions/mesh:${config.v3RuntimeVersion}`),
+      testHost30Python37.run(config, 'KuduLitePython37.zip', `mcr.microsoft.com/azure-functions/mesh:${config.v3RuntimeVersion}-python3.7`),
+      testHost30Python38.run(config, 'KuduLitePython38.zip', `mcr.microsoft.com/azure-functions/mesh:${config.v3RuntimeVersion}-python3.8`),
+      testHost30Node10.run(config, 'KuduLiteNode10.zip', `mcr.microsoft.com/azure-functions/mesh:${config.v3RuntimeVersion}`),
+      testHost30Node12.run(config, 'KuduLiteNode12.zip', `mcr.microsoft.com/azure-functions/mesh:${config.v3RuntimeVersion}-node12`),
     ]);
   } catch (error) {
     console.log(chalk.red.bold(error));

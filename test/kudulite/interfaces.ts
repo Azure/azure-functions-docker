@@ -1,21 +1,12 @@
-export interface IRuntimeImages {
-  // Python
-  host20python36mesh: string;
-  host20python37mesh: string;
-  host30python36mesh: string;
-  host30python37mesh: string;
-  host30python38mesh: string;
-
-  // Node
-}
-
 export interface IConfig {
-  testImageName: string;
+  kuduliteImage: string;
   storageAccountName: string;
   storageAccountKey: string;
   storageConnectionString: string;
   srcContainerName: string;
   destContainerName: string;
+  v2RuntimeVersion: string;
+  v3RuntimeVersion: string;
 }
 
 export interface IContainerStartContext {
@@ -25,5 +16,5 @@ export interface IContainerStartContext {
 }
 
 export interface ITestCase {
-  run: (config: IConfig) => Promise<void>;
+  run: (config: IConfig, srcPackage: string, runtimeImage: string) => Promise<void>;
 }
