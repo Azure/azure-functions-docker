@@ -4,14 +4,14 @@ import chalk from "chalk";
 import path from "path";
 import shell from "shelljs";
 import { BlobServiceClient, ContainerClient, generateBlobSASQueryParameters, BlobSASPermissions, StorageSharedKeyCredential } from "@azure/storage-blob";
-import { timeout, retry, getSiteRestrictedToken, getEncryptedContext } from './utils';
-import { IConfig, IContainerStartContext } from './interfaces';
+import { timeout, retry, getSiteRestirctedTokenFromBase64, getEncryptedContextFromBase64 } from './utils';
+import { IConfig } from './interfaces';
 
 export class KuduContainer {
   static envVars: Record<string, string> = {
-    WEBSITE_PLACEHOLDER_MODE: '1',
     CONTAINER_ENCRYPTION_KEY: 'MDEyMzQ1Njc4OUFCQ0RFRjAxMjM0NTY3ODlBQkNERUY=',
-    WEBSITE_AUTH_ENCRYPTION_KEY: 'E782F47415EEC076F8087729FB30CF1CA1482610C2FA985E4F22531225722205'
+    WEBSITE_PLACEHOLDER_MODE: '1',
+    WEBSITE_MOUNT_ENABLED: '0' // because on windows local testing /dev/fuse is not available
   }
 
   // Map of container name -> port mapping
@@ -37,8 +37,7 @@ export class KuduContainer {
     this.containerName = `kudulite${this.containerId}`;
     this.runtimeContainerName = `runtime${this.containerId}`;
     this.siteName = `site${this.containerId}`;
-    this.siteRestrictedToken = getSiteRestrictedToken(KuduContainer.envVars.WEBSITE_AUTH_ENCRYPTION_KEY);
-    console.log(chalk.magentaBright.bold(this.siteRestrictedToken));
+    this.siteRestrictedToken = getSiteRestirctedTokenFromBase64(KuduContainer.envVars.CONTAINER_ENCRYPTION_KEY);
     this.storageCredential = new StorageSharedKeyCredential(config.storageAccountName, config.storageAccountKey);
     this.storageClient = new BlobServiceClient(`https://${config.storageAccountName}.blob.core.windows.net`, this.storageCredential);
     this.srcContainerClient = this.storageClient.getContainerClient(config.srcContainerName);
@@ -111,36 +110,34 @@ export class KuduContainer {
     Object.entries(KuduContainer.envVars).forEach(([key, value]) => runCommand += ` -e ${key}="${value}"`);
     Object.entries(extraEnvVars).forEach(([key, value]) => runCommand += ` -e ${key}="${value}"`);
     runCommand += ` ${image}`;
-    console.log(runCommand);
 
     // Execute docker command
     if (shell.exec(runCommand).code !== 0) {
       const errorMessage = `Failed to start ${name} from image ${image}`;
       throw new Error(errorMessage);
+    } else {
+      // Wait for port to be established
+      await timeout(1_000);
     }
 
     // Registered current container's port
-    const portCommand = `docker port ${name}`
+    const portCommand = `docker port ${name}`;
     const portResult = shell.exec(portCommand);
     if (portResult.code !== 0) {
       console.log(chalk.red.bold(`Failed to find port for ${name}`));
     }
     const port = portResult.stdout.split(':').reverse()[0];
     KuduContainer.ports[name] = parseInt(port);
-
     console.log(chalk.green(`Created container ${name} at port ${port}`))
-
-    // Wait for the container to spin up
-    await timeout(5_000);
 
     // Return container name
     return name;
   }
 
   public async assignContainer(name: string, environmentVariables: Record<string, string>) {
-    console.log(chalk.yellow(`Assign container ${name}...`));
+    console.log(chalk.yellow(`Assign container ${name} at port ${KuduContainer.ports[name]}...`));
     const encryptionKey = KuduContainer.envVars.CONTAINER_ENCRYPTION_KEY;
-    const encryptedContext = getEncryptedContext(encryptionKey, {
+    const encryptedContext = getEncryptedContextFromBase64(encryptionKey, {
       SiteId: parseInt(this.containerId.substring(0, 8)),
       SiteName: name,
       Environment: {
@@ -148,7 +145,6 @@ export class KuduContainer {
         WEBSITE_SITE_NAME: this.siteName
       }
     })
-    console.log(chalk.magentaBright.bold(encryptedContext));
 
     const baseUrl = `http://127.0.0.1:${KuduContainer.ports[name]}`;
     await retry(async () => {
@@ -232,12 +228,13 @@ export class KuduContainer {
 
     // Pull down the base image and kick start the runtime in it
     console.log(chalk.yellow(`Testing built artifact with ${baseImage} on ${destContainerName}}`));
-    const baseUrl = await this.startRuntimeContainer(baseImage, environmentVariables);
+    const runtimeName = await this.startRuntimeContainer(baseImage, environmentVariables);
+    const baseUrl = `http://127.0.0.1:${KuduContainer.ports[runtimeName]}`;
 
     // Redirect stdout and stderr
-    const containerLog = shell.exec(`docker logs -f ${destContainerName}`, { async: true });
-    containerLog.stdout && containerLog.stdout.pipe(process.stdout);
-    containerLog.stderr && containerLog.stderr.pipe(process.stderr);
+    // const containerLog = shell.exec(`docker logs -f ${destContainerName}`, { async: true });
+    // containerLog.stdout && containerLog.stdout.pipe(process.stdout);
+    // containerLog.stderr && containerLog.stderr.pipe(process.stderr);
 
     // Specialize container
     console.log(chalk.yellow(`Specializing /admin/instance/assign endpoint in ${destContainerName}...`));
@@ -248,7 +245,11 @@ export class KuduContainer {
     let success = false;
     const runtimeHttpTriggerUrl = `${baseUrl}/api/HttpTrigger`;
     try {
-      await retry(async () => await axios.get(runtimeHttpTriggerUrl));
+      await retry(async () => await axios.get(runtimeHttpTriggerUrl, {
+        headers: {
+          'x-site-deployment-id': this.siteName
+        }
+      }));
       success = true;
     } catch (error) {
       console.log(chalk.red.bold(`Test FAILED on ${destContainerName} /api/HttpTrigger : ${error}`));
@@ -264,12 +265,11 @@ export class KuduContainer {
 
       // Clean up docker image
       console.log(chalk.yellow(`Cleaning up image ${baseImage}...`));
-      const rmiCommand = `docker rmi ${baseImage}`;
+      const rmiCommand = `docker rmi -f ${baseImage}`;
       const rmiResult = shell.exec(rmiCommand);
       if (rmiResult.code !== 0) {
         console.log(chalk.red.bold(`Failed to remove runtime image ${baseImage}`));
       }
-
       delete KuduContainer.ports[destContainerName];
     }
 

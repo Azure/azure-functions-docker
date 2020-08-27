@@ -50,14 +50,24 @@ export const toCSharpTick = (datetime: Date): number => {
   return datetime.getTime() * 10000 + 621355680000000000;
 }
 
-export const getSiteRestrictedToken = (authEncryptionKey: string) => {
+// WEBSITE_AUTH_ENCRYPTION_KEY x-ms-site-restricted-token
+export const getSiteRestrictedTokenFromHex = (authEncryptionKey: string) => {
   const current = new Date();
   const expiry = new Date(current.getFullYear(), current.getMonth(), current.getDate() + 2);
   const encryptionKey = CryptoJS.enc.Hex.parse(authEncryptionKey);
-  return encryptContext(encryptionKey, `exp=${toCSharpTick(expiry)}`)
+  return encryptContext(encryptionKey, `exp=${toCSharpTick(expiry)}`);
 };
 
-export const getEncryptedContext = (containerKey: string, context: IContainerStartContext) => {
+// CONTAINER_ENCRYPTION_KEY x-ms-site-restricted-token
+export const getSiteRestirctedTokenFromBase64 = (containerKey: string) => {
+  const current = new Date();
+  const expiry = new Date(current.getFullYear(), current.getMonth(), current.getDate() + 2);
+  const encryptionKey = CryptoJS.enc.Base64.parse(containerKey);
+  return encryptContext(encryptionKey, `exp=${toCSharpTick(expiry)}`);
+};
+
+// CONTAINER_ENCRYPTION_KEY /admin/instance/assign
+export const getEncryptedContextFromBase64 = (containerKey: string, context: IContainerStartContext) => {
   const containerKeyBytes = CryptoJS.enc.Base64.parse(containerKey);
   const result = encryptContext(containerKeyBytes, JSON.stringify(context));
   return result;
