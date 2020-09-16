@@ -47,7 +47,7 @@ ENV PATH=$PATH:/root/.dotnet/tools
 RUN cd /tmp \
     && git clone --depth 1 --branch $BRANCH https://github.com/$NAMESPACE/KuduLite.git KuduLite \
     && cd ./KuduLite/Kudu.Services.Web \
-    && benv dotnet=2.2 dotnet publish -c Release -o /opt/Kudu \
+    && benv dotnet=2.2.7 dotnet publish -c Release -o /opt/Kudu \
     && chmod 777 /opt/Kudu/Kudu.Services.Web.dll \
     && rm -rf /tmp/* \
     && chmod a+rw /var/nuget \
@@ -65,12 +65,14 @@ ENV PATH=$PATH:/opt/nodejs/9/bin
 # Use Dynamic Install SDK feature from Oryx build
 # Trim off all unnecessary SDKs and let them lazily loaded
 RUN rm -rf /opt/python /opt/hugo /opt/php /opt/php-composer \
-    # We still need the fundamental ones when building the images nodejs 9, npm 6 and dotnet 2.2
-    # TODO: This will be upgraded to dotnet 3.1 soon
+    # We still need the fundamental ones when building the images nodejs 9, npm 6 and dotnet
     && find /opt/nodejs -mindepth 1 -maxdepth 1 -type d,l -not -name "9*" | xargs rm -rf \
-    && find /opt/npm -mindepth 1 -maxdepth 1 -type d,l -not -name "6*" | xargs rm -rf \
-    && find /opt/dotnet/runtimes -mindepth 1 -maxdepth 1 -type d,l -not -name '2*' | xargs rm -rf \
-    && find /opt/dotnet/sdks -mindepth 1 -maxdepth 1 -type d,l -not -name '2*' | xargs rm -rf
+    && find /opt/npm -mindepth 1 -maxdepth 1 -type d,l -not -name "6*" | xargs rm -rf
+
+# There's an exising bug in dotnet version detector in oryx image where it will resolve dotnet 2.2 into 2.2.8
+# But the image fails to resolve 2.2.8 runtime
+RUN ln -s /opt/dotnet/runtimes/2.2.7 /opt/dotnet/runtimes/2.2.8
+
 ENV ENABLE_DYNAMIC_INSTALL=true
 
 EXPOSE 80
