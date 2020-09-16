@@ -9,7 +9,12 @@ import {
   Host20Node8,
   Host20Node10,
   Host30Node10,
-  Host30Node12
+  Host30Node12,
+  Host20Dotnet2,
+  Host30Dotnet3,
+  Host2xPython36CsprojExtensions,
+  Host3xPython36CsprojExtensions,
+  Host30Python36OverwriteRunFromPackage
 } from './testcases'
 
 // Flow
@@ -71,6 +76,10 @@ async function initialize(): Promise<IConfig> {
 async function main() {
   const config: IConfig = await initialize();
 
+  // Dotnet
+  const testHost20Dotnet2 = new Host20Dotnet2();
+  const testHost30Dotnet3 = new Host30Dotnet3();
+
   // Python
   const testHost20Python36 = new Host20Python36();
   const testHost20Python37 = new Host20Python37();
@@ -84,8 +93,19 @@ async function main() {
   const testHost30Node10 = new Host30Node10();
   const testHost30Node12 = new Host30Node12();
 
+  // Special Cases
+  const testOverwriteAppSetting = new Host30Python36OverwriteRunFromPackage();
+  const testHost20Python36Extensions = new Host2xPython36CsprojExtensions();
+  const testHost21Python36Extensions = new Host2xPython36CsprojExtensions();
+  const testHost22Python36Extensions = new Host2xPython36CsprojExtensions();
+  const testHost30Python36Extensions = new Host3xPython36CsprojExtensions();
+
   try {
     // CI disk space limitation hit, fail to run all tests parallelly.
+
+    await testHost20Dotnet2.run(config, 'KuduLiteDotnet2.zip', `mcr.microsoft.com/azure-functions/mesh:${config.v2RuntimeVersion}`);
+    await testHost30Dotnet3.run(config, 'KuduLiteDotnet3.zip', `mcr.microsoft.com/azure-functions/mesh:${config.v3RuntimeVersion}`);
+
     await testHost20Python36.run(config, 'KuduLitePython36.zip', `mcr.microsoft.com/azure-functions/mesh:${config.v2RuntimeVersion}`);
     await testHost20Python37.run(config, 'KuduLitePython37.zip', `mcr.microsoft.com/azure-functions/mesh:${config.v2RuntimeVersion}-python3.7`);
     await testHost20Node8.run(config, 'KuduLiteNode8.zip', `mcr.microsoft.com/azure-functions/mesh:${config.v2RuntimeVersion}`);
@@ -95,6 +115,13 @@ async function main() {
     await testHost30Python38.run(config, 'KuduLitePython38.zip', `mcr.microsoft.com/azure-functions/mesh:${config.v3RuntimeVersion}-python3.8`);
     await testHost30Node10.run(config, 'KuduLiteNode10.zip', `mcr.microsoft.com/azure-functions/mesh:${config.v3RuntimeVersion}`);
     await testHost30Node12.run(config, 'KuduLiteNode12.zip', `mcr.microsoft.com/azure-functions/mesh:${config.v3RuntimeVersion}-node12`);
+
+    await testOverwriteAppSetting.run(config, 'KuduLitePython36.zip', `mcr.microsoft.com/azure-functions/mesh:${config.v3RuntimeVersion}`);
+    await testHost20Python36Extensions.run(config, 'KuduLitePython36Extension20.zip', `mcr.microsoft.com/azure-functions/mesh:${config.v2RuntimeVersion}`);
+    await testHost21Python36Extensions.run(config, 'KuduLitePython36Extension21.zip', `mcr.microsoft.com/azure-functions/mesh:${config.v2RuntimeVersion}`);
+    await testHost22Python36Extensions.run(config, 'KuduLitePython36Extension22.zip', `mcr.microsoft.com/azure-functions/mesh:${config.v2RuntimeVersion}`);
+    await testHost30Python36Extensions.run(config, 'KuduLitePython36Extension30.zip', `mcr.microsoft.com/azure-functions/mesh:${config.v3RuntimeVersion}`);
+
   } catch (error) {
     console.log(chalk.red.bold(error));
     process.exit(1)
