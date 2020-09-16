@@ -70,7 +70,7 @@ RUN rm -rf /opt/python /opt/hugo /opt/php /opt/php-composer \
     && find /opt/npm -mindepth 1 -maxdepth 1 -type d,l -not -name "6*" | xargs rm -rf
 
 # There's an exising bug in dotnet version detector in oryx image where it will resolve dotnet 2.2 into 2.2.8
-# But the image fails to resolve 2.2.8 runtime
+# But the image fails to resolve 2.2.8 runtime, thus, adding a symbolic link as temporary mitigation
 RUN ln -s /opt/dotnet/runtimes/2.2.7 /opt/dotnet/runtimes/2.2.8
 
 ENV ENABLE_DYNAMIC_INSTALL=true
