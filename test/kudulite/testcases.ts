@@ -282,6 +282,7 @@ export class Host30Python36OverwriteRunFromPackage implements ITestCase {
     const container = new KuduContainer(config);
     const destSas = await container.getDestBlobSas();
     const settings = {
+      "AzureWebJobsStorage": config.storageConnectionString,
       "ENABLE_ORYX_BUILD": 'true',
       "SCM_DO_BUILD_DURING_DEPLOYMENT": 'true',
       "ENABLE_DYNAMIC_INSTALL": 'true',
@@ -290,7 +291,7 @@ export class Host30Python36OverwriteRunFromPackage implements ITestCase {
       "FRAMEWORK": "python",
       "FUNCTIONS_WORKER_RUNTIME_VERSION": "3.6",
       "FRAMEWORK_VERSION": "3.6",
-      "SCM_RUN_FROM_PACKAGE": destSas
+      "WEBSITE_RUN_FROM_PACKAGE": destSas
     }
     const kuduliteContainerName = await container.startKuduLiteContainer(settings);
     const localSrcPath = await container.downloadSrcBlob(srcPackage);
