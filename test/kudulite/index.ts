@@ -14,7 +14,8 @@ import {
   Host30Dotnet3,
   Host2xPython36CsprojExtensions,
   Host3xPython36CsprojExtensions,
-  Host30Python36OverwriteRunFromPackage
+  Host30Python36OverwriteRunFromPackage,
+  Host3xPython3xBuildWheel
 } from './testcases'
 
 // Flow
@@ -84,8 +85,11 @@ async function main() {
   const testHost20Python36 = new Host20Python36();
   const testHost20Python37 = new Host20Python37();
   const testHost30Python36 = new Host30Python36();
+  const testPython36BuildWheel = new Host3xPython3xBuildWheel('3.6');
   const testHost30Python37 = new Host30Python37();
+  const testPython37BuildWheel = new Host3xPython3xBuildWheel('3.7');
   const testHost30Python38 = new Host30Python38();
+  const testPython38BuildWheel = new Host3xPython3xBuildWheel('3.8');
 
   // Node
   const testHost20Node8 = new Host20Node8();
@@ -113,6 +117,10 @@ async function main() {
     await testHost30Python36.run(config, 'KuduLitePython36.zip', `mcr.microsoft.com/azure-functions/mesh:${config.v3RuntimeVersion}`);
     await testHost30Python37.run(config, 'KuduLitePython37.zip', `mcr.microsoft.com/azure-functions/mesh:${config.v3RuntimeVersion}-python3.7`);
     await testHost30Python38.run(config, 'KuduLitePython38.zip', `mcr.microsoft.com/azure-functions/mesh:${config.v3RuntimeVersion}-python3.8`);
+    await testPython37BuildWheel.run(config, 'KuduLitePythonBuildWheel.zip', `mcr.microsoft.com/azure-functions/mesh:${config.v3RuntimeVersion}-python3.7`);
+    await testPython36BuildWheel.run(config, 'KuduLitePythonBuildWheel.zip', `mcr.microsoft.com/azure-functions/mesh:${config.v3RuntimeVersion}`);
+    await testPython38BuildWheel.run(config, 'KuduLitePythonBuildWheel.zip', `mcr.microsoft.com/azure-functions/mesh:${config.v3RuntimeVersion}-python3.8`);
+
     await testHost30Node10.run(config, 'KuduLiteNode10.zip', `mcr.microsoft.com/azure-functions/mesh:${config.v3RuntimeVersion}`);
     await testHost30Node12.run(config, 'KuduLiteNode12.zip', `mcr.microsoft.com/azure-functions/mesh:${config.v3RuntimeVersion}-node12`);
 
