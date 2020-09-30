@@ -3,7 +3,7 @@ COPY /mesh /mesh
 RUN cd /mesh && \
     CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o init
 
-FROM mcr.microsoft.com/oryx/build:20200813.1 as pre-final-env
+FROM mcr.microsoft.com/oryx/build:20200929.1 as pre-final-env
 ARG BRANCH
 ARG NAMESPACE
 ENV DEBIAN_FRONTEND noninteractive
@@ -43,11 +43,11 @@ ENV NUGET_XMLDOC_MODE=skip
 RUN dotnet tool install -g dotnet-aspnet-codegenerator --version 2.2.4
 ENV PATH=$PATH:/root/.dotnet/tools
 
-# Install Kudu
+# Install Kudu (since oryx/build:20200929.1, benv dotnet only accept full version)
 RUN cd /tmp \
     && git clone --depth 1 --branch $BRANCH https://github.com/$NAMESPACE/KuduLite.git KuduLite \
     && cd ./KuduLite/Kudu.Services.Web \
-    && benv dotnet=2.2.7 dotnet publish -c Release -o /opt/Kudu \
+    && benv dotnet=2.2.207 dotnet publish -c Release -o /opt/Kudu \
     && chmod 777 /opt/Kudu/Kudu.Services.Web.dll \
     && rm -rf /tmp/* \
     && chmod a+rw /var/nuget \
@@ -57,21 +57,15 @@ COPY startup.sh /
 
 RUN chmod 777 /startup.sh
 
-RUN benv node=9 npm=6 npm install -g kudusync pm2@latest
+RUN benv node=9 npm install -g kudusync pm2@latest
 
 RUN ln -s /opt/nodejs/9/lib/node_modules/npm/bin/npm-cli.js /usr/bin/npm-cli.js
 ENV PATH=$PATH:/opt/nodejs/9/bin
 
 # Use Dynamic Install SDK feature from Oryx build
-# Trim off all unnecessary SDKs and let them lazily loaded
-RUN rm -rf /opt/python /opt/hugo /opt/php /opt/php-composer \
-    # We still need the fundamental ones when building the images nodejs 9, npm 6 and dotnet
-    && find /opt/nodejs -mindepth 1 -maxdepth 1 -type d,l -not -name "9*" | xargs rm -rf \
-    && find /opt/npm -mindepth 1 -maxdepth 1 -type d,l -not -name "6*" | xargs rm -rf
-
-# There's an exising bug in dotnet version detector in oryx image where it will resolve dotnet 2.2 into 2.2.8
-# But the image fails to resolve 2.2.8 runtime, thus, adding a symbolic link as temporary mitigation
-RUN ln -s /opt/dotnet/runtimes/2.2.7 /opt/dotnet/runtimes/2.2.8
+RUN rm -rf /opt/python /opt/hugo /opt/php /opt/php-composer /opt/npm \
+    # We still need the fundamental ones when building the images nodejs 9 and dotnet
+    && find /opt/nodejs -mindepth 1 -maxdepth 1 -type d,l -not -name "9*" | xargs rm -rf
 
 ENV ENABLE_DYNAMIC_INSTALL=true
 

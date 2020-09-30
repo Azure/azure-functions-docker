@@ -356,3 +356,31 @@ export class Host3xPython36CsprojExtensions implements ITestCase {
     container.killContainer();
   }
 }
+
+// Host 3.0 Python3x /api/zipdeploy with pyodbc, need to build wheel
+export class Host3xPython3xBuildWheel implements ITestCase {
+  public constructor(private pythonVersion: string) {}
+
+  public async run(config: IConfig, srcPackage: string, runtimeImage: string): Promise<void> {
+    const container = new KuduContainer(config);
+    const destSas = await container.getDestBlobSas();
+    const settings = {
+      "AzureWebJobsStorage": config.storageConnectionString,
+      "ENABLE_ORYX_BUILD": 'true',
+      "SCM_DO_BUILD_DURING_DEPLOYMENT": 'true',
+      "ENABLE_DYNAMIC_INSTALL": 'true',
+      "FUNCTIONS_EXTENSION_VERSION": "~3",
+      "FUNCTIONS_WORKER_RUNTIME": "python",
+      "FRAMEWORK": "python",
+      "FUNCTIONS_WORKER_RUNTIME_VERSION": this.pythonVersion,
+      "FRAMEWORK_VERSION": this.pythonVersion,
+      "SCM_RUN_FROM_PACKAGE": destSas
+    }
+    const kuduliteContainerName = await container.startKuduLiteContainer(settings);
+    const localSrcPath = await container.downloadSrcBlob(srcPackage);
+    await container.assignContainer(kuduliteContainerName, settings);
+    await container.createZipDeploy(localSrcPath);
+    await container.testBuiltArtifact(runtimeImage, settings);
+    container.killContainer();
+  }
+}
