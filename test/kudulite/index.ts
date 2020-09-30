@@ -117,8 +117,8 @@ async function main() {
     await testHost30Python36.run(config, 'KuduLitePython36.zip', `mcr.microsoft.com/azure-functions/mesh:${config.v3RuntimeVersion}`);
     await testHost30Python37.run(config, 'KuduLitePython37.zip', `mcr.microsoft.com/azure-functions/mesh:${config.v3RuntimeVersion}-python3.7`);
     await testHost30Python38.run(config, 'KuduLitePython38.zip', `mcr.microsoft.com/azure-functions/mesh:${config.v3RuntimeVersion}-python3.8`);
-    await testPython37BuildWheel.run(config, 'KuduLitePythonBuildWheel.zip', `mcr.microsoft.com/azure-functions/mesh:${config.v3RuntimeVersion}-python3.7`);
     await testPython36BuildWheel.run(config, 'KuduLitePythonBuildWheel.zip', `mcr.microsoft.com/azure-functions/mesh:${config.v3RuntimeVersion}`);
+    await testPython37BuildWheel.run(config, 'KuduLitePythonBuildWheel.zip', `mcr.microsoft.com/azure-functions/mesh:${config.v3RuntimeVersion}-python3.7`);
     await testPython38BuildWheel.run(config, 'KuduLitePythonBuildWheel.zip', `mcr.microsoft.com/azure-functions/mesh:${config.v3RuntimeVersion}-python3.8`);
 
     await testHost30Node10.run(config, 'KuduLiteNode10.zip', `mcr.microsoft.com/azure-functions/mesh:${config.v3RuntimeVersion}`);

@@ -373,7 +373,7 @@ export class Host3xPython3xBuildWheel implements ITestCase {
       "FUNCTIONS_WORKER_RUNTIME": "python",
       "FRAMEWORK": "python",
       "FUNCTIONS_WORKER_RUNTIME_VERSION": this.pythonVersion,
-      "FRAMEWORK_VERSION": "3.6",
+      "FRAMEWORK_VERSION": this.pythonVersion,
       "SCM_RUN_FROM_PACKAGE": destSas
     }
     const kuduliteContainerName = await container.startKuduLiteContainer(settings);
