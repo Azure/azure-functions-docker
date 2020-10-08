@@ -177,6 +177,19 @@ stages:
         continueOnError: false
         env:
           DOCKER_BUILDKIT: 1
+      - bash: |
+          set -e
+          IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/node:$(PrivateVersion)-node14-core-tools
+
+          docker build -t $IMAGE_NAME \
+                      -f host/3.0/buster/amd64/node/node14/node14-core-tools.Dockerfile \
+                      host/3.0/buster/amd64/node/node14/
+          npm run test $IMAGE_NAME --prefix  test/
+          docker push $IMAGE_NAME
+        displayName: node14-core-tools
+        continueOnError: false
+        env:
+          DOCKER_BUILDKIT: 1
 
   - job: python
     displayName: python
