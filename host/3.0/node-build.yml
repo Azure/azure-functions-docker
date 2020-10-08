@@ -117,7 +117,7 @@ steps:
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/node:$(Build.SourceBranchName)-node14-slim
 
       docker build -t $IMAGE_NAME \
-                  -f host/3.0/buster/amd64/node/node12/node14-slim.Dockerfile \
+                  -f host/3.0/buster/amd64/node/node14/node14-slim.Dockerfile \
                   host/3.0/buster/amd64/node/node14/
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
@@ -129,7 +129,7 @@ steps:
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/node:$(Build.SourceBranchName)-node14-appservice
 
       docker build -t $IMAGE_NAME \
-                  -f host/3.0/buster/amd64/node/node12/node14-appservice.Dockerfile \
+                  -f host/3.0/buster/amd64/node/node14/node14-appservice.Dockerfile \
                   host/3.0/buster/amd64/node/node14/
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
