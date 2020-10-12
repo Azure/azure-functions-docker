@@ -70,14 +70,18 @@ steps:
       set -e
       docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-appservice
       docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node12-appservice
+      docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node14-appservice
 
       docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-appservice $TARGET_REGISTRY/node:$(TargetVersion)-appservice-stage$(StageNumber)
       docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-appservice $TARGET_REGISTRY/node:$(TargetVersion)-node10-appservice-stage$(StageNumber)
       docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node12-appservice $TARGET_REGISTRY/node:$(TargetVersion)-node12-appservice-stage$(StageNumber)
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node14-appservice $TARGET_REGISTRY/node:$(TargetVersion)-node14-appservice-stage$(StageNumber)
+
 
       docker push $TARGET_REGISTRY/node:$(TargetVersion)-appservice-stage$(StageNumber)
       docker push $TARGET_REGISTRY/node:$(TargetVersion)-node10-appservice-stage$(StageNumber)
       docker push $TARGET_REGISTRY/node:$(TargetVersion)-node12-appservice-stage$(StageNumber)
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)-node14-appservice-stage$(StageNumber)
 
       docker system prune -a -f
     displayName: tag and push node images
