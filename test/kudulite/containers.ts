@@ -264,18 +264,11 @@ export class KuduContainer {
       }
 
       // Clean up docker image ends with -python* -node* -java*
-      const isGenericImage = (
-        baseImage.endsWith(this.config.v2RuntimeVersion) || baseImage.endsWith(this.config.v3RuntimeVersion)
-      );
-      if (!isGenericImage) {
-        console.log(chalk.yellow(`Cleaning up image ${baseImage}...`));
-        const rmiCommand = `docker rmi -f ${baseImage}`;
-        const rmiResult = shell.exec(rmiCommand);
-        if (rmiResult.code !== 0) {
-          console.log(chalk.red.bold(`Failed to remove runtime image ${baseImage}`));
-        }
-      } else {
-        console.log(chalk.yellow(`Retained generatic image ${baseImage}.`));
+      console.log(chalk.yellow(`Cleaning up image ${baseImage}...`));
+      const rmiCommand = `docker rmi -f ${baseImage}`;
+      const rmiResult = shell.exec(rmiCommand);
+      if (rmiResult.code !== 0) {
+        console.log(chalk.red.bold(`Failed to remove runtime image ${baseImage}`));
       }
 
       // Remove ports registry
