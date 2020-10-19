@@ -3,7 +3,7 @@ COPY /mesh /mesh
 RUN cd /mesh && \
     CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o init
 
-FROM mcr.microsoft.com/oryx/build:20200929.1 as pre-final-env
+FROM mcr.microsoft.com/oryx/build:20201015.1 as pre-final-env
 ARG BRANCH
 ARG NAMESPACE
 ENV DEBIAN_FRONTEND noninteractive
