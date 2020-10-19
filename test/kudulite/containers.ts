@@ -113,12 +113,17 @@ export class KuduContainer {
 
     // Execute docker command
     if (shell.exec(runCommand).code !== 0) {
-      const errorMessage = `Failed to start ${name} from image ${image}`;
-      throw new Error(errorMessage);
-    } else {
-      // Wait for port to be established
-      await timeout(1_000);
+      // Clean up mesh images
+      this.cleanUpMeshImages();
+      // Retry
+      if (shell.exec(runCommand).code !== 0) {
+        const errorMessage = `Failed to start ${name} from image ${image}`;
+        throw new Error(errorMessage);
+      }
     }
+
+    // Wait for port to be established
+    await timeout(1_000);
 
     // Registered current container's port
     const portCommand = `docker port ${name}`;
@@ -263,14 +268,6 @@ export class KuduContainer {
         console.log(chalk.red.bold(`Failed to kill runtime container ${destContainerName}`));
       }
 
-      // Clean up docker image ends with -python* -node* -java*
-      console.log(chalk.yellow(`Cleaning up image ${baseImage}...`));
-      const rmiCommand = `docker rmi -f ${baseImage}`;
-      const rmiResult = shell.exec(rmiCommand);
-      if (rmiResult.code !== 0) {
-        console.log(chalk.red.bold(`Failed to remove runtime image ${baseImage}`));
-      }
-
       // Remove ports registry
       delete KuduContainer.ports[destContainerName];
     }
@@ -287,5 +284,16 @@ export class KuduContainer {
     const datetime = this.createdDate.toISOString().substring(0, 19).replace(/T|Z|\:|\.|\-/g, '')
     const random = Math.floor(Math.random() * 1000).toString();
     return `${datetime}${random}`;
+  }
+
+  private cleanUpMeshImages(): void {
+    // Retry by removing other images
+    console.log(chalk.yellow(`Cleaning up mesh images to free up space...`));
+    const meshPrefix = 'mcr.microsoft.com/azure-functions/mesh';
+    const rmiCommand = `docker rmi -f $(docker images ${meshPrefix} -q)`;
+    const rmiResult = shell.exec(rmiCommand);
+    if (rmiResult.code !== 0) {
+      console.log(chalk.red.bold(`Failed to remove mesh images`));
+    }
   }
 }
