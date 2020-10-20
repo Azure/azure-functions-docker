@@ -19,8 +19,9 @@ trigger:
     - test/kudulite*
 
 jobs:
-- job: LoginACR
-  displayName: Login to ACR Registry
+- job: BuildKuduLite
+  displayName: Build KuduLite Image
+  dependsOn: LoginACR
   pool:
     vmImage: 'ubuntu-18.04'
   steps:
@@ -28,14 +29,9 @@ jobs:
         set -e
         echo $pswd | docker login -u $(dockerUsername) --password-stdin azurefunctions.azurecr.io
       continueOnError: false
+      displayName: Login to ACR Registry
       env:
         pswd: $(dockerPassword)
-- job: BuildKuduLite
-  displayName: Build KuduLite Image
-  dependsOn: LoginACR
-  pool:
-    vmImage: 'ubuntu-18.04'
-  steps:
     - bash: |
         set -e
         export CI_RUN=1
@@ -70,6 +66,13 @@ jobs:
   steps:
     - bash: |
         set -e
+        echo $pswd | docker login -u $(dockerUsername) --password-stdin azurefunctions.azurecr.io
+      continueOnError: false
+      displayName: Login to ACR Registry
+      env:
+        pswd: $(dockerPassword)
+    - bash: |
+        set -e
         export CI_RUN=1
         export RUN_TESTS=1
         export tag=$(tag)
@@ -88,6 +91,13 @@ jobs:
   pool:
     vmImage: 'ubuntu-18.04'
   steps:
+    - bash: |
+        set -e
+        echo $pswd | docker login -u $(dockerUsername) --password-stdin azurefunctions.azurecr.io
+      continueOnError: false
+      displayName: Login to ACR Registry
+      env:
+        pswd: $(dockerPassword)
     - bash: |
         set -e
         export CI_RUN=1
