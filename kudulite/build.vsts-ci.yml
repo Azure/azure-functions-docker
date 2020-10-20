@@ -31,7 +31,7 @@ jobs:
       env:
         pswd: $(dockerPassword)
 - job: BuildKuduLite
-  displayName: Build KuduLite Image $(namespace) $(branch)
+  displayName: Build KuduLite Image
   dependsOn: LoginACR
   pool:
     vmImage: 'ubuntu-18.04'
@@ -80,10 +80,10 @@ jobs:
         export testRuntimeImage=$(runtimeImageType)
         chmod +x ./kudulite/test.sh
         ./kudulite/test.sh
-      displayName: Test KuduLite Image - $(runtimeImageType)
+      displayName: Test KuduLite Image
       continueOnError: false
 - job: PublishKuduLite
-  displayName: Publish KuduLite Image $(tag)
+  displayName: Publish KuduLite Image
   dependsOn: TestKuduLite
   pool:
     vmImage: 'ubuntu-18.04'

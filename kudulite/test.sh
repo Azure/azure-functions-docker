@@ -21,7 +21,7 @@ fi
 
 base_dir=$DIR
 
-temporary_image="$ACR/$ACR_NAMESPACE/kudulite:$tag-test"
+temporary_image="$ACR/$ACR_NAMESPACE/kudulite:$tag-prerelease"
 
 echo -e "${CONSOLE_BOLD}${COLOR_YELLOW} Testing $temporary_image ${CONSOLE_RESET}"
 export STORAGE_ACCOUNT_NAME="$storageAccountName"
