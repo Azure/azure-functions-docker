@@ -112,14 +112,17 @@ export class KuduContainer {
     runCommand += ` ${image}`;
 
     // Execute docker command
-    if (shell.exec(runCommand).code !== 0) {
+    let retryCount: number = 10;
+    while (shell.exec(runCommand).code !== 0 && retryCount > 0) {
       // Clean up mesh images
       this.cleanUpMeshImages();
-      // Retry
-      if (shell.exec(runCommand).code !== 0) {
-        const errorMessage = `Failed to start ${name} from image ${image}`;
-        throw new Error(errorMessage);
-      }
+      await timeout(10_000);
+      retryCount -= 1;
+    }
+    // Retry Fails
+    if (retryCount <= 0) {
+      const errorMessage = `Failed to start ${name} from image ${image}`;
+      throw new Error(errorMessage);
     }
 
     // Wait for port to be established

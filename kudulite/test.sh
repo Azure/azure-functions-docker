@@ -23,6 +23,9 @@ base_dir=$DIR
 
 temporary_image="$ACR/$ACR_NAMESPACE/kudulite:$tag-prerelease"
 
+echo -e "${CONSOLE_BOLD}${COLOR_YELLOW} Waiting for $temporary_image to be populated ${CONSOLE_RESET}"
+sleep 300
+
 echo -e "${CONSOLE_BOLD}${COLOR_YELLOW} Testing $temporary_image ${CONSOLE_RESET}"
 export STORAGE_ACCOUNT_NAME="$storageAccountName"
 export STORAGE_ACCOUNT_KEY="$storageAccountKey"
