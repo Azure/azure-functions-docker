@@ -21,7 +21,6 @@ trigger:
 jobs:
 - job: BuildKuduLite
   displayName: Build KuduLite Image
-  dependsOn: LoginACR
   pool:
     vmImage: 'ubuntu-18.04'
   steps:
