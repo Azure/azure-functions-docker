@@ -21,10 +21,13 @@ fi
 
 base_dir=$DIR
 
-current_image="$ACR/$ACR_NAMESPACE/kudulite:$tag"
+temporary_image="$ACR/$ACR_NAMESPACE/kudulite:$tag-prerelease"
+destination_image="$ACR/$ACR_NAMESPACE/kudulite:$tag"
 
-echo -e "${CONSOLE_BOLD}${COLOR_GREEN} Test PASSED. Pushing $current_image ${CONSOLE_RESET}"
-docker push "$current_image"
+echo -e "${CONSOLE_BOLD}${COLOR_YELLOW} Pushing $destination_image ${CONSOLE_RESET}"
+docker pull "$temporary_image"
+docker tag "$temporary_image" "$destination_image"
+docker push "$destination_image"
 
 if ! [ -z "$CI_RUN" ]; then
     echo -e "${CONSOLE_BOLD}${COLOR_GREEN} Cleaning up... ${CONSOLE_RESET}"
