@@ -28,4 +28,5 @@ export STORAGE_ACCOUNT_NAME="$storageAccountName"
 export STORAGE_ACCOUNT_KEY="$storageAccountKey"
 export V2_RUNTIME_VERSION="$v2RuntimeVersion"
 export V3_RUNTIME_VERSION="$v3RuntimeVersion"
+export TEST_RUNTIME_IMAGE="$testRuntimeImage"
 npm run test-kudulite $current_image --prefix test/
