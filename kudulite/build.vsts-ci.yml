@@ -59,7 +59,7 @@ jobs:
       V3_PYTHON37:
         runtimeImageType: 'V3_PYTHON37'
       V3_PYTHON_38:
-        runtimeImageType: 'V3_PYTHON_38'
+        runtimeImageType: 'V3_PYTHON38'
       V3_NODE12:
         runtimeImageType: 'V3_NODE12'
   steps:
