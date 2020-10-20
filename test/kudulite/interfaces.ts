@@ -1,3 +1,5 @@
+import { RuntimeImageType } from "./constants";
+
 export interface IConfig {
   kuduliteImage: string;
   storageAccountName: string;
@@ -5,6 +7,7 @@ export interface IConfig {
   storageConnectionString: string;
   srcContainerName: string;
   destContainerName: string;
+  testRuntimeImageType: RuntimeImageType;
   v2RuntimeVersion: string;
   v3RuntimeVersion: string;
 }

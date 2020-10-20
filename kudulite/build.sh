@@ -36,11 +36,14 @@ if ! [ -z "$CI_RUN" ]; then
 fi
 
 # Build image
-current_image="$ACR/$ACR_NAMESPACE/kudulite:$tag"
-echo -e "${CONSOLE_BOLD}${COLOR_GREEN}: Building $current_image ${CONSOLE_RESET}"
+destination_image="$ACR/$ACR_NAMESPACE/kudulite:$tag"
+temporary_image="$ACR/$ACR_NAMESPACE/kudulite:$tag-prerelease"
+echo -e "${CONSOLE_BOLD}${COLOR_GREEN}: Building $destination_image ${CONSOLE_RESET}"
 echo -e "${CONSOLE_BOLD}${COLOR_YELLOW}: Source Image $namespace/KuduLite $branch ${CONSOLE_RESET}"
-echo -e "${CONSOLE_BOLD}${COLOR_YELLOW}: Destination Image $current_image ${CONSOLE_RESET}"
-docker build --no-cache --build-arg BRANCH="$branch" --build-arg NAMESPACE="$namespace" -t $current_image -f "$base_dir/Dockerfile" "$base_dir"
+echo -e "${CONSOLE_BOLD}${COLOR_YELLOW}: Temporary Image For Testing $temporary_image ${CONSOLE_RESET}"
+echo -e "${CONSOLE_BOLD}${COLOR_YELLOW}: Destination Image $destination_image ${CONSOLE_RESET}"
+docker build --no-cache --build-arg BRANCH="$branch" --build-arg NAMESPACE="$namespace" -t $temporary_image -f "$base_dir/Dockerfile" "$base_dir"
+docker push "$temporary_image"
 
 # Remove the huge oryx build image
 if ! [ -z "$CI_RUN" ]; then

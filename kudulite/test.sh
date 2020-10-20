@@ -21,11 +21,17 @@ fi
 
 base_dir=$DIR
 
-current_image="$ACR/$ACR_NAMESPACE/kudulite:$tag"
+temporary_image="$ACR/$ACR_NAMESPACE/kudulite:$tag-prerelease"
 
-echo -e "${CONSOLE_BOLD}${COLOR_YELLOW} Testing $current_image ${CONSOLE_RESET}"
+echo -e "${CONSOLE_BOLD}${COLOR_YELLOW} Waiting for $temporary_image to be populated ${CONSOLE_RESET}"
+sleep 300
+
+echo -e "${CONSOLE_BOLD}${COLOR_YELLOW} Testing $temporary_image ${CONSOLE_RESET}"
 export STORAGE_ACCOUNT_NAME="$storageAccountName"
 export STORAGE_ACCOUNT_KEY="$storageAccountKey"
 export V2_RUNTIME_VERSION="$v2RuntimeVersion"
 export V3_RUNTIME_VERSION="$v3RuntimeVersion"
-npm run test-kudulite $current_image --prefix test/
+export TEST_RUNTIME_IMAGE="$testRuntimeImage"
+npm run test-kudulite $temporary_image --prefix test/
+
+echo -e "${CONSOLE_BOLD}${COLOR_GREEN} Test PASSED. $temporary_image ${CONSOLE_RESET}"
