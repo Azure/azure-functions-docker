@@ -61,3 +61,37 @@ steps:
       docker push $IMAGE_NAME
     displayName: powershell6-appservice
     continueOnError: false
+
+  - bash: |
+      set -e
+      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/powershell:$(Build.SourceBranchName)-powershell7
+
+      docker build -t $IMAGE_NAME \
+                  -f host/3.0/buster/amd64/powershell/powershell7.Dockerfile \
+                  host/3.0/buster/amd64/powershell/
+      npm run test $IMAGE_NAME --prefix  test/
+      docker push $IMAGE_NAME
+    displayName: powershell7
+    continueOnError: false
+
+  - bash: |
+      set -e
+      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/powershell:$(Build.SourceBranchName)-powershell7-slim
+      docker build -t $IMAGE_NAME \
+                  -f host/3.0/buster/amd64/powershell/powershell7-slim.Dockerfile \
+                  host/3.0/buster/amd64/powershell/
+      npm run test $IMAGE_NAME --prefix  test/
+      docker push $IMAGE_NAME
+    displayName: powershell7-slim
+    continueOnError: false
+
+  - bash: |
+      set -e
+      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/powershell:$(Build.SourceBranchName)-powershell7-appservice
+      docker build -t $IMAGE_NAME \
+                  -f host/3.0/buster/amd64/powershell/powershell7-appservice.Dockerfile \
+                  host/3.0/buster/amd64/powershell/
+      npm run test $IMAGE_NAME --prefix  test/
+      docker push $IMAGE_NAME
+    displayName: powershell7-appservice
+    continueOnError: false

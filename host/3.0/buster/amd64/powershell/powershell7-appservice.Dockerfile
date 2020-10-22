@@ -47,4 +47,15 @@ COPY --from=runtime-image ["/FuncExtensionBundles", "/FuncExtensionBundles"]
 COPY --from=runtime-image ["/azure-functions-host", "/azure-functions-host"]
 COPY --from=runtime-image ["/workers/powershell", "/azure-functions-host/workers/powershell"]
 
-CMD [ "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost" ]
+EXPOSE 2222 80
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends openssh-server dialog && \
+    echo "root:Docker!" | chpasswd
+
+COPY sshd_config /etc/ssh/
+COPY start.sh /azure-functions-host/
+
+RUN chmod +x /azure-functions-host/start.sh
+
+ENTRYPOINT ["/azure-functions-host/start.sh"]
