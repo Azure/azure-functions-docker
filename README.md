@@ -60,8 +60,11 @@ Linux amd64 Tags
 | `3.0`, `3.0-powershell6`                       | [Dockerfile](host/3.0/buster/amd64/powershell/powershell6.Dockerfile)            | Debian 10  |
 | `3.0-slim`, `3.0-powershell6-slim`             | [Dockerfile](host/3.0/buster/amd64/powershell/powershell6-slim.Dockerfile)       | Debian 10  |
 | `3.0-appservice`, `3.0-powershell6-appservice` | [Dockerfile](host/3.0/buster/amd64/powershell/powershell6-appservice.Dockerfile) | Debian 10  |
-| `3.0-powershell6-core-tools` | [Dockerfile](host/3.0/buster/amd64/powershell/powershell6-core-tools.Dockerfile) | Debian 9  |
-| `3.0-powershell7-core-tools` | [Dockerfile](host/3.0/buster/amd64/powershell/powershell7-core-tools.Dockerfile) | Debian 10  |
+| `3.0-powershell6-core-tools`                   | [Dockerfile](host/3.0/buster/amd64/powershell/powershell6-core-tools.Dockerfile) | Debian 9   |
+| `3.0-powershell7`                              | [Dockerfile](host/3.0/buster/amd64/powershell/powershell7.Dockerfile)            | Debian 10  |
+| `3.0-powershell7-slim`                         | [Dockerfile](host/3.0/buster/amd64/powershell/powershell7-slim.Dockerfile)       | Debian 10  |
+| `3.0-powershell7-appservice`                   | [Dockerfile](host/3.0/buster/amd64/powershell/powershell7-appservice.Dockerfile) | Debian 10  |
+| `3.0-powershell7-core-tools`                   | [Dockerfile](host/3.0/buster/amd64/powershell/powershell7-core-tools.Dockerfile) | Debian 10  |
 
 #### Java
 
