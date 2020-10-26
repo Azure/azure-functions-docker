@@ -124,6 +124,9 @@ steps:
       docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node12
       docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node12-slim
       docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node12-appservice
+      docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node14
+      docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node14-slim
+      docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node14-appservice
 
       docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node10 $TARGET_REGISTRY/node:$(TargetVersion)
       docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-slim $TARGET_REGISTRY/node:$(TargetVersion)-slim
