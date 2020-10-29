@@ -1,5 +1,6 @@
 # Build the runtime from source
 ARG HOST_VERSION=3.0.14916
+ARG JAVA_VERSION=8u252
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS runtime-image
 ARG HOST_VERSION
 
@@ -29,7 +30,7 @@ RUN EXTENSION_BUNDLE_VERSION=1.3.3 && \
     rm -f /$EXTENSION_BUNDLE_FILENAME_V2 &&\
     find /FuncExtensionBundles/ -type f -exec chmod 644 {} \;
 
-FROM mcr.microsoft.com/java/jre-headless:8u242-zulu-debian10-with-tools as jre
+FROM mcr.microsoft.com/java/jre-headless:${JAVA_VERSION}-zulu-debian10-with-tools as jre
 FROM mcr.microsoft.com/dotnet/core/runtime-deps:3.1
 ARG HOST_VERSION
 
