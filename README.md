@@ -83,7 +83,7 @@ Linux amd64 Tags
 | `3.0-java11-slim`                        | [Dockerfile](host/3.0/buster/amd64/java/java11/java11-slim.Dockerfile)       | Debian 10  |
 | `3.0-java11-appservice`                  | [Dockerfile](host/3.0/buster/amd64/java/java11/java11-appservice.Dockerfile) | Debian 10  |
 | `3.0-java11-core-tools`                  | [Dockerfile](host/3.0/buster/amd64/java/java11/java11-core-tools.Dockerfile) | Debian 10   |
-| `3.0-java11-build`                       | `N/A`                                                                        | Debian 10  |                                                             
+| `3.0-java11-build`                       | `N/A`                                                                        | Debian 10  |
 
 
 ### Python
@@ -106,7 +106,12 @@ Linux amd64 Tags
 | `3.0-python3.8-slim`                         | [Dockerfile](host/3.0/buster/amd64/python/python38/python38-slim.Dockerfile)       | Debian 10  |
 | `3.0-python3.8-appservice`                   | [Dockerfile](host/3.0/buster/amd64/python/python38/python38-appservice.Dockerfile) | Debian 10  |
 | `3.0-python3.8-buildenv`                     | [Dockerfile](host/3.0/buster/amd64/python/python38/python38-buildenv.Dockerfile)   | Debian 10  |
-| `3.0-python3.8-core-tools`                     | [Dockerfile](host/3.0/buster/amd64/python/python38/python38-core-tools.Dockerfile)   | Debian 10  |
+| `3.0-python3.8-core-tools`                   | [Dockerfile](host/3.0/buster/amd64/python/python38/python38-core-tools.Dockerfile) | Debian 10  |
+| `3.0-python3.9`                              | [Dockerfile](host/3.0/buster/amd64/python/python39/python39.Dockerfile)            | Debian 10  |
+| `3.0-python3.9-slim`                         | [Dockerfile](host/3.0/buster/amd64/python/python39/python39-slim.Dockerfile)       | Debian 10  |
+| `3.0-python3.9-appservice`                   | [Dockerfile](host/3.0/buster/amd64/python/python39/python39-appservice.Dockerfile) | Debian 10  |
+| `3.0-python3.9-buildenv`                     | [Dockerfile](host/3.0/buster/amd64/python/python39/python39-buildenv.Dockerfile)   | Debian 10  |
+| `3.0-python3.9-core-tools`                   | [Dockerfile](host/3.0/buster/amd64/python/python39/python39-core-tools.Dockerfile) | Debian 10  |
 
 #### Base
 
