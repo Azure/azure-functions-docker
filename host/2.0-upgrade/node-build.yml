@@ -1,0 +1,56 @@
+queue: Hosted Ubuntu 1604
+
+pr:
+  branches:
+    include:
+      - master
+  paths:
+    include:
+      - host/2.0-upgrade/stretch/amd64/node/node8/*
+      - host/2.0-upgrade/stretch/amd64/node/node10/*
+
+trigger:
+  branches:
+    include:
+      - master
+      - refs/tags/3.0.*
+  paths:
+    include:
+      - host/2.0-upgrade/stretch/amd64/node/node8/*
+      - host/2.0-upgrade/stretch/amd64/node/node10/*
+
+steps:
+  - bash: |
+      # login
+      set -e
+      echo $pswd | docker login -u $(dockerUsername) --password-stdin azurefunctions.azurecr.io
+
+    displayName: login to registry
+    continueOnError: false
+    env:
+      pswd: $(dockerPassword)
+
+  - bash: |
+      set -e
+      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/2.0/node:$(Build.SourceBranchName)-upgrade-node8-appservice
+
+      docker build -t $IMAGE_NAME \
+                  -f host/2.0-upgrade/stretch/amd64/node/node8/node8-appservice.Dockerfile \
+                  host/2.0-upgrade/stretch/amd64/node/node8
+      npm run test $IMAGE_NAME --prefix  test/
+      docker push $IMAGE_NAME
+    displayName: node8
+    continueOnError: false
+
+  - bash: |
+      set -e
+      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/2.0/node:$(Build.SourceBranchName)-upgrade-node10-appservice
+
+      docker build -t $IMAGE_NAME \
+                  -f host/2.0-upgrade/stretch/amd64/node/node10/node10-appservice.Dockerfile \
+                  host/2.0-upgrade/stretch/amd64/node/node10
+      npm run test $IMAGE_NAME --prefix  test/
+      docker push $IMAGE_NAME
+    displayName: node10
+    continueOnError: false
+

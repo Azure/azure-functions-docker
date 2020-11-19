@@ -1,0 +1,77 @@
+queue: Hosted Ubuntu 1604
+trigger: none
+
+steps:
+  - bash: |
+      set -e
+      echo $pswd | docker login -u $(dockerUsername) --password-stdin azurefunctions.azurecr.io
+    displayName: login
+    continueOnError: false
+    env:
+      pswd: $(dockerPassword)
+
+  - bash: |
+      set -e
+      SOURCE_REGISTRY=azurefunctions.azurecr.io/azure-functions/2.0
+      TARGET_REGISTRY=azurefunctions.azurecr.io/public/azure-functions
+
+      if [ -z "$(TargetVersion)" ]; then
+        echo "ERROR: TargetVersion is required"
+        exit 1
+      fi
+
+      if [ -z "$(PrivateVersion)" ]; then
+        echo "ERROR: PrivateVersion is required"
+        exit 1
+      fi
+
+      if [ -z "$(StageNumber)" ]; then
+        echo "ERROR: StageNumber is required"
+        exit 1
+      fi
+
+      echo "##vso[task.setvariable variable=SOURCE_REGISTRY]$SOURCE_REGISTRY"
+      echo "##vso[task.setvariable variable=TARGET_REGISTRY]$TARGET_REGISTRY"
+    displayName: set env
+    continueOnError: false
+
+  - bash: |
+      set -e
+
+      docker pull $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-upgrade-appservice
+      docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-upgrade-appservice $TARGET_REGISTRY/dotnet:$(TargetVersion)-appservice-stage$(StageNumber)
+      docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-appservice-stage$(StageNumber)
+
+      docker system prune -a -f
+    displayName: tag and push dotnet images
+    continueOnError: false
+
+  - bash: |
+      set -e
+      docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-upgrade-node8-appservice
+      docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-upgrade-node10-appservice
+
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-upgrade-node8-appservice $TARGET_REGISTRY/node:$(TargetVersion)-node8-appservice-stage$(StageNumber)
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-upgrade-node10-appservice $TARGET_REGISTRY/node:$(TargetVersion)-node10-appservice-stage$(StageNumber)
+
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)-upgrade-node8-appservice-stage$(StageNumber)
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)-upgrade-node10-appservice-stage$(StageNumber)
+
+      docker system prune -a -f
+    displayName: tag and push node images
+    continueOnError: false
+
+  - bash: |
+      set -e
+      docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-appservice
+      docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7-appservice
+
+      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.6-appservice-stage$(StageNumber)
+      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.7-appservice-stage$(StageNumber)
+
+      docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.6-appservice-stage$(StageNumber)
+      docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.7-appservice-stage$(StageNumber)
+
+      docker system prune -a -f
+    displayName: tag and push python images
+    continueOnError: false
