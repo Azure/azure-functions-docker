@@ -31,7 +31,7 @@ steps:
 
   - bash: |
       set -e
-      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/2.0/dotnet:$(Build.SourceBranchName)-appservice
+      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/2.0/dotnet:$(Build.SourceBranchName)-upgrade-appservice
 
       docker build -t $IMAGE_NAME \
                   -f host/2.0-upgrade/stretch/amd64/dotnet/dotnet-appservice.Dockerfile \

@@ -32,7 +32,7 @@ steps:
 
   - bash: |
       set -e
-      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/2.0/node:$(Build.SourceBranchName)-node8-appservice
+      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/2.0/node:$(Build.SourceBranchName)-upgrade-node8-appservice
 
       docker build -t $IMAGE_NAME \
                   -f host/2.0-upgrade/stretch/amd64/node/node8/node8-appservice.Dockerfile \
@@ -44,7 +44,7 @@ steps:
 
   - bash: |
       set -e
-      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/2.0/node:$(Build.SourceBranchName)-node10-appservice
+      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/2.0/node:$(Build.SourceBranchName)-upgrade-node10-appservice
 
       docker build -t $IMAGE_NAME \
                   -f host/2.0-upgrade/stretch/amd64/node/node10/node10-appservice.Dockerfile \

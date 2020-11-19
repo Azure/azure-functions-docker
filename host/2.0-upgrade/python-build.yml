@@ -30,7 +30,7 @@ steps:
 
   - bash: |
       set -e
-      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/2.0/python:$(Build.SourceBranchName)-python3.6-appservice
+      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/2.0/python:$(Build.SourceBranchName)-upgrade-python3.6-appservice
 
       docker build -t $IMAGE_NAME \
                   -f host/2.0-upgrade/stretch/amd64/python/python36/python36-appservice.Dockerfile \
@@ -42,7 +42,7 @@ steps:
 
   - bash: |
       set -e
-      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/2.0/python:$(Build.SourceBranchName)-python3.7-appservice
+      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/2.0/python:$(Build.SourceBranchName)-upgrade-python3.7-appservice
 
       docker build -t $IMAGE_NAME \
                   -f host/2.0-upgrade/stretch/amd64/python/python37/python37-appservice.Dockerfile \
