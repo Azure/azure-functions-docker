@@ -48,14 +48,13 @@ steps:
 
   - bash: |
       set -e
+
       docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-upgrade-node8-appservice
       docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-upgrade-node10-appservice
-
       docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-upgrade-node8-appservice $TARGET_REGISTRY/node:$(TargetVersion)-node8-appservice-stage$(StageNumber)
       docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-upgrade-node10-appservice $TARGET_REGISTRY/node:$(TargetVersion)-node10-appservice-stage$(StageNumber)
-
-      docker push $TARGET_REGISTRY/node:$(TargetVersion)-upgrade-node8-appservice-stage$(StageNumber)
-      docker push $TARGET_REGISTRY/node:$(TargetVersion)-upgrade-node10-appservice-stage$(StageNumber)
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)-node8-appservice-stage$(StageNumber)
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)-node10-appservice-stage$(StageNumber)
 
       docker system prune -a -f
     displayName: tag and push node images
@@ -63,12 +62,11 @@ steps:
 
   - bash: |
       set -e
+
       docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-appservice
       docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7-appservice
-
       docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.6-appservice-stage$(StageNumber)
       docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.7-appservice-stage$(StageNumber)
-
       docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.6-appservice-stage$(StageNumber)
       docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.7-appservice-stage$(StageNumber)
 

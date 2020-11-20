@@ -38,5 +38,5 @@ steps:
                   host/2.0-upgrade/stretch/amd64/dotnet/
       npm run test $IMAGE_NAME --prefix test/
       docker push $IMAGE_NAME
-    displayName: dotnet
+    displayName: dotnet build
     continueOnError: false
