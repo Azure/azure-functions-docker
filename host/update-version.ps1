@@ -18,6 +18,6 @@ foreach ($f in $dockerFiles)
 {
     $content = Get-Content $f.PSPath
     Write-Host "Updating version in $($f.PSPath) to $FullVersion"
-    $content = $content -replace "HOST_VERSION=$MajorVersion\.(\d+)", "HOST_VERSION=$FullVersion"
-    Set-Content -Path $f.PSPath -Value $content
+    $newContent = ($content -replace "HOST_VERSION=$MajorVersion\.(\d+)", "HOST_VERSION=$FullVersion" -join "`n") + "`n"
+    Set-Content -Path $f.PSPath -Value $newContent -NoNewline
 }
