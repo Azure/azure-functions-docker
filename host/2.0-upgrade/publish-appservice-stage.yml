@@ -63,10 +63,10 @@ steps:
   - bash: |
       set -e
 
-      docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-appservice
-      docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7-appservice
-      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.6-appservice-stage$(StageNumber)
-      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.7-appservice-stage$(StageNumber)
+      docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-upgrade-python3.6-appservice
+      docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-upgrade-python3.7-appservice
+      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-upgrade-python3.6-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.6-appservice-stage$(StageNumber)
+      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-upgrade-python3.7-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.7-appservice-stage$(StageNumber)
       docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.6-appservice-stage$(StageNumber)
       docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.7-appservice-stage$(StageNumber)
 
