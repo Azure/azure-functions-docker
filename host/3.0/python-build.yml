@@ -2,6 +2,7 @@ pr:
   branches:
     include:
       - master
+      - release/3.x
   paths:
     include:
       - host/3.0/buster/amd64/python/*
@@ -11,6 +12,7 @@ trigger:
     include:
       - master
       - refs/tags/3.0.*
+      - release/3.x
   paths:
     include:
       - host/3.0/buster/amd64/python/*
