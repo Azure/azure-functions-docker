@@ -11,7 +11,7 @@ ARG USERNAME=vscode
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
 
-ARG PS_VERSION=6.2.5
+ARG PS_VERSION=6.2.7
 ARG PS_PACKAGE=powershell_${PS_VERSION}-1.debian.9_amd64.deb
 ARG PS_PACKAGE_URL=https://github.com/PowerShell/PowerShell/releases/download/v${PS_VERSION}/${PS_PACKAGE}
 
