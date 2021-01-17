@@ -1,5 +1,5 @@
 # Build the runtime from source
-ARG HOST_VERSION=3.0.14916
+ARG HOST_VERSION=3.0.15277
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS runtime-image
 ARG HOST_VERSION
 
