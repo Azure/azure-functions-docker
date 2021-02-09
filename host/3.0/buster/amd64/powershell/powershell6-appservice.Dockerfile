@@ -13,7 +13,7 @@ RUN BUILD_NUMBER=$(echo ${HOST_VERSION} | cut -d'.' -f 3) && \
     mv /azure-functions-host/workers /workers && mkdir /azure-functions-host/workers && \
     rm -rf /root/.local /root/.nuget /src
 
-RUN EXTENSION_BUNDLE_VERSION=1.5.0 && \
+RUN EXTENSION_BUNDLE_VERSION=1.6.0 && \
     EXTENSION_BUNDLE_FILENAME=Microsoft.Azure.Functions.ExtensionBundle.1.5.0_linux-x64.zip && \
     apt-get update && \
     apt-get install -y gnupg wget unzip && \
@@ -38,7 +38,7 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     DOTNET_USE_POLLING_FILE_WATCHER=true \
     HOST_VERSION=${HOST_VERSION}
 
-RUN EXTENSION_BUNDLE_VERSION=1.5.0 && \
+RUN EXTENSION_BUNDLE_VERSION=1.6.0 && \
     EXTENSION_BUNDLE_FILENAME=Microsoft.Azure.Functions.ExtensionBundle.1.5.0_linux-x64.zip && \
     apt-get update && \
     apt-get install -y gnupg wget unzip && \
