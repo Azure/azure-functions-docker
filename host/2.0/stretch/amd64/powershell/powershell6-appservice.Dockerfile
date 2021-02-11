@@ -14,7 +14,7 @@ RUN BUILD_NUMBER=$(echo ${HOST_VERSION} | cut -d'.' -f 3) && \
     rm -rf /root/.local /root/.nuget /src
 
 RUN EXTENSION_BUNDLE_VERSION=1.6.0 && \
-    EXTENSION_BUNDLE_FILENAME=Microsoft.Azure.Functions.ExtensionBundle.1.5.0_linux-x64.zip && \
+    EXTENSION_BUNDLE_FILENAME=Microsoft.Azure.Functions.ExtensionBundle.1.6.0_linux-x64.zip && \
     apt-get update && \
     apt-get install -y gnupg wget unzip && \
     wget https://functionscdn.azureedge.net/public/ExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION/$EXTENSION_BUNDLE_FILENAME && \
@@ -41,7 +41,7 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     HOST_VERSION=${HOST_VERSION}
 
 RUN EXTENSION_BUNDLE_VERSION=1.6.0 && \
-    EXTENSION_BUNDLE_FILENAME=Microsoft.Azure.Functions.ExtensionBundle.1.5.0_linux-x64.zip && \
+    EXTENSION_BUNDLE_FILENAME=Microsoft.Azure.Functions.ExtensionBundle.1.6.0_linux-x64.zip && \
     apt-get update && \
     apt-get install -y gnupg wget unzip && \
     wget https://functionscdn.azureedge.net/public/ExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION/$EXTENSION_BUNDLE_FILENAME && \
