@@ -66,6 +66,35 @@ steps:
 
   - bash: |
       set -e
+      docker pull $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated5.0
+      docker pull $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated5.0-slim
+      docker pull $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated5.0-appservice
+
+      docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated5.0 $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)
+      docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated5.0-slim $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-slim
+      docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated5.0-appservice $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-appservice
+      docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated5.0-appservice $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-appservice-quickstart
+
+      docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated5.0 $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated5.0
+      docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated5.0-slim $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated5.0-slim
+      docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated5.0-appservice $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated5.0-appservice
+      docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated5.0-appservice $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated5.0-appservice-quickstart
+
+      docker push $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)
+      docker push $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-slim
+      docker push $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-appservice
+      docker push $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-appservice-quickstart
+      docker push $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated5.0
+      docker push $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated5.0-slim
+      docker push $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated5.0-appservice
+      docker push $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated5.0-appservice-quickstart
+
+      docker system prune -a -f
+    displayName: tag and push dotnet-isolated images
+    continueOnError: false
+
+  - bash: |
+      set -e
       docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java8
       docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-slim
       docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-appservice
