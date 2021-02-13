@@ -4,7 +4,7 @@ pool:
 pr:
   branches:
     include:
-      - master
+      - dev
   paths:
     include:
       - host/2.0/nanoserver/*
@@ -12,7 +12,7 @@ pr:
 trigger:
   branches:
     include:
-      - master
+      - dev
       - refs/tags/2.0.*
   paths:
     include:

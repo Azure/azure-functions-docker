@@ -4,7 +4,7 @@ pool:
 pr:
   branches:
     include:
-      - master
+      - dev
       - release/3.x
   paths:
     include:
@@ -13,7 +13,7 @@ pr:
 trigger:
   branches:
     include:
-      - master
+      - dev
       - refs/tags/3.0.*
       - release/3.x
   paths:

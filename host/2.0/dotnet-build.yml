@@ -3,7 +3,7 @@ queue: Hosted Ubuntu 1604
 pr:
   branches:
     include:
-      - master
+      - dev
   paths:
     include:
       - host/2.0/stretch/amd64/dotnet/*
@@ -14,7 +14,7 @@ pr:
 trigger:
   branches:
     include:
-      - master
+      - dev
       - refs/tags/2.0.*
   paths:
     include:
