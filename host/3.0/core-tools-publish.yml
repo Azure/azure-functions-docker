@@ -5,7 +5,7 @@ schedules:
 - cron: "30 05 * * *"
   branches:
     include:
-    - master
+    - dev
   always: true
 
 pool:
