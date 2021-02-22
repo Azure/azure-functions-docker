@@ -1,5 +1,5 @@
 # Build the runtime from source
-ARG HOST_VERSION=3.0.15371
+ARG HOST_VERSION=3.0.15417
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS runtime-image
 ARG HOST_VERSION
 
@@ -13,8 +13,8 @@ RUN BUILD_NUMBER=$(echo ${HOST_VERSION} | cut -d'.' -f 3) && \
     mv /azure-functions-host/workers /workers && mkdir /azure-functions-host/workers && \
     rm -rf /root/.local /root/.nuget /src
 
-RUN EXTENSION_BUNDLE_VERSION=1.5.0 && \
-    EXTENSION_BUNDLE_FILENAME=Microsoft.Azure.Functions.ExtensionBundle.1.5.0_linux-x64.zip && \
+RUN EXTENSION_BUNDLE_VERSION=1.6.0 && \
+    EXTENSION_BUNDLE_FILENAME=Microsoft.Azure.Functions.ExtensionBundle.1.6.0_linux-x64.zip && \
     apt-get update && \
     apt-get install -y gnupg wget unzip && \
     wget https://functionscdn.azureedge.net/public/ExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION/$EXTENSION_BUNDLE_FILENAME && \
@@ -38,8 +38,8 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     DOTNET_USE_POLLING_FILE_WATCHER=true \
     HOST_VERSION=${HOST_VERSION}
 
-RUN EXTENSION_BUNDLE_VERSION=1.5.0 && \
-    EXTENSION_BUNDLE_FILENAME=Microsoft.Azure.Functions.ExtensionBundle.1.5.0_linux-x64.zip && \
+RUN EXTENSION_BUNDLE_VERSION=1.6.0 && \
+    EXTENSION_BUNDLE_FILENAME=Microsoft.Azure.Functions.ExtensionBundle.1.6.0_linux-x64.zip && \
     apt-get update && \
     apt-get install -y gnupg wget unzip && \
     wget https://functionscdn.azureedge.net/public/ExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION/$EXTENSION_BUNDLE_FILENAME && \
