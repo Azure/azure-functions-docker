@@ -1,5 +1,5 @@
 # Build the runtime from source
-ARG HOST_VERSION=3.0.15405
+ARG HOST_VERSION=3.0.15417
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS runtime-image
 ARG HOST_VERSION
 
@@ -29,12 +29,12 @@ RUN EXTENSION_BUNDLE_VERSION=1.5.0 && \
     rm -f /$EXTENSION_BUNDLE_FILENAME_V2 &&\
     find /FuncExtensionBundles/ -type f -exec chmod 644 {} \;
 
-FROM mcr.microsoft.com/dotnet/core/runtime-deps:3.1
+FROM mcr.microsoft.com/dotnet/runtime:5.0
 ARG HOST_VERSION
 
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     HOME=/home \
-    FUNCTIONS_WORKER_RUNTIME=dotnet \
+    FUNCTIONS_WORKER_RUNTIME=dotnet-isolated \
     DOTNET_USE_POLLING_FILE_WATCHER=true \
     HOST_VERSION=${HOST_VERSION}
 

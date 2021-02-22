@@ -3,7 +3,7 @@ name: kudulite.$(Date:yyyyMMdd).$(Rev:r)
 pr:
   branches:
     include:
-    - master
+    - dev
   paths:
     include:
     - kudulite/*
@@ -12,7 +12,7 @@ pr:
 trigger:
   branches:
     include:
-    - master
+    - dev
   paths:
     include:
     - kudulite/*

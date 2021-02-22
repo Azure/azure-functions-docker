@@ -20,7 +20,7 @@ if [ -z "$namespace" ]; then
 fi
 
 if [ -z "$branch" ]; then
-    branch=master
+    branch=dev
 fi
 
 if [ -z "$tag" ]; then
