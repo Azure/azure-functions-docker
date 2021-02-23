@@ -97,7 +97,7 @@ steps:
 
   - bash: |
       set -e
-      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/dotnet:$(Build.SourceBranchName)-dotnet-isolated5.0-appservice
+      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/dotnet-isolated:$(Build.SourceBranchName)-dotnet-isolated5.0-appservice
 
       docker build -t $IMAGE_NAME \
                   -f host/3.0/buster/amd64/dotnet/dotnet-isolated/dotnet-isolated-appservice.Dockerfile \
