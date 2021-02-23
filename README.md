@@ -24,10 +24,10 @@ Linux amd64 Tags
 
 | Tags                                       | Dockerfile                                                              | OS Version |
 |--------------------------------------------|-------------------------------------------------------------------------|------------|
-| `3.0`                                      | [Dockerfile](host/3.0/buster/amd64/dotnet/dotnet-isolated/dotnet.Dockerfile)            | Debian 10  |
+| `3.0`                                      | [Dockerfile](host/3.0/buster/amd64/dotnet/dotnet-isolated/dotnet-isolated.Dockerfile)            | Debian 10  |
 | `3.0-dotnet-isolated5.0-slim`                                 | [Dockerfile](host/3.0/buster/amd64/dotnet/dotnet-isolated/dotnet-slim.Dockerfile)       | Debian 10  |
 | `3.0-appservice`, `3.0-dotnet-isolated5.0-appservice` | [Dockerfile](host/3.0/buster/amd64/dotnet/dotnet-isolated/dotnet-appservice.Dockerfile) | Debian 10  |
-| `3.0-dotnet-isolated5.0-core-tools` | [Dockerfile](host/3.0/buster/amd64/dotnet/dotnet-isolated/dotnet-core-tools.Dockerfile) | Debian 10  |
+| `3.0-dotnet-isolated5.0-core-tools` | [Dockerfile](host/3.0/buster/amd64/dotnet/dotnet-isolated/-isolated-core-tools.Dockerfile) | Debian 10  |
 
 Linux arm32v7 Tags
 
