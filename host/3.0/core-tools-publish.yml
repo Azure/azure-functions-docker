@@ -63,11 +63,53 @@ stages:
           IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/dotnet:$(PrivateVersion)-dotnet3-core-tools
     
           docker build -t $IMAGE_NAME \
-                      -f host/3.0/buster/amd64/dotnet/dotnet-core-tools.Dockerfile \
-                      host/3.0/buster/amd64/dotnet/
+                      -f host/3.0/buster/amd64/dotnet/dotnet-inproc/dotnet-core-tools.Dockerfile \
+                      host/3.0/buster/amd64/dotnet/dotnet-inproc/
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
         displayName: dotnet-core-tools
+        continueOnError: false
+        env:
+          DOCKER_BUILDKIT: 1
+
+  - job: dotnet5isolated
+    displayName: DotNet 5 Isolated
+    steps: 
+      - task: DownloadBuildArtifacts@0
+        inputs:
+          buildType: 'current'
+          downloadType: 'single'
+          artifactName: 'drop'
+          itemPattern: 
+          downloadPath: '$(System.ArtifactsDirectory)'
+      - bash: |
+          targetVersion=`cat $(System.ArtifactsDirectory)/drop/core-tools-version.txt`
+          privateVersion=${targetVersion}.`cat $(System.ArtifactsDirectory)/drop/week.txt`
+          echo "targetVersion: ${targetVersion}"
+          echo "##vso[task.setvariable variable=TargetVersion;]${targetVersion}"
+          echo "privateVersion: ${privateVersion}"
+          echo "##vso[task.setvariable variable=PrivateVersion;]${privateVersion}"
+        displayName: share the targetVersion and PrivateVersion
+      - bash: |
+          # login
+          set -e
+          echo $pswd | docker login -u $(dockerUsername) --password-stdin azurefunctions.azurecr.io
+
+        displayName: login to registry
+        continueOnError: false
+        env:
+          pswd: $(dockerPassword)
+
+      - bash: |
+          set -e
+          IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/dotnet-isolated:$(PrivateVersion)-dotnet-isolated5.0-core-tools
+    
+          docker build -t $IMAGE_NAME \
+                      -f host/3.0/buster/amd64/dotnet/dotnet-isolated/dotnet-isolated-core-tools.Dockerfile \
+                      host/3.0/buster/amd64/dotnet/dotnet-isolated/
+          npm run test $IMAGE_NAME --prefix  test/
+          docker push $IMAGE_NAME
+        displayName: dotnet-core-tools isolated
         continueOnError: false
         env:
           DOCKER_BUILDKIT: 1
@@ -374,7 +416,41 @@ stages:
         displayName: push dotnet images
         continueOnError: false
         condition: ne(variables['SkipProduction'], 'true')
-        
+
+      - bash: |
+          set -e
+          docker pull $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated5.0-core-tools
+
+          docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated5.0-core-tools $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated5.0-core-tools
+          docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated5.0-core-tools $TARGET_REGISTRY/dotnet-isolated:$(MajorVersion)-dotnet-isolated5.0-core-tools  
+          
+        displayName: tag dotnet isolated images
+        continueOnError: false
+      - bash: |
+          set -e 
+          PrivateImageId=`docker image inspect $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated5.0-core-tools --format='{{.Id}}'`
+          MajorImageId=`docker image inspect $TARGET_REGISTRY/dotnet-isolated:$(MajorVersion)-dotnet-isolated5.0-core-tools --format='{{.Id}}'`
+          if [[ "$PrivateImageId" != "$MajorImageId" ]]; then
+            echo "unmatch the Target image id and Major image id ${PrivateImageId} and ${MajorImageId}";
+            exit 1;
+          fi
+          ActualVersion=`docker run $TARGET_REGISTRY/dotnet-isolated:$(MajorVersion)-dotnet-isolated5.0-core-tools func --version`
+          if [[ "$ActualVersion" != "$(TargetVersion)" ]]; then
+            echo "unmatch the ActualVersion and TargetVersion ${ActualVersion} and $(TargetVersion)";
+            exit 1; 
+          fi
+          docker run $TARGET_REGISTRY/dotnet-isolated:$(MajorVersion)-dotnet-isolated5.0-core-tools az --version
+        displayName: test dotnet isolated images
+        continueOnError: false
+      - bash: |
+          set -e 
+          docker push $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated5.0-core-tools
+          docker push $TARGET_REGISTRY/dotnet-isolated:$(MajorVersion)-dotnet-isolated5.0-core-tools
+          docker system prune -a -f
+        displayName: push dotnet isolated images
+        continueOnError: false
+        condition: ne(variables['SkipProduction'], 'true')
+
       - bash: |
           set -e
           docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-core-tools
