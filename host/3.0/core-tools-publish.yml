@@ -421,8 +421,8 @@ stages:
           set -e
           docker pull $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated5.0-core-tools
 
-          docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated5.0-core-tools $TARGET_REGISTRY/dotnet:$(TargetVersion)-dotnet-isolated5.0-core-tools
-          docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated5.0-core-tools $TARGET_REGISTRY/dotnet:$(MajorVersion)-dotnet-isolated5.0-core-tools  
+          docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated5.0-core-tools $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated5.0-core-tools
+          docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated5.0-core-tools $TARGET_REGISTRY/dotnet-isolated:$(MajorVersion)-dotnet-isolated5.0-core-tools  
           
         displayName: tag dotnet isolated images
         continueOnError: false
