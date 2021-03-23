@@ -1,4 +1,4 @@
-name: Manual workflow
+name: Host version up and create PR
 
 on:
   workflow_dispatch:
@@ -36,7 +36,6 @@ jobs:
         branch: action/release.${{ github.event.inputs.targetVersion }}
         labels: |
           automated pr
-        reviewers: tsuyoshiushio
     - name: Check outputs
       run: |
           echo "Pull Request Number - ${{ steps.createPullRequest.outputs.pull-request-number }}"
