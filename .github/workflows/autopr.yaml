@@ -1,0 +1,44 @@
+name: Manual workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      majorVersion:
+        description: 'Major Version e.g. 3.0'
+        required: true
+      targetVersion:
+        description: 'Target Version e.g. 3.0.151471'
+        required: true
+
+jobs:
+  createPR:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        ref: main
+    - id: createBranch
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        cd host
+        ./update-version.sh ${{ github.event.inputs.majorVersion }} ${{ github.event.inputs.targetVersion }}
+        git add .
+        git commit -m "Update Version ${{ github.event.inputs.targetVersion }}"
+    - name: Create PullRequest
+      id: createPullRequest
+      uses: peter-evans/create-pull-request@v3
+      with:
+        title: Update to verison ${{ github.event.inputs.targetVersion }}
+        body: |
+          - Update ${{ github.event.inputs.majorVesion}} to ${{ github.event.inputs.targetVersion }}
+        branch: action/release.${{ github.event.inputs.targetVersion }}
+        labels: |
+          automated pr
+        reviewers: tsuyoshiushio
+    - name: Check outputs
+      run: |
+          echo "Pull Request Number - ${{ steps.createPullRequest.outputs.pull-request-number }}"
+          echo "Pull Request URL - ${{ steps.createPullRequest.outputs.pull-request-url }}"
+          
