@@ -36,6 +36,7 @@ jobs:
         branch: action/release.${{ github.event.inputs.targetVersion }}
         labels: |
           automated pr
+          dependencies
     - name: Check outputs
       run: |
           echo "Pull Request Number - ${{ steps.createPullRequest.outputs.pull-request-number }}"
