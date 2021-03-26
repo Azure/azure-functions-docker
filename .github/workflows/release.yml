@@ -18,8 +18,8 @@ jobs:
         fetch-depth: 0
     - id: createBranch
       run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
+        git config --local user.email "azfuncgh@github.com"
+        git config --local user.name "Azure Functions"
         git fetch --all
         git checkout -b ${{ github.event.inputs.targetBranch }} origin/${{ github.event.inputs.targetBranch }}
         git merge dev
