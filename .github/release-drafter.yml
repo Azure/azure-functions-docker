@@ -1,0 +1,21 @@
+name-template: '$RESOLVED_VERSION'
+tag-template: '$RESOLVED_VERSION'
+template: |
+  # What's Changed
+  $CHANGES
+categories:
+  - title: 'Breaking'
+    label: 'type: breaking'
+  - title: 'New'
+    label: 'type: enhancement'
+  - title: 'Bug Fixes'
+    label: 'type: bug'
+  - title: 'Java'
+    label: 'type: java'
+  - title: 'Documentation'
+    label: 'type: documentation'
+  - title: 'Dependency Updates'
+    label: 'type: dependencies'
+
+exclude-labels:
+  - 'skip-changelog'
