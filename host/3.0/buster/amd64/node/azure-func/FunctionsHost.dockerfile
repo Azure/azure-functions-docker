@@ -3,6 +3,7 @@ FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS runtime-image
 ARG HOST_VERSION
 
 ENV PublishWithAspNetCoreTargetManifest=false
+ENV FUNC_HOST_VERSION = ${HOST_VERSION}
 
 RUN BUILD_NUMBER=$(echo ${HOST_VERSION} | cut -d'.' -f 3) && \
     git clone --branch v${HOST_VERSION} https://github.com/Azure/azure-functions-host /src/azure-functions-host && \
@@ -27,3 +28,8 @@ RUN EXTENSION_BUNDLE_VERSION=1.6.0 && \
     unzip /$EXTENSION_BUNDLE_FILENAME_V2 -d /FuncExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION_V2 && \
     rm -f /$EXTENSION_BUNDLE_FILENAME_V2 &&\
     find /FuncExtensionBundles/ -type f -exec chmod 644 {} \;
+
+ONBUILD ARG ARG_1=3.0.15417
+ONBUILD ENV CHILD_VAR=${ARG_1}
+ONBUILD ARG HOST_VERSION=${HOST_VERSION}
+ONBUILD ENV HOST_VERSION=${HOST_VERSION}
