@@ -6,8 +6,9 @@ ARG HOST_VERSION
 ENV PublishWithAspNetCoreTargetManifest=false
 
 RUN BUILD_NUMBER=$(echo ${HOST_VERSION} | cut -d'.' -f 3) && \
-    git clone --branch v${HOST_VERSION} https://github.com/Azure/azure-functions-host /src/azure-functions-host && \
-    cd /src/azure-functions-host && \
+    git clone --branch v${HOST_VERSION} https://github.com/Azure/azure-functions-host /src/azure-functions-host 
+RUN cd /src/azure-functions-host && sed -i -e 's/dotnet.myget.org/www.myget.org/' NuGet.config
+RUN cd /src/azure-functions-host && \
     HOST_COMMIT=$(git rev-list -1 HEAD) && \
     dotnet publish -v q /p:BuildNumber=$BUILD_NUMBER /p:CommitHash=$HOST_COMMIT src/WebJobs.Script.WebHost/WebJobs.Script.WebHost.csproj -c Release --output /azure-functions-host --runtime linux-x64 --self-contained false && \
     mv /azure-functions-host/workers /workers && mkdir /azure-functions-host/workers && \
