@@ -1,6 +1,6 @@
 # Build the runtime from source
 ARG HOST_VERSION=3.0.15417
-FROM functionshost:1.0.0 AS runtime-image
+FROM functionshost:${HOST_VERSION} AS runtime-image
 
 FROM python:3.6-slim-buster
 ARG HOST_VERSION
@@ -48,7 +48,8 @@ RUN apt-get update && \
     apt-get install -y default-libmysqlclient-dev
 
 COPY --from=runtime-image ["/azure-functions-host", "/azure-functions-host"]
-COPY --from=runtime-image [ "/workers/python", "/azure-functions-host/workers/python" ]
+COPY --from=runtime-image [ "/workers/python/3.6/LINUX", "/azure-functions-host/workers/python/3.6/LINUX" ]
+COPY --from=runtime-image [ "/workers/python/worker.config.json", "/azure-functions-host/workers/python" ]
 COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
 
 ENV FUNCTIONS_WORKER_RUNTIME_VERSION=3.6
