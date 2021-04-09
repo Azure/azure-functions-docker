@@ -1,6 +1,7 @@
-FROM functionshost:1.0.0 AS runtime-image
+ARG HOST_VERSION=3.0.15417
+FROM functionshost:${HOST_VERSION} AS runtime-image
 FROM mcr.microsoft.com/dotnet/core/runtime-deps:3.1
-
+ARG HOST_VERSION
 
 
 RUN apt-get update && \

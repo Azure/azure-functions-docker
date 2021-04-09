@@ -1,0 +1,3 @@
+# Docker Ignore to remove unnecessary powershell runtimes from final image
+**/runtimes/win*
+**/runtimes/osx*

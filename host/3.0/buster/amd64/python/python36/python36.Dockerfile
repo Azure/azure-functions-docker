@@ -1,6 +1,7 @@
 # Build the runtime from source
 ARG HOST_VERSION=3.0.15417
-FROM functionshost:1.0.0 AS runtime-image
+FROM functionshost:${HOST_VERSION} AS runtime-image
+
 FROM python:3.6-slim-buster
 ARG HOST_VERSION
 
