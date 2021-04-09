@@ -4,18 +4,18 @@ template: |
   # What's Changed
   $CHANGES
 categories:
-  - title: 'Breaking'
-    label: 'type: breaking'
-  - title: 'New'
-    label: 'type: enhancement'
-  - title: 'Bug Fixes'
-    label: 'type: bug'
-  - title: 'Java'
-    label: 'type: java'
-  - title: 'Documentation'
-    label: 'type: documentation'
-  - title: 'Dependency Updates'
-    label: 'type: dependencies'
+  - title: '💣Breaking'
+    label: 'breaking'
+  - title: '🚀New'
+    label: 'enhancement'
+  - title: '🐛Bug Fixes'
+    label: 'bug'
+  - title: '⚡Automation'
+    label: 'automation'
+  - title: '📔Documentation'
+    label: 'documentation'
+  - title: '🔗Dependency Updates'
+    label: 'dependencies'
 
 exclude-labels:
   - 'skip-changelog'
