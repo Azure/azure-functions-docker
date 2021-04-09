@@ -2,7 +2,7 @@
 ARG HOST_VERSION=3.0.15417
 FROM functionshost:${HOST_VERSION} AS runtime-image
 
-ROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim
 ARG HOST_VERSION
 
 # set runtime env variables
