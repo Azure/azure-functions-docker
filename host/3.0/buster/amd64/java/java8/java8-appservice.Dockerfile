@@ -1,7 +1,8 @@
 # Build the runtime from source
 ARG HOST_VERSION=3.0.15417
 ARG JAVA_VERSION=8u252
-FROM functionshost:1.0.0 AS runtime-image
+FROM functionshost:${HOST_VERSION} AS runtime-image
+ARG JAVA_VERSION
 FROM mcr.microsoft.com/java/jre-headless:${JAVA_VERSION}-zulu-debian10-with-tools as jre
 FROM mcr.microsoft.com/dotnet/core/runtime-deps:3.1
 ARG HOST_VERSION
