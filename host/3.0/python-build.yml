@@ -15,6 +15,7 @@ trigger:
       - release/3.x
   paths:
     include:
+      - host/3.0/buster/amd64/functions-base/*
       - host/3.0/buster/amd64/python/*
 
 jobs:
@@ -32,6 +33,14 @@ jobs:
     continueOnError: false
     env:
       pswd: $(dockerPassword)
+
+  - bash: |
+      set -e
+      HOST_VERSION = 3.0.15417
+      docker build -t functionshost:${HOST_VERSION} \
+                  -f host/3.0/buster/amd64/functions-base/functions-host.Dockerfile \
+                  host/3.0/buster/amd64/functions-base/
+
   - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/python:$(Build.SourceBranchName)-python3.6
@@ -45,6 +54,7 @@ jobs:
     continueOnError: false
     env:
       DOCKER_BUILDKIT: 1
+
 
   - bash: |
       set -e
@@ -101,6 +111,13 @@ jobs:
     continueOnError: false
     env:
       pswd: $(dockerPassword)
+
+  - bash: |
+      set -e
+      HOST_VERSION = 3.0.15417
+      docker build -t functionshost:${HOST_VERSION} \
+                  -f host/3.0/buster/amd64/functions-base/functions-host.Dockerfile \
+                  host/3.0/buster/amd64/functions-base/
 
   - bash: |
       set -e
@@ -174,6 +191,13 @@ jobs:
 
   - bash: |
       set -e
+      HOST_VERSION = 3.0.15417
+      docker build -t functionshost:${HOST_VERSION} \
+                  -f host/3.0/buster/amd64/functions-base/functions-host.Dockerfile \
+                  host/3.0/buster/amd64/functions-base/
+
+  - bash: |
+      set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/python:$(Build.SourceBranchName)-python3.8
 
       docker build -t $IMAGE_NAME \
@@ -241,6 +265,13 @@ jobs:
     continueOnError: false
     env:
       pswd: $(dockerPassword)
+
+  - bash: |
+      set -e
+      HOST_VERSION = 3.0.15417
+      docker build -t functionshost:${HOST_VERSION} \
+                  -f host/3.0/buster/amd64/functions-base/functions-host.Dockerfile \
+                  host/3.0/buster/amd64/functions-base/
 
   - bash: |
       set -e

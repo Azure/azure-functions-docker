@@ -19,6 +19,7 @@ trigger:
       - release/3.x
   paths:
     include:
+      - host/3.0/buster/amd64/functions-base/*
       - host/3.0/buster/amd64/dotnet/*
       - host/3.0/buster/arm32v7/dotnet/*
       - host/3.0/bionic/arm32v7/dotnet/*
@@ -33,6 +34,13 @@ steps:
     continueOnError: false
     env:
       pswd: $(dockerPassword)
+
+  - bash: |
+      set -e
+      HOST_VERSION = 3.0.15417
+      docker build -t functionshost:${HOST_VERSION} \
+                  -f host/3.0/buster/amd64/functions-base/functions-host.Dockerfile \
+                  host/3.0/buster/amd64/functions-base/
 
   - bash: |
       set -e
