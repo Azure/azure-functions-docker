@@ -7,6 +7,7 @@ pr:
       - release/3.x
   paths:
     include:
+      - host/3.0/buster/amd64/functions-base/*
       - host/3.0/buster/amd64/node/*
 
 trigger:
@@ -17,6 +18,7 @@ trigger:
       - release/3.x
   paths:
     include:
+      - host/3.0/buster/amd64/functions-base/*
       - host/3.0/buster/amd64/node/*
 
 steps:
@@ -29,6 +31,13 @@ steps:
     continueOnError: false
     env:
       pswd: $(dockerPassword)
+  
+  - bash: |
+      set -e
+      HOST_VERSION=3.0.15584
+      docker build -t functionshost:${HOST_VERSION} \
+                  -f host/3.0/buster/amd64/functions-base/functions-host.Dockerfile \
+                  host/3.0/buster/amd64/functions-base/
 
   - bash: |
       set -e
