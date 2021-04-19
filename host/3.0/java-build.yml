@@ -35,7 +35,7 @@ steps:
 
   - bash: |
       set -e
-      HOST_VERSION = 3.0.15417
+      HOST_VERSION = 3.0.15571
       docker build -t functionshost:${HOST_VERSION} \
                   -f host/3.0/buster/amd64/functions-base/functions-host.Dockerfile \
                   host/3.0/buster/amd64/functions-base/
