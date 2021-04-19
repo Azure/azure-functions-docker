@@ -1,5 +1,5 @@
 # Build the runtime from source
-ARG HOST_VERSION=3.0.15417
+ARG HOST_VERSION=3.0.15571
 ARG JAVA_VERSION=8u252
 FROM functionshost:${HOST_VERSION} AS runtime-image
 ARG JAVA_VERSION
