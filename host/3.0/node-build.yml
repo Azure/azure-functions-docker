@@ -38,6 +38,7 @@ steps:
       docker build -t functionshost:${HOST_VERSION} \
                   -f host/3.0/buster/amd64/functions-base/functions-host.Dockerfile \
                   host/3.0/buster/amd64/functions-base/
+    displayName: functions-base
 
   - bash: |
       set -e
