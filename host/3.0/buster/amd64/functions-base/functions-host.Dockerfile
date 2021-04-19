@@ -1,5 +1,6 @@
 ARG HOST_VERSION=3.0.15584
 ARG EXTENSION_BUNDLE_VERSION=1.6.0
+ARG EXTENSION_BUNDLE_VERSION_V2=2.4.0
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS runtime-image
 ARG HOST_VERSION
 
@@ -16,6 +17,7 @@ RUN BUILD_NUMBER=$(echo ${HOST_VERSION} | cut -d'.' -f 3) && \
     rm -rf /root/.local /root/.nuget /src
 
 ARG EXTENSION_BUNDLE_VERSION
+ARG EXTENSION_BUNDLE_VERSION_V2
 RUN EXTENSION_BUNDLE_VERSION=${EXTENSION_BUNDLE_VERSION} && \
     EXTENSION_BUNDLE_FILENAME=Microsoft.Azure.Functions.ExtensionBundle.${EXTENSION_BUNDLE_VERSION}_linux-x64.zip && \
     apt-get update && \
@@ -24,7 +26,7 @@ RUN EXTENSION_BUNDLE_VERSION=${EXTENSION_BUNDLE_VERSION} && \
     mkdir -p /FuncExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION && \
     unzip /$EXTENSION_BUNDLE_FILENAME -d /FuncExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION && \
     rm -f /$EXTENSION_BUNDLE_FILENAME && \
-    EXTENSION_BUNDLE_VERSION_V2=2.4.0 && \
+    EXTENSION_BUNDLE_VERSION_V2=${EXTENSION_BUNDLE_VERSION_V2} && \
     EXTENSION_BUNDLE_FILENAME_V2=Microsoft.Azure.Functions.ExtensionBundle.${EXTENSION_BUNDLE_VERSION_V2}_linux-x64.zip && \
     wget https://functionscdn.azureedge.net/public/ExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION_V2/$EXTENSION_BUNDLE_FILENAME_V2 && \
     mkdir -p /FuncExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION_V2 && \
