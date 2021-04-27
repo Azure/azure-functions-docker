@@ -89,7 +89,8 @@ RUN apt-get install -y xvfb gconf-service libasound2 libatk1.0-0 libc6 libcairo2
     libxtst6 ca-certificates fonts-liberation libappindicator1 libnss3 lsb-release xdg-utils wget
 
 COPY --from=runtime-image ["/azure-functions-host", "/azure-functions-host"]
-COPY --from=runtime-image [ "/workers/python", "/azure-functions-host/workers/python" ]
+COPY --from=runtime-image [ "/workers/python/3.8/LINUX", "/azure-functions-host/workers/python/3.8/LINUX" ]
+COPY --from=runtime-image [ "/workers/python/worker.config.json", "/azure-functions-host/workers/python" ]
 COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
 
 ENV FUNCTIONS_WORKER_RUNTIME_VERSION=3.8
