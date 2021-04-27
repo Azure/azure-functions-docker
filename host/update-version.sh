@@ -8,8 +8,8 @@ function print_usage {
   echo -e "Example: $0 3.0 3.0.123525"
 }
 
-if [ "$1" != "2.0" ] && [ "$1" != "3.0" ]; then
-  echo -e "MajorVersion must be 2.0 or 3.0. Got '$1'\n"
+if [ "$1" != "2.0" ] && [ "$1" != "3.0" ] && [ "$1" != "4.0" ]; then
+  echo -e "MajorVersion must be 2.0, 3.0, or 4.0. Got '$1'\n"
   print_usage
   exit 1
 fi

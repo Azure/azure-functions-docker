@@ -1,0 +1,46 @@
+queue: Hosted Ubuntu 1604
+trigger: none
+
+steps:
+  - bash: |
+      echo $pswd | docker login -u $(dockerUsername) --password-stdin azurefunctions.azurecr.io
+    displayName: login
+    continueOnError: false
+    env:
+      pswd: $(dockerPassword)
+
+  - bash: |
+      set -e
+      SOURCE_REGISTRY=azurefunctions.azurecr.io/azure-functions/4.0
+      TARGET_REGISTRY=azurefunctions.azurecr.io/public/azure-functions
+
+      if [ -z "$(TargetVersion)" ]; then
+        echo "ERROR: TargetVersion is required"
+        exit 1
+      fi
+
+      if [ -z "$(PrivateVersion)" ]; then
+        echo "ERROR: PrivateVersion is required"
+        exit 1
+      fi
+
+      echo "##vso[task.setvariable variable=SOURCE_REGISTRY]$SOURCE_REGISTRY"
+      echo "##vso[task.setvariable variable=TARGET_REGISTRY]$TARGET_REGISTRY"
+    displayName: set env
+    continueOnError: false
+
+  - bash: |
+      set -e
+      docker pull $SOURCE_REGISTRY/dotnet:$(PrivateVersion)
+
+      docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion) $TARGET_REGISTRY/dotnet:$(TargetVersion)
+
+      docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion) $TARGET_REGISTRY/base:$(TargetVersion)
+
+      docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)
+
+      docker push $TARGET_REGISTRY/base:$(TargetVersion)
+
+      docker system prune -a -f
+    displayName: tag and push dotnet images
+    continueOnError: false
