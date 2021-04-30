@@ -48,6 +48,13 @@ steps:
     displayName: Node12 core-tools 
   - bash: |
       set -e
+      ImageName="mcr.microsoft.com/azure-functions/node:3.0-node14-core-tools"
+      docker run $ImageName az --version
+      CurrentVersion=`docker run $ImageName func --version`
+      echo "Azure Functions Core Tools: Current: ${CurrentVersion} Latest: $(LatestVersion)"
+    displayName: Node14 core-tools 
+  - bash: |
+      set -e
       ImageName="mcr.microsoft.com/azure-functions/java:3.0-java8-core-tools"
       docker run $ImageName az --version
       CurrentVersion=`docker run $ImageName func --version`
