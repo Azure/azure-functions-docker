@@ -24,7 +24,7 @@ steps:
   - task: UseDotNet@2
     inputs:
       packageType: 'sdk'
-      version: '3.1.x'
+      version: '3.1.408'
       performMultiLevelLookup: true
   - task: NodeTool@0
     inputs:
