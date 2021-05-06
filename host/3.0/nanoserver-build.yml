@@ -21,11 +21,6 @@ trigger:
       - host/3.0/nanoserver/*
 
 steps:
-  - task: UseDotNet@2
-    inputs:
-      packageType: 'sdk'
-      version: '3.1.408'
-      performMultiLevelLookup: true
   - task: NodeTool@0
     inputs:
       versionSpec: "10.x"

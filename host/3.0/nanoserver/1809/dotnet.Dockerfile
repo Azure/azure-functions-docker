@@ -6,7 +6,7 @@ FROM mcr.microsoft.com/windows/servercore:ltsc2019 AS installer-env
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
 # Retrieve .NET Core SDK
-RUN $dotnet_sdk_version = '3.1.102'; `
+RUN $dotnet_sdk_version = '3.1.408'; `
     Invoke-WebRequest -OutFile dotnet.zip https://dotnetcli.azureedge.net/dotnet/Sdk/$dotnet_sdk_version/dotnet-sdk-$dotnet_sdk_version-win-x64.zip; `
     $dotnet_sha512 = '4fc6efdf696d51c3c0651ab30c662eead668d0936ed2290c72a5d6a155a105c0e954f267924b69e61cffec53076630293dd810221bfac488d5961c243657ceca'; `
     if ((Get-FileHash dotnet.zip -Algorithm sha512).Hash -ne $dotnet_sha512) { `
