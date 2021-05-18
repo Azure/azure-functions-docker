@@ -188,6 +188,8 @@ steps:
       docker push $TARGET_REGISTRY/node:$(TargetVersion)-appservice
       docker push $TARGET_REGISTRY/node:$(TargetVersion)-appservice-quickstart
 
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)-node8-appservice
+
       docker push $TARGET_REGISTRY/node:$(TargetVersion)-node10
       docker push $TARGET_REGISTRY/node:$(TargetVersion)-node10-slim
       docker push $TARGET_REGISTRY/node:$(TargetVersion)-node10-appservice
