@@ -1,6 +1,6 @@
 # Build the runtime from source
-ARG HOST_VERSION=3.0.15584
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS runtime-image
+ARG HOST_VERSION=4.0.0-preview.1.15799
+FROM mcr.microsoft.com/dotnet/nightly/sdk:6.0.100-preview.4 AS runtime-image
 ARG HOST_VERSION
 
 # Build requires 3.1 SDK
@@ -8,15 +8,17 @@ COPY --from=mcr.microsoft.com/dotnet/core/sdk:3.1 /usr/share/dotnet /usr/share/d
 
 ENV PublishWithAspNetCoreTargetManifest=false
 
-RUN BUILD_NUMBER=$(echo ${HOST_VERSION} | cut -d'.' -f 3) && \
-    git clone --branch v${HOST_VERSION} https://github.com/Azure/azure-functions-host /src/azure-functions-host && \
+RUN BUILD_NUMBER=$(echo ${HOST_VERSION} | cut -d'.' -f 5) && \
+    BRANCH_NAME=release/$(echo ${HOST_VERSION} | cut -d'.' -f 1-4) && \
+    SUFFIX=$(echo ${HOST_VERSION} | cut -d'-' -f 2 | cut -d'.' -f 1-2) && \
+    git clone --branch $BRANCH_NAME https://github.com/Azure/azure-functions-host /src/azure-functions-host && \
     cd /src/azure-functions-host && \
     HOST_COMMIT=$(git rev-list -1 HEAD) && \
-    dotnet publish -v q /p:BuildNumber=$BUILD_NUMBER /p:CommitHash=$HOST_COMMIT src/WebJobs.Script.WebHost/WebJobs.Script.WebHost.csproj -c Release --output /azure-functions-host --runtime linux-x64 && \
+    dotnet publish -v q /p:VersionSuffix=$SUFFIX /p:BuildNumber=$BUILD_NUMBER /p:CommitHash=$HOST_COMMIT src/WebJobs.Script.WebHost/WebJobs.Script.WebHost.csproj -c Release --output /azure-functions-host --runtime linux-x64 && \
     mv /azure-functions-host/workers /workers && mkdir /azure-functions-host/workers && \
     rm -rf /root/.local /root/.nuget /src
 
-FROM mcr.microsoft.com/dotnet/runtime-deps:6.0
+FROM mcr.microsoft.com/dotnet/nightly/runtime-deps:6.0.0-preview.4
 ARG HOST_VERSION
 
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
