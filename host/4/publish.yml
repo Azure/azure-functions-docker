@@ -11,7 +11,7 @@ steps:
 
   - bash: |
       set -e
-      SOURCE_REGISTRY=azurefunctions.azurecr.io/azure-functions/4.0
+      SOURCE_REGISTRY=azurefunctions.azurecr.io/azure-functions/4
       TARGET_REGISTRY=azurefunctions.azurecr.io/public/azure-functions
 
       if [ -z "$(TargetVersion)" ]; then
@@ -32,14 +32,18 @@ steps:
   - bash: |
       set -e
       docker pull $SOURCE_REGISTRY/dotnet:$(PrivateVersion)
+      docker pull $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-appservice
 
       docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion) $TARGET_REGISTRY/dotnet:$(TargetVersion)
+      docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-appservice $TARGET_REGISTRY/dotnet:$(TargetVersion)-appservice
 
       docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion) $TARGET_REGISTRY/base:$(TargetVersion)
+      docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-appservice $TARGET_REGISTRY/base:$(TargetVersion)-appservice
 
       docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)
-
+      docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-appservice
       docker push $TARGET_REGISTRY/base:$(TargetVersion)
+      docker push $TARGET_REGISTRY/base:$(TargetVersion)-appservice
 
       docker system prune -a -f
     displayName: tag and push dotnet images
