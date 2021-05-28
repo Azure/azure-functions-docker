@@ -9,8 +9,8 @@ Param(
     $FullVersion
 )
 
-if ($MajorVersion -ne "2.0" -And $MajorVersion -ne "3.0" -AND $MajorVersion -ne "4.0") {
-    Write-Error "MajorVersion can only be 2.0, 3.0, or 4.0. Got $MajorVersion" -ErrorAction Stop
+if ($MajorVersion -ne "2.0" -And $MajorVersion -ne "3.0" -AND $MajorVersion -ne "4") {
+    Write-Error "MajorVersion can only be 2.0, 3.0, or 4. Got $MajorVersion" -ErrorAction Stop
 }
 
 function Update-HostVersion {
