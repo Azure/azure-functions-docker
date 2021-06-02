@@ -7,7 +7,7 @@ pr:
       - release/4.x
   paths:
     include:
-      - host/4/buster/amd64/dotnet/*
+      - host/4/bullseye/amd64/dotnet/*
 
 trigger:
   branches:
