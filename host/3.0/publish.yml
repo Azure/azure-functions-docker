@@ -158,13 +158,12 @@ steps:
       docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node14-slim
       docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node14-appservice
 
-      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node8 $TARGET_REGISTRY/node:$(TargetVersion)-node8
       docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node8-appservice $TARGET_REGISTRY/node:$(TargetVersion)-node8-appservice
 
       docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node10 $TARGET_REGISTRY/node:$(TargetVersion)
       docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-slim $TARGET_REGISTRY/node:$(TargetVersion)-slim
       docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-appservice $TARGET_REGISTRY/node:$(TargetVersion)-appservice
-      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-appservice $TARGET_REGISTRY/node:$(TargetVersion)-appservice-quickstart          
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-appservice $TARGET_REGISTRY/node:$(TargetVersion)-appservice-quickstart
       docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node10 $TARGET_REGISTRY/node:$(TargetVersion)-node10
       docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-slim $TARGET_REGISTRY/node:$(TargetVersion)-node10-slim
       docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-appservice $TARGET_REGISTRY/node:$(TargetVersion)-node10-appservice
