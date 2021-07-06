@@ -4,10 +4,10 @@ on:
   workflow_dispatch:
     inputs:
       majorVersion:
-        description: 'Major Version e.g. 3.0'
+        description: 'Major Version e.g. 3'
         required: true
       targetVersion:
-        description: 'Target Version e.g. 3.0.151471'
+        description: 'Target Version e.g. 3.1.1'
         required: true
 
 jobs:
