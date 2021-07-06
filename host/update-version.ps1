@@ -9,8 +9,8 @@ Param(
     $FullVersion
 )
 
-if ($MajorVersion -ne "2.0" -And $MajorVersion -ne "3.0" -AND $MajorVersion -ne "4") {
-    Write-Error "MajorVersion can only be 2.0, 3.0, or 4. Got $MajorVersion" -ErrorAction Stop
+if ($MajorVersion -ne "2.0" -And $MajorVersion -ne "3" -AND $MajorVersion -ne "4") {
+    Write-Error "MajorVersion can only be 2.0, 3, or 4. Got $MajorVersion" -ErrorAction Stop
 }
 
 function Update-HostVersion {
@@ -29,9 +29,10 @@ function Update-HostVersion {
     }
 }
 
-Update-HostVersion -MajorVersion $MajorVersion -Directory $MajorVersion
-
-if ($MajorVersion -eq "3.0") {
+if ($MajorVersion -eq "3") {
+    Update-HostVersion -MajorVersion $MajorVersion -Directory "3.0"
     Write-Host "Updating auto-upgraded files"
     Update-HostVersion -MajorVersion $MajorVersion -Directory "2.0-upgrade"
+} else {
+    Update-HostVersion -MajorVersion $MajorVersion -Directory $MajorVersion
 }
