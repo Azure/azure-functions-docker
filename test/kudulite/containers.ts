@@ -142,6 +142,17 @@ export class KuduContainer {
     return name;
   }
 
+  public async healthCheck(name: string) {
+    // Used for checking if the home page is accessible to public
+    // This endpoint is used during specialization
+    const baseUrl = `http://127.0.0.1:${KuduContainer.ports[name]}`;
+    await retry(async () => {
+      return await axios.get(`${baseUrl}`, {
+        validateStatus: (status: number) => status >= 200 && status <= 499
+      });
+    });
+  }
+
   public async assignContainer(name: string, environmentVariables: Record<string, string>) {
     console.log(chalk.yellow(`Assign container ${name} at port ${KuduContainer.ports[name]}...`));
     const encryptionKey = KuduContainer.envVars.CONTAINER_ENCRYPTION_KEY;
@@ -165,7 +176,7 @@ export class KuduContainer {
           'Content-Type': 'application/json'
         },
         // No need to throw exception on user errors
-        validateStatus: (status) => status >= 200 && status <= 499
+        validateStatus: (status: number) => status >= 200 && status <= 499
       });
     });
   }

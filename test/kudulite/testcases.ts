@@ -18,6 +18,7 @@ export class Host20Dotnet2 implements ITestCase {
       "SCM_RUN_FROM_PACKAGE": destSas
     }
     const kuduliteContainerName = await container.startKuduLiteContainer(settings);
+    await container.healthCheck(kuduliteContainerName);
     const localSrcPath = await container.downloadSrcBlob(srcPackage);
     await container.assignContainer(kuduliteContainerName, settings);
     await container.createZipDeploy(localSrcPath);
@@ -43,6 +44,7 @@ export class Host30Dotnet3 implements ITestCase {
       "SCM_RUN_FROM_PACKAGE": destSas
     }
     const kuduliteContainerName = await container.startKuduLiteContainer(settings);
+    await container.healthCheck(kuduliteContainerName);
     const localSrcPath = await container.downloadSrcBlob(srcPackage);
     await container.assignContainer(kuduliteContainerName, settings);
     await container.createZipDeploy(localSrcPath);
@@ -68,6 +70,7 @@ export class Host20Python36 implements ITestCase {
       "SCM_RUN_FROM_PACKAGE": destSas
     }
     const kuduliteContainerName = await container.startKuduLiteContainer(settings);
+    await container.healthCheck(kuduliteContainerName);
     const localSrcPath = await container.downloadSrcBlob(srcPackage);
     await container.assignContainer(kuduliteContainerName, settings);
     await container.createZipDeploy(localSrcPath);
@@ -93,6 +96,7 @@ export class Host20Python37 implements ITestCase {
       "SCM_RUN_FROM_PACKAGE": destSas
     }
     const kuduliteContainerName = await container.startKuduLiteContainer(settings);
+    await container.healthCheck(kuduliteContainerName);
     const localSrcPath = await container.downloadSrcBlob(srcPackage);
     await container.assignContainer(kuduliteContainerName, settings);
     await container.createZipDeploy(localSrcPath);
@@ -118,6 +122,7 @@ export class Host30Python36 implements ITestCase {
       "SCM_RUN_FROM_PACKAGE": destSas
     }
     const kuduliteContainerName = await container.startKuduLiteContainer(settings);
+    await container.healthCheck(kuduliteContainerName);
     const localSrcPath = await container.downloadSrcBlob(srcPackage);
     await container.assignContainer(kuduliteContainerName, settings);
     await container.createZipDeploy(localSrcPath);
@@ -143,6 +148,7 @@ export class Host30Python37 implements ITestCase {
       "SCM_RUN_FROM_PACKAGE": destSas
     }
     const kuduliteContainerName = await container.startKuduLiteContainer(settings);
+    await container.healthCheck(kuduliteContainerName);
     const localSrcPath = await container.downloadSrcBlob(srcPackage);
     await container.assignContainer(kuduliteContainerName, settings);
     await container.createZipDeploy(localSrcPath);
@@ -168,6 +174,7 @@ export class Host30Python38 implements ITestCase {
       "SCM_RUN_FROM_PACKAGE": destSas
     }
     const kuduliteContainerName = await container.startKuduLiteContainer(settings);
+    await container.healthCheck(kuduliteContainerName);
     const localSrcPath = await container.downloadSrcBlob(srcPackage);
     await container.assignContainer(kuduliteContainerName, settings);
     await container.createZipDeploy(localSrcPath);
@@ -193,6 +200,7 @@ export class Host20Node8 implements ITestCase {
       "SCM_RUN_FROM_PACKAGE": destSas
     }
     const kuduliteContainerName = await container.startKuduLiteContainer(settings);
+    await container.healthCheck(kuduliteContainerName);
     const localSrcPath = await container.downloadSrcBlob(srcPackage);
     await container.assignContainer(kuduliteContainerName, settings);
     await container.createZipDeploy(localSrcPath);
@@ -218,6 +226,7 @@ export class Host20Node10 implements ITestCase {
       "SCM_RUN_FROM_PACKAGE": destSas
     }
     const kuduliteContainerName = await container.startKuduLiteContainer(settings);
+    await container.healthCheck(kuduliteContainerName);
     const localSrcPath = await container.downloadSrcBlob(srcPackage);
     await container.assignContainer(kuduliteContainerName, settings);
     await container.createZipDeploy(localSrcPath);
@@ -243,6 +252,7 @@ export class Host30Node10 implements ITestCase {
       "SCM_RUN_FROM_PACKAGE": destSas
     }
     const kuduliteContainerName = await container.startKuduLiteContainer(settings);
+    await container.healthCheck(kuduliteContainerName);
     const localSrcPath = await container.downloadSrcBlob(srcPackage);
     await container.assignContainer(kuduliteContainerName, settings);
     await container.createZipDeploy(localSrcPath);
@@ -268,6 +278,7 @@ export class Host30Node12 implements ITestCase {
       "SCM_RUN_FROM_PACKAGE": destSas
     }
     const kuduliteContainerName = await container.startKuduLiteContainer(settings);
+    await container.healthCheck(kuduliteContainerName);
     const localSrcPath = await container.downloadSrcBlob(srcPackage);
     await container.assignContainer(kuduliteContainerName, settings);
     await container.createZipDeploy(localSrcPath);
@@ -294,6 +305,7 @@ export class Host30Python36OverwriteRunFromPackage implements ITestCase {
       "WEBSITE_RUN_FROM_PACKAGE": destSas
     }
     const kuduliteContainerName = await container.startKuduLiteContainer(settings);
+    await container.healthCheck(kuduliteContainerName);
     const localSrcPath = await container.downloadSrcBlob(srcPackage);
     await container.assignContainer(kuduliteContainerName, settings);
     await container.createZipDeploy(localSrcPath, {
@@ -323,6 +335,7 @@ export class Host2xPython36CsprojExtensions implements ITestCase {
       "SCM_RUN_FROM_PACKAGE": destSas
     }
     const kuduliteContainerName = await container.startKuduLiteContainer(settings);
+    await container.healthCheck(kuduliteContainerName);
     const localSrcPath = await container.downloadSrcBlob(srcPackage);
     await container.assignContainer(kuduliteContainerName, settings);
     await container.createZipDeploy(localSrcPath);
@@ -349,6 +362,7 @@ export class Host3xPython36CsprojExtensions implements ITestCase {
       "SCM_RUN_FROM_PACKAGE": destSas
     }
     const kuduliteContainerName = await container.startKuduLiteContainer(settings);
+    await container.healthCheck(kuduliteContainerName);
     const localSrcPath = await container.downloadSrcBlob(srcPackage);
     await container.assignContainer(kuduliteContainerName, settings);
     await container.createZipDeploy(localSrcPath);
@@ -377,6 +391,7 @@ export class Host3xPython3xBuildWheel implements ITestCase {
       "SCM_RUN_FROM_PACKAGE": destSas
     }
     const kuduliteContainerName = await container.startKuduLiteContainer(settings);
+    await container.healthCheck(kuduliteContainerName);
     const localSrcPath = await container.downloadSrcBlob(srcPackage);
     await container.assignContainer(kuduliteContainerName, settings);
     await container.createZipDeploy(localSrcPath);
