@@ -1,0 +1,54 @@
+queue: Hosted Ubuntu 1604
+
+pr:
+  branches:
+    include:
+      - dev
+      - release/4.x
+  paths:
+    include:
+      - host/4/bullseye/amd64/dotnet/*
+
+trigger:
+  branches:
+    include:
+      - dev
+      - refs/tags/4.*
+      - release/4.x
+  paths:
+    include:
+      - host/4/bullseye/amd64/dotnet/*
+
+steps:
+  - bash: |
+      # login
+      set -e
+      echo $pswd | docker login -u $(dockerUsername) --password-stdin azurefunctions.azurecr.io
+
+    displayName: login to registry
+    continueOnError: false
+    env:
+      pswd: $(dockerPassword)
+
+  - bash: |
+      set -e
+      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/dotnet:$(Build.SourceBranchName)
+
+      docker build -t $IMAGE_NAME \
+                  -f host/4/bullseye/amd64/dotnet/dotnet-inproc/dotnet.Dockerfile \
+                  host/4/bullseye/amd64/dotnet/dotnet-inproc/
+      npm run test $IMAGE_NAME --prefix test/
+      docker push $IMAGE_NAME
+    displayName: dotnet
+    continueOnError: false
+
+  - bash: |
+      set -e
+      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/dotnet:$(Build.SourceBranchName)-appservice
+      docker build -t $IMAGE_NAME \
+                  -f host/4/bullseye/amd64/dotnet/dotnet-inproc/dotnet-appservice.Dockerfile \
+                  host/4/bullseye/amd64/dotnet/dotnet-inproc/
+      npm run test $IMAGE_NAME --prefix  test/
+      docker push $IMAGE_NAME
+    displayName: dotnet-appservice
+    continueOnError: false

@@ -12,7 +12,7 @@ trigger:
   branches:
     include:
       - dev
-      - refs/tags/3.0.*
+      - refs/tags/3.*.*
   paths:
     include:
       - host/2.0-upgrade/stretch/amd64/dotnet/*

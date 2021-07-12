@@ -510,14 +510,18 @@ stages:
           set -e
           docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-core-tools
           docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node12-core-tools
-    
+          docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node14-core-tools   
+
           docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-core-tools $TARGET_REGISTRY/node:$(TargetVersion)-core-tools   
           docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-core-tools $TARGET_REGISTRY/node:$(TargetVersion)-node10-core-tools
           docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node12-core-tools $TARGET_REGISTRY/node:$(TargetVersion)-node12-core-tools
-             
+          docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node14-core-tools $TARGET_REGISTRY/node:$(TargetVersion)-node14-core-tools
+
           docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-core-tools $TARGET_REGISTRY/node:$(MajorVersion)-core-tools   
           docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-core-tools $TARGET_REGISTRY/node:$(MajorVersion)-node10-core-tools
           docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node12-core-tools $TARGET_REGISTRY/node:$(MajorVersion)-node12-core-tools
+          docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node14-core-tools $TARGET_REGISTRY/node:$(MajorVersion)-node14-core-tools
+
 
         displayName: tag node images
         continueOnError: false
@@ -535,12 +539,13 @@ stages:
             echo "unmatch the Target image id and Major image id ${PrivateImageId} and ${MajorImageId}";
             exit 1;
           fi
-          PrivateImageId=`docker image inspect $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-core-tools --format='{{.Id}}'`
-          MajorImageId=`docker image inspect $TARGET_REGISTRY/node:$(MajorVersion)-core-tools --format='{{.Id}}'`
+          PrivateImageId=`docker image inspect $SOURCE_REGISTRY/node:$(PrivateVersion)-node14-core-tools --format='{{.Id}}'`
+          MajorImageId=`docker image inspect $TARGET_REGISTRY/node:$(MajorVersion)-node14-core-tools --format='{{.Id}}'`
           if [[ "$PrivateImageId" != "$MajorImageId" ]]; then
             echo "unmatch the Target image id and Major image id ${PrivateImageId} and ${MajorImageId}";
             exit 1;
           fi
+
           ActualVersion=`docker run $TARGET_REGISTRY/node:$(MajorVersion)-node10-core-tools func --version`
           if [[ "$ActualVersion" != "$(TargetVersion)" ]]; then
             echo "unmatch the ActualVersion and TargetVersion ${ActualVersion} and $(TargetVersion)";
@@ -553,6 +558,12 @@ stages:
             exit 1;
           fi          
           docker run $TARGET_REGISTRY/node:$(MajorVersion)-node12-core-tools az --version
+          ActualVersion=`docker run $TARGET_REGISTRY/node:$(MajorVersion)-node14-core-tools func --version`
+          if [[ "$ActualVersion" != "$(TargetVersion)" ]]; then
+            echo "unmatch the ActualVersion and TargetVersion ${ActualVersion} and $(TargetVersion)";
+            exit 1;
+          fi          
+          docker run $TARGET_REGISTRY/node:$(MajorVersion)-node14-core-tools az --version          
         displayName: test node images
         continueOnError: false        
       - bash: |
@@ -560,11 +571,13 @@ stages:
           docker push $TARGET_REGISTRY/node:$(TargetVersion)-core-tools
           docker push $TARGET_REGISTRY/node:$(TargetVersion)-node10-core-tools
           docker push $TARGET_REGISTRY/node:$(TargetVersion)-node12-core-tools
+          docker push $TARGET_REGISTRY/node:$(TargetVersion)-node14-core-tools
 
           docker push $TARGET_REGISTRY/node:$(MajorVersion)-core-tools
           docker push $TARGET_REGISTRY/node:$(MajorVersion)-node10-core-tools
           docker push $TARGET_REGISTRY/node:$(MajorVersion)-node12-core-tools
-    
+          docker push $TARGET_REGISTRY/node:$(MajorVersion)-node14-core-tools
+
           docker system prune -a -f
         displayName: push node images
         continueOnError: false
