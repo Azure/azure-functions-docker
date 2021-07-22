@@ -3,7 +3,7 @@ COPY /mesh /mesh
 RUN cd /mesh && \
     CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o init
 
-FROM mcr.microsoft.com/oryx/build:20201015.1 as pre-final-env
+FROM mcr.microsoft.com/oryx/build:20210708.1 as pre-final-env
 ARG BRANCH
 ARG NAMESPACE
 ENV DEBIAN_FRONTEND noninteractive
@@ -47,7 +47,7 @@ ENV PATH=$PATH:/root/.dotnet/tools
 RUN cd /tmp \
     && git clone --depth 1 --branch $BRANCH https://github.com/$NAMESPACE/KuduLite.git KuduLite \
     && cd ./KuduLite/Kudu.Services.Web \
-    && benv dotnet=2.2.207 dotnet publish -c Release -o /opt/Kudu \
+    && benv dotnet=3.1.409 dotnet publish -c Release -o /opt/Kudu \
     && chmod 777 /opt/Kudu/Kudu.Services.Web.dll \
     && rm -rf /tmp/* \
     && chmod a+rw /var/nuget \
