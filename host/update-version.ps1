@@ -24,7 +24,7 @@ function Update-HostVersion {
     {
         $content = Get-Content $f.PSPath
         Write-Host "Updating version in $($f.PSPath) to $FullVersion"
-        $newContent = ($content -replace "HOST_VERSION=$MajorVersion\.(\d+)", "HOST_VERSION=$FullVersion" -join "`n") + "`n"
+        $newContent = ($content -replace "HOST_VERSION=$MajorVersion\.(\S+)", "HOST_VERSION=$FullVersion" -join "`n") + "`n"
         Set-Content -Path $f.PSPath -Value $newContent -NoNewline
     }
 }
