@@ -65,7 +65,7 @@ steps:
     displayName: dotnet-appservice
     continueOnError: false
 
-    - bash: |
+  - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/dotnet-isolated:$(Build.SourceBranchName)-dotnet-isolated6.0
 
@@ -77,7 +77,7 @@ steps:
     displayName: dotnet-isolated (.NET 6)
     continueOnError: false
 
-    - bash: |
+  - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/dotnet-isolated:$(Build.SourceBranchName)-dotnet-isolated6.0-slim
 
@@ -89,7 +89,7 @@ steps:
     displayName: dotnet-isolated-slim (.NET 6)
     continueOnError: false
 
-    - bash: |
+  - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/dotnet-isolated:$(Build.SourceBranchName)-dotnet-isolated6.0-appservice
 

@@ -1,6 +1,6 @@
 # Build the runtime from source
 ARG HOST_VERSION=4.0.0-preview.3.16281
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS runtime-image
+FROM mcr.microsoft.com/dotnet/sdk:6.0.100-preview.7 AS runtime-image
 ARG HOST_VERSION
 
 # Build requires 3.1 SDK
@@ -43,8 +43,11 @@ RUN EXTENSION_BUNDLE_VERSION=1.8.1 && \
     rm -f /$EXTENSION_BUNDLE_FILENAME_V3 &&\
     find /FuncExtensionBundles/ -type f -exec chmod 644 {} \;
 
-FROM mcr.microsoft.com/dotnet/runtime-deps:6.0-bullseye-slim
+FROM mcr.microsoft.com/dotnet/aspnet:6.0.0-preview.7-bullseye-slim
 ARG HOST_VERSION
+
+# Powershell worker requires 3.1 for now
+COPY --from=mcr.microsoft.com/dotnet/core/aspnet:3.1 /usr/share/dotnet /usr/share/dotnet
 
 # set runtime env variables
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
