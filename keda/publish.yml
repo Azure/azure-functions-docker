@@ -1,0 +1,43 @@
+trigger: none
+pr: none
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+
+# Bash task:https://docs.microsoft.com/azure/devops/pipelines/yaml-schema#bash.
+- bash: |
+    # Exit if any line in the script fails.
+    set -e
+
+    if [ -z "$VERSION_TAG" ];
+    then
+      echo "ERROR: VERSION_TAG is required."
+      exit 1
+    fi
+
+    SOURCE_KEDA_IMAGE=$SOURCE_REPOSITORY/kedacore/keda:$VERSION_TAG
+    SOURCE_KEDA_METRICS_APISERVER_IMAGE=$SOURCE_REPOSITORY/kedacore/keda-metrics-apiserver:$VERSION_TAG
+
+    TARGET_KEDA_IMAGE=$TARGET_REPOSITORY/public/oss/kedacore/keda:$VERSION_TAG
+    TARGET_KEDA_METRICS_APISERVER_IMAGE=$TARGET_REPOSITORY/public/oss/kedacore/keda-metrics-apiserver:$VERSION_TAG
+
+    # KEDA packages: https://github.com/orgs/kedacore/packages.
+    docker pull $SOURCE_KEDA_IMAGE
+    docker pull $SOURCE_KEDA_METRICS_APISERVER_IMAGE
+
+    docker tag $SOURCE_KEDA_IMAGE $TARGET_KEDA_IMAGE
+    docker tag $SOURCE_KEDA_METRICS_APISERVER_IMAGE $TARGET_KEDA_METRICS_APISERVER_IMAGE
+
+    echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin $TARGET_REPOSITORY
+
+    docker push $TARGET_KEDA_IMAGE
+    docker push $TARGET_KEDA_METRICS_APISERVER_IMAGE
+
+  displayName: 'Publish KEDA Images to Azure Functions'' Container Registry'
+  env:
+    SOURCE_REPOSITORY: 'ghcr.io'
+    TARGET_REPOSITORY: 'azurefunctions.azurecr.io'
+    DOCKER_USERNAME: $(Docker Username)
+    DOCKER_PASSWORD: $(Docker Password)

@@ -11,8 +11,14 @@ if (process.argv.length < 2) {
 const storagePath =
   "https://functionsdockertests.blob.core.windows.net/public/docker";
 
-const dotnetIsolated = {
+const dotnetIsolated5 = {
   package: `${storagePath}/dotnet-isolated-functions.zip`,
+  invoke: "/api/DotnetIsolatedHttpFunction",
+  response: "Hello, Test"
+}
+
+const dotnetIsolated6 = {
+  package: `${storagePath}/dotnet-isolated6-functions.zip`,
   invoke: "/api/DotnetIsolatedHttpFunction",
   response: "Hello, Test"
 }
@@ -52,7 +58,8 @@ const testData = (function() {
   else if (imageName.indexOf("powershell") !== -1) return map.powershell;
   else if (imageName.indexOf("python") !== -1) return map.python;
   else if (imageName.indexOf("node") !== -1) return map.node;
-  else if (imageName.indexOf("dotnet-isolated") !== -1) return dotnetIsolated;
+  else if (imageName.indexOf("dotnet-isolated5.0") !== -1) return dotnetIsolated5;
+  else if (imageName.indexOf("dotnet-isolated6.0") !== -1) return dotnetIsolated6;
   else if (imageName.indexOf("mesh") !== -1) return map;
   else return map.dotnet;
 })();
