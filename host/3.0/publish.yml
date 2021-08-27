@@ -571,7 +571,7 @@ stages:
 
     - bash: |
         set -e
-        SOURCE_REGISTRY=azurefunctions.azurecr.io/azure-functions/3.0
+        SOURCE_REGISTRY=azurefunctions.azurecr.io/azure-functions
         TARGET_REGISTRY=cooperlinkwork
 
         if [ -z "$(TargetVersion)" ]; then
@@ -594,7 +594,7 @@ stages:
 
         docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-nanoserver-1809 $TARGET_REGISTRY/dotnet:$(TargetVersion)-nanoserver-1809
 
-        docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-nanoserver-1809 $TARGET_REGISTRY/dotnet:3.0-nanoserver-1809
+        docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion) $TARGET_REGISTRY/dotnet:3.0-nanoserver-1809
 
         docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-nanoserver-1809
 
