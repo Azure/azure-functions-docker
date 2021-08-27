@@ -49,6 +49,18 @@ steps:
       docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-slim $TARGET_REGISTRY/base:$(TargetVersion)-slim
       docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-appservice $TARGET_REGISTRY/base:$(TargetVersion)-appservice
 
+      docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion) $TARGET_REGISTRY/dotnet:3.0
+      docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-slim $TARGET_REGISTRY/dotnet:3.0-slim
+      docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-appservice $TARGET_REGISTRY/dotnet:3.0-appservice
+      docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-appservice $TARGET_REGISTRY/dotnet:3.0-dotnet3-appservice
+      docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-appservice $TARGET_REGISTRY/dotnet:3.0-appservice-quickstart
+       docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-arm32v7 $TARGET_REGISTRY/dotnet:3.0-arm32v7
+      docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-bionic-arm32v7 $TARGET_REGISTRY/dotnet:3.0-bionic-arm32v7
+
+      docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion) $TARGET_REGISTRY/base:3.0
+      docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-slim $TARGET_REGISTRY/base:3.0-slim
+      docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-appservice $TARGET_REGISTRY/base:3.0-appservice
+
       docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)
       docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-slim
       docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-appservice
@@ -59,6 +71,17 @@ steps:
       docker push $TARGET_REGISTRY/base:$(TargetVersion)
       docker push $TARGET_REGISTRY/base:$(TargetVersion)-slim
       docker push $TARGET_REGISTRY/base:$(TargetVersion)-appservice
+
+      docker push $TARGET_REGISTRY/dotnet:3.0
+      docker push $TARGET_REGISTRY/dotnet:3.0-slim
+      docker push $TARGET_REGISTRY/dotnet:3.0-appservice
+      docker push $TARGET_REGISTRY/dotnet:3.0-dotnet3-appservice
+      docker push $TARGET_REGISTRY/dotnet:3.0-appservice-quickstart
+      docker push $TARGET_REGISTRY/dotnet:3.0-arm32v7
+      docker push $TARGET_REGISTRY/dotnet:3.0-bionic-arm32v7
+      docker push $TARGET_REGISTRY/base:3.0
+      docker push $TARGET_REGISTRY/base:3.0-slim
+      docker push $TARGET_REGISTRY/base:3.0-appservice
 
       docker system prune -a -f
     displayName: tag and push dotnet images
@@ -80,6 +103,17 @@ steps:
       docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated5.0-appservice $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated5.0-appservice
       docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated5.0-appservice $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated5.0-appservice-quickstart
 
+      docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated5.0 $TARGET_REGISTRY/dotnet-isolated:3.0
+      docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated5.0-slim $TARGET_REGISTRY/dotnet-isolated:3.0-slim
+      docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated5.0-appservice $TARGET_REGISTRY/dotnet-isolated:3.0-appservice
+      docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated5.0-appservice $TARGET_REGISTRY/dotnet-isolated:3.0-appservice-quickstart
+
+      docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated5.0 $TARGET_REGISTRY/dotnet-isolated:3.0-dotnet-isolated5.0
+      docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated5.0-slim $TARGET_REGISTRY/dotnet-isolated:3.0-dotnet-isolated5.0-slim
+      docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated5.0-appservice $TARGET_REGISTRY/dotnet-isolated:3.0-dotnet-isolated5.0-appservice
+      docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated5.0-appservice $TARGET_REGISTRY/dotnet-isolated:3.0-dotnet-isolated5.0-appservice-quickstart
+
+
       docker push $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)
       docker push $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-slim
       docker push $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-appservice
@@ -88,6 +122,15 @@ steps:
       docker push $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated5.0-slim
       docker push $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated5.0-appservice
       docker push $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated5.0-appservice-quickstart
+
+      docker push $TARGET_REGISTRY/dotnet-isolated:3.0
+      docker push $TARGET_REGISTRY/dotnet-isolated:3.0-slim
+      docker push $TARGET_REGISTRY/dotnet-isolated:3.0-appservice
+      docker push $TARGET_REGISTRY/dotnet-isolated:3.0-appservice-quickstart
+      docker push $TARGET_REGISTRY/dotnet-isolated:3.0-dotnet-isolated5.0
+      docker push $TARGET_REGISTRY/dotnet-isolated:3.0-dotnet-isolated5.0-slim
+      docker push $TARGET_REGISTRY/dotnet-isolated:3.0-dotnet-isolated5.0-appservice
+      docker push $TARGET_REGISTRY/dotnet-isolated:3.0-dotnet-isolated5.0-appservice-quickstart
 
       docker system prune -a -f
     displayName: tag and push dotnet-isolated images
@@ -123,6 +166,26 @@ steps:
       docker tag mcr.microsoft.com/java/maven:8-zulu-debian10 $TARGET_REGISTRY/java:$(TargetVersion)-java8-build
       docker tag mcr.microsoft.com/java/maven:11-zulu-debian10 $TARGET_REGISTRY/java:$(TargetVersion)-java11-build
 
+
+      docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8 $TARGET_REGISTRY/java:3.0
+      docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-slim $TARGET_REGISTRY/java:3.0-slim
+      docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-appservice $TARGET_REGISTRY/java:3.0-appservice
+      docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-appservice $TARGET_REGISTRY/java:3.0-appservice-quickstart
+
+      docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8 $TARGET_REGISTRY/java:3.0-java8
+      docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-slim $TARGET_REGISTRY/java:3.0-java8-slim
+      docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-appservice $TARGET_REGISTRY/java:3.0-java8-appservice
+      docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-appservice $TARGET_REGISTRY/java:3.0-java8-appservice-quickstart
+
+      docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java11 $TARGET_REGISTRY/java:3.0-java11
+      docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java11-slim $TARGET_REGISTRY/java:3.0-java11-slim
+      docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java11-appservice $TARGET_REGISTRY/java:3.0-java11-appservice
+      docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java11-appservice $TARGET_REGISTRY/java:3.0-java11-appservice-quickstart
+
+      docker tag mcr.microsoft.com/java/maven:8-zulu-debian10 $TARGET_REGISTRY/java:3.0-java8-build
+      docker tag mcr.microsoft.com/java/maven:11-zulu-debian10 $TARGET_REGISTRY/java:3.0-java11-build
+
+
       docker push $TARGET_REGISTRY/java:$(TargetVersion)
       docker push $TARGET_REGISTRY/java:$(TargetVersion)-slim
       docker push $TARGET_REGISTRY/java:$(TargetVersion)-appservice
@@ -140,6 +203,24 @@ steps:
 
       docker push $TARGET_REGISTRY/java:$(TargetVersion)-java8-build
       docker push $TARGET_REGISTRY/java:$(TargetVersion)-java11-build
+
+      docker push $TARGET_REGISTRY/java:3.0
+      docker push $TARGET_REGISTRY/java:3.0-slim
+      docker push $TARGET_REGISTRY/java:3.0-appservice
+      docker push $TARGET_REGISTRY/java:3.0-appservice-quickstart
+
+      docker push $TARGET_REGISTRY/java:3.0-java8
+      docker push $TARGET_REGISTRY/java:3.0-java8-slim
+      docker push $TARGET_REGISTRY/java:3.0-java8-appservice
+      docker push $TARGET_REGISTRY/java:3.0-java8-appservice-quickstart
+
+      docker push $TARGET_REGISTRY/java:3.0-java11
+      docker push $TARGET_REGISTRY/java:3.0-java11-slim
+      docker push $TARGET_REGISTRY/java:3.0-java11-appservice
+      docker push $TARGET_REGISTRY/java:3.0-java11-appservice-quickstart
+
+      docker push $TARGET_REGISTRY/java:3.0-java8-build
+      docker push $TARGET_REGISTRY/java:3.0-java11-build
 
       docker system prune -a -f
     displayName: tag and push java images
@@ -180,6 +261,27 @@ steps:
       docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node14-appservice $TARGET_REGISTRY/node:$(TargetVersion)-node14-appservice-quickstart
 
 
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node8-appservice $TARGET_REGISTRY/node:3.0-node8-appservice
+
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node10 $TARGET_REGISTRY/node:3.0
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-slim $TARGET_REGISTRY/node:3.0-slim
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-appservice $TARGET_REGISTRY/node:3.0-appservice
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-appservice $TARGET_REGISTRY/node:3.0-appservice-quickstart
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node10 $TARGET_REGISTRY/node:3.0-node10
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-slim $TARGET_REGISTRY/node:3.0-node10-slim
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-appservice $TARGET_REGISTRY/node:3.0-node10-appservice
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-appservice $TARGET_REGISTRY/node:3.0-node10-appservice-quickstart
+
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node12 $TARGET_REGISTRY/node:3.0-node12
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node12-slim $TARGET_REGISTRY/node:3.0-node12-slim
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node12-appservice $TARGET_REGISTRY/node:3.0-node12-appservice
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node12-appservice $TARGET_REGISTRY/node:3.0-node12-appservice-quickstart
+
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node14 $TARGET_REGISTRY/node:3.0-node14
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node14-slim $TARGET_REGISTRY/node:3.0-node14-slim
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node14-appservice $TARGET_REGISTRY/node:3.0-node14-appservice
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node14-appservice $TARGET_REGISTRY/node:3.0-node14-appservice-quickstart
+
       docker push $TARGET_REGISTRY/node:$(TargetVersion)
       docker push $TARGET_REGISTRY/node:$(TargetVersion)-slim
       docker push $TARGET_REGISTRY/node:$(TargetVersion)-appservice
@@ -202,6 +304,28 @@ steps:
       docker push $TARGET_REGISTRY/node:$(TargetVersion)-node14-appservice
       docker push $TARGET_REGISTRY/node:$(TargetVersion)-node14-appservice-quickstart
 
+
+      docker push $TARGET_REGISTRY/node:3.0
+      docker push $TARGET_REGISTRY/node:3.0-slim
+      docker push $TARGET_REGISTRY/node:3.0-appservice
+      docker push $TARGET_REGISTRY/node:3.0-appservice-quickstart
+
+      docker push $TARGET_REGISTRY/node:3.0-node8-appservice
+
+      docker push $TARGET_REGISTRY/node:3.0-node10
+      docker push $TARGET_REGISTRY/node:3.0-node10-slim
+      docker push $TARGET_REGISTRY/node:3.0-node10-appservice
+      docker push $TARGET_REGISTRY/node:3.0-node10-appservice-quickstart
+
+      docker push $TARGET_REGISTRY/node:3.0-node12
+      docker push $TARGET_REGISTRY/node:3.0-node12-slim
+      docker push $TARGET_REGISTRY/node:3.0-node12-appservice
+      docker push $TARGET_REGISTRY/node:3.0-node12-appservice-quickstart
+
+      docker push $TARGET_REGISTRY/node:3.0-node14
+      docker push $TARGET_REGISTRY/node:3.0-node14-slim
+      docker push $TARGET_REGISTRY/node:3.0-node14-appservice
+      docker push $TARGET_REGISTRY/node:3.0-node14-appservice-quickstart
 
       docker system prune -a -f
     displayName: tag and push node images
@@ -231,6 +355,23 @@ steps:
       docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7-appservice $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell7-appservice
       docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7-appservice $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell7-appservice-quickstart
 
+
+      docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell6 $TARGET_REGISTRY/powershell:3.0
+      docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell6-slim $TARGET_REGISTRY/powershell:3.0-slim
+      docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell6-appservice $TARGET_REGISTRY/powershell:3.0-appservice
+      docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell6-appservice $TARGET_REGISTRY/powershell:3.0-appservice-quickstart
+
+      docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell6 $TARGET_REGISTRY/powershell:3.0-powershell6
+      docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell6-slim $TARGET_REGISTRY/powershell:3.0-powershell6-slim
+      docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell6-appservice $TARGET_REGISTRY/powershell:3.0-powershell6-appservice
+      docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell6-appservice $TARGET_REGISTRY/powershell:3.0-powershell6-appservice-quickstart
+
+      docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7 $TARGET_REGISTRY/powershell:3.0-powershell7
+      docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7-slim $TARGET_REGISTRY/powershell:3.0-powershell7-slim
+      docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7-appservice $TARGET_REGISTRY/powershell:3.0-powershell7-appservice
+      docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7-appservice $TARGET_REGISTRY/powershell:3.0-powershell7-appservice-quickstart
+
+
       docker push $TARGET_REGISTRY/powershell:$(TargetVersion)
       docker push $TARGET_REGISTRY/powershell:$(TargetVersion)-slim
       docker push $TARGET_REGISTRY/powershell:$(TargetVersion)-appservice
@@ -245,6 +386,23 @@ steps:
       docker push $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell7-slim
       docker push $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell7-appservice
       docker push $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell7-appservice-quickstart
+
+
+      docker push $TARGET_REGISTRY/powershell:3.0
+      docker push $TARGET_REGISTRY/powershell:3.0-slim
+      docker push $TARGET_REGISTRY/powershell:3.0-appservice
+      docker push $TARGET_REGISTRY/powershell:3.0-appservice-quickstart
+
+      docker push $TARGET_REGISTRY/powershell:3.0-powershell6
+      docker push $TARGET_REGISTRY/powershell:3.0-powershell6-slim
+      docker push $TARGET_REGISTRY/powershell:3.0-powershell6-appservice
+      docker push $TARGET_REGISTRY/powershell:3.0-powershell6-appservice-quickstart
+
+      docker push $TARGET_REGISTRY/powershell:3.0-powershell7
+      docker push $TARGET_REGISTRY/powershell:3.0-powershell7-slim
+      docker push $TARGET_REGISTRY/powershell:3.0-powershell7-appservice
+      docker push $TARGET_REGISTRY/powershell:3.0-powershell7-appservice-quickstart
+
 
       docker system prune -a -f
     displayName: tag and push powershell images
@@ -299,6 +457,38 @@ steps:
       docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.9-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.9-appservice-quickstart
       docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.9-buildenv $TARGET_REGISTRY/python:$(TargetVersion)-python3.9-buildenv
 
+
+      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6 $TARGET_REGISTRY/python:3.0
+      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-slim $TARGET_REGISTRY/python:3.0-slim
+      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-appservice $TARGET_REGISTRY/python:3.0-appservice
+      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-appservice $TARGET_REGISTRY/python:3.0-appservice-quickstart
+      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-buildenv $TARGET_REGISTRY/python:3.0-buildenv
+
+      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6 $TARGET_REGISTRY/python:3.0-python3.6
+      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-slim $TARGET_REGISTRY/python:3.0-python3.6-slim
+      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-appservice $TARGET_REGISTRY/python:3.0-python3.6-appservice
+      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-appservice $TARGET_REGISTRY/python:3.0-python3.6-appservice-quickstart
+      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-buildenv $TARGET_REGISTRY/python:3.0-python3.6-buildenv
+
+      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7 $TARGET_REGISTRY/python:3.0-python3.7
+      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7-slim $TARGET_REGISTRY/python:3.0-python3.7-slim
+      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7-appservice $TARGET_REGISTRY/python:3.0-python3.7-appservice
+      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7-appservice $TARGET_REGISTRY/python:3.0-python3.7-appservice-quickstart
+      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7-buildenv $TARGET_REGISTRY/python:3.0-python3.7-buildenv
+
+      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8 $TARGET_REGISTRY/python:3.0-python3.8
+      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8-slim $TARGET_REGISTRY/python:3.0-python3.8-slim
+      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8-appservice $TARGET_REGISTRY/python:3.0-python3.8-appservice
+      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8-appservice $TARGET_REGISTRY/python:3.0-python3.8-appservice-quickstart
+      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8-buildenv $TARGET_REGISTRY/python:3.0-python3.8-buildenv
+
+      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.9 $TARGET_REGISTRY/python:3.0-python3.9
+      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.9-slim $TARGET_REGISTRY/python:3.0-python3.9-slim
+      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.9-appservice $TARGET_REGISTRY/python:3.0-python3.9-appservice
+      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.9-appservice $TARGET_REGISTRY/python:3.0-python3.9-appservice-quickstart
+      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.9-buildenv $TARGET_REGISTRY/python:3.0-python3.9-buildenv
+
+
       docker push $TARGET_REGISTRY/python:$(TargetVersion)
       docker push $TARGET_REGISTRY/python:$(TargetVersion)-slim
       docker push $TARGET_REGISTRY/python:$(TargetVersion)-appservice
@@ -328,6 +518,37 @@ steps:
       docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.9-appservice
       docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.9-appservice-quickstart
       docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.9-buildenv
+
+
+      docker push $TARGET_REGISTRY/python:3.0
+      docker push $TARGET_REGISTRY/python:3.0-slim
+      docker push $TARGET_REGISTRY/python:3.0-appservice
+      docker push $TARGET_REGISTRY/python:3.0-appservice-quickstart
+      docker push $TARGET_REGISTRY/python:3.0-buildenv
+
+      docker push $TARGET_REGISTRY/python:3.0-python3.6
+      docker push $TARGET_REGISTRY/python:3.0-python3.6-slim
+      docker push $TARGET_REGISTRY/python:3.0-python3.6-appservice
+      docker push $TARGET_REGISTRY/python:3.0-python3.6-appservice-quickstart
+      docker push $TARGET_REGISTRY/python:3.0-python3.6-buildenv
+
+      docker push $TARGET_REGISTRY/python:3.0-python3.7
+      docker push $TARGET_REGISTRY/python:3.0-python3.7-slim
+      docker push $TARGET_REGISTRY/python:3.0-python3.7-appservice
+      docker push $TARGET_REGISTRY/python:3.0-python3.7-appservice-quickstart
+      docker push $TARGET_REGISTRY/python:3.0-python3.7-buildenv
+
+      docker push $TARGET_REGISTRY/python:3.0-python3.8
+      docker push $TARGET_REGISTRY/python:3.0-python3.8-slim
+      docker push $TARGET_REGISTRY/python:3.0-python3.8-appservice
+      docker push $TARGET_REGISTRY/python:3.0-python3.8-appservice-quickstart
+      docker push $TARGET_REGISTRY/python:3.0-python3.8-buildenv
+
+      docker push $TARGET_REGISTRY/python:3.0-python3.9
+      docker push $TARGET_REGISTRY/python:3.0-python3.9-slim
+      docker push $TARGET_REGISTRY/python:3.0-python3.9-appservice
+      docker push $TARGET_REGISTRY/python:3.0-python3.9-appservice-quickstart
+      docker push $TARGET_REGISTRY/python:3.0-python3.9-buildenv
 
       docker system prune -a -f
     displayName: tag and push python images
