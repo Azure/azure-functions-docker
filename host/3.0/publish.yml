@@ -1,7 +1,7 @@
 stages:
-- stage: Linux Images
+- stage: Linux_Images
   jobs:
-  - job: Publish Linux Images to MCR
+  - job: Publish_all
     pool: 
       vmImage: ubuntu-18.04
     steps:
@@ -556,9 +556,9 @@ stages:
         docker system prune -a -f
       displayName: tag and push python images
       continueOnError: false
-- stage: Nanoserver Images
+- stage: Nanoserver_Images
   jobs:
-  - job: Publish Nanoserver Image to MCR
+  - job: Publish
     pool: 
       vmImage: "windows-2019"
     steps:
