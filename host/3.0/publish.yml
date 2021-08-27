@@ -1,8 +1,5 @@
-queue: Hosted Ubuntu 1604
-trigger: none
-
-jobs:
-- job: Publish Linux Images internal
+stages:
+- stage: Publish Linux Images internal
   pool:
     vmImage: ubuntu-18.04
   steps:
@@ -557,7 +554,7 @@ jobs:
       docker system prune -a -f
     displayName: tag and push python images
     continueOnError: false
-- job: Publish Nanoserver Images to MCR
+- stage: Publish Nanoserver Images to MCR
   pool:
     vmImage: "windows-2019"
   steps:
@@ -600,5 +597,5 @@ jobs:
       docker push $TARGET_REGISTRY/dotnet:3.0-nanoserver-1809
 
       docker system prune -a -f
-    displayName: tag and push nanoserver dotnet images
+    displayName: tag and push nanoserver dotnet images to mcr
     continueOnError: false
