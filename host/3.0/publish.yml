@@ -573,7 +573,7 @@ stages:
     - bash: |
         set -e
         SOURCE_REGISTRY=azurefunctions.azurecr.io/azure-functions
-        TARGET_REGISTRY=cooperlinkwork
+        TARGET_REGISTRY=azurefunctions.azurecr.io/public/azure-functions
 
         if [ -z "$(TargetVersion)" ]; then
           echo "ERROR: TargetVersion is required"
