@@ -592,9 +592,9 @@ stages:
         set -e
         docker pull $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-nanoserver-1809
 
-        docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion) $TARGET_REGISTRY/dotnet:$(TargetVersion)-nanoserver-1809
+        docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-nanoserver-1809 $TARGET_REGISTRY/dotnet:$(TargetVersion)-nanoserver-1809
 
-        docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion) $TARGET_REGISTRY/dotnet:3.0-nanoserver-1809
+        docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-nanoserver-1809 $TARGET_REGISTRY/dotnet:3.0-nanoserver-1809
 
         docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-nanoserver-1809
 
