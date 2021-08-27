@@ -590,7 +590,7 @@ stages:
       continueOnError: false
     - bash: |
         set -e
-        docker pull $SOURCE_REGISTRY/dotnet:$(PrivateVersion) 
+        docker pull $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-nanoserver-1809
 
         docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion) $TARGET_REGISTRY/dotnet:$(TargetVersion)-nanoserver-1809
 
