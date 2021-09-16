@@ -72,7 +72,9 @@ steps:
       docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-appservice $TARGET_REGISTRY/java:$(TargetVersion)-java8-appservice-stage$(StageNumber)
       docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java11-appservice $TARGET_REGISTRY/java:$(TargetVersion)-java11-appservice-stage$(StageNumber)
 
-
+      docker push $TARGET_REGISTRY/java:$(TargetVersion)-appservice-stage$(StageNumber)
+      docker push $TARGET_REGISTRY/java:$(TargetVersion)-java8-appservice-stage$(StageNumber)
+      docker push $TARGET_REGISTRY/java:$(TargetVersion)-java11-appservice-stage$(StageNumber)
       docker system prune -a -f
     displayName: tag and push java images
     continueOnError: false
