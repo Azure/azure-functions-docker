@@ -22,4 +22,3 @@ else
    echo -e ${difference[@]}
    exit 1
 fi
-exit 0
