@@ -17,7 +17,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       with:
-        ref: dev
+        ref: u/clink/sadpathpipelinetest
     - id: createBranch
       run: |
         git config --local user.email "action@github.com"
