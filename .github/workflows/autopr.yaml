@@ -24,7 +24,7 @@ jobs:
         git config --local user.name "GitHub Action"
         cd host/3.0
         ./verify-pipelines.sh
-        cd host
+        cd ..
         ./update-version.sh ${{ github.event.inputs.majorVersion }} ${{ github.event.inputs.targetVersion }}
         git add .
         git commit -m "Update Version ${{ github.event.inputs.targetVersion }}"
