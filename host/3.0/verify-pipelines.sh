@@ -18,7 +18,7 @@ if [ ${#difference[@]} == 1 ] && [[ $difference =~ "base" ]]; then
    echo -e "Stage pipeline excludes base image. This is a known difference. Rollout Safe"
    exit 0
 else 
-   echo -e "Publish and stage pipelines inconsistent. The following differences exist for -appservice images between the pipelines: "
+   echo -e "Publish and stage pipelines inconsistent. Other than the /base image the pipelines should publish the same -appservice images. The following differences exist for -appservice images between the pipelines: "
    echo -e ${difference[@]}
    exit 1
 fi
