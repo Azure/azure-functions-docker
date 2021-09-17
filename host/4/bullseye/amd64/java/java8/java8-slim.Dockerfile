@@ -1,7 +1,7 @@
 # Build the runtime from source
-ARG HOST_VERSION=4.0.0-preview.3.16281
+ARG HOST_VERSION=4.0.0-preview.4.16394
 ARG JAVA_VERSION=8u252
-FROM mcr.microsoft.com/dotnet/sdk:6.0.100-preview.7 AS runtime-image
+FROM mcr.microsoft.com/dotnet/sdk:6.0.100-rc.1 AS runtime-image
 ARG HOST_VERSION
 
 # Build requires 3.1 SDK
