@@ -43,7 +43,7 @@ RUN EXTENSION_BUNDLE_VERSION=1.8.1 && \
     rm -f /$EXTENSION_BUNDLE_FILENAME_V3 &&\
     find /FuncExtensionBundles/ -type f -exec chmod 644 {} \;
 
-FROM mcr.microsoft.com/dotnet/aspnet:6.0.0-rc.1
+FROM mcr.microsoft.com/dotnet/aspnet:6.0.0-rc.1-bullseye-slim
 ARG HOST_VERSION
 
 # Powershell worker requires 3.1 for now
