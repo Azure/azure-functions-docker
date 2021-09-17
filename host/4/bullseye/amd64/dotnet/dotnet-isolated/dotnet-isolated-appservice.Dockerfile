@@ -40,7 +40,7 @@ RUN EXTENSION_BUNDLE_VERSION=1.8.1 && \
     rm -f /$EXTENSION_BUNDLE_FILENAME_V3 &&\
     find /FuncExtensionBundles/ -type f -exec chmod 644 {} \;
 
-FROM mcr.microsoft.com/dotnet/runtime:6.0.0-preview.7
+FROM mcr.microsoft.com/dotnet/runtime:6.0.0-rc.1
 ARG HOST_VERSION
 
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
