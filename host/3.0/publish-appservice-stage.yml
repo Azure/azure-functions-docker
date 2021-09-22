@@ -29,6 +29,12 @@ steps:
         echo "ERROR: StageNumber is required"
         exit 1
       fi
+      
+      if [ -z "$(CloudName)" ]; then
+        TAG_SUFFIX=appservice-stage$(StageNumber)
+      else
+        TAG_SUFFIX=appservice-$(CloudName)-stage$(stageNumber)
+      fi
 
       echo "##vso[task.setvariable variable=SOURCE_REGISTRY]$SOURCE_REGISTRY"
       echo "##vso[task.setvariable variable=TARGET_REGISTRY]$TARGET_REGISTRY"
@@ -39,11 +45,11 @@ steps:
       set -e
       docker pull $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-appservice
 
-      docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-appservice $TARGET_REGISTRY/dotnet:$(TargetVersion)-appservice-stage$(StageNumber)
-      docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-appservice $TARGET_REGISTRY/dotnet:$(TargetVersion)-dotnet3-appservice-stage$(StageNumber)
+      docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-appservice $TARGET_REGISTRY/dotnet:$(TargetVersion)-$(TAG_SUFFIX)
+      docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-appservice $TARGET_REGISTRY/dotnet:$(TargetVersion)-dotnet3-$(TAG_SUFFIX)
 
-      docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-appservice-stage$(StageNumber)
-      docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-dotnet3-appservice-stage$(StageNumber)
+      docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-$(TAG_SUFFIX)
+      docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-dotnet3-$(TAG_SUFFIX)
 
       docker system prune -a -f
     displayName: tag and push dotnet images
@@ -53,11 +59,11 @@ steps:
       set -e
       docker pull $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated5.0-appservice
 
-      docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated5.0-appservice $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-appservice-stage$(StageNumber)
-      docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated5.0-appservice $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated5.0-appservice-stage$(StageNumber)
+      docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated5.0-appservice $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-$(TAG_SUFFIX)
+      docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated5.0-appservice $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated5.0-$(TAG_SUFFIX)
 
-      docker push $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-appservice-stage$(StageNumber)
-      docker push $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated5.0-appservice-stage$(StageNumber)
+      docker push $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-$(TAG_SUFFIX)
+      docker push $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated5.0-$(TAG_SUFFIX)
 
       docker system prune -a -f
     displayName: tag and push dotnet-isolated images
@@ -68,13 +74,13 @@ steps:
       docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-appservice
       docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java11-appservice
 
-      docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-appservice $TARGET_REGISTRY/java:$(TargetVersion)-appservice-stage$(StageNumber)
-      docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-appservice $TARGET_REGISTRY/java:$(TargetVersion)-java8-appservice-stage$(StageNumber)
-      docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java11-appservice $TARGET_REGISTRY/java:$(TargetVersion)-java11-appservice-stage$(StageNumber)
+      docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-appservice $TARGET_REGISTRY/java:$(TargetVersion)-$(TAG_SUFFIX)
+      docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-appservice $TARGET_REGISTRY/java:$(TargetVersion)-java8-$(TAG_SUFFIX)
+      docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java11-appservice $TARGET_REGISTRY/java:$(TargetVersion)-java11-$(TAG_SUFFIX)
 
-      docker push $TARGET_REGISTRY/java:$(TargetVersion)-appservice-stage$(StageNumber)
-      docker push $TARGET_REGISTRY/java:$(TargetVersion)-java8-appservice-stage$(StageNumber)
-      docker push $TARGET_REGISTRY/java:$(TargetVersion)-java11-appservice-stage$(StageNumber)
+      docker push $TARGET_REGISTRY/java:$(TargetVersion)-$(TAG_SUFFIX)
+      docker push $TARGET_REGISTRY/java:$(TargetVersion)-java8-$(TAG_SUFFIX)
+      docker push $TARGET_REGISTRY/java:$(TargetVersion)-java11-$(TAG_SUFFIX)
 
       docker system prune -a -f
     displayName: tag and push java images
@@ -87,18 +93,18 @@ steps:
       docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node12-appservice
       docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node14-appservice
 
-      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node8-appservice $TARGET_REGISTRY/node:$(TargetVersion)-node8-appservice-stage$(StageNumber)
-      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-appservice $TARGET_REGISTRY/node:$(TargetVersion)-appservice-stage$(StageNumber)
-      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-appservice $TARGET_REGISTRY/node:$(TargetVersion)-node10-appservice-stage$(StageNumber)
-      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node12-appservice $TARGET_REGISTRY/node:$(TargetVersion)-node12-appservice-stage$(StageNumber)
-      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node14-appservice $TARGET_REGISTRY/node:$(TargetVersion)-node14-appservice-stage$(StageNumber)
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node8-appservice $TARGET_REGISTRY/node:$(TargetVersion)-node8-$(TAG_SUFFIX)
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-appservice $TARGET_REGISTRY/node:$(TargetVersion)-$(TAG_SUFFIX)
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-appservice $TARGET_REGISTRY/node:$(TargetVersion)-node10-$(TAG_SUFFIX)
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node12-appservice $TARGET_REGISTRY/node:$(TargetVersion)-node12-$(TAG_SUFFIX)
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node14-appservice $TARGET_REGISTRY/node:$(TargetVersion)-node14-$(TAG_SUFFIX)
 
 
-      docker push $TARGET_REGISTRY/node:$(TargetVersion)-appservice-stage$(StageNumber)
-      docker push $TARGET_REGISTRY/node:$(TargetVersion)-node8-appservice-stage$(StageNumber)
-      docker push $TARGET_REGISTRY/node:$(TargetVersion)-node10-appservice-stage$(StageNumber)
-      docker push $TARGET_REGISTRY/node:$(TargetVersion)-node12-appservice-stage$(StageNumber)
-      docker push $TARGET_REGISTRY/node:$(TargetVersion)-node14-appservice-stage$(StageNumber)
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)-$(TAG_SUFFIX)
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)-node8-$(TAG_SUFFIX)
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)-node10-$(TAG_SUFFIX)
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)-node12-$(TAG_SUFFIX)
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)-node14-$(TAG_SUFFIX)
 
       docker system prune -a -f
     displayName: tag and push node images
@@ -109,13 +115,13 @@ steps:
       docker pull $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell6-appservice
       docker pull $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7-appservice
 
-      docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell6-appservice $TARGET_REGISTRY/powershell:$(TargetVersion)-appservice-stage$(StageNumber)
-      docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell6-appservice $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell6-appservice-stage$(StageNumber)
-      docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7-appservice $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell7-appservice-stage$(StageNumber)
+      docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell6-appservice $TARGET_REGISTRY/powershell:$(TargetVersion)-$(TAG_SUFFIX)
+      docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell6-appservice $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell6-$(TAG_SUFFIX)
+      docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7-appservice $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell7-$(TAG_SUFFIX)
 
-      docker push $TARGET_REGISTRY/powershell:$(TargetVersion)-appservice-stage$(StageNumber)
-      docker push $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell6-appservice-stage$(StageNumber)
-      docker push $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell7-appservice-stage$(StageNumber)
+      docker push $TARGET_REGISTRY/powershell:$(TargetVersion)-$(TAG_SUFFIX)
+      docker push $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell6-$(TAG_SUFFIX)
+      docker push $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell7-$(TAG_SUFFIX)
 
       docker system prune -a -f
     displayName: tag and push powershell images
@@ -128,17 +134,17 @@ steps:
       docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8-appservice
       docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.9-appservice
 
-      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-appservice $TARGET_REGISTRY/python:$(TargetVersion)-appservice-stage$(StageNumber)
-      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.6-appservice-stage$(StageNumber)
-      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.7-appservice-stage$(StageNumber)
-      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.8-appservice-stage$(StageNumber)
-      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.9-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.9-appservice-stage$(StageNumber)
+      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-appservice $TARGET_REGISTRY/python:$(TargetVersion)-$(TAG_SUFFIX)
+      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.6-$(TAG_SUFFIX)
+      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.7-$(TAG_SUFFIX)
+      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.8-$(TAG_SUFFIX)
+      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.9-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.9-$(TAG_SUFFIX)
 
-      docker push $TARGET_REGISTRY/python:$(TargetVersion)-appservice-stage$(StageNumber)
-      docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.6-appservice-stage$(StageNumber)
-      docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.7-appservice-stage$(StageNumber)
-      docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.8-appservice-stage$(StageNumber)
-      docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.9-appservice-stage$(StageNumber)
+      docker push $TARGET_REGISTRY/python:$(TargetVersion)-$(TAG_SUFFIX)
+      docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.6-$(TAG_SUFFIX)
+      docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.7-$(TAG_SUFFIX)
+      docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.8-$(TAG_SUFFIX)
+      docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.9-$(TAG_SUFFIX)
 
       docker system prune -a -f
     displayName: tag and push python images
