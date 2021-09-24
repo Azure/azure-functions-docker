@@ -56,29 +56,19 @@ steps:
         displayName: tag and push dotnet images for stage ${{stage}}
         continueOnError: false
 
-  - bash: |
-      set -e
-      docker pull $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated5.0-appservice
+      - bash: |
+          set -e
+          docker pull $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated5.0-appservice
 
-      docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated5.0-appservice $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-appservice-$(CloudName)-stage0
-      docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated5.0-appservice $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-appservice-$(CloudName)-stage1
-      docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated5.0-appservice $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-appservice-$(CloudName)-stage2
-
-      docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated5.0-appservice $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated5.0-appservice-$(CloudName)-stage0
-      docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated5.0-appservice $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated5.0-appservice-$(CloudName)-stage1
-      docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated5.0-appservice $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated5.0-appservice-$(CloudName)-stage2
-
-      docker push $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-appservice-$(CloudName)-stage0
-      docker push $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-appservice-$(CloudName)-stage1
-      docker push $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-appservice-$(CloudName)-stage2
-
-      docker push $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated5.0-appservice-$(CloudName)-stage0
-      docker push $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated5.0-appservice-$(CloudName)-stage1
-      docker push $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated5.0-appservice-$(CloudName)-stage2
-
-      docker system prune -a -f
-    displayName: tag and push dotnet-isolated images
-    continueOnError: false
+          docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated5.0-appservice $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-appservice-$(CloudName)-stage${{stage}}
+          docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated5.0-appservice $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated5.0-appservice-$(CloudName)-stage${{stage}}
+      
+          docker push $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-appservice-$(CloudName)-stage${{stage}}
+          docker push $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated5.0-appservice-$(CloudName)-stage${{stage}}
+      
+          docker system prune -a -f
+      displayName: tag and push dotnet-isolated images
+      continueOnError: false
 
   - bash: |
       set -e
