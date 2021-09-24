@@ -42,7 +42,7 @@ steps:
     continueOnError: false
 
   -  ${{ each stage in parameters.stages }}:  
-    - bash: |
+      - bash: |
         set -e
         docker pull $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-appservice
 
