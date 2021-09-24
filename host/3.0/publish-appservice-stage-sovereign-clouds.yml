@@ -65,10 +65,10 @@ steps:
       
           docker push $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-appservice-$(CloudName)-stage${{stage}}
           docker push $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated5.0-appservice-$(CloudName)-stage${{stage}}
-      
+
           docker system prune -a -f
-      displayName: tag and push dotnet-isolated images for stage ${{stage}}
-      continueOnError: false
+        displayName: tag and push dotnet-isolated images for stage ${{stage}}
+        continueOnError: false
 
   - bash: |
       set -e
