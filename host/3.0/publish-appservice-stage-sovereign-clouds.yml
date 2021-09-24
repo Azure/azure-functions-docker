@@ -43,16 +43,16 @@ steps:
 
   -  ${{ each stage in parameters.stages }}:  
       - bash: |
-        set -e
-        docker pull $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-appservice
+          set -e
+          docker pull $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-appservice
 
-        docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-appservice $TARGET_REGISTRY/dotnet:$(TargetVersion)-appservice-$(CloudName)-stage${{stage}}
-        docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-appservice $TARGET_REGISTRY/dotnet:$(TargetVersion)-dotnet3-appservice-$(CloudName)-stage${{stage}}
+          docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-appservice $TARGET_REGISTRY/dotnet:$(TargetVersion)-appservice-$(CloudName)-stage${{stage}}
+          docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-appservice $TARGET_REGISTRY/dotnet:$(TargetVersion)-dotnet3-appservice-$(CloudName)-stage${{stage}}
 
-        docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-appservice-$(CloudName)-stage${{stage}}
-        docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-dotnet3-appservice-$(CloudName)-stage${{stage}}
+          docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-appservice-$(CloudName)-stage${{stage}}
+          docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-dotnet3-appservice-$(CloudName)-stage${{stage}}
  
-        docker system prune -a -f
+          docker system prune -a -f
       displayName: tag and push dotnet images
       continueOnError: false
 
