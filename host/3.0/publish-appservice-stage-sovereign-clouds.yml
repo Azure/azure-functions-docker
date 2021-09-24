@@ -53,7 +53,7 @@ steps:
           docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-dotnet3-appservice-$(CloudName)-stage${{stage}}
  
           docker system prune -a -f
-        displayName: tag and push dotnet images
+        displayName: tag and push dotnet images for stage ${{stage}}
         continueOnError: false
 
   - bash: |
