@@ -1,10 +1,26 @@
 #! /bin/bash
 
+
+
 DIR=$(dirname $0)
 IFS=$'\n'
 
+check_sovereign() {
+  sharedimages=($(comm -12 <(printf '%s\n' "${stage[@]}"|sort -u) <(printf '%s\n' "${pub[@]}"|sort -u)))
+  sovereign=($(((grep "docker push".*appservice ${TARGET}/publish-appservice-stage-sovereign-clouds.yml) | awk -F'-appservice' '{print $1}') | awk -F 'TARGET_REGISTRY' '{print $2}') )
+  diffsovereign=($(comm -3 <(printf '%s\n' "${sharedimages[@]}"|sort -u) <(printf '%s\n' "${sovereign[@]}"|sort -u)))
+  if [ -z "$diffsovereign" ]; then
+    echo -e "Sovereign pipeline verified for ${TARGET}. Proceed'\n"
+    exit 0
+  else 
+    echo -e "Sovereign pipeline is invalid. Other than the /base image all pipelines should publish the same -appservice images. The following differences exist for -appservice images in the sovereign pipeline: "
+    echo -e ${diffsovereign[@]}
+    exit 1
+  fi
+}
+
 if [ "$1" != "2.0" ] && [ "$1" != "3" ] && [ "$1" != "4" ]; then
-  echo -e "MajorVersion must be 2.0, 3., or 4. Got '$1'\n"
+  echo -e "MajorVersion must be 2.0, 3, or 4 Got '$1'\n"
   print_usage
   exit 1
 fi
@@ -29,16 +45,27 @@ pub=($((((grep "docker push".*appservice  ${TARGET}/publish.yml)| grep -v quicks
 difference=($(comm -3 <(printf '%s\n' "${stage[@]}"|sort -u) <(printf '%s\n' "${pub[@]}"|sort -u)))
 
 if [ -z "$difference" ]; then
-  echo -e "No differences between Stage and Publish pipelines. Rollout Safe'\n"
+  echo -e "No differences between Stage and Publish pipelines.\n"
+  if [ "$1" == "3" ]; then
+     echo -e "Target is v3.0. Verifying Sovereign Cloud pipelines\n"
+     check_sovereign
+  else 
+     echo -e "Target is v4. No soverign cloud pipelines to verify\n"
+  fi
   exit 0
 fi
 
 if [ ${#difference[@]} == 1 ] && [[ $difference =~ "base" ]]; then
    echo -e "Stage pipeline excludes base image. This is a known difference. Rollout Safe"
+   if [ "$1" == "3" ]; then
+    echo -e "Target is v3.0. Verifying Sovereign Cloud pipelines\n"
+    check_sovereign
+   else 
+    echo -e "Target is v4. No soverign cloud pipelines to verify\n"
+   fi
    exit 0
 else 
-   echo -e "Publish and stage pipelines inconsistent. Other than the /base image the pipelines should publish the same -appservice images. The following differences exist for -appservice images between the pipelines: "
+   echo -e "Publish and stage pipelines inconsistent. Other than the /base image all pipelines should publish the same -appservice images. The following differences exist for -appservice images between the pipelines: "
    echo -e ${difference[@]}
    exit 1
 fi
-
