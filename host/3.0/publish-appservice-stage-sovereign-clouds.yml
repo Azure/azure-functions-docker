@@ -1,0 +1,153 @@
+queue: Hosted Ubuntu 1604
+trigger: none
+parameters:
+  - name: stages
+    type: object
+    default:
+    - 0
+    - 1
+    - 2
+
+steps:
+  - bash: |
+      set -e
+      echo $pswd | docker login -u $(dockerUsername) --password-stdin azurefunctions.azurecr.io
+    displayName: login
+    continueOnError: false
+    env:
+      pswd: $(dockerPassword)
+
+  - bash: |
+      set -e
+      SOURCE_REGISTRY=azurefunctions.azurecr.io/azure-functions/3.0
+      TARGET_REGISTRY=azurefunctions.azurecr.io/public/azure-functions
+
+      if [ -z "$(TargetVersion)" ]; then
+        echo "ERROR: TargetVersion is required"
+        exit 1
+      fi
+
+      if [ -z "$(PrivateVersion)" ]; then
+        echo "ERROR: PrivateVersion is required"
+        exit 1
+      fi
+      
+      if [ -z "$(CloudName)" ]; then
+        echo "ERROR: CloudName is required"
+      fi
+
+      echo "##vso[task.setvariable variable=SOURCE_REGISTRY]$SOURCE_REGISTRY"
+      echo "##vso[task.setvariable variable=TARGET_REGISTRY]$TARGET_REGISTRY"
+    displayName: set env
+    continueOnError: false
+
+  -  ${{ each stage in parameters.stages }}:  
+      - bash: |
+          set -e
+          docker pull $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-appservice
+
+          docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-appservice $TARGET_REGISTRY/dotnet:$(TargetVersion)-appservice-$(CloudName)-stage${{stage}}
+          docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-appservice $TARGET_REGISTRY/dotnet:$(TargetVersion)-dotnet3-appservice-$(CloudName)-stage${{stage}}
+
+          docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-appservice-$(CloudName)-stage${{stage}}
+          docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-dotnet3-appservice-$(CloudName)-stage${{stage}}
+ 
+          docker system prune -a -f
+        displayName: tag and push dotnet images for stage ${{stage}}
+        continueOnError: false
+
+      - bash: |
+          set -e
+          docker pull $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated5.0-appservice
+
+          docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated5.0-appservice $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-appservice-$(CloudName)-stage${{stage}}
+          docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated5.0-appservice $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated5.0-appservice-$(CloudName)-stage${{stage}}
+    
+          docker push $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-appservice-$(CloudName)-stage${{stage}}
+          docker push $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated5.0-appservice-$(CloudName)-stage${{stage}}
+     
+          docker system prune -a -f
+        displayName: tag and push dotnet-isolated images for stage ${{stage}}
+        continueOnError: false
+
+      - bash: |
+          set -e
+          docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-appservice
+          docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java11-appservice
+
+          docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-appservice $TARGET_REGISTRY/java:$(TargetVersion)-appservice-$(CloudName)-stage${{stage}}
+          docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-appservice $TARGET_REGISTRY/java:$(TargetVersion)-java8-appservice-$(CloudName)-stage${{stage}}
+          docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java11-appservice $TARGET_REGISTRY/java:$(TargetVersion)-java11-appservice-$(CloudName)-stage${{stage}}
+    
+
+          docker push $TARGET_REGISTRY/java:$(TargetVersion)-appservice-$(CloudName)-stage${{stage}}
+          docker push $TARGET_REGISTRY/java:$(TargetVersion)-java8-appservice-$(CloudName)-stage${{stage}}
+          docker push $TARGET_REGISTRY/java:$(TargetVersion)-java11-appservice-$(CloudName)-stage${{stage}}
+    
+          docker system prune -a -f
+        displayName: tag and push java images for stage ${{stage}}
+        continueOnError: false
+
+      - bash: |
+          set -e
+          docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node8-appservice
+          docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-appservice
+          docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node12-appservice
+          docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node14-appservice
+
+          docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node8-appservice $TARGET_REGISTRY/node:$(TargetVersion)-node8-appservice-$(CloudName)-stage${{stage}}
+          docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-appservice $TARGET_REGISTRY/node:$(TargetVersion)-appservice-$(CloudName)-stage${{stage}}
+          docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node10-appservice $TARGET_REGISTRY/node:$(TargetVersion)-node10-appservice-$(CloudName)-stage${{stage}}
+          docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node12-appservice $TARGET_REGISTRY/node:$(TargetVersion)-node12-appservice-$(CloudName)-stage${{stage}}
+          docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node14-appservice $TARGET_REGISTRY/node:$(TargetVersion)-node14-appservice-$(CloudName)-stage${{stage}}
+    
+
+          docker push $TARGET_REGISTRY/node:$(TargetVersion)-appservice-$(CloudName)-stage${{stage}}
+          docker push $TARGET_REGISTRY/node:$(TargetVersion)-node8-appservice-$(CloudName)-stage${{stage}}
+          docker push $TARGET_REGISTRY/node:$(TargetVersion)-node10-appservice-$(CloudName)-stage${{stage}}
+          docker push $TARGET_REGISTRY/node:$(TargetVersion)-node12-appservice-$(CloudName)-stage${{stage}}
+          docker push $TARGET_REGISTRY/node:$(TargetVersion)-node14-appservice-$(CloudName)-stage${{stage}}
+
+          docker system prune -a -f
+        displayName: tag and push node images for stage ${{stage}}
+        continueOnError: false
+
+      - bash: |
+          set -e
+          docker pull $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell6-appservice
+          docker pull $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7-appservice
+
+          docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell6-appservice $TARGET_REGISTRY/powershell:$(TargetVersion)-appservice-$(CloudName)-stage${{stage}}
+          docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell6-appservice $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell6-appservice-$(CloudName)-stage${{stage}}
+          docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7-appservice $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell7-appservice-$(CloudName)-stage${{stage}}
+
+          docker push $TARGET_REGISTRY/powershell:$(TargetVersion)-appservice-$(CloudName)-stage${{stage}}
+          docker push $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell6-appservice-$(CloudName)-stage${{stage}}
+          docker push $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell7-appservice-$(CloudName)-stage${{stage}}
+
+          docker system prune -a -f
+        displayName: tag and push powershell images for stage ${{stage}}
+        continueOnError: false
+
+      - bash: |
+          set -e
+          docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-appservice-stage${{stage}}
+          docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7-appservice-stage${{stage}}
+          docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8-appservice-stage${{stage}}
+          docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.9-appservice-stage${{stage}}
+
+          docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-appservice $TARGET_REGISTRY/python:$(TargetVersion)-appservice-$(CloudName)-stage${{stage}}
+          docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.6-appservice-$(CloudName)-stage${{stage}}
+          docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.7-appservice-$(CloudName)-stage${{stage}}
+          docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.8-appservice-$(CloudName)-stage${{stage}}
+          docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.9-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.9-appservice-$(CloudName)-stage${{stage}}
+
+          docker push $TARGET_REGISTRY/python:$(TargetVersion)-appservice-$(CloudName-stage${{stage}}
+          docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.6-appservice-$(CloudName)-stage${{stage}}
+          docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.7-appservice-$(CloudName)-stage${{stage}}
+          docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.8-appservice-$(CloudName)-stage${{stage}}
+          docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.9-appservice-$(CloudName)-stage${{stage}}
+
+          docker system prune -a -f
+        displayName: tag and push python images for stage ${{stage}}
+        continueOnError: false

@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:6.0.100-preview.7
+FROM mcr.microsoft.com/dotnet/sdk:6.0.100-rc.1
 
 # Avoid warnings by switching to noninteractive
 ENV DEBIAN_FRONTEND=noninteractive
@@ -11,7 +11,7 @@ ARG USERNAME=vscode
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
 
-ARG PS_VERSION=7.0.3
+ARG PS_VERSION=7.0.7
 ARG PS_PACKAGE=powershell_${PS_VERSION}-1.debian.10_amd64.deb
 ARG PS_PACKAGE_URL=https://github.com/PowerShell/PowerShell/releases/download/v${PS_VERSION}/${PS_PACKAGE}
 
