@@ -6,9 +6,9 @@ FROM mcr.microsoft.com/windows/servercore:ltsc2019 AS installer-env
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
 # Retrieve .NET Core SDK
-RUN $dotnet_sdk_version = '3.1.412'; `
+RUN $dotnet_sdk_version = '5.0.401'; `
     Invoke-WebRequest -OutFile dotnet.zip https://dotnetcli.azureedge.net/dotnet/Sdk/$dotnet_sdk_version/dotnet-sdk-$dotnet_sdk_version-win-x64.zip; `
-    $dotnet_sha512 = '0593f811a912973bb1dfe72ea75f13cf531257823533fe1a4e562baff7a94fc72d05ba655bd2d9ec6c88c0bf9bb0e14931d26ddcbb7786aa4b448ef1dbccedae'; `
+    $dotnet_sha512 = '9838f0286afe3724f490c6686564dae3ab27c9fe0e2c41a48d8aaeaabd07d9a219e207206d88311241c66dde8c79a9dae7ec1f8103303aeaf6943a3a9f6d34e5'; `
     if ((Get-FileHash dotnet.zip -Algorithm sha512).Hash -ne $dotnet_sha512) { `
         Write-Host 'CHECKSUM VERIFICATION FAILED!'; `
         exit 1; `
@@ -22,7 +22,7 @@ ENV ASPNETCORE_URLS=http://+:80 `
     DOTNET_USE_POLLING_FILE_WATCHER=true `
     NUGET_XMLDOC_MODE=skip `
     PublishWithAspNetCoreTargetManifest=false `
-    HOST_VERSION=3.2.0
+    HOST_VERSION=3.3.0
 
 RUN [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; `
     $BuildNumber = $Env:HOST_VERSION.split('.')[-1]; `
