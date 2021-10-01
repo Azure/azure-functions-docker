@@ -1,7 +1,7 @@
 # Build the runtime from source
 ARG HOST_VERSION=3.3.0
 FROM mcr.microsoft.com/azure-functions/base:grpc-2.27-arm32v7 as grpc-image
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS runtime-image
+FROM mcr.microsoft.com/dotnet/sdk:5.0 AS runtime-image
 ARG HOST_VERSION
 
 ENV PublishWithAspNetCoreTargetManifest=false
