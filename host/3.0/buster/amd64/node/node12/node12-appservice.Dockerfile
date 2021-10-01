@@ -1,6 +1,6 @@
 # Build the runtime from source
-ARG HOST_VERSION=3.2.0
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS runtime-image
+ARG HOST_VERSION=3.3.0
+FROM mcr.microsoft.com/dotnet/sdk:5.0 AS runtime-image
 ARG HOST_VERSION
 
 ENV PublishWithAspNetCoreTargetManifest=false
@@ -11,7 +11,8 @@ RUN BUILD_NUMBER=$(echo ${HOST_VERSION} | cut -d'.' -f 3) && \
     HOST_COMMIT=$(git rev-list -1 HEAD) && \
     dotnet publish -v q /p:BuildNumber=$BUILD_NUMBER /p:CommitHash=$HOST_COMMIT src/WebJobs.Script.WebHost/WebJobs.Script.WebHost.csproj -c Release --output /azure-functions-host --runtime linux-x64 && \
     mv /azure-functions-host/workers /workers && mkdir /azure-functions-host/workers && \
-    rm -rf /root/.local /root/.nuget /src
+    rm -rf /root/.local /root/.nuget /src && \
+    find /workers/node/grpc/src/node/extension_binary/ -mindepth 1 -type d ! -regex ".*linux-x64.*" -prune -exec rm -rf '{}' \;
 
 RUN EXTENSION_BUNDLE_VERSION=1.8.1 && \
     EXTENSION_BUNDLE_FILENAME=Microsoft.Azure.Functions.ExtensionBundle.1.8.1_linux-x64.zip && \

@@ -1,11 +1,11 @@
 # Build the runtime from source
-ARG HOST_VERSION=4.0.0-preview.3.16281
+ARG HOST_VERSION=4.0.0-preview.4.16394
 ARG JAVA_VERSION=11u7
-FROM mcr.microsoft.com/dotnet/sdk:6.0.100-preview.7 AS runtime-image
+FROM mcr.microsoft.com/dotnet/sdk:6.0.100-rc.1 AS runtime-image
 ARG HOST_VERSION
 
 # Build requires 3.1 SDK
-COPY --from=mcr.microsoft.com/dotnet/core/sdk:3.1 /usr/share/dotnet /usr/share/dotnet
+COPY --from=mcr.microsoft.com/dotnet/sdk:5.0 /usr/share/dotnet /usr/share/dotnet
 
 ENV PublishWithAspNetCoreTargetManifest=false
 ENV DEBIAN_FRONTEND=noninteractive
@@ -43,7 +43,7 @@ RUN EXTENSION_BUNDLE_VERSION=1.8.1 && \
     find /FuncExtensionBundles/ -type f -exec chmod 644 {} \;
 
 FROM mcr.microsoft.com/java/jre-headless:${JAVA_VERSION}-zulu-debian10-with-tools as jre
-FROM mcr.microsoft.com/dotnet/runtime-deps:6.0.0-preview.7
+FROM mcr.microsoft.com/dotnet/runtime-deps:6.0.0-rc.1
 ARG HOST_VERSION
 
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
