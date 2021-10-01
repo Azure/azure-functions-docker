@@ -1,0 +1,75 @@
+trigger: none
+pr: none
+
+# Scheduled triggers: https://docs.microsoft.com/azure/devops/pipelines/process/scheduled-triggers
+schedules:
+  - cron: 0 12 * * Sun
+    branches:
+      include:
+        - dev
+    always: true
+
+pool:
+  vmImage: ubuntu-18.04
+
+steps:
+  # Bash task: https://docs.microsoft.com/azure/devops/pipelines/tasks/utility/bash
+  - bash: |
+      # Exit if any line in the script fails.
+      set -e
+
+      ORGANIZATION_NAME=kedacore
+      IMAGE_NAME=keda-external-scaler-azure-cosmos-db
+
+      ACR_NAME=azurefunctions
+      ACR_SERVER=$ACR_NAME.azurecr.io
+      ACR_REPOSITORY=public/oss/$ORGANIZATION_NAME/$IMAGE_NAME
+
+      # Delete untagged manifests on ACR.
+      UNTAGGED_MANIFEST_DIGESTS=$(az acr repository show-manifests \
+        --name $ACR_NAME \
+        --username $ACR_USERNAME \
+        --password $ACR_PASSWORD \
+        --repository $ACR_REPOSITORY \
+        | jq -r '.[] | select(.tags == []).digest')
+
+      for digest in $UNTAGGED_MANIFEST_DIGESTS
+      do
+        echo "Deleting untagged manifest with digest: [$digest]."
+
+        az acr repository delete \
+          --name $ACR_NAME \
+          --username $ACR_USERNAME \
+          --password $ACR_PASSWORD \
+          --image $ACR_REPOSITORY@$digest
+      done
+
+      # Push all available image versions from GHCR to ACR.
+      # https://docs.github.com/rest/reference/packages#get-all-package-versions-for-a-package-owned-by-a-user
+
+      VERSION_TAGS=$(curl \
+        --silent \
+        --header "Accept: application/vnd.github.v3+json" \
+        --header "Authorization: Bearer $GITHUB_TOKEN" \
+        https://api.github.com/users/$ORGANIZATION_NAME/packages/container/$IMAGE_NAME/versions \
+        | jq -r '.[].metadata.container.tags[]')
+
+      echo $ACR_PASSWORD | docker login --username $ACR_USERNAME --password-stdin $ACR_SERVER
+
+      for tag in $VERSION_TAGS
+      do
+        echo "Pushing image with tag: [$tag]."
+
+        GHCR_IMAGE=ghcr.io/$ORGANIZATION_NAME/$IMAGE_NAME:$tag
+        ACR_IMAGE=$ACR_SERVER/public/oss/$ORGANIZATION_NAME/$IMAGE_NAME:$tag
+
+        docker pull $GHCR_IMAGE
+        docker tag $GHCR_IMAGE $ACR_IMAGE
+        docker push $ACR_IMAGE
+      done
+
+    displayName: Push KEDA Cosmos DB scaler images
+    env:
+      ACR_USERNAME: $(ACR Username)
+      ACR_PASSWORD: $(ACR Password)
+      GITHUB_TOKEN: $(GitHub Token)
