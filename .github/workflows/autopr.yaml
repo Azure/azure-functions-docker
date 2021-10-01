@@ -23,6 +23,7 @@ jobs:
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         cd host
+        ./verify-pipelines.sh ${{ github.event.inputs.majorVersion }}
         ./update-version.sh ${{ github.event.inputs.majorVersion }} ${{ github.event.inputs.targetVersion }}
         git add .
         git commit -m "Update Version ${{ github.event.inputs.targetVersion }}"
@@ -30,9 +31,9 @@ jobs:
       id: createPullRequest
       uses: peter-evans/create-pull-request@v3
       with:
-        title: Update to verison ${{ github.event.inputs.targetVersion }}
+        title: Update to version ${{ github.event.inputs.targetVersion }}
         body: |
-          - Update ${{ github.event.inputs.majorVesion}} to ${{ github.event.inputs.targetVersion }}
+          - Update ${{ github.event.inputs.majorVersion}} to ${{ github.event.inputs.targetVersion }}
         branch: action/release.${{ github.event.inputs.targetVersion }}
         labels: |
           automated pr

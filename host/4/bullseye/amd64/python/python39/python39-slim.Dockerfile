@@ -1,10 +1,10 @@
 # Build the runtime from source
-ARG HOST_VERSION=4.0.0-preview.3.16281
-FROM mcr.microsoft.com/dotnet/sdk:6.0.100-preview.7 AS runtime-image
+ARG HOST_VERSION=4.0.0-preview.4.16394
+FROM mcr.microsoft.com/dotnet/sdk:6.0.100-rc.1 AS runtime-image
 ARG HOST_VERSION
 
 # Build requires 3.1 SDK
-COPY --from=mcr.microsoft.com/dotnet/core/sdk:3.1 /usr/share/dotnet /usr/share/dotnet
+COPY --from=mcr.microsoft.com/dotnet/sdk:5.0 /usr/share/dotnet /usr/share/dotnet
 
 ENV PublishWithAspNetCoreTargetManifest=false
 
