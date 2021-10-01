@@ -5,7 +5,7 @@ FROM mcr.microsoft.com/dotnet/sdk:6.0.100-rc.1 AS runtime-image
 ARG HOST_VERSION
 
 # Build requires 3.1 SDK
-COPY --from=mcr.microsoft.com/dotnet/core/sdk:3.1 /usr/share/dotnet /usr/share/dotnet
+COPY --from=mcr.microsoft.com/dotnet/sdk:5.0 /usr/share/dotnet /usr/share/dotnet
 
 ENV PublishWithAspNetCoreTargetManifest=false
 RUN echo "HOST_VARSION: "${HOST_VERSION}
