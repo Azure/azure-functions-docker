@@ -23,11 +23,20 @@ combine_dockerfile() {
     runtimeversion=`echo $1 | cut -d'/' -f 3`
     printf "\t Image Runtime and Version: $runtimeversion \n"
 
+    # File structure creation
+    outputdir=$"../out/${runtime}"
+    if [ "$TESTMODE" == "true" ]; then
+        printf "\t Test Mode enabled. Updating test dockerfiles.\n"
+        outputdir=$"../test/${runtime}"
+    fi
+    mkdir -p $outputdir
+    outputfile="$outputdir/${runtimeversion}-appservice.Dockerfile"
+
     printf $"\t Collecting global arguments in $1 to globalize them in the final dockerfile.\n"
     globalize_args $1
-    printf '%s\n' "${gblarg[@]}" > ./temp.txt
-    cat ./temp.txt $base $1 > ./out/${runtime}/${runtimeversion}-appservice.Dockerfile
-    printf $"\t Completed compilation of $runtimeversion. Output file available at : ./out/${runtime}/${runtimeversion}-appservice.Dockerfile\n"
+    echo "${gblarg[@]}" | cat - $base $1 > $outputfile
+
+    printf $"\t Completed compilation of $runtimeversion. Output file available at : $outputfile\n"
 }
 
 generate_appservice() {
@@ -35,7 +44,7 @@ generate_appservice() {
     echo $"Generating Appservice Images for [ $@ ] using base $base"
     for lang in $@; 
     do 
-        langimgs=($(find ../$lang/ -name "*-composite.Dockerfile"))
+        langimgs=($(find ../$lang/ -name "*-composite.template"))
         if [ -z "$langimgs" ]; then
             echo "No composite images found for language : $lang. Skipping compilation..."
         else
@@ -51,4 +60,50 @@ generate_appservice() {
     echo "Compilation of all images in list: [ $@ ] complete."
 }
 
-generate_appservice "java" "python"
+clear_outputdir() {
+    echo "Clearing output folder..."
+    rootdir=$"../out/*"
+    if [ "$TESTMODE" == "true" ]; then
+        printf "\t Test Mode enabled. Clearing test dockerfiles.\n"
+        rootdir=$"../test/*"
+    fi
+    rm -rf rootdir
+}
+
+
+
+# Defines a flag -t for testing purposes. Developers are required to manually regenerate their test files when they intentionally alter composite files
+# Useful for keeping a closer eye on our full dockerfiles. As we will be gitignoring output files and generating them every PR. 
+while getopts "t" flag;do
+    case ${flag} in
+      t)
+        TESTMODE="true"
+        echo "Test Mode is enabled"
+        ;;
+    esac
+done
+
+clear_outputdir
+
+declare -a argarray
+for arg do
+    if [ "${arg:0:1}" != '-' ]; then
+        argarray+=($arg)
+    fi
+done
+
+if [ ${#argarray[@]} == 0 ]; then
+    echo "No language arguments supplied for compilation. Please supply a supported language or all as an input."
+    exit 1
+fi
+
+if [ ${#argarray[@]} == 1 ] && [ "$argarray" == "all" ]; then
+    echo "All supported languages targetted."
+    supportedlangs=("java" "python")
+    generate_appservice ${supportedlangs[@]}
+else 
+    generate_appservice ${argarray[@]}
+fi
+
+
+# suggested solution. Create a function to place the shared configs in each output folder

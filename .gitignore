@@ -290,3 +290,6 @@ __pycache__/
 qemu-arm-static
 libgrpc_csharp_ext.so.*
 .ionide/
+
+#Test Gitignore to ignore /out/ files in all directories
+*/out/*
