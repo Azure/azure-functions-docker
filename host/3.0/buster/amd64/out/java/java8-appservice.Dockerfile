@@ -57,8 +57,8 @@ COPY --from=jre [ "/usr/lib/jvm/zre-hl-8-azure-amd64", "/usr/lib/jvm/zre-8-azure
 
 ## Using this method with ../ requires the docker build be run from the /out/ folder.
 ## Alternative solution would be to copy the main files for sshd and start.sh to each lang folder
-COPY ../shared/sshd_config /etc/ssh/
-COPY ../shared/start.sh /azure-functions-host/
+COPY sshd_config /etc/ssh/
+COPY start.sh /azure-functions-host/
 COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
 
 ENV JAVA_HOME /usr/lib/jvm/zre-8-azure-amd64
