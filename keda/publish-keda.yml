@@ -1,0 +1,41 @@
+trigger: none
+pr: none
+
+pool:
+  vmImage: ubuntu-18.04
+
+steps:
+  # Bash task: https://docs.microsoft.com/azure/devops/pipelines/tasks/utility/bash
+  - bash: |
+      # Exit if any line in the script fails.
+      set -e
+
+      if [ -z "$VERSION_TAG" ];
+      then
+        echo "ERROR: VERSION_TAG is required."
+        exit 1
+      fi
+
+      GHCR_SERVER=ghcr.io
+      GHCR_KEDA_IMAGE=$GHCR_SERVER/kedacore/keda:$VERSION_TAG
+      GHCR_KEDA_METRICS_APISERVER_IMAGE=$GHCR_SERVER/kedacore/keda-metrics-apiserver:$VERSION_TAG
+
+      ACR_SERVER=azurefunctions.azurecr.io
+      ACR_KEDA_IMAGE=$ACR_SERVER/public/oss/kedacore/keda:$VERSION_TAG
+      ACR_KEDA_METRICS_APISERVER_IMAGE=$ACR_SERVER/public/oss/kedacore/keda-metrics-apiserver:$VERSION_TAG
+
+      docker pull $GHCR_KEDA_IMAGE
+      docker pull $GHCR_KEDA_METRICS_APISERVER_IMAGE
+
+      docker tag $GHCR_KEDA_IMAGE $ACR_KEDA_IMAGE
+      docker tag $GHCR_KEDA_METRICS_APISERVER_IMAGE $ACR_KEDA_METRICS_APISERVER_IMAGE
+
+      echo $ACR_PASSWORD | docker login --username $ACR_USERNAME --password-stdin $ACR_SERVER
+
+      docker push $ACR_KEDA_IMAGE
+      docker push $ACR_KEDA_METRICS_APISERVER_IMAGE
+
+    displayName: Push KEDA images
+    env:
+      ACR_USERNAME: $(ACR Username)
+      ACR_PASSWORD: $(ACR Password)
