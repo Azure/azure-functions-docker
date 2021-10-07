@@ -1,7 +1,7 @@
 
 ARG HOST_VERSION=3.2.0
 
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS runtime-image
+FROM mcr.microsoft.com/dotnet/core/sdk:5.0 AS runtime-image
 ARG HOST_VERSION
 
 ENV PublishWithAspNetCoreTargetManifest=false
