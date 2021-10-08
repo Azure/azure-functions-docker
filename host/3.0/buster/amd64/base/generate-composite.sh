@@ -22,15 +22,19 @@ globalize_args() {
 
 combine_dockerfile() {
     printf $"  Combining $base with $1\n"
-    runtime=`echo $1 | cut -d'/' -f 2`
-    runtimeversion=`echo $1 | cut -d'/' -f 3`
+    localfile=$(printf $1 | awk -F'\\.\\.' '{print $2}')
+    runtime=`echo $localfile | cut -d'/' -f 2`
+    runtimeversion=`echo $localfile | cut -d'/' -f 3`
     printf "\t Image Runtime and Version: $runtimeversion \n"
 
+    # Output path
+    
+
     # File structure creation
-    outputdir=$"../out/${runtime}"
+    outputdir=$"$DIR/../out/${runtime}"
     if [ "$TESTMODE" == "true" ]; then
         printf "\t Test Mode enabled. Updating test dockerfiles.\n"
-        outputdir=$"../test/${runtime}"
+        outputdir=$"$DIR/../test/${runtime}"
     fi
     mkdir -p $outputdir
     outputfile="$outputdir/${runtimeversion}-appservice.Dockerfile"
@@ -43,11 +47,11 @@ combine_dockerfile() {
 }
 
 generate_appservice() {
-    base="./host.Dockerfile"
+    base="$DIR/host.Dockerfile"
     echo $"Generating Appservice Images for [ $@ ] using base $base"
     for lang in $@; 
     do 
-        langimgs=($(find ../$lang/ -name "*-composite.template"))
+        langimgs=($(find $DIR/../$lang/ -name "*-composite.template"))
         if [ -z "$langimgs" ]; then
             echo "No composite images found for language : $lang. Skipping compilation..."
         else
@@ -73,26 +77,26 @@ copy_shared_config() {
     echo "Copying shared config files into the following language output directories: "
     for lang in $@;
     do
-        outputdir=$"../out/${lang}/"
+        outputdir=$"$DIR/../out/${lang}/"
         if [ "$TESTMODE" == "true" ]; then
-            outputdir=$"../test/${lang}/"
+            outputdir=$"$DIR/../test/${lang}/"
         fi
         printf "\t $outputdir\n"
-        cp -R ./sharedconfig/* $outputdir
+        cp -R $DIR/sharedconfig/* $outputdir
     done
 }
 
 clear_outputdir() {
     echo "Clearing output folder..."
-    rootdir=$"../out/*"
+    rootdir=$"$DIR/../out/*"
     if [ "$TESTMODE" == "true" ]; then
         printf "\t Test Mode enabled. Clearing test dockerfiles.\n"
-        rootdir=$"../test/*"
+        rootdir=$"$DIR/../test/*"
     fi
     rm -rf rootdir
 }
 
-
+echo "Dir is : $DIR"
 
 # Defines a flag -t for testing purposes. Developers are required to manually regenerate their test files when they intentionally alter composite files
 # Useful for keeping a closer eye on our full dockerfiles. As we will be gitignoring output files and generating them every PR. 
