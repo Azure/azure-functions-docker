@@ -2,7 +2,7 @@ ARG JAVA_VERSION=8u252
 
 ARG HOST_VERSION=3.2.0
 
-FROM mcr.microsoft.com/dotnet/core/sdk:5.0 AS runtime-image
+FROM mcr.microsoft.com/dotnet/sdk:5.0 AS runtime-image
 ARG HOST_VERSION
 
 ENV PublishWithAspNetCoreTargetManifest=false
@@ -55,8 +55,6 @@ COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
 COPY --from=runtime-image [ "/workers/java", "/azure-functions-host/workers/java" ]
 COPY --from=jre [ "/usr/lib/jvm/zre-hl-8-azure-amd64", "/usr/lib/jvm/zre-8-azure-amd64" ]
 
-## Using this method with ../ requires the docker build be run from the /out/ folder.
-## Alternative solution would be to copy the main files for sshd and start.sh to each lang folder
 COPY sshd_config /etc/ssh/
 COPY start.sh /azure-functions-host/
 COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
