@@ -1,4 +1,4 @@
-queue: Hosted Ubuntu 1604
+queue: Hosted Ubuntu 1804
 trigger: none
 parameters:
   - name: stages
