@@ -1,3 +1,4 @@
+# Publish pipelines are triggered via HTTP method in release pipeline. See v4 publish
 queue: Hosted Ubuntu 1604
 trigger: none
 

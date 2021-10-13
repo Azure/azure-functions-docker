@@ -1,3 +1,4 @@
+# Publish pipelines are triggered via HTTP method in release pipeline. See v3 publish
 stages:
 - stage: Linux_Images
   jobs:
