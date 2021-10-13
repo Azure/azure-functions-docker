@@ -1,5 +1,8 @@
-queue: Hosted Ubuntu 1604
 trigger: none
+# Does not currently have a pipeline to call HTTP 
+pool:
+    vmImage: 'Ubuntu-latest'
+
 parameters:
   - name: stages
     type: object
