@@ -1,6 +1,6 @@
 # Build the runtime from source
-ARG HOST_VERSION=4.0.0-preview.4.16394
-FROM mcr.microsoft.com/dotnet/sdk:6.0.100-rc.1 AS runtime-image
+ARG HOST_VERSION=4.0.0-preview.5.16714
+FROM mcr.microsoft.com/dotnet/sdk:6.0.100-rc.2 AS runtime-image
 ARG HOST_VERSION
 
 # Build requires 3.1 SDK
@@ -16,8 +16,7 @@ RUN BUILD_NUMBER=$(echo ${HOST_VERSION} | cut -d'.' -f 5) && \
     HOST_COMMIT=$(git rev-list -1 HEAD) && \
     dotnet publish -v q /p:VersionSuffix=$SUFFIX /p:BuildNumber=$BUILD_NUMBER /p:CommitHash=$HOST_COMMIT src/WebJobs.Script.WebHost/WebJobs.Script.WebHost.csproj -c Release --output /azure-functions-host --runtime linux-x64 && \
     mv /azure-functions-host/workers /workers && mkdir /azure-functions-host/workers && \
-    rm -rf /root/.local /root/.nuget /src && \
-    find /workers/node/grpc/src/node/extension_binary/ -mindepth 1 -type d ! -regex ".*linux-x64.*" -prune -exec rm -rf '{}' \;
+    rm -rf /root/.local /root/.nuget /src
 
 RUN EXTENSION_BUNDLE_VERSION=1.8.1 && \
     EXTENSION_BUNDLE_FILENAME=Microsoft.Azure.Functions.ExtensionBundle.1.8.1_linux-x64.zip && \
@@ -41,7 +40,7 @@ RUN EXTENSION_BUNDLE_VERSION=1.8.1 && \
     rm -f /$EXTENSION_BUNDLE_FILENAME_V3 &&\
     find /FuncExtensionBundles/ -type f -exec chmod 644 {} \;
 
-FROM mcr.microsoft.com/dotnet/runtime-deps:6.0.0-rc.1
+FROM mcr.microsoft.com/dotnet/runtime-deps:6.0.0-rc.2
 ARG HOST_VERSION
 
 RUN apt-get update && \
