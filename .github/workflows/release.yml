@@ -25,6 +25,9 @@ jobs:
         git fetch --all
         git checkout -b ${{ github.event.inputs.targetBranch }} origin/${{ github.event.inputs.targetBranch }}
         git merge dev
+        ./host/3.0/buster/amd64/base/generate-composite.sh -r all
+        git add . 
+        git commit -m "Generated Images for Release"
         git tag ${{ github.event.inputs.version }}
         git push
         git push origin ${{ github.event.inputs.version }}
