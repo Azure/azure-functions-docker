@@ -4,7 +4,7 @@ stages:
   jobs:
   - job: Publish_all
     pool: 
-      vmImage: ubuntu-18.04
+      vmImage: 'Ubuntu-latest'
     steps:
     - bash: |
         echo $pswd | docker login -u $(dockerUsername) --password-stdin azurefunctions.azurecr.io
