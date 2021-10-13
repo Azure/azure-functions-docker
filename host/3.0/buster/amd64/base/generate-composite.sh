@@ -32,9 +32,9 @@ combine_dockerfile() {
 
     # File structure creation
     outputdir=$"$DIR/../out/${runtime}"
-    if [ "$TESTMODE" == "true" ]; then
-        printf "\t Test Mode enabled. Updating test dockerfiles.\n"
-        outputdir=$"$DIR/../test/${runtime}"
+    if [ "$RELEASE" == "true" ]; then
+        printf "\t Release Mode enabled. Updating release dockerfiles.\n"
+        outputdir=$"$DIR/../release/${runtime}"
     fi
     mkdir -p $outputdir
     outputfile="$outputdir/${runtimeversion}-appservice.Dockerfile"
@@ -69,17 +69,14 @@ generate_appservice() {
 }
 
 copy_shared_config() {
-    # Copy over the shared configuration files : sshd_config & start.sh into the out directory
-    # Unecessary in test mode 
-    if [ "$TESTMODE" == "true" ]; then
-            printf "Test Mode enabled. Updating test dockerfiles.\n"
-    fi
+     
+    
     echo "Copying shared config files into the following language output directories: "
     for lang in $@;
     do
         outputdir=$"$DIR/../out/${lang}/"
-        if [ "$TESTMODE" == "true" ]; then
-            outputdir=$"$DIR/../test/${lang}/"
+        if [ "$RELEASE" == "true" ]; then
+            outputdir=$"$DIR/../release/${lang}/"
         fi
         printf "\t $outputdir\n"
         cp -R $DIR/sharedconfig/* $outputdir
@@ -89,28 +86,27 @@ copy_shared_config() {
 clear_outputdir() {
     echo "Clearing output folder..."
     rootdir=$"$DIR/../out/*"
-    if [ "$TESTMODE" == "true" ]; then
-        printf "\t Test Mode enabled. Clearing test dockerfiles.\n"
-        rootdir=$"$DIR/../test/*"
-    fi
     rm -rf rootdir
 }
 
 echo "Dir is : $DIR"
 
-# Defines a flag -t for testing purposes. Developers are required to manually regenerate their test files when they intentionally alter composite files
-# Useful for keeping a closer eye on our full dockerfiles. As we will be gitignoring output files and generating them every PR. 
-while getopts "t" flag;do
+# Defines a flag -r : Release Mode.  Release mode will generate artifacts in a folder titled /release/
+# These .Dockerfile artifacts will be used to create the containers uploaded to ACR. Increases trace-ability.
+while getopts "r" flag;do
     case ${flag} in
-      t)
-        TESTMODE="true"
-        echo "Test Mode is enabled"
+      r)
+        RELEASE="true"
+        echo "Release Mode is enabled"
         ;;
     esac
 done
 
-clear_outputdir
+if [ -z $RELEASE ]; then
+    clear_outputdir
+fi
 
+# Remove flags from input. Store args in array
 declare -a argarray
 for arg do
     if [ "${arg:0:1}" != '-' ]; then
@@ -132,5 +128,3 @@ fi
 generate_appservice ${argarray[@]}
 
 copy_shared_config ${argarray[@]}
-
-# pushing to git changes crlf to lf because linux createdthe files but they get saved in windows format.
