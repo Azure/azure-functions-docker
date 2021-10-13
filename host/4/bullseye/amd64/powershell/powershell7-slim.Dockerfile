@@ -1,6 +1,6 @@
 # Build the runtime from source
-ARG HOST_VERSION=4.0.0-preview.4.16394
-FROM mcr.microsoft.com/dotnet/sdk:6.0.100-rc.1 AS runtime-image
+ARG HOST_VERSION=4.0.0-preview.5.16714
+FROM mcr.microsoft.com/dotnet/sdk:6.0.100-rc.2 AS runtime-image
 ARG HOST_VERSION
 
 # Build requires 3.1 SDK
@@ -43,7 +43,7 @@ RUN EXTENSION_BUNDLE_VERSION=1.8.1 && \
     rm -f /$EXTENSION_BUNDLE_FILENAME_V3 &&\
     find /FuncExtensionBundles/ -type f -exec chmod 644 {} \;
 
-FROM mcr.microsoft.com/dotnet/aspnet:6.0.0-rc.1-bullseye-slim
+FROM mcr.microsoft.com/dotnet/aspnet:6.0.0-rc.2-bullseye-slim
 ARG HOST_VERSION
 
 # Powershell worker requires 3.1 for now
