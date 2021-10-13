@@ -1,9 +1,10 @@
+# Publish pipelines are triggered via HTTP method in release pipeline. See v3 publish
 stages:
 - stage: Linux_Images
   jobs:
   - job: Publish_all
     pool: 
-      vmImage: ubuntu-18.04
+      vmImage: 'Ubuntu-latest'
     steps:
     - bash: |
         echo $pswd | docker login -u $(dockerUsername) --password-stdin azurefunctions.azurecr.io
