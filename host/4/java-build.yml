@@ -1,4 +1,5 @@
-queue: Hosted Ubuntu 1604
+pool:
+    vmImage: 'Ubuntu-latest'
 
 pr:
   branches:
