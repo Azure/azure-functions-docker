@@ -173,9 +173,40 @@ steps:
 
 
       docker system prune -a -f
-    displayName: tag and push node images
+    displayName: tag and push node14 images
     continueOnError: false
 
+ - bash: |
+      set -e
+      docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node16
+      docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node16-slim
+      docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node16-appservice
+
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node16 $TARGET_REGISTRY/node:$(TargetVersion)
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node16-slim $TARGET_REGISTRY/node:$(TargetVersion)-slim
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node16-appservice $TARGET_REGISTRY/node:$(TargetVersion)-appservice
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node16-appservice $TARGET_REGISTRY/node:$(TargetVersion)-appservice-quickstart
+
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node16 $TARGET_REGISTRY/node:$(TargetVersion)-node16
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node16-slim $TARGET_REGISTRY/node:$(TargetVersion)-node16-slim
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node16-appservice $TARGET_REGISTRY/node:$(TargetVersion)-node16-appservice
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node16-appservice $TARGET_REGISTRY/node:$(TargetVersion)-node16-appservice-quickstart
+
+
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)-slim
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)-appservice
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)-appservice-quickstart
+
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)-node16
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)-node16-slim
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)-node16-appservice
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)-node16-appservice-quickstart
+
+
+      docker system prune -a -f
+    displayName: tag and push node16 images
+    continueOnError: false
 
   - bash: |
       set -e

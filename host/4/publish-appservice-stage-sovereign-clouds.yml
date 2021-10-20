@@ -107,6 +107,20 @@ steps:
 
       - bash: |
           set -e
+          docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node16-appservice
+          
+          docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node16-appservice $TARGET_REGISTRY/node:$(TargetVersion)-appservice-$(CloudName)-stage${{stage}}
+          docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node16-appservice $TARGET_REGISTRY/node:$(TargetVersion)-node16-appservice-$(CloudName)-stage${{stage}}
+          
+          docker push $TARGET_REGISTRY/node:$(TargetVersion)-appservice-$(CloudName)-stage${{stage}}
+          docker push $TARGET_REGISTRY/node:$(TargetVersion)-node16-appservice-$(CloudName)-stage${{stage}}
+          
+          docker system prune -a -f
+        displayName: tag and push node images for stage ${{stage}}
+        continueOnError: false        
+
+      - bash: |
+          set -e
           docker pull $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7-appservice
           
           docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7-appservice $TARGET_REGISTRY/powershell:$(TargetVersion)-appservice-$(CloudName)-stage${{stage}}

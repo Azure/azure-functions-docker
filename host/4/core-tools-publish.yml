@@ -206,6 +206,19 @@ stages:
         continueOnError: false
         env:
           DOCKER_BUILDKIT: 1
+      - bash: |
+          set -e
+          IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/node:$(PrivateVersion)-node16-core-tools
+
+          docker build -t $IMAGE_NAME \
+                      -f host/4/bullseye/amd64/node/node16/node16-core-tools.Dockerfile \
+                      host/4/bullseye/amd64/node/node16/
+          npm run test $IMAGE_NAME --prefix  test/
+          docker push $IMAGE_NAME
+        displayName: node16-core-tools
+        continueOnError: false
+        env:
+          DOCKER_BUILDKIT: 1
 
   - job: python
     displayName: python
@@ -474,7 +487,7 @@ stages:
           docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node14-core-tools $TARGET_REGISTRY/node:$(MajorVersion)-node14-core-tools
 
 
-        displayName: tag node images
+        displayName: tag node14 images
         continueOnError: false
       - bash: |
           set -e 
@@ -491,7 +504,7 @@ stages:
             exit 1;
           fi          
           docker run $TARGET_REGISTRY/node:$(MajorVersion)-node14-core-tools az --version          
-        displayName: test node images
+        displayName: test node14 images
         continueOnError: false        
       - bash: |
           set -e
@@ -502,9 +515,52 @@ stages:
           docker push $TARGET_REGISTRY/node:$(MajorVersion)-node14-core-tools
 
           docker system prune -a -f
-        displayName: push node images
+        displayName: push node14 images
         continueOnError: false
         condition: ne(variables['SkipProduction'], 'true')
+
+        - bash: |
+          set -e
+          docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node16-core-tools
+
+          docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node16-core-tools $TARGET_REGISTRY/node:$(TargetVersion)-core-tools   
+          docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node16-core-tools $TARGET_REGISTRY/node:$(TargetVersion)-node16-core-tools
+
+          docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node16-core-tools $TARGET_REGISTRY/node:$(MajorVersion)-core-tools   
+          docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node16-core-tools $TARGET_REGISTRY/node:$(MajorVersion)-node16-core-tools
+
+
+        displayName: tag node16 images
+        continueOnError: false
+      - bash: |
+          set -e 
+          PrivateImageId=`docker image inspect $SOURCE_REGISTRY/node:$(PrivateVersion)-node16-core-tools --format='{{.Id}}'`
+          MajorImageId=`docker image inspect $TARGET_REGISTRY/node:$(MajorVersion)-node16-core-tools --format='{{.Id}}'`
+          if [[ "$PrivateImageId" != "$MajorImageId" ]]; then
+            echo "unmatch the Target image id and Major image id ${PrivateImageId} and ${MajorImageId}";
+            exit 1;
+          fi
+          
+          ActualVersion=`docker run $TARGET_REGISTRY/node:$(MajorVersion)-node16-core-tools func --version`
+          if [[ "$ActualVersion" != "$(TargetVersion)" ]]; then
+            echo "unmatch the ActualVersion and TargetVersion ${ActualVersion} and $(TargetVersion)";
+            exit 1;
+          fi          
+          docker run $TARGET_REGISTRY/node:$(MajorVersion)-node16-core-tools az --version          
+        displayName: test node16 images
+        continueOnError: false        
+      - bash: |
+          set -e
+          docker push $TARGET_REGISTRY/node:$(TargetVersion)-core-tools
+          docker push $TARGET_REGISTRY/node:$(TargetVersion)-node16-core-tools
+
+          docker push $TARGET_REGISTRY/node:$(MajorVersion)-core-tools
+          docker push $TARGET_REGISTRY/node:$(MajorVersion)-node16-core-tools
+
+          docker system prune -a -f
+        displayName: push node16 images
+        continueOnError: false
+        condition: ne(variables['SkipProduction'], 'true')        
       - bash: docker system prune -a -f
         displayName: clearn up docker images
       - bash: |

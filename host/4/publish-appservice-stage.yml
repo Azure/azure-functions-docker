@@ -98,6 +98,20 @@ steps:
 
   - bash: |
       set -e
+      docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node16-appservice
+
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node16-appservice $TARGET_REGISTRY/node:$(TargetVersion)-appservice-stage$(StageNumber)
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node16-appservice $TARGET_REGISTRY/node:$(TargetVersion)-node16-appservice-stage$(StageNumber)
+
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)-appservice-stage$(StageNumber)
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)-node16-appservice-stage$(StageNumber)
+
+      docker system prune -a -f
+    displayName: tag and push node images
+    continueOnError: false
+
+  - bash: |
+      set -e
       docker pull $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7-appservice
 
       docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7-appservice $TARGET_REGISTRY/powershell:$(TargetVersion)-appservice-stage$(StageNumber)
