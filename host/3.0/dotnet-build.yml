@@ -1,4 +1,6 @@
-queue: Hosted Ubuntu 1604
+pool:
+    vmImage: 'Ubuntu-latest'
+
 
 pr:
   branches:
@@ -22,7 +24,7 @@ trigger:
       - host/3.0/buster/amd64/dotnet/*
       - host/3.0/buster/arm32v7/dotnet/*
       - host/3.0/bionic/arm32v7/dotnet/*
-
+      
 steps:
   - bash: |
       # login

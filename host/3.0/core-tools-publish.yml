@@ -9,7 +9,7 @@ schedules:
   always: true
 
 pool:
-  vmImage: ubuntu-18.04
+    vmImage: 'Ubuntu-latest'
 
 stages:
 - stage: prepare
