@@ -176,7 +176,7 @@ steps:
     displayName: tag and push node14 images
     continueOnError: false
 
- - bash: |
+  - bash: |
       set -e
       docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node16
       docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node16-slim
