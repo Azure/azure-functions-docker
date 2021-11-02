@@ -292,4 +292,4 @@ libgrpc_csharp_ext.so.*
 .ionide/
 
 #Gitignore to ignore /out/ files in all directories
-*/out/*
+#*/out/*
