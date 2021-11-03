@@ -38,7 +38,7 @@ RUN EXTENSION_BUNDLE_VERSION=1.8.1 && \
     find /FuncExtensionBundles/ -type f -exec chmod 644 {} \;
 
 FROM mcr.microsoft.com/java/jre-headless:${JAVA_VERSION}-zulu-debian10-with-tools as jre
-FROM mcr.microsoft.com/dotnet/runtime-deps:6.0.0-rc.2
+FROM mcr.microsoft.com/dotnet/nightly/runtime-deps:6.0.0
 ARG HOST_VERSION
 
 EXPOSE 2222 80
