@@ -12,12 +12,14 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout Branch
+      uses: actions/checkout@v2
       with:
         ref: dev
         fetch-depth: 0
         token: ${{ secrets.PIPELINE_ADMIN }}
-    - id: createBranch
+    - name: Generate Image Artifacts
+      id: createBranch
       run: |
         set -e
         git config --local user.email "azfuncgh@github.com"
@@ -25,14 +27,26 @@ jobs:
         git fetch --all
         git checkout -b ${{ github.event.inputs.targetBranch }} origin/${{ github.event.inputs.targetBranch }}
         git merge dev
+        ./host/3.0/buster/amd64/base/generate-composite.sh -r all
+        git add . 
+        git commit -m "Generated Images for Release"
         git tag ${{ github.event.inputs.version }}
         git push
         git push origin ${{ github.event.inputs.version }}
       env:
         GITHUB_TOKEN: ${{ secrets.PIPELINE_ADMIN }}  
     - name: Release Drafter
+      id: release
       uses: release-drafter/release-drafter@v5.15.0
       with:
         tag: ${{ github.event.inputs.version }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Attach v3 Assets to Release
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.release.outputs.upload_url }}
+        asset_path: ./host/3.0/buster/amd64/java/java11-appservice.Dockerfile
+        asset_name: java11image
