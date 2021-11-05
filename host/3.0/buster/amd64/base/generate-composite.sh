@@ -121,7 +121,7 @@ fi
 
 if [ ${#argarray[@]} == 1 ] && [ "$argarray" == "all" ]; then
     echo "All supported languages targetted."
-    supportedlangs=("java" "node")
+    supportedlangs=("java" "node" "python")
     argarray=(${supportedlangs[@]})
 fi
 

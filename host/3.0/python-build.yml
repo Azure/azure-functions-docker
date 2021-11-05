@@ -8,6 +8,7 @@ pr:
       - release/3.x
   paths:
     include:
+      - host/3.0/buster/amd64/base/*
       - host/3.0/buster/amd64/python/*
 
 trigger:
@@ -18,13 +19,14 @@ trigger:
       - release/3.x
   paths:
     include:
+      - host/3.0/buster/amd64/base/*
       - host/3.0/buster/amd64/python/*
 
 jobs:
 - job: python36
   displayName: python 3.6
   pool:
-    vmImage: ubuntu-18.04
+    vmImage: ubuntu-latest
   steps:
   - bash: |
       # login
@@ -35,6 +37,13 @@ jobs:
     continueOnError: false
     env:
       pswd: $(dockerPassword)
+
+  - bash: |
+      ./host/3.0/buster/amd64/base/generate-composite.sh python
+
+    displayName: create python-appservice dockerfiles
+    continueOnError: false
+
   - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/python:$(Build.SourceBranchName)-python3.6
@@ -68,8 +77,8 @@ jobs:
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/python:$(Build.SourceBranchName)-python3.6-appservice
 
       docker build -t $IMAGE_NAME \
-                  -f host/3.0/buster/amd64/python/python36/python36-appservice.Dockerfile \
-                  host/3.0/buster/amd64/python/python36/
+                  -f host/3.0/buster/amd64/out/python/python36/python36-appservice.Dockerfile \
+                  host/3.0/buster/amd64/out/python/python36/
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
     displayName: python3.6-appservice
@@ -93,7 +102,7 @@ jobs:
 - job: python37
   displayName: python 3.7
   pool:
-    vmImage: ubuntu-18.04
+    vmImage: ubuntu-latest
   steps:
   - bash: |
       # login
@@ -104,6 +113,12 @@ jobs:
     continueOnError: false
     env:
       pswd: $(dockerPassword)
+
+  - bash: |
+      ./host/3.0/buster/amd64/base/generate-composite.sh python
+
+    displayName: create python-appservice dockerfiles
+    continueOnError: false
 
   - bash: |
       set -e
@@ -138,8 +153,8 @@ jobs:
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/python:$(Build.SourceBranchName)-python3.7-appservice
 
       docker build -t $IMAGE_NAME \
-                  -f host/3.0/buster/amd64/python/python37/python37-appservice.Dockerfile \
-                  host/3.0/buster/amd64/python/python37/
+                  -f host/3.0/buster/amd64/out/python/python37/python37-appservice.Dockerfile \
+                  host/3.0/buster/amd64/out/python/python37/
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
     displayName: python3.7-appservice
@@ -163,7 +178,7 @@ jobs:
 - job: python38
   displayName: python 3.8
   pool:
-    vmImage: ubuntu-18.04
+    vmImage: ubuntu-latest
   steps:
   - bash: |
       # login
@@ -174,6 +189,12 @@ jobs:
     continueOnError: false
     env:
       pswd: $(dockerPassword)
+
+  - bash: |
+      ./host/3.0/buster/amd64/base/generate-composite.sh python
+
+    displayName: create python-appservice dockerfiles
+    continueOnError: false
 
   - bash: |
       set -e
@@ -208,8 +229,8 @@ jobs:
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/python:$(Build.SourceBranchName)-python3.8-appservice
 
       docker build -t $IMAGE_NAME \
-                  -f host/3.0/buster/amd64/python/python38/python38-appservice.Dockerfile \
-                  host/3.0/buster/amd64/python/python38/
+                  -f host/3.0/buster/amd64/out/python/python38/python38-appservice.Dockerfile \
+                  host/3.0/buster/amd64/out/python/python38/
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
     displayName: python3.8-appservice
@@ -233,7 +254,7 @@ jobs:
 - job: python39
   displayName: python 3.9
   pool:
-    vmImage: ubuntu-18.04
+    vmImage: ubuntu-latest
   steps:
   - bash: |
       # login
@@ -244,6 +265,12 @@ jobs:
     continueOnError: false
     env:
       pswd: $(dockerPassword)
+
+  - bash: |
+      ./host/3.0/buster/amd64/base/generate-composite.sh python
+
+    displayName: create python-appservice dockerfiles
+    continueOnError: false
 
   - bash: |
       set -e
@@ -278,8 +305,8 @@ jobs:
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/python:$(Build.SourceBranchName)-python3.9-appservice
 
       docker build -t $IMAGE_NAME \
-                  -f host/3.0/buster/amd64/python/python39/python39-appservice.Dockerfile \
-                  host/3.0/buster/amd64/python/python39/
+                  -f host/3.0/buster/amd64/out/python/python39/python39-appservice.Dockerfile \
+                  host/3.0/buster/amd64/out/python/python39/
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
     displayName: python3.9-appservice
