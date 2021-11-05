@@ -8,6 +8,7 @@ pr:
       - release/3.x
   paths:
     include:
+      - host/3.0/buster/amd64/base/*
       - host/3.0/buster/amd64/node/*
 
 trigger:
@@ -18,6 +19,7 @@ trigger:
       - release/3.x
   paths:
     include:
+      - host/3.0/buster/amd64/base/*
       - host/3.0/buster/amd64/node/*
 
 steps:
@@ -32,12 +34,18 @@ steps:
       pswd: $(dockerPassword)
 
   - bash: |
+      ./host/3.0/buster/amd64/base/generate-composite.sh node
+
+    displayName: create node-appservice dockerfiles
+    continueOnError: false
+
+  - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/node:$(Build.SourceBranchName)-node8-appservice
 
       docker build -t $IMAGE_NAME \
-                  -f host/3.0/buster/amd64/node/node8/node8-appservice.Dockerfile \
-                  host/3.0/buster/amd64/node/node8/
+                  -f host/3.0/buster/amd64/out/node/node8/node8-appservice.Dockerfile \
+                  host/3.0/buster/amd64/out/node/node8/
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
     displayName: node8-appservice
@@ -72,8 +80,8 @@ steps:
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/node:$(Build.SourceBranchName)-node10-appservice
 
       docker build -t $IMAGE_NAME \
-                  -f host/3.0/buster/amd64/node/node10/node10-appservice.Dockerfile \
-                  host/3.0/buster/amd64/node/node10/
+                  -f host/3.0/buster/amd64/out/node/node10/node10-appservice.Dockerfile \
+                  host/3.0/buster/amd64/out/node/node10/
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
     displayName: node10-appservice
@@ -108,8 +116,8 @@ steps:
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/node:$(Build.SourceBranchName)-node12-appservice
 
       docker build -t $IMAGE_NAME \
-                  -f host/3.0/buster/amd64/node/node12/node12-appservice.Dockerfile \
-                  host/3.0/buster/amd64/node/node12/
+                  -f host/3.0/buster/amd64/out/node/node12/node12-appservice.Dockerfile \
+                  host/3.0/buster/amd64/out/node/node12/
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
     displayName: node12-appservice
@@ -144,8 +152,8 @@ steps:
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/node:$(Build.SourceBranchName)-node14-appservice
 
       docker build -t $IMAGE_NAME \
-                  -f host/3.0/buster/amd64/node/node14/node14-appservice.Dockerfile \
-                  host/3.0/buster/amd64/node/node14/
+                  -f host/3.0/buster/amd64/out/node/node14/node14-appservice.Dockerfile \
+                  host/3.0/buster/amd64/out/node/node14/
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
     displayName: node14-appservice

@@ -1,18 +1,20 @@
-# Build the runtime from source
+
+
 ARG HOST_VERSION=3.3.1
+
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS runtime-image
 ARG HOST_VERSION
 
 ENV PublishWithAspNetCoreTargetManifest=false
+ENV DEBIAN_FRONTEND=noninteractive
 
 RUN BUILD_NUMBER=$(echo ${HOST_VERSION} | cut -d'.' -f 3) && \
-    git clone --branch v${HOST_VERSION} https://github.com/Azure/azure-functions-host /src/azure-functions-host && \
+    git clone --branch v${HOST_VERSION} https://github.com/Azure/azure-functions-host.git /src/azure-functions-host && \
     cd /src/azure-functions-host && \
     HOST_COMMIT=$(git rev-list -1 HEAD) && \
     dotnet publish -v q /p:BuildNumber=$BUILD_NUMBER /p:CommitHash=$HOST_COMMIT src/WebJobs.Script.WebHost/WebJobs.Script.WebHost.csproj -c Release --output /azure-functions-host --runtime linux-x64 && \
     mv /azure-functions-host/workers /workers && mkdir /azure-functions-host/workers && \
-    rm -rf /root/.local /root/.nuget /src && \
-    find /workers/node/grpc/src/node/extension_binary/ -mindepth 1 -type d ! -regex ".*linux-x64.*" -prune -exec rm -rf '{}' \;
+    rm -rf /root/.local /root/.nuget /src
 
 RUN EXTENSION_BUNDLE_VERSION=1.8.1 && \
     EXTENSION_BUNDLE_FILENAME=Microsoft.Azure.Functions.ExtensionBundle.1.8.1_linux-x64.zip && \
@@ -41,7 +43,7 @@ ARG HOST_VERSION
 
 RUN apt-get update && \
     apt-get install -y curl gnupg && \
-    curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
+    curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
     apt-get update && \
     apt-get install -y nodejs
 
