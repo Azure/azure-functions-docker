@@ -77,7 +77,7 @@ jobs:
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/python:$(Build.SourceBranchName)-python3.6-appservice
 
       docker build -t $IMAGE_NAME \
-                  -f host/3.0/buster/amd64/out/python/python36/python36-appservice.Dockerfile \
+                  -f host/3.0/buster/amd64/out/python/python36-appservice.Dockerfile \
                   host/3.0/buster/amd64/out/python/
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
@@ -153,7 +153,7 @@ jobs:
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/python:$(Build.SourceBranchName)-python3.7-appservice
 
       docker build -t $IMAGE_NAME \
-                  -f host/3.0/buster/amd64/out/python/python37/python37-appservice.Dockerfile \
+                  -f host/3.0/buster/amd64/out/python/python37-appservice.Dockerfile \
                   host/3.0/buster/amd64/out/python/
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
@@ -229,7 +229,7 @@ jobs:
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/python:$(Build.SourceBranchName)-python3.8-appservice
 
       docker build -t $IMAGE_NAME \
-                  -f host/3.0/buster/amd64/out/python/python38/python38-appservice.Dockerfile \
+                  -f host/3.0/buster/amd64/out/python/python38-appservice.Dockerfile \
                   host/3.0/buster/amd64/out/python/
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
@@ -305,7 +305,7 @@ jobs:
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/python:$(Build.SourceBranchName)-python3.9-appservice
 
       docker build -t $IMAGE_NAME \
-                  -f host/3.0/buster/amd64/out/python/python39/python39-appservice.Dockerfile \
+                  -f host/3.0/buster/amd64/out/python/python39-appservice.Dockerfile \
                   host/3.0/buster/amd64/out/python/
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
