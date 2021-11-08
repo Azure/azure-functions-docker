@@ -134,10 +134,10 @@ steps:
 
       - bash: |
           set -e
-          docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-appservice-stage${{stage}}
-          docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7-appservice-stage${{stage}}
-          docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8-appservice-stage${{stage}}
-          docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.9-appservice-stage${{stage}}
+          docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-appservice
+          docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7-appservice
+          docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8-appservice
+          docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.9-appservice
 
           docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-appservice $TARGET_REGISTRY/python:$(TargetVersion)-appservice-$(CloudName)-stage${{stage}}
           docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.6-appservice-$(CloudName)-stage${{stage}}
