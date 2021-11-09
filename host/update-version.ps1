@@ -31,8 +31,6 @@ function Update-HostVersion {
 
 if ($MajorVersion -eq "3") {
     Update-HostVersion -MajorVersion $MajorVersion -Directory "3.0"
-    Write-Host "Updating auto-upgraded files"
-    Update-HostVersion -MajorVersion $MajorVersion -Directory "2.0-upgrade"
 } else {
     Update-HostVersion -MajorVersion $MajorVersion -Directory $MajorVersion
 }
