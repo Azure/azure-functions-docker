@@ -145,7 +145,7 @@ steps:
           docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.8-appservice-$(CloudName)-stage${{stage}}
           docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.9-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.9-appservice-$(CloudName)-stage${{stage}}
 
-          docker push $TARGET_REGISTRY/python:$(TargetVersion)-appservice-$(CloudName-stage${{stage}}
+          docker push $TARGET_REGISTRY/python:$(TargetVersion)-appservice-$(CloudName)-stage${{stage}}
           docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.6-appservice-$(CloudName)-stage${{stage}}
           docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.7-appservice-$(CloudName)-stage${{stage}}
           docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.8-appservice-$(CloudName)-stage${{stage}}
