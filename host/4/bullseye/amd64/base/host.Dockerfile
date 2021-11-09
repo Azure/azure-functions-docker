@@ -1,14 +1,14 @@
+# Build the runtime from source
+ARG HOST_VERSION=4.0.1.16815
 
-ARG HOST_VERSION=3.4.1
-
-FROM mcr.microsoft.com/dotnet/sdk:5.0 AS runtime-image
+FROM mcr.microsoft.com/dotnet/sdk:6.0.100-rc.2 AS runtime-image
 ARG HOST_VERSION
 
 ENV PublishWithAspNetCoreTargetManifest=false \
-    DEBIAN_FRONTEND=noninteractive
+    DEBIAN_FRONTEND=noninteractive 
 
-RUN BUILD_NUMBER=$(echo ${HOST_VERSION} | cut -d'.' -f 3) && \
-    git clone --branch v${HOST_VERSION} https://github.com/Azure/azure-functions-host.git /src/azure-functions-host && \
+RUN BUILD_NUMBER=$(echo ${HOST_VERSION} | cut -d'.' -f 4) && \
+    git clone --branch v${HOST_VERSION} https://github.com/Azure/azure-functions-host /src/azure-functions-host && \
     cd /src/azure-functions-host && \
     HOST_COMMIT=$(git rev-list -1 HEAD) && \
     dotnet publish -v q /p:BuildNumber=$BUILD_NUMBER /p:CommitHash=$HOST_COMMIT src/WebJobs.Script.WebHost/WebJobs.Script.WebHost.csproj -c Release --output /azure-functions-host --runtime linux-x64 && \
