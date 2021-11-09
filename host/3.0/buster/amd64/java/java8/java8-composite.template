@@ -1,4 +1,4 @@
-ARG JAVA_VERSION=8u252
+ARG JAVA_VERSION=8u292
 FROM mcr.microsoft.com/java/jre-headless:${JAVA_VERSION}-zulu-debian10-with-tools as jre
 FROM mcr.microsoft.com/dotnet/core/runtime-deps:3.1
 ARG HOST_VERSION
