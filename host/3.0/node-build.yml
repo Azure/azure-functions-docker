@@ -34,7 +34,7 @@ steps:
       pswd: $(dockerPassword)
 
   - bash: |
-      ./host/3.0/buster/amd64/base/generate-composite.sh node
+      ./host/generate-composite.sh -3 node
 
     displayName: create node-appservice dockerfiles
     continueOnError: false
