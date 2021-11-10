@@ -5,6 +5,21 @@
 DIR=$(dirname $0)
 IFS=$'\n'
 
+select_version() {
+    ## Selects the directory of the version to be generated
+    ## Defaults to v3 for now 
+    if [ "$VERSION" == "4" ]; then
+        echo "Version 4 selected"
+        DIR=$(dirname $0)/4/bullseye/amd64/base
+    elif [ "$VERSION" == "3" ]; then
+        echo "Version 4 selected"
+        DIR=$(dirname $0)/3.0/buster/amd64/base
+    else
+        echo "No valid version selected. Defaulting to v3"
+        DIR=$(dirname $0)/3.0/buster/amd64/base
+    fi
+}
+
 globalize_args() {
     ## This method is used to bring all args preceding any From statements to the top of the file. 
     ## Allows for ARGs defined globally in composite images to be global in the compiled dockerfile
@@ -84,23 +99,36 @@ copy_shared_config() {
 }
 
 clear_outputdir() {
+    ## Seems to not be working currently. Further investigation needed
     echo "Clearing output folder..."
     rootdir=$"$DIR/../out/*"
     rm -rf rootdir
 }
 
-echo "Dir is : $DIR"
 
 # Defines a flag -r : Release Mode.  Release mode will generate artifacts in a folder titled /release/
 # These .Dockerfile artifacts will be used to create the containers uploaded to ACR. Increases trace-ability.
-while getopts "r" flag;do
+# Flags must come before parameters
+while getopts ":r43" flag;do
     case ${flag} in
       r)
         RELEASE="true"
         echo "Release Mode is enabled"
         ;;
+      4)
+        VERSION="4"
+        echo "Version 4 selected"
+        ;;
+      3)
+        VERSION="3"
+        echo "Version 3 selected"
+        ;;
     esac
 done
+
+select_version
+
+echo "Dir is : $DIR"
 
 if [ -z $RELEASE ]; then
     clear_outputdir
@@ -110,6 +138,7 @@ fi
 declare -a argarray
 for arg do
     if [ "${arg:0:1}" != '-' ]; then
+        echo $arg
         argarray+=($arg)
     fi
 done
