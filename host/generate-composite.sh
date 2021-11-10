@@ -108,7 +108,7 @@ clear_outputdir() {
 
 # Defines a flag -r : Release Mode.  Release mode will generate artifacts in a folder titled /release/
 # These .Dockerfile artifacts will be used to create the containers uploaded to ACR. Increases trace-ability.
-# Flags must come before parameters
+# Flags must come before parameters. 
 while getopts ":r43" flag;do
     case ${flag} in
       r)
