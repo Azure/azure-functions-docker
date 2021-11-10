@@ -8,6 +8,7 @@ pr:
       - release/4.x
   paths:
     include:
+      - host/4/bullseye/amd64/base/*
       - host/4/bullseye/amd64/java/java8/*
       - host/4/bullseye/amd64/java/java11/*
 
@@ -19,6 +20,7 @@ trigger:
       - release/4.x
   paths:
     include:
+      - host/4/bullseye/amd64/base/*
       - host/4/bullseye/amd64/java/java8/*
       - host/4/bullseye/amd64/java/java11/*
 
@@ -32,6 +34,12 @@ steps:
     continueOnError: false
     env:
       pswd: $(dockerPassword)
+
+  - bash: |
+      ./host/generate-composite.sh -4 java
+
+    displayName: create java-appservice dockerfiles
+    continueOnError: false
 
   - bash: |
       set -e
@@ -59,8 +67,8 @@ steps:
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/java:$(Build.SourceBranchName)-java8-appservice
       docker build -t $IMAGE_NAME \
-                  -f host/4/bullseye/amd64/java/java8/java8-appservice.Dockerfile \
-                  host/4/bullseye/amd64/java/java8
+                  -f host/4/bullseye/amd64/out/java/java8-appservice.Dockerfile \
+                  host/4/bullseye/amd64/out/java
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
     displayName: java8-appservice
@@ -93,8 +101,8 @@ steps:
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/java:$(Build.SourceBranchName)-java11-appservice
       docker build -t $IMAGE_NAME \
-                  -f host/4/bullseye/amd64/java/java11/java11-appservice.Dockerfile \
-                  host/4/bullseye/amd64/java/java11
+                  -f host/4/bullseye/amd64/out/java/java11-appservice.Dockerfile \
+                  host/4/bullseye/amd64/out/java
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
     displayName: java11-appservice

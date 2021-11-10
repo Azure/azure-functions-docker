@@ -8,6 +8,7 @@ pr:
       - release/4.x
   paths:
     include:
+      - host/4/bullseye/amd64/base/*
       - host/4/bullseye/amd64/python/*
 
 trigger:
@@ -18,6 +19,7 @@ trigger:
       - release/4.x
   paths:
     include:
+      - host/4/bullseye/amd64/base/*
       - host/4/bullseye/amd64/python/*
 
 jobs:
@@ -25,7 +27,7 @@ jobs:
 - job: python37
   displayName: python 3.7
   pool:
-    vmImage: ubuntu-18.04
+    vmImage: 'Ubuntu-latest'
   steps:
   - bash: |
       # login
@@ -35,6 +37,13 @@ jobs:
     continueOnError: false
     env:
       pswd: $(dockerPassword)
+
+  - bash: |
+      ./host/generate-composite.sh -4 python
+
+    displayName: create python-appservice dockerfiles
+    continueOnError: false
+
   - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/python:$(Build.SourceBranchName)-python3.7
@@ -63,8 +72,8 @@ jobs:
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/python:$(Build.SourceBranchName)-python3.7-appservice
       docker build -t $IMAGE_NAME \
-                  -f host/4/bullseye/amd64/python/python37/python37-appservice.Dockerfile \
-                  host/4/bullseye/amd64/python/python37/
+                  -f host/4/bullseye/amd64/out/python/python37-appservice.Dockerfile \
+                  host/4/bullseye/amd64/out/python/
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
     displayName: python3.7-appservice
@@ -123,8 +132,8 @@ jobs:
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/python:$(Build.SourceBranchName)-python3.8-appservice
       docker build -t $IMAGE_NAME \
-                  -f host/4/bullseye/amd64/python/python38/python38-appservice.Dockerfile \
-                  host/4/bullseye/amd64/python/python38/
+                  -f host/4/bullseye/amd64/out/python/python38-appservice.Dockerfile \
+                  host/4/bullseye/amd64/out/python/
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
     displayName: python3.8-appservice
@@ -191,8 +200,8 @@ jobs:
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/python:$(Build.SourceBranchName)-python3.9-appservice
 
       docker build -t $IMAGE_NAME \
-                  -f host/4/bullseye/amd64/python/python39/python39-appservice.Dockerfile \
-                  host/4/bullseye/amd64/python/python39/
+                  -f host/4/bullseye/amd64/out/python/python39-appservice.Dockerfile \
+                  host/4/bullseye/amd64/out/python/
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
     displayName: python3.9-appservice

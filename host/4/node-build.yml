@@ -8,6 +8,7 @@ pr:
       - release/4.x
   paths:
     include:
+      - host/4/bullseye/amd64/base/*
       - host/4/bullseye/amd64/node/*
 
 trigger:
@@ -18,6 +19,7 @@ trigger:
       - release/4.x
   paths:
     include:
+      - host/4/bullseye/amd64/base/*
       - host/4/bullseye/amd64/node/*
 
 steps:
@@ -30,6 +32,12 @@ steps:
     continueOnError: false
     env:
       pswd: $(dockerPassword)
+  
+  - bash: |
+      ./host/generate-composite.sh -4 node
+
+    displayName: create node-appservice dockerfiles
+    continueOnError: false
     
   - bash: |
       set -e
@@ -60,8 +68,8 @@ steps:
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/node:$(Build.SourceBranchName)-node14-appservice
 
       docker build -t $IMAGE_NAME \
-                  -f host/4/bullseye/amd64/node/node14/node14-appservice.Dockerfile \
-                  host/4/bullseye/amd64/node/node14/
+                  -f host/4/bullseye/amd64/out/node/node14-appservice.Dockerfile \
+                  host/4/bullseye/amd64/out/node
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
     displayName: node14-appservice
@@ -96,8 +104,8 @@ steps:
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/node:$(Build.SourceBranchName)-node16-appservice
 
       docker build -t $IMAGE_NAME \
-                  -f host/4/bullseye/amd64/node/node16/node16-appservice.Dockerfile \
-                  host/4/bullseye/amd64/node/node16/
+                  -f host/4/bullseye/amd64/out/node/node16-appservice.Dockerfile \
+                  host/4/bullseye/amd64/out/node
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
     displayName: node16-appservice

@@ -8,6 +8,7 @@ pr:
       - release/4.x
   paths:
     include:
+      - host/4/bullseye/amd64/base/*
       - host/4/bullseye/amd64/dotnet/*
 
 trigger:
@@ -18,6 +19,7 @@ trigger:
       - release/4.x
   paths:
     include:
+      - host/4/bullseye/amd64/base/*
       - host/4/bullseye/amd64/dotnet/*
 
 steps:
@@ -30,6 +32,12 @@ steps:
     continueOnError: false
     env:
       pswd: $(dockerPassword)
+
+  - bash: |
+      ./host/generate-composite.sh -4 dotnet
+
+    displayName: create dotnet-appservice dockerfiles
+    continueOnError: false
 
   - bash: |
       set -e
@@ -59,8 +67,8 @@ steps:
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/dotnet:$(Build.SourceBranchName)-appservice
       docker build -t $IMAGE_NAME \
-                  -f host/4/bullseye/amd64/dotnet/dotnet-inproc/dotnet-appservice.Dockerfile \
-                  host/4/bullseye/amd64/dotnet/dotnet-inproc/
+                  -f host/4/bullseye/amd64/out/dotnet/dotnet-appservice.Dockerfile \
+                  host/4/bullseye/amd64/out/dotnet/
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
     displayName: dotnet-appservice
@@ -95,8 +103,8 @@ steps:
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/dotnet-isolated:$(Build.SourceBranchName)-dotnet-isolated6.0-appservice
 
       docker build -t $IMAGE_NAME \
-                  -f host/4/bullseye/amd64/dotnet/dotnet-isolated/dotnet-isolated-appservice.Dockerfile \
-                  host/4/bullseye/amd64/dotnet/dotnet-isolated/
+                  -f host/4/bullseye/amd64/out/dotnet/dotnet-isolated-appservice.Dockerfile \
+                  host/4/bullseye/amd64/out/dotnet/
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
     displayName: dotnet-isolated-appservice (.NET 6)
