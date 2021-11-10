@@ -27,7 +27,7 @@ jobs:
         git fetch --all
         git checkout -b ${{ github.event.inputs.targetBranch }} origin/${{ github.event.inputs.targetBranch }}
         git merge dev
-        ./host/3.0/buster/amd64/base/generate-composite.sh -r all
+        ./host/generate-composite.sh -3 -r all
         zip -r version3images.zip ./host/3.0/buster/amd64/release/
         git tag ${{ github.event.inputs.version }}
         git push

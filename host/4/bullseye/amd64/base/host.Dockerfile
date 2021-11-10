@@ -40,3 +40,4 @@ RUN EXTENSION_BUNDLE_VERSION=1.8.1 && \
     rm -f /$EXTENSION_BUNDLE_FILENAME_V3 &&\
     find /FuncExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION_V3/bin/runtimes/ -mindepth 1 -type d -not -name "linux-x64" -prune -exec rm -rf {} + && \
     find /FuncExtensionBundles/ -type f -exec chmod 644 {} \;
+

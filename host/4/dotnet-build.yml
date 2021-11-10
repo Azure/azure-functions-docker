@@ -67,11 +67,11 @@ steps:
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/dotnet:$(Build.SourceBranchName)-appservice
       docker build -t $IMAGE_NAME \
-                  -f host/4/bullseye/amd64/out/dotnet/dotnet-appservice.Dockerfile \
+                  -f host/4/bullseye/amd64/out/dotnet/dotnet-inproc-appservice.Dockerfile \
                   host/4/bullseye/amd64/out/dotnet/
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
-    displayName: dotnet-appservice
+    displayName: dotnet-inproc-appservice
     continueOnError: false
 
   - bash: |
