@@ -104,6 +104,13 @@ jobs:
     continueOnError: false
     env:
       pswd: $(dockerPassword)
+
+  - bash: |
+      ./host/generate-composite.sh -4 python
+
+    displayName: create python-appservice dockerfiles
+    continueOnError: false
+
   - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/python:$(Build.SourceBranchName)-python3.8
@@ -166,6 +173,12 @@ jobs:
     continueOnError: false
     env:
       pswd: $(dockerPassword)
+
+  - bash: |
+      ./host/generate-composite.sh -4 python
+
+    displayName: create python-appservice dockerfiles
+    continueOnError: false
 
   - bash: |
       set -e
