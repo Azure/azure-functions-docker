@@ -71,7 +71,7 @@ steps:
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/dotnet:$(Build.SourceBranchName)-appservice
 
       docker build -t $IMAGE_NAME \
-                  -f host/3.0/buster/amd64/out/dotnet/dotnet-appservice.Dockerfile \
+                  -f host/3.0/buster/amd64/out/dotnet/dotnet-inproc-appservice.Dockerfile \
                   host/3.0/buster/amd64/out/dotnet/
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
