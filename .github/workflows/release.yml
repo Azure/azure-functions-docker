@@ -28,8 +28,7 @@ jobs:
         git checkout -b ${{ github.event.inputs.targetBranch }} origin/${{ github.event.inputs.targetBranch }}
         git merge dev
         ./host/3.0/buster/amd64/base/generate-composite.sh -r all
-        git add . 
-        git commit -m "Generated Images for Release"
+        zip -r version3images.zip ./host/3.0/buster/amd64/release/
         git tag ${{ github.event.inputs.version }}
         git push
         git push origin ${{ github.event.inputs.version }}
@@ -48,5 +47,5 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.release.outputs.upload_url }}
-        asset_path: ./host/3.0/buster/amd64/java/java11-appservice.Dockerfile
-        asset_name: java11image
+        asset_path: ./version3images.zip
+        asset_name: version3images
