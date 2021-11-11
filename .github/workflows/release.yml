@@ -49,3 +49,4 @@ jobs:
         upload_url: ${{ steps.release.outputs.upload_url }}
         asset_path: ./version3images.zip
         asset_name: version3images
+        asset_content_type: application/zip
