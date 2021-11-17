@@ -15,7 +15,9 @@ RUN BUILD_NUMBER=$(echo ${HOST_VERSION} | cut -d'.' -f 4) && \
     mv /azure-functions-host/workers /workers && mkdir /azure-functions-host/workers && \
     rm -rf /root/.local /root/.nuget /src \;
 
-RUN EXTENSION_BUNDLE_VERSION_V2=2.8.3 && \
+RUN apt-get update && \
+    apt-get install -y gnupg wget unzip && \
+    EXTENSION_BUNDLE_VERSION_V2=2.8.3 && \
     EXTENSION_BUNDLE_FILENAME_V2=Microsoft.Azure.Functions.ExtensionBundle.${EXTENSION_BUNDLE_VERSION_V2}_linux-x64.zip && \
     wget https://functionscdn.azureedge.net/public/ExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION_V2/$EXTENSION_BUNDLE_FILENAME_V2 && \
     mkdir -p /FuncExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION_V2 && \
