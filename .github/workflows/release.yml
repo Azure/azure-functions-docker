@@ -40,12 +40,12 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name : Generate v3 Assets
-      if : startsWith(${{ github.event.inputs.version }}, '3')
+      if : startsWith(github.event.inputs.version, '3')
       run: |
         ./host/3.0/buster/amd64/base/generate-composite.sh -3 -r all
         zip -r ${{ github.event.inputs.version }}.zip ./host/3.0/buster/amd64/release/
     - name : Generate v4 Assets
-      if : startsWith(${{ github.event.inputs.version }}, '4')
+      if : startsWith(github.event.inputs.version, '4')
       run: |
         ./host/generate-composite.sh -4 -r all
         zip -r ${{ github.event.inputs.version }}.zip ./host/4/bullseye/amd64/release/
