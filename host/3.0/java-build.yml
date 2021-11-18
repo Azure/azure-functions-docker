@@ -11,6 +11,8 @@ pr:
       - host/3.0/buster/amd64/base/*
       - host/3.0/buster/amd64/java/java8/*
       - host/3.0/buster/amd64/java/java11/*
+      - host/3.0/buster/amd64/java/java8-zulu/*
+      - host/3.0/buster/amd64/java/java11-zulu/*
 
 trigger:
   branches:
@@ -23,6 +25,8 @@ trigger:
       - host/3.0/buster/amd64/base/*
       - host/3.0/buster/amd64/java/java8/*
       - host/3.0/buster/amd64/java/java11/*
+      - host/3.0/buster/amd64/java/java8-zulu/*
+      - host/3.0/buster/amd64/java/java11-zulu/*
 
 steps:
   - bash: |
@@ -55,6 +59,18 @@ steps:
 
   - bash: |
       set -e
+      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/java:$(Build.SourceBranchName)-java8.1
+
+      docker build -t $IMAGE_NAME \
+                  -f host/3.0/buster/amd64/java/java8-zulu/java8.Dockerfile \
+                  host/3.0/buster/amd64/java/java8-zulu
+      npm run test $IMAGE_NAME --prefix  test/
+      docker push $IMAGE_NAME
+    displayName: java8.1
+    continueOnError: false
+
+  - bash: |
+      set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/java:$(Build.SourceBranchName)-java8-slim
       docker build -t $IMAGE_NAME \
                   -f host/3.0/buster/amd64/java/java8/java8-slim.Dockerfile \
@@ -66,6 +82,17 @@ steps:
 
   - bash: |
       set -e
+      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/java:$(Build.SourceBranchName)-java8.1-slim
+      docker build -t $IMAGE_NAME \
+                  -f host/3.0/buster/amd64/java/java8-zulu/java8-slim.Dockerfile \
+                  host/3.0/buster/amd64/java/java8-zulu
+      npm run test $IMAGE_NAME --prefix  test/
+      docker push $IMAGE_NAME
+    displayName: java8.1-slim
+    continueOnError: false
+
+  - bash: |
+      set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/java:$(Build.SourceBranchName)-java8-appservice
       docker build -t $IMAGE_NAME \
                   -f host/3.0/buster/amd64/out/java/java8-appservice.Dockerfile \
@@ -73,6 +100,17 @@ steps:
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
     displayName: java8-appservice
+    continueOnError: false
+
+  - bash: |
+      set -e
+      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/java:$(Build.SourceBranchName)-java8.1-appservice
+      docker build -t $IMAGE_NAME \
+                  -f host/3.0/buster/amd64/out/java/java8-zulu-appservice.Dockerfile \
+                  host/3.0/buster/amd64/out/java
+      npm run test $IMAGE_NAME --prefix  test/
+      docker push $IMAGE_NAME
+    displayName: java8.1-appservice
     continueOnError: false
 
   - bash: |
@@ -89,6 +127,18 @@ steps:
 
   - bash: |
       set -e
+      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/java:$(Build.SourceBranchName)-java11.1
+
+      docker build -t $IMAGE_NAME \
+                -f host/3.0/buster/amd64/java/java11-zulu/java11.Dockerfile \
+                host/3.0/buster/amd64/java/java11-zulu
+      npm run test $IMAGE_NAME --prefix  test/
+      docker push $IMAGE_NAME
+    displayName: java11.1
+    continueOnError: false
+
+  - bash: |
+      set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/java:$(Build.SourceBranchName)-java11-slim
       docker build -t $IMAGE_NAME \
                   -f host/3.0/buster/amd64/java/java11/java11-slim.Dockerfile \
@@ -100,6 +150,17 @@ steps:
 
   - bash: |
       set -e
+      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/java:$(Build.SourceBranchName)-java11.1-slim
+      docker build -t $IMAGE_NAME \
+                  -f host/3.0/buster/amd64/java/java11-zulu/java11-slim.Dockerfile \
+                  host/3.0/buster/amd64/java/java11-zulu
+      npm run test $IMAGE_NAME --prefix  test/
+      docker push $IMAGE_NAME
+    displayName: java11.1-slim
+    continueOnError: false
+
+  - bash: |
+      set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/java:$(Build.SourceBranchName)-java11-appservice
       docker build -t $IMAGE_NAME \
                   -f host/3.0/buster/amd64/out/java/java11-appservice.Dockerfile \
@@ -107,4 +168,15 @@ steps:
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
     displayName: java11-appservice
+    continueOnError: false
+
+  - bash: |
+      set -e
+      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/java:$(Build.SourceBranchName)-java11.1-appservice
+      docker build -t $IMAGE_NAME \
+                  -f host/3.0/buster/amd64/out/java/java11-zulu-appservice.Dockerfile \
+                  host/3.0/buster/amd64/out/java
+      npm run test $IMAGE_NAME --prefix  test/
+      docker push $IMAGE_NAME
+    displayName: java11.1-appservice
     continueOnError: false
