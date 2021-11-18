@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/nightly/runtime-deps:6.0.0
+FROM mcr.microsoft.com/dotnet/runtime-deps:6.0.0
 ARG HOST_VERSION
 
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
