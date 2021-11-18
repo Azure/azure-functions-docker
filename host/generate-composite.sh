@@ -15,8 +15,8 @@ select_version() {
         echo "Version 4 selected"
         DIR=$(dirname $0)/3.0/buster/amd64/base
     else
-        echo "No valid version selected. Defaulting to v3"
-        DIR=$(dirname $0)/3.0/buster/amd64/base
+        echo "No valid version selected. Must provide a valid version via -3 or -4 flags"
+        exit 1
     fi
 }
 
