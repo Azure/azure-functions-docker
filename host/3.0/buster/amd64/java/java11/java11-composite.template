@@ -1,8 +1,12 @@
-ARG JAVA_VERSION=11u11
+ARG JAVA_VERSION=11.0.12.7.1
+ARG BASE_JDK_URL=https://aka.ms/download-jdk
+ARG JAVA_HOME=/usr/lib/jvm/msft-11-x64
 
-FROM mcr.microsoft.com/java/jre-headless:${JAVA_VERSION}-zulu-debian10-with-tools as jre
 FROM mcr.microsoft.com/dotnet/core/runtime-deps:3.1
 ARG HOST_VERSION
+ARG JAVA_VERSION
+ARG BASE_JDK_URL
+ARG JAVA_HOME
 
 EXPOSE 2222 80
 
@@ -11,11 +15,18 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     FUNCTIONS_WORKER_RUNTIME=java \
     DOTNET_USE_POLLING_FILE_WATCHER=true \
     HOST_VERSION=${HOST_VERSION} \
-    JAVA_HOME=/usr/lib/jvm/zre-11-azure-amd64
+    JAVA_HOME=${JAVA_HOME}
+
+RUN apt-get -qq update \
+    && apt-get -qqy install curl \
+    && rm -rf /var/lib/apt/lists \
+    $$ mkdir -p ${JAVA_HOME} \
+    && curl -fsSL -o /tmp/jdk.tar.gz ${BASE_JDK_URL}/microsoft-jdk-${JAVA_VERSION}-linux-x64.tar.gz \
+    && tar -xzf /tmp/jdk.tar.gz -C ${JAVA_HOME} --strip-components=1 \
+    && rm -f /tmp/jdk.tar.gz
 
 COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
 COPY --from=runtime-image [ "/workers/java", "/azure-functions-host/workers/java" ]
-COPY --from=jre [ "/usr/lib/jvm/zre-hl-tools-11-azure-amd64", "/usr/lib/jvm/zre-11-azure-amd64" ]
 
 COPY sshd_config /etc/ssh/
 COPY start.sh /azure-functions-host/
