@@ -1,6 +1,6 @@
 ARG HOST_VERSION=4.0.1.16815
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0.100-rc.2 AS runtime-image
+FROM mcr.microsoft.com/dotnet/sdk:6.0.100 AS runtime-image
 ARG HOST_VERSION
 
 ENV PublishWithAspNetCoreTargetManifest=false \
