@@ -39,7 +39,7 @@ jobs:
       pswd: $(dockerPassword)
 
   - bash: |
-      ./host/3.0/buster/amd64/base/generate-composite.sh python
+      ./host/generate-composite.sh -3 python
 
     displayName: create python-appservice dockerfiles
     continueOnError: false
@@ -115,7 +115,7 @@ jobs:
       pswd: $(dockerPassword)
 
   - bash: |
-      ./host/3.0/buster/amd64/base/generate-composite.sh python
+      ./host/generate-composite.sh -3 python
 
     displayName: create python-appservice dockerfiles
     continueOnError: false
@@ -191,7 +191,7 @@ jobs:
       pswd: $(dockerPassword)
 
   - bash: |
-      ./host/3.0/buster/amd64/base/generate-composite.sh python
+      ./host/generate-composite.sh -3 python
 
     displayName: create python-appservice dockerfiles
     continueOnError: false
@@ -267,7 +267,7 @@ jobs:
       pswd: $(dockerPassword)
 
   - bash: |
-      ./host/3.0/buster/amd64/base/generate-composite.sh python
+      ./host/generate-composite.sh -3 python
 
     displayName: create python-appservice dockerfiles
     continueOnError: false

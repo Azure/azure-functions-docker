@@ -18,7 +18,7 @@ jobs:
         ref: dev
         fetch-depth: 0
         token: ${{ secrets.PIPELINE_ADMIN }}
-    - name: Generate Image Artifacts
+    - name: Create Release Tag
       id: createBranch
       run: |
         set -e
@@ -27,8 +27,6 @@ jobs:
         git fetch --all
         git checkout -b ${{ github.event.inputs.targetBranch }} origin/${{ github.event.inputs.targetBranch }}
         git merge dev
-        ./host/3.0/buster/amd64/base/generate-composite.sh -r all
-        zip -r version3images.zip ./host/3.0/buster/amd64/release/
         git tag ${{ github.event.inputs.version }}
         git push
         git push origin ${{ github.event.inputs.version }}
@@ -41,11 +39,22 @@ jobs:
         tag: ${{ github.event.inputs.version }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    - name: Attach v3 Assets to Release
+    - name : Generate v3 Assets
+      if : startsWith(github.event.inputs.version, '3')
+      run: |
+        ./host/generate-composite.sh -3 -r all
+        zip -r ${{ github.event.inputs.version }}.zip ./host/3.0/buster/amd64/release/
+    - name : Generate v4 Assets
+      if : startsWith(github.event.inputs.version, '4')
+      run: |
+        ./host/generate-composite.sh -4 -r all
+        zip -r ${{ github.event.inputs.version }}.zip ./host/4/bullseye/amd64/release/
+    - name: Attach Assets to Release
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.release.outputs.upload_url }}
-        asset_path: ./version3images.zip
-        asset_name: version3images
+        asset_path: ./${{ github.event.inputs.version }}.zip
+        asset_name: ${{ github.event.inputs.version }}-appservice.zip
+        asset_content_type: application/zip
