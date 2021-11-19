@@ -1,7 +1,7 @@
 ARG JAVA_VERSION=8u252
 
 FROM mcr.microsoft.com/java/jre-headless:${JAVA_VERSION}-zulu-debian10-with-tools as jre
-FROM mcr.microsoft.com/dotnet/nightly/runtime-deps:6.0.0
+FROM mcr.microsoft.com/dotnet/runtime-deps:6.0.0
 ARG HOST_VERSION
 
 EXPOSE 2222 80
