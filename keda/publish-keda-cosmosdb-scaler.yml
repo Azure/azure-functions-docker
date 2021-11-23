@@ -41,7 +41,8 @@ steps:
           --name $ACR_NAME \
           --username $ACR_USERNAME \
           --password $ACR_PASSWORD \
-          --image $ACR_REPOSITORY@$digest
+          --image $ACR_REPOSITORY@$digest \
+          --yes
       done
 
       # Push all available image versions from GHCR to ACR.
