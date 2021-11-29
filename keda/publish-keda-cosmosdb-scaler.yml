@@ -19,7 +19,7 @@ steps:
       set -e
 
       ORGANIZATION_NAME=kedacore
-      IMAGE_NAME=keda-external-scaler-azure-cosmos-db
+      IMAGE_NAME=external-scaler-azure-cosmos-db
 
       ACR_NAME=azurefunctions
       ACR_SERVER=$ACR_NAME.azurecr.io
