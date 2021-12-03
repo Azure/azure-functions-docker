@@ -36,6 +36,13 @@ steps:
       pswd: $(dockerPassword)
 
   - bash: |
+      set -e
+      cp host/mvn-entrypoint.sh host/3.0/buster/amd64/java/java8
+      cp host/mvn-entrypoint.sh host/3.0/buster/amd64/java/java11
+      cp host/settings-docker.xml host/3.0/buster/amd64/java/java8
+      cp host/settings-docker.xml host/3.0/buster/amd64/java/java11
+
+  - bash: |
       ./host/generate-composite.sh -3 java
 
     displayName: create java-appservice dockerfiles
@@ -77,6 +84,16 @@ steps:
 
   - bash: |
       set -e
+      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/java:$(Build.SourceBranchName)-java8-build
+      docker build -t $IMAGE_NAME \
+                  -f host/3.0/buster/amd64/java/java8/java8-build.Dockerfile \
+                  host/3.0/buster/amd64/java/java8
+      docker push $IMAGE_NAME
+    displayName: java8-build
+    continueOnError: false
+
+  - bash: |
+      set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/java:$(Build.SourceBranchName)-java11
 
       docker build -t $IMAGE_NAME \
@@ -107,4 +124,14 @@ steps:
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
     displayName: java11-appservice
+    continueOnError: false
+
+  - bash: |
+      set -e
+      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/java:$(Build.SourceBranchName)-java11-build
+      docker build -t $IMAGE_NAME \
+                  -f host/3.0/buster/amd64/java/java11/java11-build.Dockerfile \
+                  host/3.0/buster/amd64/java/java11
+      docker push $IMAGE_NAME
+    displayName: java11-build
     continueOnError: false
