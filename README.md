@@ -6,6 +6,8 @@ CoreTools Healthcheck: [![CoreTools healthcheck](https://azure-functions.visuals
 
 ## V4 Images
 
+See release artifacts for Dockerfiles - example : https://github.com/Azure/azure-functions-docker/releases/download/3.4.2/3.4.2-appservice.zip
+
 #### Dotnet
 
 `mcr.microsoft.com/azure-functions/dotnet`
@@ -194,7 +196,8 @@ Linux amd64 Tags
 
 Linux amd64 Tags
 
-| Tags           |                         OS Version |
+| Tags           |  OS Version |
+|------------------------------------------------|------------|
 | `3.0`, `3.0-java8`                       | Debian 10  |
 | `3.0-slim`, `3.0-java8-slim`             |  Debian 10  |
 | `3.0-appservice`, `3.0-java8-appservice` |  Debian 10  |
