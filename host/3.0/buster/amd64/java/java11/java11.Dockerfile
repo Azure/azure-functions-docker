@@ -1,5 +1,5 @@
 # Build the runtime from source
-ARG HOST_VERSION=3.4.1
+ARG HOST_VERSION=3.4.2
 ARG JAVA_VERSION=11u11
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS runtime-image
 ARG HOST_VERSION
