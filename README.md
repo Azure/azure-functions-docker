@@ -4,6 +4,115 @@ CoreTools Healthcheck: [![CoreTools healthcheck](https://azure-functions.visuals
 
 # Dockerhub
 
+## V4 Images
+
+#### Dotnet
+
+`mcr.microsoft.com/azure-functions/dotnet`
+
+Linux amd64 Tags
+
+| Tags      | OS Version |
+|----------------------|----------------------------------|
+| `4`                                      | Debian 10  |
+| `4-slim`                                 | Debian 10  |
+| `4-appservice`, `4-dotnet3-appservice` | Debian 10  |
+| `4-dotnet3-core-tools` |  Debian 10  |
+
+
+`mcr.microsoft.com/azure-functions/dotnet-isolated`
+
+| Tags                                       | OS Version |
+|-------------------------------------------|------------|
+| `4`                                      | Debian 10  |
+| `4-dotnet-isolated5.0-slim`                               | Debian 10  |
+| `4-appservice`, `4-dotnet-isolated5.0-appservice` |Debian 10  |
+| `4-dotnet-isolated5.0-core-tools` | Debian 10  |
+
+#### Node
+
+`mcr.microsoft.com/azure-functions/node`
+
+Linux amd64 Tags
+
+| Tags                                      |  OS Version |
+|-------------------------------------------|----------------------|
+| `4-node14`                              |  Debian 10  |
+| `4-node14-slim`                         | Debian 10  |
+| `4-node14-appservice`                   |  Debian 10  |
+| `4-node14-core-tools`                   |  Debian 10  |
+| `4-node16`                              |  Debian 10  |
+| `4-node16-slim`                         |  Debian 10  |
+| `4-node16-appservice`                   |  Debian 10  |
+| `4-node16-core-tools`                   |  Debian 10  |
+
+#### Powershell
+
+`mcr.microsoft.com/azure-functions/powershell`
+
+Linux amd64 Tags
+
+|Tags               | OS Version |
+|----------------------------------|------------|
+| `4`, `4-powershell6`                       |  Debian 10  |
+| `4-slim`, `4-powershell6-slim`             |  Debian 10  |
+| `4-appservice`, `4-powershell6-appservice` |  Debian 10  |
+| `4-powershell6-core-tools`                   |  Debian 10   |
+| `4-powershell7`                              |  Debian 10  |
+| `4-powershell7-slim`                         |  Debian 10  |
+| `4-powershell7-appservice`                   |  Debian 10  |
+| `4-powershell7-core-tools`                   | Debian 10  |
+
+#### Java
+
+`mcr.microsoft.com/azure-functions/java`
+
+Linux amd64 Tags
+
+| Tags                                     |  OS Version |
+|------------------------------------------|------------|
+| `4`, `4-java8`                       |  Debian 10  |
+| `4-slim`, `4-java8-slim`             |  Debian 10  |
+| `4-appservice`, `4-java8-appservice` |  Debian 10  |
+| `4-java8-core-tools`                   |  Debian 10   |
+| `4-java8-build`               | Debian 10   |
+| `4-java11`                             |Debian 10  |
+| `4-java11-slim`                        |  Debian 10  |
+| `4-java11-appservice`                  |  Debian 10  |
+| `4-java11-core-tools`                  |  Debian 10   |
+| `4-java11-build`            | Debian 10  |
+
+### Python
+
+`mcr.microsoft.com/azure-functions/python`
+
+Linux amd64 Tags
+
+| Tags                  | OS Version |
+|--------------------------------------------|------------|
+| `4-python3.8`                              |  Debian 10  |
+| `4-python3.8-slim`                         |  Debian 10  |
+| `4-python3.8-appservice`                   | Debian 10  |
+| `4-python3.8-buildenv`                     |  Debian 10  |
+| `4-python3.8-core-tools`                   | Debian 10  |
+| `4-python3.9`                              |  Debian 10  |
+| `4-python3.9-slim`                         |  Debian 10  |
+| `4-python3.9-appservice`                   |  Debian 10  |
+| `4-python3.9-buildenv`                     | Debian 10  |
+| `4-python3.9-core-tools`                   |  Debian 10  |
+
+#### Base
+
+`mcr.microsoft.com/azure-functions/base`
+
+Linux amd64 Tags
+
+| Tags             | OS Version |
+|------------------|------------|
+| `4`            |  Debian 10  |
+| `4-slim`       |  Debian 10  |
+| `4-appservice` |  Debian 10  |
+
 ## V3 Images
 
 #### Dotnet
@@ -12,35 +121,34 @@ CoreTools Healthcheck: [![CoreTools healthcheck](https://azure-functions.visuals
 
 Linux amd64 Tags
 
-| Tags                                       | Dockerfile                                                              | OS Version |
-|--------------------------------------------|-------------------------------------------------------------------------|------------|
-| `3.0`                                      | [Dockerfile](host/3.0/buster/amd64/dotnet/dotnet-inproc/dotnet.Dockerfile)            | Debian 10  |
-| `3.0-slim`                                 | [Dockerfile](host/3.0/buster/amd64/dotnet/dotnet-inproc/dotnet-slim.Dockerfile)       | Debian 10  |
-| `3.0-appservice`, `3.0-dotnet3-appservice` | [Dockerfile](host/3.0/buster/amd64/dotnet/dotnet-inproc/dotnet-appservice.Dockerfile) | Debian 10  |
-| `3.0-dotnet3-core-tools` | [Dockerfile](host/3.0/buster/amd64/dotnet/dotnet-inproc/dotnet-core-tools.Dockerfile) | Debian 10  |
-
+| Tags                                       |  OS Version |
+|--------------------------------------------|------------|
+| `3.0`                                      | Debian 10  |
+| `3.0-slim`                                 |  Debian 10  |
+| `3.0-appservice`, `3.0-dotnet3-appservice` |  Debian 10  |
+| `3.0-dotnet3-core-tools` | Debian 10  |
 
 `mcr.microsoft.com/azure-functions/dotnet-isolated`
 
-| Tags                                       | Dockerfile                                                              | OS Version |
-|--------------------------------------------|-------------------------------------------------------------------------|------------|
-| `3.0`                                      | [Dockerfile](host/3.0/buster/amd64/dotnet/dotnet-isolated/dotnet-isolated.Dockerfile)            | Debian 10  |
-| `3.0-dotnet-isolated5.0-slim`                                 | [Dockerfile](host/3.0/buster/amd64/dotnet/dotnet-isolated/dotnet-isolated-slim.Dockerfile)       | Debian 10  |
-| `3.0-appservice`, `3.0-dotnet-isolated5.0-appservice` | [Dockerfile](host/3.0/buster/amd64/dotnet/dotnet-isolated/dotnet-isolated-appservice.Dockerfile) | Debian 10  |
-| `3.0-dotnet-isolated5.0-core-tools` | [Dockerfile](host/3.0/buster/amd64/dotnet/dotnet-isolated/dotnet-isolated-core-tools.Dockerfile) | Debian 10  |
+| Tags                                       | OS Version |
+|--------------------------------------------|------------|
+| `3.0`                                      | Debian 10  |
+| `3.0-dotnet-isolated5.0-slim`             |  Debian 10  |
+| `3.0-appservice`, `3.0-dotnet-isolated5.0-appservice` |  Debian 10  |
+| `3.0-dotnet-isolated5.0-core-tools` |  Debian 10  |
 
 Linux arm32v7 Tags
 
-| Tags                 | Dockerfile                                                     | OS Version   |
-|----------------------|----------------------------------------------------------------|--------------|
-| `3.0-arm32v7`        | [Dockerfile](host/3.0/buster/arm32v7/dotnet/dotnet.Dockerfile) | Debian 10    |
-| `3.0-bionic-arm32v7` | [Dockerfile](host/3.0/bionic/arm32v7/dotnet/dotnet.Dockerfile) | Ubuntu 18.04 |
+| Tags                 |  OS Version   |
+|----------------------|--------------|
+| `3.0-arm32v7`        |  Debian 10    |
+| `3.0-bionic-arm32v7` | Ubuntu 18.04 |
 
 Windows Server
 
-| Tags                  | Dockerfile                                               | OS Version          |
-|-----------------------|----------------------------------------------------------|---------------------|
-| `3.0-nanoserver-1809` | [Dockerfile](host/3.0/nanoserver/1809/dotnet.Dockerfile) | Windows Server 1809 |
+| Tags                  | OS Version          |
+|-----------------------|---------------------|
+| `3.0-nanoserver-1809` | Windows Server 1809 |
 
 #### Node
 
@@ -48,20 +156,20 @@ Windows Server
 
 Linux amd64 Tags
 
-| Tags                                      | Dockerfile                                                                   | OS Version |
-|-------------------------------------------|------------------------------------------------------------------------------|------------|
-| `3.0`, `3.0-node10`                       | [Dockerfile](host/3.0/buster/amd64/node/node10/node10.Dockerfile)            | Debian 10  |
-| `3.0-slim`, `3.0-node10-slim`             | [Dockerfile](host/3.0/buster/amd64/node/node10/node10-slim.Dockerfile)       | Debian 10  |
-| `3.0-appservice`, `3.0-node10-appservice` | [Dockerfile](host/3.0/buster/amd64/node/node10/node10-appservice.Dockerfile) | Debian 10  |
-| `3.0-core-tools`, `3.0-node10-core-tools` | [Dockerfile](host/3.0/buster/amd64/node/node10/node10-core-tools.Dockerfile) | Debian 9  |
-| `3.0-node12`                              | [Dockerfile](host/3.0/buster/amd64/node/node12/node12.Dockerfile)            | Debian 10  |
-| `3.0-node12-slim`                         | [Dockerfile](host/3.0/buster/amd64/node/node12/node12-slim.Dockerfile)       | Debian 10  |
-| `3.0-node12-appservice`                   | [Dockerfile](host/3.0/buster/amd64/node/node12/node12-appservice.Dockerfile) | Debian 10  |
-| `3.0-node12-core-tools`                   | [Dockerfile](host/3.0/buster/amd64/node/node12/node12-core-tools.Dockerfile) | Debian 9  |
-| `3.0-node14`                              | [Dockerfile](host/3.0/buster/amd64/node/node14/node14.Dockerfile)            | Debian 10  |
-| `3.0-node14-slim`                         | [Dockerfile](host/3.0/buster/amd64/node/node14/node14-slim.Dockerfile)       | Debian 10  |
-| `3.0-node14-appservice`                   | [Dockerfile](host/3.0/buster/amd64/node/node14/node14-appservice.Dockerfile) | Debian 10  |
-| `3.0-node14-core-tools`                   | [Dockerfile](host/3.0/buster/amd64/node/node14/node14-core-tools.Dockerfile) | Debian 9  |
+| Tags     | OS Version |
+|----------|------------|
+| `3.0`, `3.0-node10`                       |Debian 10  |
+| `3.0-slim`, `3.0-node10-slim`             |  Debian 10  |
+| `3.0-appservice`, `3.0-node10-appservice` |  Debian 10  |
+| `3.0-core-tools`, `3.0-node10-core-tools` | Debian 9  |
+| `3.0-node12`                              | Debian 10  |
+| `3.0-node12-slim`                         |  Debian 10  |
+| `3.0-node12-appservice`                   | Debian 10  |
+| `3.0-node12-core-tools`                   |  Debian 9  |
+| `3.0-node14`                              |  Debian 10  |
+| `3.0-node14-slim`                         |  Debian 10  |
+| `3.0-node14-appservice`                   |  Debian 10  |
+| `3.0-node14-core-tools`                   |  Debian 9  |
 
 #### Powershell
 
@@ -69,16 +177,16 @@ Linux amd64 Tags
 
 Linux amd64 Tags
 
-| Tags                                           | Dockerfile                                                                       | OS Version |
-|------------------------------------------------|----------------------------------------------------------------------------------|------------|
-| `3.0`, `3.0-powershell6`                       | [Dockerfile](host/3.0/buster/amd64/powershell/powershell6.Dockerfile)            | Debian 10  |
-| `3.0-slim`, `3.0-powershell6-slim`             | [Dockerfile](host/3.0/buster/amd64/powershell/powershell6-slim.Dockerfile)       | Debian 10  |
-| `3.0-appservice`, `3.0-powershell6-appservice` | [Dockerfile](host/3.0/buster/amd64/powershell/powershell6-appservice.Dockerfile) | Debian 10  |
-| `3.0-powershell6-core-tools`                   | [Dockerfile](host/3.0/buster/amd64/powershell/powershell6-core-tools.Dockerfile) | Debian 9   |
-| `3.0-powershell7`                              | [Dockerfile](host/3.0/buster/amd64/powershell/powershell7.Dockerfile)            | Debian 10  |
-| `3.0-powershell7-slim`                         | [Dockerfile](host/3.0/buster/amd64/powershell/powershell7-slim.Dockerfile)       | Debian 10  |
-| `3.0-powershell7-appservice`                   | [Dockerfile](host/3.0/buster/amd64/powershell/powershell7-appservice.Dockerfile) | Debian 10  |
-| `3.0-powershell7-core-tools`                   | [Dockerfile](host/3.0/buster/amd64/powershell/powershell7-core-tools.Dockerfile) | Debian 10  |
+| Tags                                          | OS Version |
+|------------------------------------------------|------------|
+| `3.0`, `3.0-powershell6`                       |  Debian 10  |
+| `3.0-slim`, `3.0-powershell6-slim`             |  Debian 10  |
+| `3.0-appservice`, `3.0-powershell6-appservice` | Debian 10  |
+| `3.0-powershell6-core-tools`                   |  Debian 9   |
+| `3.0-powershell7`                              |  Debian 10  |
+| `3.0-powershell7-slim`                         |  Debian 10  |
+| `3.0-powershell7-appservice`                   | Debian 10  |
+| `3.0-powershell7-core-tools`                   |  Debian 10  |
 
 #### Java
 
@@ -86,19 +194,17 @@ Linux amd64 Tags
 
 Linux amd64 Tags
 
-| Tags                                     | Dockerfile                                                           | OS Version |
-|------------------------------------------|----------------------------------------------------------------------|------------|
-| `3.0`, `3.0-java8`                       | [Dockerfile](host/3.0/buster/amd64/java/java8/java8.Dockerfile)            | Debian 10  |
-| `3.0-slim`, `3.0-java8-slim`             | [Dockerfile](host/3.0/buster/amd64/java/java8/java8-slim.Dockerfile)       | Debian 10  |
-| `3.0-appservice`, `3.0-java8-appservice` | [Dockerfile](host/3.0/buster/amd64/java/java8/java8-appservice.Dockerfile) | Debian 10  |
-| `3.0-java8-core-tools`                   | [Dockerfile](host/3.0/buster/amd64/java/java8/java8-core-tools.Dockerfile) | Debian 10   |
-| `3.0-java8-build`                        | `N/A`                                                                        | Debian 10   |
-| `3.0-java11`                             | [Dockerfile](host/3.0/buster/amd64/java/java11/java11.Dockerfile)            | Debian 10  |
-| `3.0-java11-slim`                        | [Dockerfile](host/3.0/buster/amd64/java/java11/java11-slim.Dockerfile)       | Debian 10  |
-| `3.0-java11-appservice`                  | [Dockerfile](host/3.0/buster/amd64/java/java11/java11-appservice.Dockerfile) | Debian 10  |
-| `3.0-java11-core-tools`                  | [Dockerfile](host/3.0/buster/amd64/java/java11/java11-core-tools.Dockerfile) | Debian 10   |
-| `3.0-java11-build`                       | `N/A`                                                                        | Debian 10  |
-
+| Tags           |                         OS Version |
+| `3.0`, `3.0-java8`                       | Debian 10  |
+| `3.0-slim`, `3.0-java8-slim`             |  Debian 10  |
+| `3.0-appservice`, `3.0-java8-appservice` |  Debian 10  |
+| `3.0-java8-core-tools`                   |  Debian 10   |
+| `3.0-java8-build`                        | Debian 10   |
+| `3.0-java11`                             | Debian 10  |
+| `3.0-java11-slim`                        |  Debian 10  |
+| `3.0-java11-appservice`                  |  Debian 10  |
+| `3.0-java11-core-tools`                  |  Debian 10   |
+| `3.0-java11-build`                       |  Debian 10  |
 
 ### Python
 
@@ -106,26 +212,26 @@ Linux amd64 Tags
 
 Linux amd64 Tags
 
-| Tags                                         | Dockerfile                                                                         | OS Version |
-|----------------------------------------------|------------------------------------------------------------------------------------|------------|
-| `3.0`, `3.0-python3.6`                       | [Dockerfile](host/3.0/buster/amd64/python/python36/python36.Dockerfile)            | Debian 10  |
-| `3.0-slim`, `3.0-python3.6-slim`             | [Dockerfile](host/3.0/buster/amd64/python/python36/python36-slim.Dockerfile)       | Debian 10  |
-| `3.0-appservice`, `3.0-python3.6-appservice` | [Dockerfile](host/3.0/buster/amd64/python/python36/python36-appservice.Dockerfile) | Debian 10  |
-| `3.0-python3.6-buildenv`                     | [Dockerfile](host/3.0/buster/amd64/python/python36/python36-buildenv.Dockerfile)   | Debian 10  |
-| `3.0-python3.7`                              | [Dockerfile](host/3.0/buster/amd64/python/python37/python37.Dockerfile)            | Debian 10  |
-| `3.0-python3.7-slim`                         | [Dockerfile](host/3.0/buster/amd64/python/python37/python37-slim.Dockerfile)       | Debian 10  |
-| `3.0-python3.7-appservice`                   | [Dockerfile](host/3.0/buster/amd64/python/python37/python37-appservice.Dockerfile) | Debian 10  |
-| `3.0-python3.7-buildenv`                     | [Dockerfile](host/3.0/buster/amd64/python/python37/python37-buildenv.Dockerfile)   | Debian 10  |
-| `3.0-python3.8`                              | [Dockerfile](host/3.0/buster/amd64/python/python38/python38.Dockerfile)            | Debian 10  |
-| `3.0-python3.8-slim`                         | [Dockerfile](host/3.0/buster/amd64/python/python38/python38-slim.Dockerfile)       | Debian 10  |
-| `3.0-python3.8-appservice`                   | [Dockerfile](host/3.0/buster/amd64/python/python38/python38-appservice.Dockerfile) | Debian 10  |
-| `3.0-python3.8-buildenv`                     | [Dockerfile](host/3.0/buster/amd64/python/python38/python38-buildenv.Dockerfile)   | Debian 10  |
-| `3.0-python3.8-core-tools`                   | [Dockerfile](host/3.0/buster/amd64/python/python38/python38-core-tools.Dockerfile) | Debian 10  |
-| `3.0-python3.9`                              | [Dockerfile](host/3.0/buster/amd64/python/python39/python39.Dockerfile)            | Debian 10  |
-| `3.0-python3.9-slim`                         | [Dockerfile](host/3.0/buster/amd64/python/python39/python39-slim.Dockerfile)       | Debian 10  |
-| `3.0-python3.9-appservice`                   | [Dockerfile](host/3.0/buster/amd64/python/python39/python39-appservice.Dockerfile) | Debian 10  |
-| `3.0-python3.9-buildenv`                     | [Dockerfile](host/3.0/buster/amd64/python/python39/python39-buildenv.Dockerfile)   | Debian 10  |
-| `3.0-python3.9-core-tools`                   | [Dockerfile](host/3.0/buster/amd64/python/python39/python39-core-tools.Dockerfile) | Debian 10  |
+| Tags                                        |OS Version |
+|--------------------------------------|------------|
+| `3.0`, `3.0-python3.6`                       |Debian 10  |
+| `3.0-slim`, `3.0-python3.6-slim`             |  Debian 10  |
+| `3.0-appservice`, `3.0-python3.6-appservice` |  Debian 10  |
+| `3.0-python3.6-buildenv`                     |  Debian 10  |
+| `3.0-python3.7`                              | Debian 10  |
+| `3.0-python3.7-slim`                         |  Debian 10  |
+| `3.0-python3.7-appservice`                   |  Debian 10  |
+| `3.0-python3.7-buildenv`                     |  Debian 10  |
+| `3.0-python3.8`                              |  Debian 10  |
+| `3.0-python3.8-slim`                         | Debian 10  |
+| `3.0-python3.8-appservice`                   |  Debian 10  |
+| `3.0-python3.8-buildenv`                     | Debian 10  |
+| `3.0-python3.8-core-tools`                   |  Debian 10  |
+| `3.0-python3.9`                              |  Debian 10  |
+| `3.0-python3.9-slim`                         | Debian 10  |
+| `3.0-python3.9-appservice`                   | Debian 10  |
+| `3.0-python3.9-buildenv`                     |  Debian 10  |
+| `3.0-python3.9-core-tools`                   | Debian 10  |
 
 #### Base
 
@@ -133,131 +239,11 @@ Linux amd64 Tags
 
 Linux amd64 Tags
 
-| Tags             | Dockerfile                                                              | OS Version |
-|------------------|-------------------------------------------------------------------------|------------|
-| `3.0`            | [Dockerfile](host/3.0/buster/amd64/dotnet/dotnet.Dockerfile)            | Debian 10  |
-| `3.0-slim`       | [Dockerfile](host/3.0/buster/amd64/dotnet/dotnet-slim.Dockerfile)       | Debian 10  |
-| `3.0-appservice` | [Dockerfile](host/3.0/buster/amd64/dotnet/dotnet-appservice.Dockerfile) | Debian 10  |
-
-## V2 Images
-
-#### Dotnet
-
-`mcr.microsoft.com/azure-functions/dotnet`
-
-Linux amd64 Tags
-
-| Tags                                       | Dockerfile                                                               | OS Version |
-|--------------------------------------------|--------------------------------------------------------------------------|------------|
-| `2.0`                                      | [Dockerfile](host/2.0/stretch/amd64/dotnet/dotnet.Dockerfile)            | Debian 9   |
-| `2.0-slim`                                 | [Dockerfile](host/2.0/stretch/amd64/dotnet/dotnet-slim.Dockerfile)       | Debian 9   |
-| `2.0-appservice`, `2.0-dotnet2-appservice` | [Dockerfile](host/2.0/stretch/amd64/dotnet/dotnet-appservice.Dockerfile) | Debian 9   |
-
-Linux arm32v7 Tags
-
-| Tags                 | Dockerfile                                                      | OS Version   |
-|----------------------|-----------------------------------------------------------------|--------------|
-| `2.0-arm32v7`        | [Dockerfile](host/2.0/stretch/arm32v7/dotnet/dotnet.Dockerfile) | Debian 9     |
-| `2.0-bionic-arm32v7` | [Dockerfile](host/2.0/bionic/arm32v7/dotnet/dotnet.Dockerfile)  | Ubuntu 18.04 |
-
-Linux alpine Tags
-
-| Tags         | Dockerfile                                                   | OS Version |
-|--------------|--------------------------------------------------------------|------------|
-| `2.0-alpine` | [Dockerfile](host/2.0/alpine/amd64/dotnet/dotnet.Dockerfile) | Alpine 3.8 |
-
-Windows Server
-
-| Tags                  | Dockerfile                                               | OS Version          |
-|-----------------------|----------------------------------------------------------|---------------------|
-| `2.0-nanoserver-1803` | [Dockerfile](host/2.0/nanoserver/1803/dotnet.Dockerfile) | Windows Server 1803 |
-| `2.0-nanoserver-1809` | [Dockerfile](host/2.0/nanoserver/1809/dotnet.Dockerfile) | Windows Server 1809 |
-
-#### Node
-
-`mcr.microsoft.com/azure-functions/node`
-
-Linux amd64 Tags
-
-| Tags                                     | Dockerfile                                                                    | OS Version |
-|------------------------------------------|-------------------------------------------------------------------------------|------------|
-| `2.0`, `2.0-node8`                       | [Dockerfile](host/2.0/stretch/amd64/node/node8/node8.Dockerfile)              | Debian 9   |
-| `2.0-slim`, `2.0-node8-slim`             | [Dockerfile](host/2.0/stretch/amd64/node/node8/node8-slim.Dockerfile)         | Debian 9   |
-| `2.0-appservice`, `2.0-node8-appservice` | [Dockerfile](host/2.0/stretch/amd64/node/node8/node8-appservice.Dockerfile)   | Debian 9   |
-| `2.0-node10`                             | [Dockerfile](host/2.0/stretch/amd64/node/node10/node10.Dockerfile)            | Debian 9   |
-| `2.0-node10-slim`                        | [Dockerfile](host/2.0/stretch/amd64/node/node10/node10-slim.Dockerfile)       | Debian 9   |
-| `2.0-node10-appservice`                  | [Dockerfile](host/2.0/stretch/amd64/node/node10/node10-appservice.Dockerfile) | Debian 9   |
-| `2.0-node12`                             | [Dockerfile](host/2.0/stretch/amd64/node/node12/node12.Dockerfile)            | Debian 9   |
-| `2.0-node12-slim`                        | [Dockerfile](host/2.0/stretch/amd64/node/node12/node12-slim.Dockerfile)       | Debian 9   |
-| `2.0-node12-appservice`                  | [Dockerfile](host/2.0/stretch/amd64/node/node12/node12-appservice.Dockerfile) | Debian 9   |
-
-#### Powershell
-
-`mcr.microsoft.com/azure-functions/powershell`
-
-Linux amd64 Tags
-
-| Tags                                           | Dockerfile                                                                        | OS Version |
-|------------------------------------------------|-----------------------------------------------------------------------------------|------------|
-| `2.0`, `2.0-powershell6`                       | [Dockerfile](host/2.0/stretch/amd64/powershell/powershell6.Dockerfile)            | Debian 9   |
-| `2.0-slim`, `2.0-powershell6-slim`             | [Dockerfile](host/2.0/stretch/amd64/powershell/powershell6-slim.Dockerfile)       | Debian 9   |
-| `2.0-appservice`, `2.0-powershell6-appservice` | [Dockerfile](host/2.0/stretch/amd64/powershell/powershell6-appservice.Dockerfile) | Debian 9   |
-
-Linux alpine Tags
-
-| Tags                                   | Dockerfile                                                            | OS Version |
-|----------------------------------------|-----------------------------------------------------------------------|------------|
-| `2.0-alpine`, `2.0-powershell6-alpine` | [Dockerfile](host/2.0/alpine/amd64/powershell/powershell6.Dockerfile) | Alpine 3.8 |
-
-
-#### Java
-
-`mcr.microsoft.com/azure-functions/java`
-
-Linux amd64 Tags
-
-| Tags                                     | Dockerfile                                                            | OS Version |
-|------------------------------------------|-----------------------------------------------------------------------|------------|
-| `2.0`, `2.0-java8`                       | [Dockerfile](host/2.0/stretch/amd64/java/java8.Dockerfile)            | Debian 9   |
-| `2.0-slim`, `2.0-java8-slim`             | [Dockerfile](host/2.0/stretch/amd64/java/java8-slim.Dockerfile)       | Debian 9   |
-| `2.0-appservice`, `2.0-java8-appservice` | [Dockerfile](host/2.0/stretch/amd64/java/java8-appservice.Dockerfile) | Debian 10  |
-| `2.0-java8-build`                        | `N/A`                                                                 | Debian 9   |
-
-Linux alpine Tags
-
-| Tags                             | Dockerfile                                                | OS Version |
-|----------------------------------|-----------------------------------------------------------|------------|
-| `2.0-alpine`, `2.0-java8-alpine` | [Dockerfile](host/2.0/alpine/amd64/java/java8.Dockerfile) | Alpine 3.8 |
-
-
-### Python
-
-`mcr.microsoft.com/azure-functions/python`
-
-Linux amd64 Tags
-
-| Tags                                         | Dockerfile                                                                          | OS Version |
-|----------------------------------------------|-------------------------------------------------------------------------------------|------------|
-| `2.0`, `2.0-python3.6`                       | [Dockerfile](host/2.0/stretch/amd64/python/python36/python36.Dockerfile)            | Debian 9   |
-| `2.0-slim`, `2.0-python3.6-slim`             | [Dockerfile](host/2.0/stretch/amd64/python/python36/python36-slim.Dockerfile)       | Debian 9   |
-| `2.0-appservice`, `2.0-python3.6-appservice` | [Dockerfile](host/2.0/stretch/amd64/python/python36/python36-appservice.Dockerfile) | Debian 9   |
-| `2.0-python3.6-buildenv`                     | [Dockerfile](host/2.0/stretch/amd64/python/python36/python36-buildenv.Dockerfile)   | Debian 9   |
-| `2.0-python3.7`                              | [Dockerfile](host/2.0/stretch/amd64/python/python37/python37.Dockerfile)            | Debian 9   |
-| `2.0-python3.7-slim`                         | [Dockerfile](host/2.0/stretch/amd64/python/python37/python37-slim.Dockerfile)       | Debian 9   |
-| `2.0-python3.7-appservice`                   | [Dockerfile](host/2.0/stretch/amd64/python/python37/python37-appservice.Dockerfile) | Debian 9   |
-| `2.0-python3.7-buildenv`                     | [Dockerfile](host/2.0/stretch/amd64/python/python37/python37-buildenv.Dockerfile)   | Debian 9   |
-
-#### Base
-
-`mcr.microsoft.com/azure-functions/base`
-
-Linux amd64 Tags
-
-| Tags             | Dockerfile                                                              | OS Version |
-|------------------|-------------------------------------------------------------------------|------------|
-| `2.0`            | [Dockerfile](host/2.0/buster/amd64/dotnet/dotnet.Dockerfile)            | Debian 9   |
-| `2.0-slim`       | [Dockerfile](host/2.0/buster/amd64/dotnet/dotnet-slim.Dockerfile)       | Debian 9   |
-| `2.0-appservice` | [Dockerfile](host/2.0/buster/amd64/dotnet/dotnet-appservice.Dockerfile) | Debian 9   |
+| Tags             |  OS Version |
+|------------------|------------|
+| `3.0`            |  Debian 10  |
+| `3.0-slim`       |  Debian 10  |
+| `3.0-appservice` |  Debian 10  |
 
 # Contributing
 
