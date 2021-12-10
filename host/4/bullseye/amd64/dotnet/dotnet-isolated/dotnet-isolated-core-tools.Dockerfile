@@ -39,7 +39,7 @@ RUN apt-get update \
     && echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME\
     && chmod 0440 /etc/sudoers.d/$USERNAME \
     #
-    # Install Azure Functions Core Tools v3 and Azure CLI
+    # Install Azure Functions Core Tools v4 and Azure CLI
     && wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.asc.gpg \
     && mv microsoft.asc.gpg /etc/apt/trusted.gpg.d/ \
     && wget -q https://packages.microsoft.com/config/debian/9/prod.list \
@@ -48,7 +48,7 @@ RUN apt-get update \
     && chown root:root /etc/apt/sources.list.d/microsoft-prod.list \
     && echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $(lsb_release -cs) main" > /etc/apt/sources.list.d/azure-cli.list \
     && apt-get update \
-    && apt-get -y install azure-cli azure-functions-core-tools-3 \
+    && apt-get -y install azure-cli azure-functions-core-tools-4 \
     #
     # Clean up
     && apt-get autoremove -y \
