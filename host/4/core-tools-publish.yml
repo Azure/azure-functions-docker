@@ -520,18 +520,17 @@ stages:
         condition: ne(variables['SkipProduction'], 'true')
 
       - bash: |
-        set -e
-        docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node16-core-tools
+          set -e
+          docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node16-core-tools
 
-        docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node16-core-tools $TARGET_REGISTRY/node:$(TargetVersion)-core-tools   
-        docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node16-core-tools $TARGET_REGISTRY/node:$(TargetVersion)-node16-core-tools
+          docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node16-core-tools $TARGET_REGISTRY/node:$(TargetVersion)-core-tools   
+          docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node16-core-tools $TARGET_REGISTRY/node:$(TargetVersion)-node16-core-tools
 
-        docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node16-core-tools $TARGET_REGISTRY/node:$(MajorVersion)-core-tools   
-        docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node16-core-tools $TARGET_REGISTRY/node:$(MajorVersion)-node16-core-tools
-
-
+          docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node16-core-tools $TARGET_REGISTRY/node:$(MajorVersion)-core-tools   
+          docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node16-core-tools $TARGET_REGISTRY/node:$(MajorVersion)-node16-core-tools
         displayName: tag node16 images
         continueOnError: false
+
       - bash: |
           set -e 
           PrivateImageId=`docker image inspect $SOURCE_REGISTRY/node:$(PrivateVersion)-node16-core-tools --format='{{.Id}}'`
@@ -548,7 +547,8 @@ stages:
           fi          
           docker run $TARGET_REGISTRY/node:$(MajorVersion)-node16-core-tools az --version          
         displayName: test node16 images
-        continueOnError: false        
+        continueOnError: false    
+
       - bash: |
           set -e
           docker push $TARGET_REGISTRY/node:$(TargetVersion)-core-tools
