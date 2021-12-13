@@ -519,15 +519,15 @@ stages:
         continueOnError: false
         condition: ne(variables['SkipProduction'], 'true')
 
-        - bash: |
-          set -e
-          docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node16-core-tools
+      - bash: |
+        set -e
+        docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node16-core-tools
 
-          docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node16-core-tools $TARGET_REGISTRY/node:$(TargetVersion)-core-tools   
-          docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node16-core-tools $TARGET_REGISTRY/node:$(TargetVersion)-node16-core-tools
+        docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node16-core-tools $TARGET_REGISTRY/node:$(TargetVersion)-core-tools   
+        docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node16-core-tools $TARGET_REGISTRY/node:$(TargetVersion)-node16-core-tools
 
-          docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node16-core-tools $TARGET_REGISTRY/node:$(MajorVersion)-core-tools   
-          docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node16-core-tools $TARGET_REGISTRY/node:$(MajorVersion)-node16-core-tools
+        docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node16-core-tools $TARGET_REGISTRY/node:$(MajorVersion)-core-tools   
+        docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node16-core-tools $TARGET_REGISTRY/node:$(MajorVersion)-node16-core-tools
 
 
         displayName: tag node16 images
