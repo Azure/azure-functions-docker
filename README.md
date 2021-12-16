@@ -19,7 +19,7 @@ Linux amd64 Tags
 | `4`                                      | Debian 10  |
 | `4-slim`                                 | Debian 10  |
 | `4-appservice`, `4-dotnet3-appservice` | Debian 10  |
-| `4-dotnet3-core-tools` |  Debian 10  |
+| `4-dotnet6-core-tools` |  Debian 10  |
 
 
 `mcr.microsoft.com/azure-functions/dotnet-isolated`
@@ -29,7 +29,7 @@ Linux amd64 Tags
 | `4`                                      | Debian 10  |
 | `4-dotnet-isolated5.0-slim`                               | Debian 10  |
 | `4-appservice`, `4-dotnet-isolated5.0-appservice` |Debian 10  |
-| `4-dotnet-isolated5.0-core-tools` | Debian 10  |
+| `4-dotnet-isolated6.0-core-tools` | Debian 10  |
 
 #### Node
 
@@ -76,7 +76,6 @@ Linux amd64 Tags
 | `4`, `4-java8`                       |  Debian 10  |
 | `4-slim`, `4-java8-slim`             |  Debian 10  |
 | `4-appservice`, `4-java8-appservice` |  Debian 10  |
-| `4-java8-core-tools`                   |  Debian 10   |
 | `4-java8-build`               | Debian 10   |
 | `4-java11`                             |Debian 10  |
 | `4-java11-slim`                        |  Debian 10  |
