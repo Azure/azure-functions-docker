@@ -475,6 +475,7 @@ stages:
         displayName: push java images
         continueOnError: false
         condition: ne(variables['SkipProduction'], 'true')
+        enabled: false
 
       - bash: |
           set -e
