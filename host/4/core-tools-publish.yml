@@ -19,7 +19,7 @@ stages:
     displayName: Check CoreTools Version
     steps:
       - bash: |
-          sudo npm i -g azure-functions-core-tools@3 --unsafe-perm true
+          sudo npm i -g azure-functions-core-tools@4 --unsafe-perm true
           func --version > $(Build.ArtifactStagingDirectory)/core-tools-version.txt
           date '+%w' > $(Build.ArtifactStagingDirectory)/week.txt
       - task: PublishBuildArtifacts@1
@@ -475,6 +475,7 @@ stages:
         displayName: push java images
         continueOnError: false
         condition: ne(variables['SkipProduction'], 'true')
+        enabled: false
 
       - bash: |
           set -e
