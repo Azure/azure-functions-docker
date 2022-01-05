@@ -17,6 +17,7 @@ trigger:
     include:
       - dev
       - refs/tags/3.*.*
+      - u/clink/exec_SBOM_test
       - release/3.x
   paths:
     include:
