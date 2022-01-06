@@ -1,5 +1,8 @@
 FROM mcr.microsoft.com/dotnet/sdk:6.0.100
 
+# Powershell Core Tools requires 3.1 for now
+COPY --from=mcr.microsoft.com/dotnet/core/aspnet:3.1 /usr/share/dotnet /usr/share/dotnet
+
 # Avoid warnings by switching to noninteractive
 ENV DEBIAN_FRONTEND=noninteractive
 
