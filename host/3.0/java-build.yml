@@ -124,6 +124,7 @@ steps:
   # What do we do for this?  There is no output directory - it is a container build
     inputs:
       BuildDropPath: '$(System.ArtifactsDirectory)/_SBOM'
+      BuildComponentPath: 'host/3.0/buster/amd64/out/java'
 
     # Show the contents of the SBOM in the build output logs
   - task: Bash@3
