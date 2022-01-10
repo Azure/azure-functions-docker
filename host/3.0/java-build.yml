@@ -1,5 +1,5 @@
 pool:
-    name: '1ES-Hosted-AzFunc'
+    name: '1ES-Hosted-Azure-Functions'
     demands:
       - ImageOverride -equals MMSUbuntu20.04TLS
 
