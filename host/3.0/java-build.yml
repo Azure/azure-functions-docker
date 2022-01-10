@@ -102,20 +102,21 @@ steps:
     continueOnError: false
 
   - bash: |
+      mkdir -p "$(System.ArtifactsDirectory)/_SBOM"
+      mkdir -p "$(System.ArtifactsDirectory)/_java"
+
+    displayName: Create SBOM Directories
+    continueOnError: false
+
+  - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/java:$(Build.SourceBranchName)-java11-appservice
       docker build -t $IMAGE_NAME \
                   -f host/3.0/buster/amd64/out/java/java11-appservice.Dockerfile \
-                  host/3.0/buster/amd64/out/java
+                  host/3.0/buster/amd64/out/java -o $(System.ArtifactsDirectory)/_java
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
     displayName: java11-appservice
-    continueOnError: false
-
-  - bash: |
-      mkdir -p "$(System.ArtifactsDirectory)/_SBOM"
-
-    displayName: Create SBOM Directory
     continueOnError: false
 
   - task: AzureArtifacts.manifest-generator-task.manifest-generator-task.ManifestGeneratorTask@0
@@ -124,7 +125,7 @@ steps:
   # What do we do for this?  There is no output directory - it is a container build
     inputs:
       BuildDropPath: '$(System.ArtifactsDirectory)/_SBOM'
-      BuildComponentPath: 'host/3.0/buster/amd64/out/java'
+      BuildComponentPath: '$(System.ArtifactsDirectory)/_java'
 
     # Show the contents of the SBOM in the build output logs
   - task: Bash@3
