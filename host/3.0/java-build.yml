@@ -45,12 +45,19 @@ steps:
     continueOnError: false
 
   - bash: |
+      mkdir -p "$(System.ArtifactsDirectory)/_SBOM"
+      mkdir -p "$(System.ArtifactsDirectory)/_docker"
+
+    displayName: Create SBOM Directories
+    continueOnError: false
+
+  - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/java:$(Build.SourceBranchName)-java8
 
       docker build -t $IMAGE_NAME \
                   -f host/3.0/buster/amd64/java/java8/java8.Dockerfile \
-                  host/3.0/buster/amd64/java/java8
+                  host/3.0/buster/amd64/java/java8 | tee $(System.ArtifactsDirectory)/_docker/DOCKER0.DOCKEROUTPUT
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
     displayName: java8
@@ -61,7 +68,7 @@ steps:
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/java:$(Build.SourceBranchName)-java8-slim
       docker build -t $IMAGE_NAME \
                   -f host/3.0/buster/amd64/java/java8/java8-slim.Dockerfile \
-                  host/3.0/buster/amd64/java/java8
+                  host/3.0/buster/amd64/java/java8 | tee $(System.ArtifactsDirectory)/_docker/DOCKER1.DOCKEROUTPUT
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
     displayName: java8-slim
@@ -72,7 +79,7 @@ steps:
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/java:$(Build.SourceBranchName)-java8-appservice
       docker build -t $IMAGE_NAME \
                   -f host/3.0/buster/amd64/out/java/java8-appservice.Dockerfile \
-                  host/3.0/buster/amd64/out/java
+                  host/3.0/buster/amd64/out/java | tee $(System.ArtifactsDirectory)/_docker/DOCKER2.DOCKEROUTPUT
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
     displayName: java8-appservice
@@ -84,7 +91,7 @@ steps:
 
       docker build -t $IMAGE_NAME \
                 -f host/3.0/buster/amd64/java/java11/java11.Dockerfile \
-                host/3.0/buster/amd64/java/java11
+                host/3.0/buster/amd64/java/java11 | tee $(System.ArtifactsDirectory)/_docker/DOCKER3.DOCKEROUTPUT
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
     displayName: java11
@@ -95,17 +102,10 @@ steps:
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/java:$(Build.SourceBranchName)-java11-slim
       docker build -t $IMAGE_NAME \
                   -f host/3.0/buster/amd64/java/java11/java11-slim.Dockerfile \
-                  host/3.0/buster/amd64/java/java11
+                  host/3.0/buster/amd64/java/java11 | tee $(System.ArtifactsDirectory)/_docker/DOCKER4.DOCKEROUTPUT
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
     displayName: java11-slim
-    continueOnError: false
-
-  - bash: |
-      mkdir -p "$(System.ArtifactsDirectory)/_SBOM"
-      mkdir -p "$(System.ArtifactsDirectory)/_java"
-
-    displayName: Create SBOM Directories
     continueOnError: false
 
   - bash: |
@@ -113,7 +113,7 @@ steps:
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/java:$(Build.SourceBranchName)-java11-appservice
       docker build -t $IMAGE_NAME \
                   -f host/3.0/buster/amd64/out/java/java11-appservice.Dockerfile \
-                  host/3.0/buster/amd64/out/java -o $(System.ArtifactsDirectory)/_java
+                  host/3.0/buster/amd64/out/java | tee $(System.ArtifactsDirectory)/_docker/DOCKER5.DOCKEROUTPUT
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
     displayName: java11-appservice
@@ -125,8 +125,11 @@ steps:
   # What do we do for this?  There is no output directory - it is a container build
     inputs:
       BuildDropPath: '$(System.ArtifactsDirectory)/_SBOM'
-      BuildComponentPath: '$(System.ArtifactsDirectory)/_java'
-
+      BuildComponentPath: '$(System.ArtifactsDirectory)/_docker'
+  - publish: '$(System.ArtifactsDirectory)/_docker'
+    artifact: DockerLogs
+  - publish: '$(System.ArtifactsDirectory)/_SBOM'
+    artifact: SBOM
     # Show the contents of the SBOM in the build output logs
   - task: Bash@3
     displayName: 'View SBOM'
