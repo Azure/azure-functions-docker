@@ -43,7 +43,7 @@ stages:
       inputs:
         BuildDropPath: host/3.0/buster/amd64/java/java8
         Verbosity: Verbose
-        DockerImagesToScan: 12345
+        DockerImagesToScan: mcr.microsoft.com/dotnet/sdk:5.0
 
     - task: PublishPipelineArtifact@1
       displayName: 'Publish Pipeline Artifact'
