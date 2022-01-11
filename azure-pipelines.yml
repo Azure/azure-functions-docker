@@ -38,7 +38,7 @@ stages:
         tags: |
           $(tag)
 
-    - task: ManifestGeneratorTask@0
+    - task: AzureArtifacts.manifest-generator-task.manifest-generator-task.ManifestGeneratorTask@0
       displayName: 'Manifest Generator'
       inputs:
         BuildDropPath: host/3.0/buster/amd64/java/java8
