@@ -27,26 +27,38 @@ stages:
     displayName: Build
     pool:
       vmImage: $(vmImageName)
-    steps:
-    - task: Docker@2
-      displayName: Build and push an image to container registry
-      inputs:
-        command: build
-        repository: $(imageRepository)
-        dockerfile: $(dockerfilePath)
-        containerRegistry: $(dockerRegistryServiceConnection)
-        tags: |
-          $(tag)
+steps:
+  - bash: |
+      # login
+      set -e
+      echo $pswd | docker login -u $(dockerUsername) --password-stdin azurefunctions.azurecr.io
 
-    - task: AzureArtifacts.manifest-generator-task.manifest-generator-task.ManifestGeneratorTask@0
-      displayName: 'Manifest Generator'
-      inputs:
-        BuildDropPath: host/3.0/buster/amd64/java/java8
-        Verbosity: Verbose
-        DockerImagesToScan: mcr.microsoft.com/dotnet/sdk:5.0
+    displayName: login to registry
+    continueOnError: false
+    env:
+      pswd: $(dockerPassword)
 
-    - task: PublishPipelineArtifact@1
-      displayName: 'Publish Pipeline Artifact'
-      inputs:
-        targetPath: host/3.0/buster/amd64/java/java8
-        artifact: MyArtifact
+  - bash: |
+      set -e
+      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/java:$(Build.SourceBranchName)-java8
+
+      docker build -t $IMAGE_NAME \
+                  -f $(dockerfilePath) \
+                  host/3.0/buster/amd64/java/java8
+      npm run test $IMAGE_NAME --prefix  test/
+      docker push $IMAGE_NAME
+    displayName: java8
+    continueOnError: false
+
+  - task: AzureArtifacts.manifest-generator-task.manifest-generator-task.ManifestGeneratorTask@0
+    displayName: 'Manifest Generator'
+    inputs:
+      BuildDropPath: host/3.0/buster/amd64/java/java8
+      Verbosity: Verbose
+      DockerImagesToScan: mcr.microsoft.com/dotnet/sdk:5.0
+
+  - task: PublishPipelineArtifact@1
+    displayName: 'Publish Pipeline Artifact'
+    inputs:
+      targetPath: host/3.0/buster/amd64/java/java8
+      artifact: MyArtifact
