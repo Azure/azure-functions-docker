@@ -35,8 +35,7 @@ steps:
     inputs:
       BuildDropPath: host/3.0/buster/amd64/java/java8
       Verbosity: Verbose
-      DockerImagesToScan: 12345 
-      # mcr.microsoft.com/dotnet/sdk:5.0
+      DockerImagesToScan: mcr.microsoft.com/dotnet/sdk:5.0,mcr.microsoft.com/dotnet/core/runtime-deps:3.1,mcr.microsoft.com/java/jre-headless:8u292-zulu-debian10-with-tools
 
   - task: PublishPipelineArtifact@1
     displayName: 'Publish Pipeline Artifact'
