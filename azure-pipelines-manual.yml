@@ -27,8 +27,6 @@ steps:
       docker build -t $IMAGE_NAME \
                   -f $(dockerfilePath) \
                   host/3.0/buster/amd64/java/java8
-      npm run test $IMAGE_NAME --prefix  test/
-      docker push $IMAGE_NAME
     displayName: java8
     continueOnError: false
 
