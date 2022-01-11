@@ -1,0 +1,52 @@
+# Docker
+# Build and push an image to Azure Container Registry
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+trigger:
+- dev
+
+resources:
+- repo: self
+
+variables:
+  # Container registry service connection established during pipeline creation
+  dockerRegistryServiceConnection: '7b236a0e-58e4-4bd6-bfd3-6742d93267e8'
+  imageRepository: 'azureazurefunctionsdocker'
+  containerRegistry: 'eliasl.azurecr.io'
+  dockerfilePath: '$(Build.SourcesDirectory)/host/3.0/buster/amd64/java/java8/java8.Dockerfile'
+  tag: '$(Build.BuildId)'
+
+  # Agent VM image name
+  vmImageName: 'ubuntu-latest'
+
+stages:
+- stage: Build
+  displayName: Build and push stage
+  jobs:
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+    - task: Docker@2
+      displayName: Build and push an image to container registry
+      inputs:
+        command: build
+        repository: $(imageRepository)
+        dockerfile: $(dockerfilePath)
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
+
+    - task: ManifestGeneratorTask@0
+      displayName: 'Manifest Generator'
+      inputs:
+        BuildDropPath: host/3.0/buster/amd64/java/java8
+        Verbosity: Verbose
+        DockerImagesToScan: 12345
+
+    - task: PublishPipelineArtifact@1
+      displayName: 'Publish Pipeline Artifact'
+      inputs:
+        targetPath: host/3.0/buster/amd64/java/java8
+        artifact: MyArtifact
