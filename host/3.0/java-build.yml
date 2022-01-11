@@ -124,28 +124,12 @@ steps:
     condition: succeeded()
   # What do we do for this?  There is no output directory - it is a container build
     inputs:
-      BuildDropPath: '$(System.ArtifactsDirectory)/_SBOM'
-      BuildComponentPath: '$(System.ArtifactsDirectory)/_docker'
-  - publish: '$(System.ArtifactsDirectory)/_docker'
-    artifact: DockerLogs
-  - publish: '$(System.ArtifactsDirectory)/_SBOM'
-    artifact: SBOM
-    # Show the contents of the SBOM in the build output logs
-  - task: Bash@3
-    displayName: 'View SBOM'
-    condition: succeeded()
+      BuildDropPath: host/3.0/buster/amd64/java/java8
+      Verbosity: Verbose
+      DockerImagesToScan: 12345
+
+  - task: PublishPipelineArtifact@1
+    displayName: 'Publish Pipeline Artifact'
     inputs:
-      targetType: 'inline'
-      script: |
-        echo "Showing the SBOM contents, just because"
-        for f in $(find "$(System.ArtifactsDirectory)/_SBOM/_manifest" -type f); do
-          echo
-          ls -l $f
-          [[ $f == *.json ]] && sha256sum $f
-          echo "==== START: $f"
-          [[ $f == *.json ]] && jq . $f || cat $f
-          echo
-          echo "==== END: $f"
-          echo
-        done
-        true
+      targetPath: host/3.0/buster/amd64/java/java8
+      artifact: MyArtifact
