@@ -19,34 +19,26 @@ variables:
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
 
-stages:
-- stage: Build
-  displayName: Build and push stage
-  jobs:
-  - job: Build
-    displayName: Build
-    pool:
-      vmImage: $(vmImageName)
-    steps:
-    - task: Docker@2
-      displayName: Build and push an image to container registry
-      inputs:
-        command: build
-        repository: $(imageRepository)
-        dockerfile: $(dockerfilePath)
-        containerRegistry: $(dockerRegistryServiceConnection)
-        tags: |
-          $(tag)
+steps:
+  - bash: |
+      set -e
+      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/java:$(Build.SourceBranchName)-java8
 
-    - task: AzureArtifacts.manifest-generator-task.manifest-generator-task.ManifestGeneratorTask@0
-      displayName: 'Manifest Generator'
-      inputs:
-        BuildDropPath: host/3.0/buster/amd64/java/java8
-        Verbosity: Verbose
-        # DockerImagesToScan: mcr.microsoft.com/dotnet/sdk:5.0
+      docker build -t $IMAGE_NAME \
+                  -f $(dockerfilePath) \
+                  host/3.0/buster/amd64/java/java8
+    displayName: java8
+    continueOnError: false
 
-    - task: PublishPipelineArtifact@1
-      displayName: 'Publish Pipeline Artifact'
-      inputs:
-        targetPath: host/3.0/buster/amd64/java/java8
-        artifact: MyArtifact
+  - task: AzureArtifacts.manifest-generator-task.manifest-generator-task.ManifestGeneratorTask@0
+    displayName: 'Manifest Generator'
+    inputs:
+      BuildDropPath: host/3.0/buster/amd64/java/java8
+      Verbosity: Verbose
+      # DockerImagesToScan: mcr.microsoft.com/dotnet/sdk:5.0
+
+  - task: PublishPipelineArtifact@1
+    displayName: 'Publish Pipeline Artifact'
+    inputs:
+      targetPath: host/3.0/buster/amd64/java/java8
+      artifact: MyArtifact
