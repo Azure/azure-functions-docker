@@ -35,7 +35,7 @@ RUN EXTENSION_BUNDLE_VERSION=1.8.1 && \
     rm -f /$EXTENSION_BUNDLE_FILENAME_V3 &&\
     find /FuncExtensionBundles/ -type f -exec chmod 644 {} \;
 
-FROM python:3.8-slim-buster
+FROM python:3.8-slim-bullseye
 ARG HOST_VERSION
 
 ENV LANG=C.UTF-8 \
@@ -67,7 +67,7 @@ RUN apt-get update && \
     apt-get install -y unixodbc msodbcsql17 mssql-tools && \
     # .NET Core dependencies
     apt-get install -y --no-install-recommends ca-certificates \
-    libc6 libgcc1 libgssapi-krb5-2 libicu63 libssl1.1 libstdc++6 zlib1g && \
+    libc6 libgcc1 libgssapi-krb5-2 libicu67 libssl1.1 libstdc++6 zlib1g && \
     rm -rf /var/lib/apt/lists/* && \
     # Custom dependencies:
     #  OpenCV dependencies:

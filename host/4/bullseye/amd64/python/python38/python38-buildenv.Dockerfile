@@ -1,4 +1,4 @@
-FROM python:3.8-slim-buster
+FROM python:3.8-slim-bullseye
 
 ENV LANG=C.UTF-8 \
     ACCEPT_EULA=Y \
@@ -28,7 +28,7 @@ RUN apt-get update && \
     apt-get install -y unixodbc msodbcsql17 mssql-tools && \
     # .NET Core dependencies
     apt-get install -y --no-install-recommends ca-certificates \
-    libc6 libgcc1 libgssapi-krb5-2 libicu63 libssl1.1 libstdc++6 zlib1g && \
+    libc6 libgcc1 libgssapi-krb5-2 libicu67 libssl1.1 libstdc++6 zlib1g && \
     rm -rf /var/lib/apt/lists/* && \
     # Custom dependencies:
     #  OpenCV dependencies:
@@ -42,6 +42,6 @@ RUN apt-get update && \
 RUN apt-get update && \
     apt-get install -y build-essential libssl-dev zlib1g-dev libbz2-dev \
     libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev \
-    xz-utils tk-dev libffi-dev liblzma-dev python-openssl git unixodbc-dev dh-autoreconf \
-    libcurl4-openssl-dev libssl-dev python3-dev libevent-dev python-openssl squashfs-tools unzip && \
+    xz-utils tk-dev libffi-dev liblzma-dev python3-openssl git unixodbc-dev dh-autoreconf \
+    libcurl4-openssl-dev libssl-dev python3-dev libevent-dev python3-openssl squashfs-tools unzip && \
     python --version
