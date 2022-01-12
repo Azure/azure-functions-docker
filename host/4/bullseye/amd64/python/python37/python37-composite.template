@@ -30,7 +30,7 @@ RUN apt-get update && \
     apt-get install -y unixodbc msodbcsql17 mssql-tools && \
     # .NET Core dependencies
     apt-get install -y --no-install-recommends ca-certificates \
-    libc6 libgcc1 libgssapi-krb5-2 libicu63 libssl1.1 libstdc++6 zlib1g && \
+    libc6 libgcc1 libgssapi-krb5-2 libicu67 libssl1.1 libstdc++6 zlib1g && \
     rm -rf /var/lib/apt/lists/* && \
     # Custom dependencies:
     #  OpenCV dependencies:
