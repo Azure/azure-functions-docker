@@ -440,13 +440,51 @@ stages:
 
       - bash: |
           set -e
+          docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-core-tools
+    
+          docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-core-tools $TARGET_REGISTRY/java:$(TargetVersion)-java8-core-tools
+  
+          docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-core-tools $TARGET_REGISTRY/java:$(MajorVersion)-java8-core-tools  
+    
+        displayName: tag java8 images
+        continueOnError: false
+      - bash: |
+          set -e 
+          PrivateImageId=`docker image inspect $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-core-tools --format='{{.Id}}'`
+          MajorImageId=`docker image inspect $TARGET_REGISTRY/java:$(MajorVersion)-java8-core-tools --format='{{.Id}}'`
+          if [[ "$PrivateImageId" != "$MajorImageId" ]]; then
+            echo "unmatch the Target image id and Major image id ${PrivateImageId} and ${MajorImageId}";
+            exit 1; 
+          fi
+
+          ActualVersion=`docker run $TARGET_REGISTRY/java:$(MajorVersion)-java8-core-tools func --version`
+          if [[ "$ActualVersion" != "$(TargetVersion)" ]]; then
+            echo "unmatch the ActualVersion and TargetVersion ${ActualVersion} and $(TargetVersion)";
+            exit 1;
+          fi
+          docker run $TARGET_REGISTRY/java:$(MajorVersion)-java8-core-tools az --version
+        displayName: test java8 images
+        continueOnError: false
+      - bash: |
+          set -e
+          docker push $TARGET_REGISTRY/java:$(TargetVersion)-java8-core-tools
+
+          docker push $TARGET_REGISTRY/java:$(MajorVersion)-java8-core-tools
+    
+          docker system prune -a -f
+        displayName: push java8 images
+        continueOnError: false
+        condition: ne(variables['SkipProduction'], 'true')
+
+      - bash: |
+          set -e
           docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java11-core-tools
     
           docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java11-core-tools $TARGET_REGISTRY/java:$(TargetVersion)-java11-core-tools
   
           docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java11-core-tools $TARGET_REGISTRY/java:$(MajorVersion)-java11-core-tools  
     
-        displayName: tag java images
+        displayName: tag java11 images
         continueOnError: false
       - bash: |
           set -e 
@@ -463,7 +501,7 @@ stages:
             exit 1;
           fi
           docker run $TARGET_REGISTRY/java:$(MajorVersion)-java11-core-tools az --version
-        displayName: test java images
+        displayName: test java11 images
         continueOnError: false
       - bash: |
           set -e
@@ -472,7 +510,7 @@ stages:
           docker push $TARGET_REGISTRY/java:$(MajorVersion)-java11-core-tools
     
           docker system prune -a -f
-        displayName: push java images
+        displayName: push java11 images
         continueOnError: false
         condition: ne(variables['SkipProduction'], 'true')
 
