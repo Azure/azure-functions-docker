@@ -35,7 +35,7 @@ steps:
     inputs:
       BuildDropPath: host
       Verbosity: Verbose
-      DockerImagesToScan: mcr.microsoft.com/dotnet/sdk:5.0,mcr.microsoft.com/dotnet/core/runtime-deps:3.1,mcr.microsoft.com/java/jre-headless:8u292-zulu-debian10-with-tools,sha256:e9912b111fd46eb79860b9ec5a8b777ea71b55d27db65ca4b3993277573bdc74
+      DockerImagesToScan: sha256:dad24a002e63fc6bb355e7c6342fe82c5001feaea6383ec05e85e350e969c490
 
   - task: PublishPipelineArtifact@1
     displayName: 'Publish Pipeline Artifact'
