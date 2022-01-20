@@ -15,6 +15,7 @@ variables:
   containerRegistry: 'eliasl.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/host/3.0/buster/amd64/java/java8/java8.Dockerfile'
   tag: '$(Build.BuildId)'
+  sha: 'none'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
@@ -27,6 +28,9 @@ steps:
       docker build -t $IMAGE_NAME \
                   -f $(dockerfilePath) \
                   host/3.0/buster/amd64/java/java8
+      
+      curSha=$(docker images --no-trunc --quiet $IMAGE_NAME)
+      echo "##vso[task.setvariable variable=sha;]$curSha"
     displayName: java8
     continueOnError: false
 
@@ -35,7 +39,7 @@ steps:
     inputs:
       BuildDropPath: host
       Verbosity: Verbose
-      DockerImagesToScan: sha256:dad24a002e63fc6bb355e7c6342fe82c5001feaea6383ec05e85e350e969c490
+      DockerImagesToScan: $(sha)
 
   - task: PublishPipelineArtifact@1
     displayName: 'Publish Pipeline Artifact'
