@@ -1,4 +1,4 @@
-ARG JAVA_VERSION=11u7
+ARG JAVA_VERSION=11u11
 
 FROM mcr.microsoft.com/java/jre-headless:${JAVA_VERSION}-zulu-debian10-with-tools as jre
 FROM mcr.microsoft.com/dotnet/runtime-deps:6.0.0
