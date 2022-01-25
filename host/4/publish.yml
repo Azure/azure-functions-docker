@@ -240,9 +240,38 @@ steps:
       docker push $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell7-appservice-quickstart
 
       docker system prune -a -f
-    displayName: tag and push powershell images
+    displayName: tag and push powershell 70 images
     continueOnError: false
 
+  - bash: |
+      set -e
+      docker pull $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell72
+      docker pull $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell72-slim
+      docker pull $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell72-appservice
+
+      docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell72 $TARGET_REGISTRY/powershell:$(TargetVersion)
+      docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell72-slim $TARGET_REGISTRY/powershell:$(TargetVersion)-slim
+      docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell72-appservice $TARGET_REGISTRY/powershell:$(TargetVersion)-appservice
+      docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell72-appservice $TARGET_REGISTRY/powershell:$(TargetVersion)-appservice-quickstart
+
+      docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell72 $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell72
+      docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell72-slim $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell72-slim
+      docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell72-appservice $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell72-appservice
+      docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell72-appservice $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell72-appservice-quickstart
+
+      docker push $TARGET_REGISTRY/powershell:$(TargetVersion)
+      docker push $TARGET_REGISTRY/powershell:$(TargetVersion)-slim
+      docker push $TARGET_REGISTRY/powershell:$(TargetVersion)-appservice
+      docker push $TARGET_REGISTRY/powershell:$(TargetVersion)-appservice-quickstart
+
+      docker push $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell72
+      docker push $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell72-slim
+      docker push $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell72-appservice
+      docker push $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell72-appservice-quickstart
+
+      docker system prune -a -f
+    displayName: tag and push powershell 72 images
+    continueOnError: false
 
   - bash: |
       set -e
