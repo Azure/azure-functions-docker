@@ -9,6 +9,7 @@ pr:
   paths:
     include:
       - host/4/bullseye/amd64/powershell/powershell70/*
+      - host/4/bullseye/amd64/powershell/powershell72/*
 
 trigger:
   branches:
@@ -19,6 +20,7 @@ trigger:
   paths:
     include:
       - host/4/bullseye/amd64/powershell/powershell70/*
+      - host/4/bullseye/amd64/powershell/powershell72/*
 
 steps:
   - bash: |
@@ -63,4 +65,38 @@ steps:
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
     displayName: powershell7-appservice
+    continueOnError: false
+
+  - bash: |
+      set -e
+      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/powershell:$(Build.SourceBranchName)-powershell72
+
+      docker build -t $IMAGE_NAME \
+                  -f host/4/bullseye/amd64/powershell/powershell72.Dockerfile \
+                  host/4/bullseye/amd64/powershell/powershell72
+      npm run test $IMAGE_NAME --prefix  test/
+      docker push $IMAGE_NAME
+    displayName: powershell72
+    continueOnError: false
+
+  - bash: |
+      set -e
+      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/powershell:$(Build.SourceBranchName)-powershell72-slim
+      docker build -t $IMAGE_NAME \
+                  -f host/4/bullseye/amd64/powershell/powershell72-slim.Dockerfile \
+                  host/4/bullseye/amd64/powershell/powershell72
+      npm run test $IMAGE_NAME --prefix  test/
+      docker push $IMAGE_NAME
+    displayName: powershell72-slim
+    continueOnError: false
+
+  - bash: |
+      set -e
+      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/powershell:$(Build.SourceBranchName)-powershell72-appservice
+      docker build -t $IMAGE_NAME \
+                  -f host/4/bullseye/amd64/powershell/powershell72-appservice.Dockerfile \
+                  host/4/bullseye/amd64/powershell/powershell72
+      npm run test $IMAGE_NAME --prefix  test/
+      docker push $IMAGE_NAME
+    displayName: powershell72-appservice
     continueOnError: false
