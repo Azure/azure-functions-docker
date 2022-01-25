@@ -38,7 +38,7 @@ steps:
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/powershell:$(Build.SourceBranchName)-powershell7
 
       docker build -t $IMAGE_NAME \
-                  -f host/4/bullseye/amd64/powershell/powershell70.Dockerfile \
+                  -f host/4/bullseye/amd64/powershell/powershell70/powershell70.Dockerfile \
                   host/4/bullseye/amd64/powershell/powershell70
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
@@ -49,7 +49,7 @@ steps:
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/powershell:$(Build.SourceBranchName)-powershell7-slim
       docker build -t $IMAGE_NAME \
-                  -f host/4/bullseye/amd64/powershell/powershell70-slim.Dockerfile \
+                  -f host/4/bullseye/amd64/powershell/powershell70/powershell70-slim.Dockerfile \
                   host/4/bullseye/amd64/powershell/powershell70
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
@@ -60,7 +60,7 @@ steps:
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/powershell:$(Build.SourceBranchName)-powershell7-appservice
       docker build -t $IMAGE_NAME \
-                  -f host/4/bullseye/amd64/powershell/powershell70-appservice.Dockerfile \
+                  -f host/4/bullseye/amd64/powershell/powershell70/powershell70-appservice.Dockerfile \
                   host/4/bullseye/amd64/powershell/powershell70
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
@@ -72,7 +72,7 @@ steps:
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/powershell:$(Build.SourceBranchName)-powershell72
 
       docker build -t $IMAGE_NAME \
-                  -f host/4/bullseye/amd64/powershell/powershell72.Dockerfile \
+                  -f host/4/bullseye/amd64/powershell/powershell72/powershell72.Dockerfile \
                   host/4/bullseye/amd64/powershell/powershell72
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
@@ -83,7 +83,7 @@ steps:
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/powershell:$(Build.SourceBranchName)-powershell72-slim
       docker build -t $IMAGE_NAME \
-                  -f host/4/bullseye/amd64/powershell/powershell72-slim.Dockerfile \
+                  -f host/4/bullseye/amd64/powershell/powershell72/powershell72-slim.Dockerfile \
                   host/4/bullseye/amd64/powershell/powershell72
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
@@ -94,7 +94,7 @@ steps:
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/powershell:$(Build.SourceBranchName)-powershell72-appservice
       docker build -t $IMAGE_NAME \
-                  -f host/4/bullseye/amd64/powershell/powershell72-appservice.Dockerfile \
+                  -f host/4/bullseye/amd64/powershell/powershell72/powershell72-appservice.Dockerfile \
                   host/4/bullseye/amd64/powershell/powershell72
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
