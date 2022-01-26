@@ -35,6 +35,9 @@ RUN EXTENSION_BUNDLE_VERSION=1.8.1 && \
     rm -f /$EXTENSION_BUNDLE_FILENAME_V3 &&\
     find /FuncExtensionBundles/ -type f -exec chmod 644 {} \;
 
+# Include ASP.NET Core shared framework from dotnet/aspnet image.
+FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS aspnet5
+
 FROM mcr.microsoft.com/dotnet/runtime:5.0
 ARG HOST_VERSION
 
@@ -47,5 +50,7 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
 COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
 
 COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
+
+COPY --from=aspnet5 [ "/usr/share/dotnet", "/usr/share/dotnet" ]
 
 CMD [ "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost" ]

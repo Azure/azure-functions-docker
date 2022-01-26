@@ -29,6 +29,9 @@ RUN apt-get update && \
     rm -f /$EXTENSION_BUNDLE_FILENAME_V3 &&\
     find /FuncExtensionBundles/ -type f -exec chmod 644 {} \;
 
+# Include ASP.NET Core shared framework from dotnet/aspnet image.
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS aspnet6
+
 FROM mcr.microsoft.com/dotnet/runtime:6.0.0
 ARG HOST_VERSION
 
@@ -44,5 +47,6 @@ RUN apt-get update && \
 
 COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
 COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
+COPY --from=aspnet6 [ "/usr/share/dotnet", "/usr/share/dotnet" ]
 
 CMD [ "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost" ]
