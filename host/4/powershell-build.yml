@@ -42,7 +42,7 @@ steps:
                   host/4/bullseye/amd64/powershell/powershell70
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
-    displayName: powershell7
+    displayName: powershell70
     continueOnError: false
 
   - bash: |
@@ -53,7 +53,7 @@ steps:
                   host/4/bullseye/amd64/powershell/powershell70
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
-    displayName: powershell7-slim
+    displayName: powershell70-slim
     continueOnError: false
 
   - bash: |
@@ -64,7 +64,7 @@ steps:
                   host/4/bullseye/amd64/powershell/powershell70
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
-    displayName: powershell7-appservice
+    displayName: powershell70-appservice
     continueOnError: false
 
   - bash: |
