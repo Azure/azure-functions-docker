@@ -34,7 +34,7 @@ RUN apt-get update && \
     find /FuncExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION_V3/bin/runtimes/ -mindepth 1 -type d -not -name "linux-x64" -prune -exec rm -rf {} + && \
     find /FuncExtensionBundles/ -type f -exec chmod 644 {} \;
 
-FROM mcr.microsoft.com/dotnet/runtime-deps:6.0.0
+FROM mcr.microsoft.com/dotnet/aspnet:6.0.0-bullseye-slim
 ARG HOST_VERSION
 
 # set runtime env variables
