@@ -9,8 +9,8 @@ pr:
   paths:
     include:
       - host/3.0/buster/amd64/base/*
-      - host/3.0/buster/amd64/powershell6/*
-      - host/3.0/buster/amd64/powershell7/*
+      - host/3.0/buster/amd64/powershell/powershell6/*
+      - host/3.0/buster/amd64/powershell/powershell7/*
       
 
 trigger:
@@ -22,8 +22,8 @@ trigger:
   paths:
     include:
       - host/3.0/buster/amd64/base/*
-      - host/3.0/buster/amd64/powershell6/*
-      - host/3.0/buster/amd64/powershell7/*
+      - host/3.0/buster/amd64/powershell/powershell6/*
+      - host/3.0/buster/amd64/powershell/powershell7/*
 
 steps:
   - bash: |
