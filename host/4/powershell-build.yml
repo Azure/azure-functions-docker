@@ -8,6 +8,7 @@ pr:
       - release/4.x
   paths:
     include:
+      - host/4/bullseye/amd64/base/*
       - host/4/bullseye/amd64/powershell/powershell70/*
       - host/4/bullseye/amd64/powershell/powershell72/*
 
@@ -19,6 +20,7 @@ trigger:
       - release/4.x
   paths:
     include:
+      - host/4/bullseye/amd64/base/*
       - host/4/bullseye/amd64/powershell/powershell70/*
       - host/4/bullseye/amd64/powershell/powershell72/*
 
@@ -32,6 +34,12 @@ steps:
     continueOnError: false
     env:
       pswd: $(dockerPassword)
+
+  - bash: |
+      ./host/generate-composite.sh -4 powershell
+
+    displayName: create powershell-appservice dockerfiles
+    continueOnError: false
 
   - bash: |
       set -e
@@ -60,8 +68,8 @@ steps:
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/powershell:$(Build.SourceBranchName)-powershell7-appservice
       docker build -t $IMAGE_NAME \
-                  -f host/4/bullseye/amd64/powershell/powershell70/powershell70-appservice.Dockerfile \
-                  host/4/bullseye/amd64/powershell/powershell70
+                  -f host/4/bullseye/amd64/out/powershell/powershell70-appservice.Dockerfile \
+                  host/4/bullseye/amd64/out/powershell
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
     displayName: powershell70-appservice
@@ -94,8 +102,8 @@ steps:
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/powershell:$(Build.SourceBranchName)-powershell72-appservice
       docker build -t $IMAGE_NAME \
-                  -f host/4/bullseye/amd64/powershell/powershell72/powershell72-appservice.Dockerfile \
-                  host/4/bullseye/amd64/powershell/powershell72
+                  -f host/4/bullseye/amd64/out/powershell/powershell72-appservice.Dockerfile \
+                  host/4/bullseye/amd64/out/powershell
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
     displayName: powershell72-appservice
