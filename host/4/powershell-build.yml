@@ -8,7 +8,9 @@ pr:
       - release/4.x
   paths:
     include:
-      - host/4/bullseye/amd64/powershell/*
+      - host/4/bullseye/amd64/base/*
+      - host/4/bullseye/amd64/powershell/powershell70/*
+      - host/4/bullseye/amd64/powershell/powershell72/*
 
 trigger:
   branches:
@@ -18,7 +20,9 @@ trigger:
       - release/4.x
   paths:
     include:
-      - host/4/bullseye/amd64/powershell/*
+      - host/4/bullseye/amd64/base/*
+      - host/4/bullseye/amd64/powershell/powershell70/*
+      - host/4/bullseye/amd64/powershell/powershell72/*
 
 steps:
   - bash: |
@@ -32,35 +36,75 @@ steps:
       pswd: $(dockerPassword)
 
   - bash: |
+      ./host/generate-composite.sh -4 powershell
+
+    displayName: create powershell-appservice dockerfiles
+    continueOnError: false
+
+  - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/powershell:$(Build.SourceBranchName)-powershell7
 
       docker build -t $IMAGE_NAME \
-                  -f host/4/bullseye/amd64/powershell/powershell7.Dockerfile \
-                  host/4/bullseye/amd64/powershell/
+                  -f host/4/bullseye/amd64/powershell/powershell70/powershell70.Dockerfile \
+                  host/4/bullseye/amd64/powershell/powershell70
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
-    displayName: powershell7
+    displayName: powershell70
     continueOnError: false
 
   - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/powershell:$(Build.SourceBranchName)-powershell7-slim
       docker build -t $IMAGE_NAME \
-                  -f host/4/bullseye/amd64/powershell/powershell7-slim.Dockerfile \
-                  host/4/bullseye/amd64/powershell/
+                  -f host/4/bullseye/amd64/powershell/powershell70/powershell70-slim.Dockerfile \
+                  host/4/bullseye/amd64/powershell/powershell70
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
-    displayName: powershell7-slim
+    displayName: powershell70-slim
     continueOnError: false
 
   - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/powershell:$(Build.SourceBranchName)-powershell7-appservice
       docker build -t $IMAGE_NAME \
-                  -f host/4/bullseye/amd64/powershell/powershell7-appservice.Dockerfile \
-                  host/4/bullseye/amd64/powershell/
+                  -f host/4/bullseye/amd64/out/powershell/powershell70-appservice.Dockerfile \
+                  host/4/bullseye/amd64/out/powershell
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
-    displayName: powershell7-appservice
+    displayName: powershell70-appservice
+    continueOnError: false
+
+  - bash: |
+      set -e
+      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/powershell:$(Build.SourceBranchName)-powershell72
+
+      docker build -t $IMAGE_NAME \
+                  -f host/4/bullseye/amd64/powershell/powershell72/powershell72.Dockerfile \
+                  host/4/bullseye/amd64/powershell/powershell72
+      npm run test $IMAGE_NAME --prefix  test/
+      docker push $IMAGE_NAME
+    displayName: powershell72
+    continueOnError: false
+
+  - bash: |
+      set -e
+      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/powershell:$(Build.SourceBranchName)-powershell72-slim
+      docker build -t $IMAGE_NAME \
+                  -f host/4/bullseye/amd64/powershell/powershell72/powershell72-slim.Dockerfile \
+                  host/4/bullseye/amd64/powershell/powershell72
+      npm run test $IMAGE_NAME --prefix  test/
+      docker push $IMAGE_NAME
+    displayName: powershell72-slim
+    continueOnError: false
+
+  - bash: |
+      set -e
+      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/powershell:$(Build.SourceBranchName)-powershell72-appservice
+      docker build -t $IMAGE_NAME \
+                  -f host/4/bullseye/amd64/out/powershell/powershell72-appservice.Dockerfile \
+                  host/4/bullseye/amd64/out/powershell
+      npm run test $IMAGE_NAME --prefix  test/
+      docker push $IMAGE_NAME
+    displayName: powershell72-appservice
     continueOnError: false

@@ -24,27 +24,22 @@ RUN apt-get update && \
     mkdir -p /FuncExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION_V2 && \
     unzip /$EXTENSION_BUNDLE_FILENAME_V2 -d /FuncExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION_V2 && \
     rm -f /$EXTENSION_BUNDLE_FILENAME_V2 &&\
-    find /FuncExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION_V2/bin/runtimes/ -mindepth 1 -type d -not -name "linux-x64" -prune -exec rm -rf {} + && \
     EXTENSION_BUNDLE_VERSION_V3=3.0.0 && \
     EXTENSION_BUNDLE_FILENAME_V3=Microsoft.Azure.Functions.ExtensionBundle.${EXTENSION_BUNDLE_VERSION_V3}_linux-x64.zip && \
     wget https://functionscdn.azureedge.net/public/ExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION_V3/$EXTENSION_BUNDLE_FILENAME_V3 && \
     mkdir -p /FuncExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION_V3 && \
     unzip /$EXTENSION_BUNDLE_FILENAME_V3 -d /FuncExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION_V3 && \
     rm -f /$EXTENSION_BUNDLE_FILENAME_V3 &&\
-    find /FuncExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION_V3/bin/runtimes/ -mindepth 1 -type d -not -name "linux-x64" -prune -exec rm -rf {} + && \
     find /FuncExtensionBundles/ -type f -exec chmod 644 {} \;
 
 FROM mcr.microsoft.com/dotnet/aspnet:6.0.0-bullseye-slim
 ARG HOST_VERSION
 
-# Powershell worker requires 3.1 for now
-COPY --from=mcr.microsoft.com/dotnet/core/aspnet:3.1 /usr/share/dotnet /usr/share/dotnet
-
 # set runtime env variables
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     HOME=/home \
     FUNCTIONS_WORKER_RUNTIME=powershell \
-    FUNCTIONS_WORKER_RUNTIME_VERSION=~7 \
+    FUNCTIONS_WORKER_RUNTIME_VERSION=7.2 \
     DOTNET_USE_POLLING_FILE_WATCHER=true \
     HOST_VERSION=${HOST_VERSION}
 
@@ -53,19 +48,8 @@ RUN apt-get update && \
     apt-get install -y libc-dev
 
 # copy bundles, host runtime and powershell worker from the build image
-COPY --from=runtime-image ["/FuncExtensionBundles", "/FuncExtensionBundles"]
 COPY --from=runtime-image ["/azure-functions-host", "/azure-functions-host"]
+COPY --from=runtime-image ["/FuncExtensionBundles", "/FuncExtensionBundles"]
 COPY --from=runtime-image ["/workers/powershell", "/azure-functions-host/workers/powershell"]
 
-EXPOSE 2222 80
-
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends openssh-server dialog && \
-    echo "root:Docker!" | chpasswd
-
-COPY sshd_config /etc/ssh/
-COPY start.sh /azure-functions-host/
-
-RUN chmod +x /azure-functions-host/start.sh
-
-ENTRYPOINT ["/azure-functions-host/start.sh"]
+CMD [ "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost" ]

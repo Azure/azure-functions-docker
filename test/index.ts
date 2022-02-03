@@ -195,6 +195,8 @@ async function main() {
     await runTest(testData.node, "-e FUNCTIONS_WORKER_RUNTIME=node");
     await runTest(testData.python, "-e FUNCTIONS_WORKER_RUNTIME=python");
     await runTest(testData.java, "-e FUNCTIONS_WORKER_RUNTIME=java");
+    await runTest(testData.powershell, "-e FUNCTIONS_WORKER_RUNTIME=powershell -e FUNCTIONS_WORKER_RUNTIME_VERSION=7");
+    await runTest(testData.powershell, "-e FUNCTIONS_WORKER_RUNTIME=powershell -e FUNCTIONS_WORKER_RUNTIME_VERSION=7.2");
   }
 }
 

@@ -8,7 +8,10 @@ pr:
       - release/3.x
   paths:
     include:
-      - host/3.0/buster/amd64/powershell/*
+      - host/3.0/buster/amd64/base/*
+      - host/3.0/buster/amd64/powershell/powershell6/*
+      - host/3.0/buster/amd64/powershell/powershell7/*
+      
 
 trigger:
   branches:
@@ -18,7 +21,9 @@ trigger:
       - release/3.x
   paths:
     include:
-      - host/3.0/buster/amd64/powershell/*
+      - host/3.0/buster/amd64/base/*
+      - host/3.0/buster/amd64/powershell/powershell6/*
+      - host/3.0/buster/amd64/powershell/powershell7/*
 
 steps:
   - bash: |
@@ -32,12 +37,18 @@ steps:
       pswd: $(dockerPassword)
 
   - bash: |
+      ./host/generate-composite.sh -3 powershell
+
+    displayName: create powershell-appservice dockerfiles
+    continueOnError: false
+
+  - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/powershell:$(Build.SourceBranchName)-powershell6
 
       docker build -t $IMAGE_NAME \
-                  -f host/3.0/buster/amd64/powershell/powershell6.Dockerfile \
-                  host/3.0/buster/amd64/powershell/
+                  -f host/3.0/buster/amd64/powershell/powershell6/powershell6.Dockerfile \
+                  host/3.0/buster/amd64/powershell/powershell6
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
     displayName: powershell6
@@ -47,8 +58,8 @@ steps:
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/powershell:$(Build.SourceBranchName)-powershell6-slim
       docker build -t $IMAGE_NAME \
-                  -f host/3.0/buster/amd64/powershell/powershell6-slim.Dockerfile \
-                  host/3.0/buster/amd64/powershell/
+                  -f host/3.0/buster/amd64/powershell/powershell6/powershell6-slim.Dockerfile \
+                  host/3.0/buster/amd64/powershell/powershell6/
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
     displayName: powershell6-slim
@@ -58,8 +69,8 @@ steps:
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/powershell:$(Build.SourceBranchName)-powershell6-appservice
       docker build -t $IMAGE_NAME \
-                  -f host/3.0/buster/amd64/powershell/powershell6-appservice.Dockerfile \
-                  host/3.0/buster/amd64/powershell/
+                  -f host/3.0/buster/amd64/out/powershell/powershell6-appservice.Dockerfile \
+                  host/3.0/buster/amd64/out/powershell/
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
     displayName: powershell6-appservice
@@ -70,8 +81,8 @@ steps:
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/powershell:$(Build.SourceBranchName)-powershell7
 
       docker build -t $IMAGE_NAME \
-                  -f host/3.0/buster/amd64/powershell/powershell7.Dockerfile \
-                  host/3.0/buster/amd64/powershell/
+                  -f host/3.0/buster/amd64/powershell/powershell7/powershell7.Dockerfile \
+                  host/3.0/buster/amd64/powershell/powershell7/
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
     displayName: powershell7
@@ -81,8 +92,8 @@ steps:
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/powershell:$(Build.SourceBranchName)-powershell7-slim
       docker build -t $IMAGE_NAME \
-                  -f host/3.0/buster/amd64/powershell/powershell7-slim.Dockerfile \
-                  host/3.0/buster/amd64/powershell/
+                  -f host/3.0/buster/amd64/powershell/powershell7/powershell7-slim.Dockerfile \
+                  host/3.0/buster/amd64/powershell/powershell7/
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
     displayName: powershell7-slim
@@ -92,8 +103,8 @@ steps:
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/powershell:$(Build.SourceBranchName)-powershell7-appservice
       docker build -t $IMAGE_NAME \
-                  -f host/3.0/buster/amd64/powershell/powershell7-appservice.Dockerfile \
-                  host/3.0/buster/amd64/powershell/
+                  -f host/3.0/buster/amd64/out/powershell/powershell7-appservice.Dockerfile \
+                  host/3.0/buster/amd64/out/powershell/
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
     displayName: powershell7-appservice
