@@ -1,6 +1,11 @@
 FROM mcr.microsoft.com/dotnet/runtime-deps:6.0.0
 ARG HOST_VERSION
 
+COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
+COPY sshd_config /etc/ssh/
+COPY start.sh /azure-functions-host/
+COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
+
 RUN apt-get update && \
     apt-get install -y curl gnupg && \
     curl -sL https://deb.nodesource.com/setup_16.x | bash - && \
@@ -26,9 +31,7 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
 RUN apt-get update && \
     apt-get install -y libc-dev
 
-COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
 COPY --from=runtime-image [ "/workers/node", "/azure-functions-host/workers/node" ]
-COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
 
 EXPOSE 2222 80
 
@@ -44,9 +47,6 @@ RUN apt-get update && \
 #    libgtk-3-0 libnspr4 libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 \
 #    libxcomposite1 libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 \
 #    libxtst6 ca-certificates fonts-liberation libappindicator1 libnss3 lsb-release xdg-utils wget
-
-COPY sshd_config /etc/ssh/
-COPY start.sh /azure-functions-host/
 
 RUN chmod +x /azure-functions-host/start.sh
 
