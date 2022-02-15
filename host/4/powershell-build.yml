@@ -11,6 +11,7 @@ pr:
       - host/4/bullseye/amd64/base/*
       - host/4/bullseye/amd64/powershell/powershell70/*
       - host/4/bullseye/amd64/powershell/powershell72/*
+      - host/4/powershell-build.yml
 
 trigger:
   branches:
@@ -23,6 +24,7 @@ trigger:
       - host/4/bullseye/amd64/base/*
       - host/4/bullseye/amd64/powershell/powershell70/*
       - host/4/bullseye/amd64/powershell/powershell72/*
+      - host/4/powershell-build.yml
 
 steps:
   - bash: |

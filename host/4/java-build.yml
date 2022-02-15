@@ -13,6 +13,7 @@ pr:
       - host/4/bullseye/amd64/java/java8-zulu/*
       - host/4/bullseye/amd64/java/java11/*
       - host/4/bullseye/amd64/java/java11-zulu/*
+      - host/4/java-build.yml
 
 trigger:
   branches:
@@ -27,6 +28,7 @@ trigger:
       - host/4/bullseye/amd64/java/java8-zulu/*
       - host/4/bullseye/amd64/java/java11/*
       - host/4/bullseye/amd64/java/java11-zulu/*
+      - host/4/java-build.yml
 
 steps:
   - bash: |

@@ -10,6 +10,7 @@ pr:
     include:
       - host/4/bullseye/amd64/base/*
       - host/4/bullseye/amd64/node/*
+      - host/4/node-build.yml
 
 trigger:
   branches:
@@ -21,6 +22,7 @@ trigger:
     include:
       - host/4/bullseye/amd64/base/*
       - host/4/bullseye/amd64/node/*
+      - host/4/node-build.yml
 
 steps:
   - bash: |

@@ -10,6 +10,7 @@ pr:
     include:
       - host/4/bullseye/amd64/base/*
       - host/4/bullseye/amd64/dotnet/*
+      - host/4/dotnet-build.yml
 
 trigger:
   branches:
@@ -21,6 +22,7 @@ trigger:
     include:
       - host/4/bullseye/amd64/base/*
       - host/4/bullseye/amd64/dotnet/*
+      - host/4/dotnet-build.yml
 
 steps:
   - bash: |
@@ -48,7 +50,7 @@ steps:
                   host/4/bullseye/amd64/dotnet/dotnet-inproc/
       npm run test $IMAGE_NAME --prefix test/
       docker push $IMAGE_NAME
-    displayName: dotnet
+    displayName: dotnet-inproc
     continueOnError: false
 
   - bash: |
@@ -60,7 +62,7 @@ steps:
                   host/4/bullseye/amd64/dotnet/dotnet-inproc/
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
-    displayName: dotnet-slim
+    displayName: dotnet-inproc-slim
     continueOnError: false
 
   - bash: |
