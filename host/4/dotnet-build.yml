@@ -109,3 +109,10 @@ steps:
       docker push $IMAGE_NAME
     displayName: dotnet-isolated-appservice (.NET 6)
     continueOnError: false
+
+  - task: AzureArtifacts.manifest-generator-task.manifest-generator-task.ManifestGeneratorTask@0
+    displayName: 'Manifest Generator'
+    inputs:
+      BuildDropPath: host
+      Verbosity: Verbose
+      DockerImagesToScan: mcr.microsoft.com/dotnet/sdk:5.0,mcr.microsoft.com/dotnet/core/runtime-deps:3.1,azurefunctions.azurecr.io/azure-functions/4/dotnet:$(Build.SourceBranchName)-appservice,azurefunctions.azurecr.io/azure-functions/4/dotnet-isolated:$(Build.SourceBranchName)-dotnet-isolated6.0-appservice
