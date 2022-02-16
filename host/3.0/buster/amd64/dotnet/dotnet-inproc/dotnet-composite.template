@@ -1,14 +1,16 @@
 FROM mcr.microsoft.com/dotnet/core/runtime-deps:3.1
 ARG HOST_VERSION
 
+COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
+COPY start.sh /azure-functions-host/
+COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
+COPY sshd_config /etc/ssh/
+
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     HOME=/home \
     FUNCTIONS_WORKER_RUNTIME=dotnet \
     DOTNET_USE_POLLING_FILE_WATCHER=true \
     HOST_VERSION=${HOST_VERSION}
-
-COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
-COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
 
 EXPOSE 2222 80
 
@@ -26,8 +28,6 @@ RUN apt-get install -y xvfb gconf-service libasound2 libatk1.0-0 libc6 libcairo2
     libxcomposite1 libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 \
     libxtst6 ca-certificates fonts-liberation libappindicator1 libnss3 lsb-release xdg-utils wget
 
-COPY sshd_config /etc/ssh/
-COPY start.sh /azure-functions-host/
 
 RUN chmod +x /azure-functions-host/start.sh
 
