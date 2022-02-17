@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:6.0.100 as dotnet6
+FROM mcr.microsoft.com/dotnet/sdk:6.0.200 as dotnet6
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1
 
 # Avoid warnings by switching to noninteractive
