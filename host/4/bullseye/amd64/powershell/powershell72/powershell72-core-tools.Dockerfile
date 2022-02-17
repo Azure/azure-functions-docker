@@ -12,7 +12,7 @@ ARG USER_UID=1000
 ARG USER_GID=$USER_UID
 
 ARG PS_VERSION=7.2.1
-ARG PS_PACKAGE=powershell_${PS_VERSION}-1.debian.10_amd64.deb
+ARG PS_PACKAGE=powershell-lts_${PS_VERSION}-1.deb_amd64.deb
 ARG PS_PACKAGE_URL=https://github.com/PowerShell/PowerShell/releases/download/v${PS_VERSION}/${PS_PACKAGE}
 
 # Download the Linux package and save it
