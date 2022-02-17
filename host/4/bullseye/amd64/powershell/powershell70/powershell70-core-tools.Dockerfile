@@ -1,4 +1,5 @@
-FROM mcr.microsoft.com/dotnet/sdk:6.0.100
+FROM mcr.microsoft.com/dotnet/sdk:6.0.200 as dotnet6
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1
 
 # Avoid warnings by switching to noninteractive
 ENV DEBIAN_FRONTEND=noninteractive
@@ -27,6 +28,7 @@ ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false \
 
 ENV FUNCTIONS_WORKER_RUNTIME=powershell
 ENV FUNCTIONS_WORKER_RUNTIME_VERSION=~7
+COPY --from=dotnet6  [ "/usr/share/dotnet", "/usr/share/dotnet" ]
 
 # Configure apt and install packages
 RUN apt-get update \
