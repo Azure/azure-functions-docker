@@ -305,11 +305,24 @@ stages:
           IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/powershell:$(PrivateVersion)-powershell7-core-tools
 
           docker build -t $IMAGE_NAME \
-                      -f host/4/bullseye/amd64/powershell/powershell7-core-tools.Dockerfile \
-                      host/4/bullseye/amd64/powershell/
+                      -f host/4/bullseye/amd64/powershell/powershell70/powershell70-core-tools.Dockerfile \
+                      host/4/bullseye/amd64/powershell/powershell70/
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
         displayName: powershell7-core-tools
+        continueOnError: false
+        env:
+          DOCKER_BUILDKIT: 1 
+      - bash: |
+          set -e
+          IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/powershell:$(PrivateVersion)-powershell7.2-core-tools
+
+          docker build -t $IMAGE_NAME \
+                      -f host/4/bullseye/amd64/powershell/powershell72/powershell72-core-tools.Dockerfile \
+                      host/4/bullseye/amd64/powershell/powershell72/
+          npm run test $IMAGE_NAME --prefix  test/
+          docker push $IMAGE_NAME
+        displayName: powershell7.2-core-tools
         continueOnError: false
         env:
           DOCKER_BUILDKIT: 1 
@@ -663,10 +676,13 @@ stages:
       - bash: |
           set -e
           docker pull $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7-core-tools
+          docker pull $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7.2-core-tools
     
           docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7-core-tools $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell7-core-tools
+          docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7.2-core-tools $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell7.2-core-tools
                
           docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7-core-tools $TARGET_REGISTRY/powershell:$(MajorVersion)-powershell7-core-tools
+          docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7.2-core-tools $TARGET_REGISTRY/powershell:$(MajorVersion)-powershell7.2-core-tools
 
         displayName: tag powershell images
         continueOnError: false
@@ -674,6 +690,13 @@ stages:
           set -e 
           PrivateImageId=`docker image inspect $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7-core-tools --format='{{.Id}}'`
           MajorImageId=`docker image inspect $TARGET_REGISTRY/powershell:$(MajorVersion)-powershell7-core-tools --format='{{.Id}}'`
+          if [[ "$PrivateImageId" != "$MajorImageId" ]]; then
+            echo "unmatch the Target image id and Major image id ${PrivateImageId} and ${MajorImageId}";
+            exit 1;
+          fi
+ 
+          PrivateImageId=`docker image inspect $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7.2-core-tools --format='{{.Id}}'`
+          MajorImageId=`docker image inspect $TARGET_REGISTRY/powershell:$(MajorVersion)-powershell7.2-core-tools --format='{{.Id}}'`
           if [[ "$PrivateImageId" != "$MajorImageId" ]]; then
             echo "unmatch the Target image id and Major image id ${PrivateImageId} and ${MajorImageId}";
             exit 1;
@@ -691,6 +714,18 @@ stages:
             echo "can not find Az module for powershell7-core-tools. The number of the AzModule is $AZ_MODULE_COUNT"
           fi
 
+          ActualVersion=`docker run $TARGET_REGISTRY/powershell:$(MajorVersion)-powershell7.2-core-tools func --version`
+          if [[ "$ActualVersion" != "$(TargetVersion)" ]]; then
+            echo "unmatch the ActualVersion and TargetVersion ${ActualVersion} and $(TargetVersion)";
+            exit 1;
+          fi          
+          docker run $TARGET_REGISTRY/powershell:$(MajorVersion)-powershell7.2-core-tools az --version
+
+          AZ_MODULE_COUNT=`docker run $TARGET_REGISTRY/powershell:$(MajorVersion)-powershell7.2-core-tools pwsh  -Command "(Get-Module -ListAvailable Az).count"`
+          if [ ! "$AZ_MODULE_COUNT" -gt "0" ]; then
+            echo "can not find Az module for powershell7.2-core-tools. The number of the AzModule is $AZ_MODULE_COUNT"
+          fi
+
         displayName: test powershell images
         continueOnError: false        
       - bash: |
@@ -698,7 +733,11 @@ stages:
           docker push $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell7-core-tools
 
           docker push $TARGET_REGISTRY/powershell:$(MajorVersion)-powershell7-core-tools
-    
+
+          docker push $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell7.2-core-tools
+
+          docker push $TARGET_REGISTRY/powershell:$(MajorVersion)-powershell7.2-core-tools
+
           docker system prune -a -f
         displayName: push powershell images
         continueOnError: false
