@@ -163,3 +163,10 @@ steps:
       docker push $IMAGE_NAME
     displayName: java11-build
     continueOnError: false
+
+  - task: AzureArtifacts.manifest-generator-task.manifest-generator-task.ManifestGeneratorTask@0
+    displayName: 'Manifest Generator'
+    inputs:
+      BuildDropPath: host
+      Verbosity: Verbose
+      DockerImagesToScan: mcr.microsoft.com/dotnet/sdk:5.0,mcr.microsoft.com/dotnet/core/runtime-deps:3.1,azurefunctions.azurecr.io/azure-functions/3.0/java:$(Build.SourceBranchName)-java11.1-appservice,azurefunctions.azurecr.io/azure-functions/3.0/java:$(Build.SourceBranchName)-java11-appservice,azurefunctions.azurecr.io/azure-functions/3.0/java:$(Build.SourceBranchName)-java8.1-appservice,azurefunctions.azurecr.io/azure-functions/3.0/java:$(Build.SourceBranchName)-java8-appservice

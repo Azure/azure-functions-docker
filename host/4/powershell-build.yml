@@ -110,3 +110,10 @@ steps:
       docker push $IMAGE_NAME
     displayName: powershell7.2-appservice
     continueOnError: false
+
+  - task: AzureArtifacts.manifest-generator-task.manifest-generator-task.ManifestGeneratorTask@0
+    displayName: 'Manifest Generator'
+    inputs:
+      BuildDropPath: host
+      Verbosity: Verbose
+      DockerImagesToScan: mcr.microsoft.com/dotnet/sdk:5.0,mcr.microsoft.com/dotnet/core/runtime-deps:3.1,azurefunctions.azurecr.io/azure-functions/4/powershell:$(Build.SourceBranchName)-powershell7.2-appservice,azurefunctions.azurecr.io/azure-functions/4/powershell:$(Build.SourceBranchName)-powershell7-appservice
