@@ -1,8 +1,11 @@
-ARG JAVA_VERSION=8u292
-
-FROM mcr.microsoft.com/java/jre-headless:${JAVA_VERSION}-zulu-debian10-with-tools as jre
+ARG JAVA_VERSION=8u302b08
+ARG JDK_NAME=jdk8u302-b08
+ARG JAVA_HOME=/usr/lib/jvm/adoptium-8-x64
 FROM mcr.microsoft.com/dotnet/runtime-deps:6.0.0
 ARG HOST_VERSION
+ARG JAVA_VERSION
+ARG JDK_NAME
+ARG JAVA_HOME
 
 COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
 COPY sshd_config /etc/ssh/
@@ -19,13 +22,15 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     DOTNET_USE_POLLING_FILE_WATCHER=true \
     HOST_VERSION=${HOST_VERSION} \
     ASPNETCORE_CONTENTROOT=/azure-functions-host \
-    JAVA_HOME=/usr/lib/jvm/zre-8-azure-amd64
+    JAVA_HOME=${JAVA_HOME}
 
 # Fix from https://github.com/GoogleCloudPlatform/google-cloud-dotnet-powerpack/issues/22#issuecomment-729895157
 RUN apt-get update && \
-    apt-get install -y libc-dev
-
-COPY --from=jre [ "/usr/lib/jvm/zre-hl-8-azure-amd64", "/usr/lib/jvm/zre-8-azure-amd64" ]
+    apt-get install -y libc-dev wget && \
+    wget https://github.com/adoptium/temurin8-binaries/releases/download/${JDK_NAME}/OpenJDK8U-jdk_x64_linux_hotspot_${JAVA_VERSION}.tar.gz && \
+    mkdir -p ${JAVA_HOME} && \
+    tar -xzf OpenJDK8U-jdk_x64_linux_hotspot_${JAVA_VERSION}.tar.gz -C ${JAVA_HOME} --strip-components=1 && \
+    rm -f OpenJDK8U-jdk_x64_linux_hotspot_${JAVA_VERSION}.tar.gz
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends openssh-server dialog && \

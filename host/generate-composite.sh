@@ -23,7 +23,8 @@ select_version() {
 globalize_args() {
     ## This method is used to bring all args preceding any From statements to the top of the file. 
     ## Allows for ARGs defined globally in composite images to be global in the compiled dockerfile
-    gblarg=($((sed -n '/FROM/q;p' $1) | grep ARG)) # list of args in arr with carriage returns at end
+    ## list of args in arr with carriage returns at end
+    gblarg=$((sed -n '/FROM/q;p' $1) | grep ARG)
     if [ ${#gblarg[@]} == 0 ]; then 
         printf "\t No global ARGs in $1 \n"
     else
