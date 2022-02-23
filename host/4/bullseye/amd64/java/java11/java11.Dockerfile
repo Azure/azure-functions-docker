@@ -1,8 +1,11 @@
 # Build the runtime from source
 ARG HOST_VERSION=4.2.1
-ARG JAVA_VERSION=11u11
+ARG JAVA_VERSION=11.0.12.7.1
+ARG JAVA_HOME=/usr/lib/jvm/msft-11-x64
 FROM mcr.microsoft.com/dotnet/sdk:6.0.100 AS runtime-image
 ARG HOST_VERSION
+ARG JAVA_VERSION
+ARG JAVA_HOME
 
 ENV PublishWithAspNetCoreTargetManifest=false
 ENV DEBIAN_FRONTEND=noninteractive
@@ -31,16 +34,22 @@ RUN apt-get update && \
     rm -f /$EXTENSION_BUNDLE_FILENAME_V3 &&\
     find /FuncExtensionBundles/ -type f -exec chmod 644 {} \;
 
-FROM mcr.microsoft.com/java/jre-headless:${JAVA_VERSION}-zulu-debian10-with-tools as jre
+RUN wget https://aka.ms/download-jdk/microsoft-jdk-${JAVA_VERSION}-linux-x64.tar.gz && \
+    mkdir -p ${JAVA_HOME} && \
+    tar -xzf microsoft-jdk-${JAVA_VERSION}-linux-x64.tar.gz -C ${JAVA_HOME} --strip-components=1 && \
+    rm -f microsoft-jdk-${JAVA_VERSION}-linux-x64.tar.gz
+
 FROM mcr.microsoft.com/dotnet/runtime-deps:6.0.0
 ARG HOST_VERSION
+ARG JAVA_HOME
 
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     HOME=/home \
     FUNCTIONS_WORKER_RUNTIME=java \
     DOTNET_USE_POLLING_FILE_WATCHER=true \
     HOST_VERSION=${HOST_VERSION} \
-    ASPNETCORE_CONTENTROOT=/azure-functions-host
+    ASPNETCORE_CONTENTROOT=/azure-functions-host \
+    JAVA_HOME=${JAVA_HOME}
 
 # Fix from https://github.com/GoogleCloudPlatform/google-cloud-dotnet-powerpack/issues/22#issuecomment-729895157
 RUN apt-get update && \
@@ -48,10 +57,7 @@ RUN apt-get update && \
 
 COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
 COPY --from=runtime-image [ "/workers/java", "/azure-functions-host/workers/java" ]
-COPY --from=jre [ "/usr/lib/jvm/zre-hl-tools-11-azure-amd64", "/usr/lib/jvm/zre-11-azure-amd64" ]
-
-ENV JAVA_HOME /usr/lib/jvm/zre-11-azure-amd64
-
+COPY --from=runtime-image [ "${JAVA_HOME}", "${JAVA_HOME}" ]
 COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
 
 CMD [ "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost" ]
