@@ -18,6 +18,7 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     FUNCTIONS_WORKER_RUNTIME=java \
     DOTNET_USE_POLLING_FILE_WATCHER=true \
     HOST_VERSION=${HOST_VERSION} \
+    ASPNETCORE_ContentRoot=/azure-functions-host \
     JAVA_HOME=/usr/lib/jvm/zre-11-azure-amd64
 
 COPY --from=jre [ "/usr/lib/jvm/zre-hl-tools-11-azure-amd64", "/usr/lib/jvm/zre-11-azure-amd64" ]

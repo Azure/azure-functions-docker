@@ -38,7 +38,8 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     HOME=/home \
     FUNCTIONS_WORKER_RUNTIME=java \
     DOTNET_USE_POLLING_FILE_WATCHER=true \
-    HOST_VERSION=${HOST_VERSION}
+    HOST_VERSION=${HOST_VERSION} \
+    ASPNETCORE_ContentRoot=/azure-functions-host
 
 # Fix from https://github.com/GoogleCloudPlatform/google-cloud-dotnet-powerpack/issues/22#issuecomment-729895157
 RUN apt-get update && \
