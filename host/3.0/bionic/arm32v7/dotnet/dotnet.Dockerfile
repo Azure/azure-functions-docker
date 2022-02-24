@@ -60,7 +60,8 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     HOME=/home \
     FUNCTIONS_WORKER_RUNTIME=dotnet \
     DOTNET_USE_POLLING_FILE_WATCHER=false \
-    HOST_VERSION=${HOST_VERSION}
+    HOST_VERSION=${HOST_VERSION} \
+    ASPNETCORE_CONTENTROOT=/azure-functions-host
 
 RUN rm /usr/bin/qemu-arm-static
 
