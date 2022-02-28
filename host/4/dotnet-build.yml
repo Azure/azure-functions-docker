@@ -120,12 +120,17 @@ steps:
     displayName: dotnet-isolated-appservice (.NET 6)
     continueOnError: false
 
+  - bash : |
+      echo "ar : ${IMAGE_ARRAY[@]}"
+    displayName: Echo array
+    continueOnError: false
+
   - task: AzureArtifacts.manifest-generator-task.manifest-generator-task.ManifestGeneratorTask@0
     displayName: 'Manifest Generator'
     inputs:
       BuildDropPath: host
       Verbosity: Verbose
-      DockerImagesToScan: ${IMAGE_ARRAY[@]}
+      DockerImagesToScan: "${IMAGE_ARRAY[@]}"
 
   - task: PublishPipelineArtifact@1
     displayName: 'Publish SBOM Artifact'
