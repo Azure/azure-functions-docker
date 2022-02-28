@@ -45,7 +45,8 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     HOME=/home \
     FUNCTIONS_WORKER_RUNTIME=dotnet-isolated \
     DOTNET_USE_POLLING_FILE_WATCHER=true \
-    HOST_VERSION=${HOST_VERSION}
+    HOST_VERSION=${HOST_VERSION} \
+    ASPNETCORE_CONTENTROOT=/azure-functions-host
 
 COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
 
