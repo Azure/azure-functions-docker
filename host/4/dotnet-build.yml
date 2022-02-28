@@ -118,3 +118,9 @@ steps:
       BuildDropPath: host
       Verbosity: Verbose
       DockerImagesToScan: mcr.microsoft.com/dotnet/sdk:5.0,mcr.microsoft.com/dotnet/core/runtime-deps:3.1,azurefunctions.azurecr.io/azure-functions/4/dotnet:$(Build.SourceBranchName)-appservice,azurefunctions.azurecr.io/azure-functions/4/dotnet-isolated:$(Build.SourceBranchName)-dotnet-isolated6.0-appservice
+
+  - task: PublishPipelineArtifact@1
+    displayName: 'Publish SBOM Artifact'
+    inputs:
+      targetPath: host
+      artifact: SBOM-dotnet-$(Build.SourceBranchName)
