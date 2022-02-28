@@ -37,6 +37,7 @@ steps:
 
   - bash: |
       ./host/generate-composite.sh -4 dotnet
+      IMAGE_ARRAY=()
 
     displayName: create dotnet-appservice dockerfiles
     continueOnError: false
@@ -44,6 +45,7 @@ steps:
   - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/dotnet:$(Build.SourceBranchName)
+      IMAGE_ARRAY+=($IMAGE_NAME)
 
       docker build -t $IMAGE_NAME \
                   -f host/4/bullseye/amd64/dotnet/dotnet-inproc/dotnet.Dockerfile \
@@ -56,6 +58,7 @@ steps:
   - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/dotnet:$(Build.SourceBranchName)-slim
+      IMAGE_ARRAY+=($IMAGE_NAME)
 
       docker build -t $IMAGE_NAME \
                   -f host/4/bullseye/amd64/dotnet/dotnet-inproc/dotnet-slim.Dockerfile \
@@ -68,6 +71,8 @@ steps:
   - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/dotnet:$(Build.SourceBranchName)-appservice
+      IMAGE_ARRAY+=($IMAGE_NAME)
+
       docker build -t $IMAGE_NAME \
                   -f host/4/bullseye/amd64/out/dotnet/dotnet-inproc-appservice.Dockerfile \
                   host/4/bullseye/amd64/out/dotnet/
@@ -79,6 +84,7 @@ steps:
   - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/dotnet-isolated:$(Build.SourceBranchName)-dotnet-isolated6.0
+      IMAGE_ARRAY+=($IMAGE_NAME)
 
       docker build -t $IMAGE_NAME \
                   -f host/4/bullseye/amd64/dotnet/dotnet-isolated/dotnet-isolated.Dockerfile \
@@ -91,6 +97,7 @@ steps:
   - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/dotnet-isolated:$(Build.SourceBranchName)-dotnet-isolated6.0-slim
+      IMAGE_ARRAY+=($IMAGE_NAME)
 
       docker build -t $IMAGE_NAME \
                   -f host/4/bullseye/amd64/dotnet/dotnet-isolated/dotnet-isolated-slim.Dockerfile \
@@ -103,7 +110,8 @@ steps:
   - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/dotnet-isolated:$(Build.SourceBranchName)-dotnet-isolated6.0-appservice
-
+      IMAGE_ARRAY+=($IMAGE_NAME)
+      echo "${IMAGE_ARRAY[@]}"
       docker build -t $IMAGE_NAME \
                   -f host/4/bullseye/amd64/out/dotnet/dotnet-isolated-appservice.Dockerfile \
                   host/4/bullseye/amd64/out/dotnet/
@@ -117,7 +125,7 @@ steps:
     inputs:
       BuildDropPath: host
       Verbosity: Verbose
-      DockerImagesToScan: mcr.microsoft.com/dotnet/sdk:5.0,mcr.microsoft.com/dotnet/core/runtime-deps:3.1,azurefunctions.azurecr.io/azure-functions/4/dotnet:$(Build.SourceBranchName)-appservice,azurefunctions.azurecr.io/azure-functions/4/dotnet-isolated:$(Build.SourceBranchName)-dotnet-isolated6.0-appservice
+      DockerImagesToScan: ${IMAGE_ARRAY[@]}
 
   - task: PublishPipelineArtifact@1
     displayName: 'Publish SBOM Artifact'
