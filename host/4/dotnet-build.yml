@@ -103,7 +103,8 @@ steps:
   - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/dotnet-isolated:$(Build.SourceBranchName)-dotnet-isolated6.0-slim
-      $(image_list)+=",$IMAGE_NAME"
+      IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
+      echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
 
       docker build -t $IMAGE_NAME \
                   -f host/4/bullseye/amd64/dotnet/dotnet-isolated/dotnet-isolated-slim.Dockerfile \
@@ -116,7 +117,8 @@ steps:
   - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/dotnet-isolated:$(Build.SourceBranchName)-dotnet-isolated6.0-appservice
-      $(image_list)="${image_list},$IMAGE_NAME"
+      IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
+      echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
 
       docker build -t $IMAGE_NAME \
                   -f host/4/bullseye/amd64/out/dotnet/dotnet-isolated-appservice.Dockerfile \
