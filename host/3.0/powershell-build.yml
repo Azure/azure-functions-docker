@@ -27,6 +27,10 @@ trigger:
       - host/3.0/buster/amd64/powershell/powershell7/*
       - host/3.0/powershell-build.yml
 
+variables:
+- name: image_list
+  value: ''
+
 steps:
   - bash: |
       # login
@@ -47,6 +51,7 @@ steps:
   - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/powershell:$(Build.SourceBranchName)-powershell6
+      echo "##vso[task.setvariable variable=image_list;]$IMAGE_NAME"
 
       docker build -t $IMAGE_NAME \
                   -f host/3.0/buster/amd64/powershell/powershell6/powershell6.Dockerfile \
@@ -59,6 +64,9 @@ steps:
   - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/powershell:$(Build.SourceBranchName)-powershell6-slim
+      IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
+      echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
+
       docker build -t $IMAGE_NAME \
                   -f host/3.0/buster/amd64/powershell/powershell6/powershell6-slim.Dockerfile \
                   host/3.0/buster/amd64/powershell/powershell6/
@@ -70,6 +78,9 @@ steps:
   - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/powershell:$(Build.SourceBranchName)-powershell6-appservice
+      IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
+      echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
+
       docker build -t $IMAGE_NAME \
                   -f host/3.0/buster/amd64/out/powershell/powershell6-appservice.Dockerfile \
                   host/3.0/buster/amd64/out/powershell/
@@ -81,6 +92,9 @@ steps:
   - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/powershell:$(Build.SourceBranchName)-powershell7
+      IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
+      echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
+
 
       docker build -t $IMAGE_NAME \
                   -f host/3.0/buster/amd64/powershell/powershell7/powershell7.Dockerfile \
@@ -93,6 +107,9 @@ steps:
   - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/powershell:$(Build.SourceBranchName)-powershell7-slim
+      IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
+      echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
+
       docker build -t $IMAGE_NAME \
                   -f host/3.0/buster/amd64/powershell/powershell7/powershell7-slim.Dockerfile \
                   host/3.0/buster/amd64/powershell/powershell7/
@@ -104,6 +121,9 @@ steps:
   - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/powershell:$(Build.SourceBranchName)-powershell7-appservice
+      IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
+      echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
+
       docker build -t $IMAGE_NAME \
                   -f host/3.0/buster/amd64/out/powershell/powershell7-appservice.Dockerfile \
                   host/3.0/buster/amd64/out/powershell/
@@ -117,4 +137,10 @@ steps:
     inputs:
       BuildDropPath: host
       Verbosity: Verbose
-      DockerImagesToScan: mcr.microsoft.com/dotnet/sdk:5.0,mcr.microsoft.com/dotnet/core/runtime-deps:3.1,azurefunctions.azurecr.io/azure-functions/3.0/powershell:$(Build.SourceBranchName)-powershell7-appservice,azurefunctions.azurecr.io/azure-functions/3.0/powershell:$(Build.SourceBranchName)-powershell6-appservice
+      DockerImagesToScan: $(image_list)
+
+  - task: PublishPipelineArtifact@1
+    displayName: 'Publish SBOM Artifact'
+    inputs:
+      targetPath: host
+      artifact: SBOM-Functionsv3-Powershell-$(Build.SourceBranchName)

@@ -26,7 +26,11 @@ trigger:
       - host/3.0/buster/arm32v7/dotnet/*
       - host/3.0/bionic/arm32v7/dotnet/*
       - host/3.0/dotnet-build.yml
-      
+
+variables:
+- name: image_list
+  value: ''
+ 
 steps:
   - bash: |
       # login
@@ -47,6 +51,7 @@ steps:
   - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/dotnet:$(Build.SourceBranchName)
+      echo "##vso[task.setvariable variable=image_list;]$IMAGE_NAME"
 
       docker build -t $IMAGE_NAME \
                   -f host/3.0/buster/amd64/dotnet/dotnet-inproc/dotnet.Dockerfile \
@@ -59,6 +64,8 @@ steps:
   - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/dotnet:$(Build.SourceBranchName)-slim
+      IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
+      echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
 
       docker build -t $IMAGE_NAME \
                   -f host/3.0/buster/amd64/dotnet/dotnet-inproc/dotnet-slim.Dockerfile \
@@ -71,6 +78,8 @@ steps:
   - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/dotnet:$(Build.SourceBranchName)-appservice
+      IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
+      echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
 
       docker build -t $IMAGE_NAME \
                   -f host/3.0/buster/amd64/out/dotnet/dotnet-inproc-appservice.Dockerfile \
@@ -84,6 +93,8 @@ steps:
   - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/dotnet-isolated:$(Build.SourceBranchName)-dotnet-isolated5.0
+      IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
+      echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
 
       docker build -t $IMAGE_NAME \
                   -f host/3.0/buster/amd64/dotnet/dotnet-isolated/dotnet-isolated.Dockerfile \
@@ -96,6 +107,8 @@ steps:
   - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/dotnet-isolated:$(Build.SourceBranchName)-dotnet-isolated5.0-slim
+      IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
+      echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
 
       docker build -t $IMAGE_NAME \
                   -f host/3.0/buster/amd64/dotnet/dotnet-isolated/dotnet-isolated-slim.Dockerfile \
@@ -108,6 +121,8 @@ steps:
   - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/dotnet-isolated:$(Build.SourceBranchName)-dotnet-isolated5.0-appservice
+      IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
+      echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
 
       docker build -t $IMAGE_NAME \
                   -f host/3.0/buster/amd64/out/dotnet/dotnet-isolated-appservice.Dockerfile \
@@ -147,9 +162,15 @@ steps:
     displayName: dotnet bionic arm32v7
     continueOnError: false
 
-  - task: AzureArtifacts.manifest-generator-task.manifest-generator-task.ManifestGeneratorTask@0
+ - task: AzureArtifacts.manifest-generator-task.manifest-generator-task.ManifestGeneratorTask@0
     displayName: 'Manifest Generator'
     inputs:
       BuildDropPath: host
       Verbosity: Verbose
-      DockerImagesToScan: mcr.microsoft.com/dotnet/sdk:5.0,mcr.microsoft.com/dotnet/core/runtime-deps:3.1,azurefunctions.azurecr.io/azure-functions/3.0/dotnet:$(Build.SourceBranchName)-appservice,azurefunctions.azurecr.io/azure-functions/3.0/dotnet-isolated:$(Build.SourceBranchName)-dotnet-isolated5.0-appservice
+      DockerImagesToScan: $(image_list)
+
+  - task: PublishPipelineArtifact@1
+    displayName: 'Publish SBOM Artifact'
+    inputs:
+      targetPath: host
+      artifact: SBOM-Functionsv3-Dotnet-$(Build.SourceBranchName)
