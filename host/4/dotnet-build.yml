@@ -128,12 +128,6 @@ steps:
     displayName: dotnet-isolated-appservice (.NET 6)
     continueOnError: false
 
-  - bash : |
-      echo "ar : ${IMAGE_ARRAY[@]}"
-      echo "list : $(image_list)"
-    displayName: Echo array
-    continueOnError: false
-
   - task: AzureArtifacts.manifest-generator-task.manifest-generator-task.ManifestGeneratorTask@0
     displayName: 'Manifest Generator'
     inputs:
@@ -145,4 +139,4 @@ steps:
     displayName: 'Publish SBOM Artifact'
     inputs:
       targetPath: host
-      artifact: SBOM-dotnet-$(Build.SourceBranchName)
+      artifact: SBOM-Functionsv4-dotnet-$(Build.SourceBranchName)

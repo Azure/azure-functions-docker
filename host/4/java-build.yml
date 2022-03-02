@@ -207,4 +207,4 @@ steps:
     displayName: 'Publish SBOM Artifact'
     inputs:
       targetPath: host
-      artifact: SBOM-java-$(Build.SourceBranchName)
+      artifact: SBOM-Functionsv4-Java-$(Build.SourceBranchName)
