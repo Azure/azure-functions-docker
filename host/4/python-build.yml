@@ -1,5 +1,5 @@
 pool:
-    vmImage: 'Ubuntu-latest'
+  vmImage: "Ubuntu-latest"
 
 pr:
   branches:
@@ -10,6 +10,7 @@ pr:
     include:
       - host/4/bullseye/amd64/base/*
       - host/4/bullseye/amd64/python/*
+      - host/4/python-build.yml
 
 trigger:
   branches:
@@ -21,216 +22,74 @@ trigger:
     include:
       - host/4/bullseye/amd64/base/*
       - host/4/bullseye/amd64/python/*
+      - host/4/python-build.yml
+
+variables:
+  HOST_MAJOR_VERSION: 4
+  DOCKER_BUILDKIT: 1
 
 jobs:
-
-- job: python37
-  displayName: python 3.7
-  pool:
-    vmImage: 'Ubuntu-latest'
-  steps:
-  - bash: |
-      # login
-      set -e
-      echo $pswd | docker login -u $(dockerUsername) --password-stdin azurefunctions.azurecr.io
-    displayName: login to registry
-    continueOnError: false
-    env:
-      pswd: $(dockerPassword)
-
-  - bash: |
-      ./host/generate-composite.sh -4 python
-
-    displayName: create python-appservice dockerfiles
-    continueOnError: false
-
-  - bash: |
-      set -e
-      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/python:$(Build.SourceBranchName)-python3.7
-      docker build -t $IMAGE_NAME \
-                  -f host/4/bullseye/amd64/python/python37/python37.Dockerfile \
-                  host/4/bullseye/amd64/python/python37
-      npm run test $IMAGE_NAME --prefix  test/
-      docker push $IMAGE_NAME
-    displayName: python3.7
-    continueOnError: false
-    env:
-      DOCKER_BUILDKIT: 1
-  - bash: |
-      set -e
-      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/python:$(Build.SourceBranchName)-python3.7-slim
-      docker build -t $IMAGE_NAME \
-                  -f host/4/bullseye/amd64/python/python37/python37-slim.Dockerfile \
-                  host/4/bullseye/amd64/python/python37/
-      npm run test $IMAGE_NAME --prefix  test/
-      docker push $IMAGE_NAME
-    displayName: python3.7-slim
-    continueOnError: false
-    env:
-      DOCKER_BUILDKIT: 1
-  - bash: |
-      set -e
-      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/python:$(Build.SourceBranchName)-python3.7-appservice
-      docker build -t $IMAGE_NAME \
-                  -f host/4/bullseye/amd64/out/python/python37-appservice.Dockerfile \
-                  host/4/bullseye/amd64/out/python/
-      npm run test $IMAGE_NAME --prefix  test/
-      docker push $IMAGE_NAME
-    displayName: python3.7-appservice
-    continueOnError: false
-    env:
-      DOCKER_BUILDKIT: 1
-  - bash: |
-      set -e
-      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/python:$(Build.SourceBranchName)-python3.7-buildenv
-      docker build -t $IMAGE_NAME \
-                  -f host/4/bullseye/amd64/python/python37/python37-buildenv.Dockerfile \
-                  host/4/bullseye/amd64/python/python37/
-      docker push $IMAGE_NAME
-    displayName: python3.7-buildenv
-    continueOnError: false
-    env:
-      DOCKER_BUILDKIT: 1
-- job: python38
-  displayName: python 3.8
-  pool:
-    vmImage: ubuntu-18.04
-  steps:
-  - bash: |
-      # login
-      set -e
-      echo $pswd | docker login -u $(dockerUsername) --password-stdin azurefunctions.azurecr.io
-    displayName: login to registry
-    continueOnError: false
-    env:
-      pswd: $(dockerPassword)
-
-  - bash: |
-      ./host/generate-composite.sh -4 python
-
-    displayName: create python-appservice dockerfiles
-    continueOnError: false
-
-  - bash: |
-      set -e
-      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/python:$(Build.SourceBranchName)-python3.8
-      docker build -t $IMAGE_NAME \
-                  -f host/4/bullseye/amd64/python/python38/python38.Dockerfile \
-                  host/4/bullseye/amd64/python/python38
-      npm run test $IMAGE_NAME --prefix  test/
-      docker push $IMAGE_NAME
-    displayName: python3.8
-    continueOnError: false
-    env:
-      DOCKER_BUILDKIT: 1
-  - bash: |
-      set -e
-      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/python:$(Build.SourceBranchName)-python3.8-slim
-      docker build -t $IMAGE_NAME \
-                  -f host/4/bullseye/amd64/python/python38/python38-slim.Dockerfile \
-                  host/4/bullseye/amd64/python/python38/
-      npm run test $IMAGE_NAME --prefix  test/
-      docker push $IMAGE_NAME
-    displayName: python3.8-slim
-    continueOnError: false
-    env:
-      DOCKER_BUILDKIT: 1
-  - bash: |
-      set -e
-      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/python:$(Build.SourceBranchName)-python3.8-appservice
-      docker build -t $IMAGE_NAME \
-                  -f host/4/bullseye/amd64/out/python/python38-appservice.Dockerfile \
-                  host/4/bullseye/amd64/out/python/
-      npm run test $IMAGE_NAME --prefix  test/
-      docker push $IMAGE_NAME
-    displayName: python3.8-appservice
-    continueOnError: false
-    env:
-      DOCKER_BUILDKIT: 1
-  - bash: |
-      set -e
-      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/python:$(Build.SourceBranchName)-python3.8-buildenv
-      docker build -t $IMAGE_NAME \
-                  -f host/4/bullseye/amd64/python/python38/python38-buildenv.Dockerfile \
-                  host/4/bullseye/amd64/python/python38/
-      docker push $IMAGE_NAME
-    displayName: python3.8-buildenv
-    continueOnError: false
-    env:
-      DOCKER_BUILDKIT: 1
-
-- job: python39
-  displayName: python 3.9
-  pool:
-    vmImage: ubuntu-18.04
-  steps:
-  - bash: |
-      # login
-      set -e
-      echo $pswd | docker login -u $(dockerUsername) --password-stdin azurefunctions.azurecr.io
-
-    displayName: login to registry
-    continueOnError: false
-    env:
-      pswd: $(dockerPassword)
-
-  - bash: |
-      ./host/generate-composite.sh -4 python
-
-    displayName: create python-appservice dockerfiles
-    continueOnError: false
-
-  - bash: |
-      set -e
-      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/python:$(Build.SourceBranchName)-python3.9
-
-      docker build -t $IMAGE_NAME \
-                  -f host/4/bullseye/amd64/python/python39/python39.Dockerfile \
-                  host/4/bullseye/amd64/python/python39
-      npm run test $IMAGE_NAME --prefix  test/
-      docker push $IMAGE_NAME
-    displayName: python3.9
-    continueOnError: false
-    env:
-      DOCKER_BUILDKIT: 1
-
-  - bash: |
-      set -e
-      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/python:$(Build.SourceBranchName)-python3.9-slim
-
-      docker build -t $IMAGE_NAME \
-                  -f host/4/bullseye/amd64/python/python39/python39-slim.Dockerfile \
-                  host/4/bullseye/amd64/python/python39/
-      npm run test $IMAGE_NAME --prefix  test/
-      docker push $IMAGE_NAME
-    displayName: python3.9-slim
-    continueOnError: false
-    env:
-      DOCKER_BUILDKIT: 1
-
-  - bash: |
-      set -e
-      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/python:$(Build.SourceBranchName)-python3.9-appservice
-
-      docker build -t $IMAGE_NAME \
-                  -f host/4/bullseye/amd64/out/python/python39-appservice.Dockerfile \
-                  host/4/bullseye/amd64/out/python/
-      npm run test $IMAGE_NAME --prefix  test/
-      docker push $IMAGE_NAME
-    displayName: python3.9-appservice
-    continueOnError: false
-    env:
-      DOCKER_BUILDKIT: 1
-
-  - bash: |
-      set -e
-      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/python:$(Build.SourceBranchName)-python3.9-buildenv
-
-      docker build -t $IMAGE_NAME \
-                  -f host/4/bullseye/amd64/python/python39/python39-buildenv.Dockerfile \
-                  host/4/bullseye/amd64/python/python39/
-      docker push $IMAGE_NAME
-    displayName: python3.9-buildenv
-    continueOnError: false
-    env:
-      DOCKER_BUILDKIT: 1
+  - job: Python
+    strategy:
+      matrix:
+        _37:
+          pythonVersion: "3.7"
+          pythonImageNameSuffix: "37"
+        _38:
+          pythonVersion: "3.8"
+          pythonImageNameSuffix: "38"
+        _39:
+          pythonVersion: "3.9"
+          pythonImageNameSuffix: "39"
+    steps:
+      - bash: |
+          # login
+          set -e
+          echo $pswd | docker login -u $(dockerUsername) --password-stdin azurefunctions.azurecr.io
+        displayName: login to registry
+        continueOnError: false
+        env:
+          pswd: $(dockerPassword)
+      - bash: |
+          ./host/generate-composite.sh -$(HOST_MAJOR_VERSION) python
+        displayName: create python-appservice dockerfiles
+        continueOnError: false
+      - bash: |
+          set -e
+          IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/$(HOST_MAJOR_VERSION)/python:$(Build.SourceBranchName)-python$(pythonVersion)
+          docker build -t $IMAGE_NAME \
+                      -f host/$(HOST_MAJOR_VERSION)/bullseye/amd64/python/python$(pythonImageNameSuffix)/python$(pythonImageNameSuffix).Dockerfile \
+                      host/$(HOST_MAJOR_VERSION)/bullseye/amd64/python/python$(pythonImageNameSuffix)
+          npm run test $IMAGE_NAME --prefix test/
+          docker push $IMAGE_NAME
+        displayName: python
+        continueOnError: false
+      - bash: |
+          set -e
+          IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/$(HOST_MAJOR_VERSION)/python:$(Build.SourceBranchName)-python$(pythonVersion)-slim
+          docker build -t $IMAGE_NAME \
+                      -f host/$(HOST_MAJOR_VERSION)/bullseye/amd64/python/python$(pythonImageNameSuffix)/python$(pythonImageNameSuffix)-slim.Dockerfile \
+                      host/$(HOST_MAJOR_VERSION)/bullseye/amd64/python/python$(pythonImageNameSuffix)/
+          npm run test $IMAGE_NAME --prefix test/
+          docker push $IMAGE_NAME
+        displayName: python-slim
+        continueOnError: false
+      - bash: |
+          set -e
+          IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/$(HOST_MAJOR_VERSION)/python:$(Build.SourceBranchName)-python$(pythonVersion)-appservice
+          docker build -t $IMAGE_NAME \
+                      -f host/$(HOST_MAJOR_VERSION)/bullseye/amd64/out/python/python$(pythonImageNameSuffix)-appservice.Dockerfile \
+                      host/$(HOST_MAJOR_VERSION)/bullseye/amd64/out/python/
+          npm run test $IMAGE_NAME --prefix test/
+          docker push $IMAGE_NAME
+        displayName: python-appservice
+        continueOnError: false
+      - bash: |
+          set -e
+          IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/$(HOST_MAJOR_VERSION)/python:$(Build.SourceBranchName)-python$(pythonVersion)-buildenv
+          docker build -t $IMAGE_NAME \
+                      -f host/$(HOST_MAJOR_VERSION)/bullseye/amd64/python/python$(pythonImageNameSuffix)/python$(pythonImageNameSuffix)-buildenv.Dockerfile \
+                      host/$(HOST_MAJOR_VERSION)/bullseye/amd64/python/python$(pythonImageNameSuffix)/
+          docker push $IMAGE_NAME
+        displayName: python-buildenv
+        continueOnError: false
