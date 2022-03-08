@@ -1,3 +1,8 @@
+#-------------------------------------------------------------------------------------------------------------
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License. See https://go.microsoft.com/fwlink/?linkid=2090316 for license information.
+#-------------------------------------------------------------------------------------------------------------
+
 # Build the runtime from source
 ARG HOST_VERSION=4.2.0
 FROM mcr.microsoft.com/dotnet/sdk:6.0.100 AS runtime-image
