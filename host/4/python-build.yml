@@ -64,6 +64,7 @@ jobs:
                       -f host/$(HOST_MAJOR_VERSION)/bullseye/amd64/python/python$(pythonImageNameSuffix)/python$(pythonImageNameSuffix).Dockerfile \
                       host/$(HOST_MAJOR_VERSION)/bullseye/amd64/python/python$(pythonImageNameSuffix)
           npm run test $IMAGE_NAME --prefix test/
+          docker images
           docker push $IMAGE_NAME
         displayName: python
         continueOnError: false
@@ -73,6 +74,7 @@ jobs:
           docker build -t $IMAGE_NAME \
                       -f host/$(HOST_MAJOR_VERSION)/bullseye/amd64/python/python$(pythonImageNameSuffix)/python$(pythonImageNameSuffix)-slim.Dockerfile \
                       host/$(HOST_MAJOR_VERSION)/bullseye/amd64/python/python$(pythonImageNameSuffix)/
+          docker images            
           npm run test $IMAGE_NAME --prefix test/
           docker push $IMAGE_NAME
         displayName: python-slim
@@ -83,6 +85,7 @@ jobs:
           docker build -t $IMAGE_NAME \
                       -f host/$(HOST_MAJOR_VERSION)/bullseye/amd64/out/python/python$(pythonImageNameSuffix)-appservice.Dockerfile \
                       host/$(HOST_MAJOR_VERSION)/bullseye/amd64/out/python/
+          docker images
           npm run test $IMAGE_NAME --prefix test/
           docker push $IMAGE_NAME
         displayName: python-appservice
@@ -93,6 +96,7 @@ jobs:
           docker build -t $IMAGE_NAME \
                       -f host/$(HOST_MAJOR_VERSION)/bullseye/amd64/python/python$(pythonImageNameSuffix)/python$(pythonImageNameSuffix)-buildenv.Dockerfile \
                       host/$(HOST_MAJOR_VERSION)/bullseye/amd64/python/python$(pythonImageNameSuffix)/
+          docker images
           docker push $IMAGE_NAME
         displayName: python-buildenv
         continueOnError: false
