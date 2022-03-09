@@ -6,6 +6,13 @@
 FROM python:3.10-slim-bullseye
 ARG HOST_VERSION
 
+COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
+COPY start.sh /azure-functions-host/
+COPY --from=runtime-image ["/azure-functions-host", "/azure-functions-host"]
+COPY sshd_config /etc/ssh/
+COPY --from=runtime-image [ "/workers/python/3.10/LINUX", "/azure-functions-host/workers/python/3.10/LINUX" ]
+COPY --from=runtime-image [ "/workers/python/worker.config.json", "/azure-functions-host/workers/python" ]
+
 ENV LANG=C.UTF-8 \
     ACCEPT_EULA=Y \
     AzureWebJobsScriptRoot=/home/site/wwwroot \
@@ -51,11 +58,6 @@ RUN apt-get update && \
     # Fix from https://github.com/GoogleCloudPlatform/google-cloud-dotnet-powerpack/issues/22#issuecomment-729895157
     #apt-get install -y libc-dev
 
-COPY --from=runtime-image ["/azure-functions-host", "/azure-functions-host"]
-COPY --from=runtime-image [ "/workers/python/3.10/LINUX", "/azure-functions-host/workers/python/3.10/LINUX" ]
-COPY --from=runtime-image [ "/workers/python/worker.config.json", "/azure-functions-host/workers/python" ]
-COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
-
 ENV FUNCTIONS_WORKER_RUNTIME_VERSION=3.10
 
 EXPOSE 2222 80
@@ -64,9 +66,6 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends openssh-server dialog && \
     echo "root:Docker!" | chpasswd && \
     pip install ptvsd
-
-COPY sshd_config /etc/ssh/
-COPY start.sh /azure-functions-host/
 
 RUN chmod +x /azure-functions-host/start.sh
 
