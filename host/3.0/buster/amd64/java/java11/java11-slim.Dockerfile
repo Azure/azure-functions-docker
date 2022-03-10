@@ -4,6 +4,8 @@ ARG JAVA_VERSION=11.0.12.7.1
 ARG JAVA_HOME=/usr/lib/jvm/msft-11-x64
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS runtime-image
 ARG HOST_VERSION
+ARG JAVA_VERSION
+ARG JAVA_HOME
 
 ENV PublishWithAspNetCoreTargetManifest=false
 ENV DEBIAN_FRONTEND=noninteractive
@@ -38,23 +40,26 @@ RUN EXTENSION_BUNDLE_VERSION=1.8.1 && \
     rm -f /$EXTENSION_BUNDLE_FILENAME_V3 &&\
     find /FuncExtensionBundles/ -type f -exec chmod 644 {} \;
 
-FROM mcr.microsoft.com/java/jre-headless:${JAVA_VERSION}-zulu-debian10-with-tools as jre
+RUN wget https://aka.ms/download-jdk/microsoft-jdk-${JAVA_VERSION}-linux-x64.tar.gz && \
+    mkdir -p ${JAVA_HOME} && \
+    tar -xzf microsoft-jdk-${JAVA_VERSION}-linux-x64.tar.gz -C ${JAVA_HOME} --strip-components=1 && \
+    rm -f microsoft-jdk-${JAVA_VERSION}-linux-x64.tar.gz
+
 FROM mcr.microsoft.com/dotnet/core/runtime-deps:3.1
 ARG HOST_VERSION
+ARG JAVA_HOME
 
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     HOME=/home \
     FUNCTIONS_WORKER_RUNTIME=java \
     DOTNET_USE_POLLING_FILE_WATCHER=true \
     HOST_VERSION=${HOST_VERSION} \
-    ASPNETCORE_CONTENTROOT=/azure-functions-host
+    ASPNETCORE_CONTENTROOT=/azure-functions-host \
+    JAVA_HOME=${JAVA_HOME}
 
 COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
 COPY --from=runtime-image [ "/workers/java", "/azure-functions-host/workers/java" ]
-COPY --from=jre [ "/usr/lib/jvm/zre-hl-tools-11-azure-amd64", "/usr/lib/jvm/zre-11-azure-amd64" ]
-
-ENV JAVA_HOME /usr/lib/jvm/zre-11-azure-amd64
-
+COPY --from=runtime-image [ "${JAVA_HOME}", "${JAVA_HOME}" ]
 COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
 
 CMD [ "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost" ]

@@ -1,8 +1,9 @@
-ARG JAVA_VERSION=11u11
-
-FROM mcr.microsoft.com/java/jre-headless:${JAVA_VERSION}-zulu-debian10-with-tools as jre
+ARG JAVA_VERSION=11.0.12.7.1
+ARG JAVA_HOME=/usr/lib/jvm/msft-11-x64
 FROM mcr.microsoft.com/dotnet/runtime-deps:6.0.0
 ARG HOST_VERSION
+ARG JAVA_VERSION
+ARG JAVA_HOME
 
 COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
 COPY sshd_config /etc/ssh/
@@ -19,13 +20,15 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     DOTNET_USE_POLLING_FILE_WATCHER=true \
     HOST_VERSION=${HOST_VERSION} \
     ASPNETCORE_CONTENTROOT=/azure-functions-host \
-    JAVA_HOME=/usr/lib/jvm/zre-11-azure-amd64
+    JAVA_HOME=${JAVA_HOME}
 
 # Fix from https://github.com/GoogleCloudPlatform/google-cloud-dotnet-powerpack/issues/22#issuecomment-729895157
 RUN apt-get update && \
-    apt-get install -y libc-dev
-
-COPY --from=jre [ "/usr/lib/jvm/zre-hl-tools-11-azure-amd64", "/usr/lib/jvm/zre-11-azure-amd64" ]
+    apt-get install -y libc-dev wget && \
+    wget https://aka.ms/download-jdk/microsoft-jdk-${JAVA_VERSION}-linux-x64.tar.gz && \
+    mkdir -p ${JAVA_HOME} && \
+    tar -xzf microsoft-jdk-${JAVA_VERSION}-linux-x64.tar.gz -C ${JAVA_HOME} --strip-components=1 && \
+    rm -f microsoft-jdk-${JAVA_VERSION}-linux-x64.tar.gz
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends openssh-server dialog && \
