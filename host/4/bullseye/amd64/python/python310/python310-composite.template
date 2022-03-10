@@ -3,7 +3,15 @@
 # Licensed under the MIT License. See https://go.microsoft.com/fwlink/?linkid=2090316 for license information.
 #-------------------------------------------------------------------------------------------------------------
 
-FROM python:3.7-slim-bullseye
+FROM python:3.10-slim-bullseye
+ARG HOST_VERSION
+
+COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
+COPY start.sh /azure-functions-host/
+COPY --from=runtime-image ["/azure-functions-host", "/azure-functions-host"]
+COPY sshd_config /etc/ssh/
+COPY --from=runtime-image [ "/workers/python/3.10/LINUX", "/azure-functions-host/workers/python/3.10/LINUX" ]
+COPY --from=runtime-image [ "/workers/python/worker.config.json", "/azure-functions-host/workers/python" ]
 
 ENV LANG=C.UTF-8 \
     ACCEPT_EULA=Y \
@@ -12,7 +20,9 @@ ENV LANG=C.UTF-8 \
     FUNCTIONS_WORKER_RUNTIME=python \
     ASPNETCORE_URLS=http://+:80 \
     DOTNET_RUNNING_IN_CONTAINER=true \
-    DOTNET_USE_POLLING_FILE_WATCHER=true
+    DOTNET_USE_POLLING_FILE_WATCHER=true \
+    HOST_VERSION=${HOST_VERSION} \
+    ASPNETCORE_CONTENTROOT=/azure-functions-host
 
 # Install Python dependencies
 RUN apt-get update && \
@@ -42,11 +52,21 @@ RUN apt-get update && \
     #  binutils
     apt-get install -y binutils && \
     #  OpenMP dependencies
-    apt-get install -y libgomp1
+    apt-get install -y libgomp1 && \
+    # mysql dependencies
+    apt-get install -y default-libmysqlclient-dev
+    # Fix from https://github.com/GoogleCloudPlatform/google-cloud-dotnet-powerpack/issues/22#issuecomment-729895157
+    #apt-get install -y libc-dev
+
+ENV FUNCTIONS_WORKER_RUNTIME_VERSION=3.10
+
+EXPOSE 2222 80
 
 RUN apt-get update && \
-    apt-get install -y build-essential libssl-dev zlib1g-dev libbz2-dev \
-    libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev \
-    xz-utils tk-dev libffi-dev liblzma-dev python3-openssl git unixodbc-dev dh-autoreconf \
-    libcurl4-openssl-dev libssl-dev python3-dev libevent-dev python3-openssl squashfs-tools unzip && \
-    python --version
+    apt-get install -y --no-install-recommends openssh-server dialog && \
+    echo "root:Docker!" | chpasswd && \
+    pip install ptvsd
+
+RUN chmod +x /azure-functions-host/start.sh
+
+ENTRYPOINT ["/azure-functions-host/start.sh"]

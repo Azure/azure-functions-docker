@@ -41,6 +41,9 @@ jobs:
         _39:
           pythonVersion: "3.9"
           pythonImageNameSuffix: "39"
+        _310:
+          pythonVersion: "3.10"
+          pythonImageNameSuffix: "310"
     steps:
       - bash: |
           # login
