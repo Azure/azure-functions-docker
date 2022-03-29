@@ -9,7 +9,7 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     DOTNET_USE_POLLING_FILE_WATCHER=true \
     HOST_VERSION=${HOST_VERSION} \
     ASPNETCORE_CONTENTROOT=/azure-functions-host
-
+# Providing comment to trigger build
 # copy bundles, host runtime and powershell worker from the build image
 COPY --from=runtime-image ["/FuncExtensionBundles", "/FuncExtensionBundles"]
 COPY --from=runtime-image ["/azure-functions-host", "/azure-functions-host"]
