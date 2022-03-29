@@ -195,13 +195,10 @@ async function main() {
     await runTest(testData.node, "-e FUNCTIONS_WORKER_RUNTIME=node");
     await runTest(testData.python, "-e FUNCTIONS_WORKER_RUNTIME=python");
     await runTest(testData.java, "-e FUNCTIONS_WORKER_RUNTIME=java");
-    await runTest(testData.powershell, "-e FUNCTIONS_WORKER_RUNTIME=powershell -e FUNCTIONS_WORKER_RUNTIME_VERSION=7");
 
-    // PowerShell 7.2 is only supported in Functions V4.
-    // If image name contains '/4/' in the path, run the PowerShell 7.2 tests
-    if (imageName.includes("/4/")) {
-      await runTest(testData.powershell, "-e FUNCTIONS_WORKER_RUNTIME=powershell -e FUNCTIONS_WORKER_RUNTIME_VERSION=7.2");
-    }
+    // Enable PowerShell tests for V4 only - https://github.com/Azure/azure-functions-docker/issues/640
+    // await runTest(testData.powershell, "-e FUNCTIONS_WORKER_RUNTIME=powershell -e FUNCTIONS_WORKER_RUNTIME_VERSION=7");
+    // await runTest(testData.powershell, "-e FUNCTIONS_WORKER_RUNTIME=powershell -e FUNCTIONS_WORKER_RUNTIME_VERSION=7.2");
   }
 }
 
