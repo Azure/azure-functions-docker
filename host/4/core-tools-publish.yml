@@ -165,6 +165,18 @@ stages:
         continueOnError: false
         env:
           DOCKER_BUILDKIT: 1
+      - bash: |
+          set -e
+          IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/java:$(PrivateVersion)-java17-core-tools
+          docker build -t $IMAGE_NAME \
+                      -f host/4/bullseye/amd64/java/java17/java17-core-tools.Dockerfile \
+                      host/4/bullseye/amd64/java/java17
+          npm run test $IMAGE_NAME --prefix  test/
+          docker push $IMAGE_NAME
+        displayName: java17-core-tools
+        continueOnError: false
+        env:
+          DOCKER_BUILDKIT: 1
 
   - job: node
     displayName: Node
@@ -551,6 +563,45 @@ stages:
           docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node14-core-tools $TARGET_REGISTRY/node:$(MajorVersion)-core-tools   
           docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node14-core-tools $TARGET_REGISTRY/node:$(MajorVersion)-node14-core-tools
 
+        displayName: tag java17 images
+        continueOnError: false
+      - bash: |
+          set -e 
+          PrivateImageId=`docker image inspect $SOURCE_REGISTRY/java:$(PrivateVersion)-java17-core-tools --format='{{.Id}}'`
+          MajorImageId=`docker image inspect $TARGET_REGISTRY/java:$(MajorVersion)-java17-core-tools --format='{{.Id}}'`
+          if [[ "$PrivateImageId" != "$MajorImageId" ]]; then
+            echo "unmatch the Target image id and Major image id ${PrivateImageId} and ${MajorImageId}";
+            exit 1; 
+          fi
+
+          ActualVersion=`docker run $TARGET_REGISTRY/java:$(MajorVersion)-java17-core-tools func --version`
+          if [[ "$ActualVersion" != "$(TargetVersion)" ]]; then
+            echo "unmatch the ActualVersion and TargetVersion ${ActualVersion} and $(TargetVersion)";
+            exit 1;
+          fi
+          docker run $TARGET_REGISTRY/java:$(MajorVersion)-java17-core-tools az --version
+        displayName: test java17 images
+        continueOnError: false
+      - bash: |
+          set -e
+          docker push $TARGET_REGISTRY/java:$(TargetVersion)-java17-core-tools
+
+          docker push $TARGET_REGISTRY/java:$(MajorVersion)-java17-core-tools
+          
+          docker system prune -a -f
+        displayName: push java17 images
+        continueOnError: false
+        condition: ne(variables['SkipProduction'], 'true')
+
+      - bash: |
+          set -e
+          docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node14-core-tools
+
+          docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node14-core-tools $TARGET_REGISTRY/node:$(TargetVersion)-core-tools   
+          docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node14-core-tools $TARGET_REGISTRY/node:$(TargetVersion)-node14-core-tools
+
+          docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node14-core-tools $TARGET_REGISTRY/node:$(MajorVersion)-core-tools   
+          docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node14-core-tools $TARGET_REGISTRY/node:$(MajorVersion)-node14-core-tools
 
         displayName: tag node14 images
         continueOnError: false

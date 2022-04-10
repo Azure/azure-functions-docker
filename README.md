@@ -71,17 +71,22 @@ Linux amd64 Tags
 
 Linux amd64 Tags
 
-| Tags                                     |  OS Version |
-|------------------------------------------|------------|
+| Tags                                 |  OS Version |
+|--------------------------------------|------------|
 | `4`, `4-java8`                       |  Debian 10  |
 | `4-slim`, `4-java8-slim`             |  Debian 10  |
 | `4-appservice`, `4-java8-appservice` |  Debian 10  |
-| `4-java8-build`               | Debian 10   |
-| `4-java11`                             |Debian 10  |
-| `4-java11-slim`                        |  Debian 10  |
-| `4-java11-appservice`                  |  Debian 10  |
-| `4-java11-core-tools`                  |  Debian 10   |
-| `4-java11-build`            | Debian 10  |
+| `4-java8-build`                      | Debian 10   |
+| `4-java11`                           |Debian 10  |
+| `4-java11-slim`                      |  Debian 10  |
+| `4-java11-appservice`                |  Debian 10  |
+| `4-java11-core-tools`                |  Debian 10   |
+| `4-java11-build`                     | Debian 10  |
+| `4-java17`                           |Debian 10  |
+| `4-java17-slim`                      |  Debian 10  |
+| `4-java17-appservice`                |  Debian 10  |
+| `4-java17-core-tools`                |  Debian 10   |
+| `4-java17-build`                     | Debian 10  |
 
 ### Python
 

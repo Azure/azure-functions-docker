@@ -13,6 +13,7 @@ pr:
       - host/4/bullseye/amd64/java/java8-zulu/*
       - host/4/bullseye/amd64/java/java11/*
       - host/4/bullseye/amd64/java/java11-zulu/*
+      - host/4/bullseye/amd64/java/java17/*
 
 trigger:
   branches:
@@ -27,6 +28,7 @@ trigger:
       - host/4/bullseye/amd64/java/java8-zulu/*
       - host/4/bullseye/amd64/java/java11/*
       - host/4/bullseye/amd64/java/java11-zulu/*
+      - host/4/bullseye/amd64/java/java17/*
 
 steps:
   - bash: |
@@ -43,8 +45,10 @@ steps:
       set -e
       cp host/mvn-entrypoint.sh host/4/bullseye/amd64/java/java8
       cp host/mvn-entrypoint.sh host/4/bullseye/amd64/java/java11
+      cp host/mvn-entrypoint.sh host/4/bullseye/amd64/java/java17
       cp host/settings-docker.xml host/4/bullseye/amd64/java/java8
       cp host/settings-docker.xml host/4/bullseye/amd64/java/java11
+      cp host/settings-docker.xml host/4/bullseye/amd64/java/java17
 
   - bash: |
       ./host/generate-composite.sh -4 java
@@ -160,3 +164,47 @@ steps:
       docker push $IMAGE_NAME
     displayName: java11-build
     continueOnError: false
+
+- bash: |
+    set -e
+    IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/java:$(Build.SourceBranchName)-java17
+    
+    docker build -t $IMAGE_NAME \
+              -f host/4/bullseye/amd64/java/java17/java17.Dockerfile \
+              host/4/bullseye/amd64/java/java17
+    npm run test $IMAGE_NAME --prefix  test/
+    docker push $IMAGE_NAME
+  displayName: java17
+  continueOnError: false
+
+- bash: |
+    set -e
+    IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/java:$(Build.SourceBranchName)-java17-slim
+    docker build -t $IMAGE_NAME \
+                -f host/4/bullseye/amd64/java/java17/java17-slim.Dockerfile \
+                host/4/bullseye/amd64/java/java17
+    npm run test $IMAGE_NAME --prefix  test/
+    docker push $IMAGE_NAME
+  displayName: java17-slim
+  continueOnError: false
+
+- bash: |
+    set -e
+    IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/java:$(Build.SourceBranchName)-java17-appservice
+    docker build -t $IMAGE_NAME \
+                -f host/4/bullseye/amd64/out/java/java17-appservice.Dockerfile \
+                host/4/bullseye/amd64/out/java
+    npm run test $IMAGE_NAME --prefix  test/
+    docker push $IMAGE_NAME
+  displayName: java17-appservice
+  continueOnError: false
+
+- bash: |
+    set -e
+    IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/java:$(Build.SourceBranchName)-java17-build
+    docker build -t $IMAGE_NAME \
+                -f host/4/bullseye/amd64/java/java17/java17-build.Dockerfile \
+                host/4/bullseye/amd64/java/java17
+    docker push $IMAGE_NAME
+  displayName: java17-build
+  continueOnError: false

@@ -141,8 +141,13 @@ steps:
       docker push $TARGET_REGISTRY/java:$(TargetVersion)-java11.1-appservice
       docker push $TARGET_REGISTRY/java:$(TargetVersion)-java11-appservice-quickstart
 
+      docker push $TARGET_REGISTRY/java:$(TargetVersion)-java17
+      docker push $TARGET_REGISTRY/java:$(TargetVersion)-java17-slim
+      docker push $TARGET_REGISTRY/java:$(TargetVersion)-java17-appservice
+      
       docker push $TARGET_REGISTRY/java:$(TargetVersion)-java8-build
       docker push $TARGET_REGISTRY/java:$(TargetVersion)-java11-build
+      docker push $TARGET_REGISTRY/java:$(TargetVersion)-java17-build
 
       docker system prune -a -f
     displayName: tag and push java images
