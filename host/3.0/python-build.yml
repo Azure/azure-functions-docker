@@ -10,6 +10,7 @@ pr:
     include:
       - host/3.0/buster/amd64/base/*
       - host/3.0/buster/amd64/python/*
+      - host/3.0/python-build.yml
 
 trigger:
   branches:
@@ -21,6 +22,11 @@ trigger:
     include:
       - host/3.0/buster/amd64/base/*
       - host/3.0/buster/amd64/python/*
+      - host/3.0/python-build.yml
+
+variables:
+- name: image_list
+  value: ''
 
 jobs:
 - job: python36
@@ -47,6 +53,7 @@ jobs:
   - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/python:$(Build.SourceBranchName)-python3.6
+      echo "##vso[task.setvariable variable=image_list;]$IMAGE_NAME"
 
       docker build -t $IMAGE_NAME \
                   -f host/3.0/buster/amd64/python/python36/python36.Dockerfile \
@@ -61,6 +68,8 @@ jobs:
   - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/python:$(Build.SourceBranchName)-python3.6-slim
+      IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
+      echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
 
       docker build -t $IMAGE_NAME \
                   -f host/3.0/buster/amd64/python/python36/python36-slim.Dockerfile \
@@ -75,6 +84,8 @@ jobs:
   - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/python:$(Build.SourceBranchName)-python3.6-appservice
+      IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
+      echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
 
       docker build -t $IMAGE_NAME \
                   -f host/3.0/buster/amd64/out/python/python36-appservice.Dockerfile \
@@ -89,6 +100,8 @@ jobs:
   - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/python:$(Build.SourceBranchName)-python3.6-buildenv
+      IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
+      echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
 
       docker build -t $IMAGE_NAME \
                   -f host/3.0/buster/amd64/python/python36/python36-buildenv.Dockerfile \
@@ -98,6 +111,19 @@ jobs:
     continueOnError: false
     env:
       DOCKER_BUILDKIT: 1
+
+  - task: AzureArtifacts.manifest-generator-task.manifest-generator-task.ManifestGeneratorTask@0
+    displayName: 'Manifest Generator'
+    inputs:
+      BuildDropPath: host
+      Verbosity: Verbose
+      DockerImagesToScan: $(image_list)
+
+  - task: PublishPipelineArtifact@1
+    displayName: 'Publish SBOM Artifact'
+    inputs:
+      targetPath: host/_manifest
+      artifact: SBOM-Functionsv3-Python3.6-$(Build.SourceBranchName)
 
 - job: python37
   displayName: python 3.7
@@ -123,6 +149,7 @@ jobs:
   - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/python:$(Build.SourceBranchName)-python3.7
+      echo "##vso[task.setvariable variable=image_list;]$IMAGE_NAME""
 
       docker build -t $IMAGE_NAME \
                   -f host/3.0/buster/amd64/python/python37/python37.Dockerfile \
@@ -137,6 +164,8 @@ jobs:
   - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/python:$(Build.SourceBranchName)-python3.7-slim
+      IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
+      echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
 
       docker build -t $IMAGE_NAME \
                   -f host/3.0/buster/amd64/python/python37/python37-slim.Dockerfile \
@@ -151,6 +180,8 @@ jobs:
   - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/python:$(Build.SourceBranchName)-python3.7-appservice
+      IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
+      echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
 
       docker build -t $IMAGE_NAME \
                   -f host/3.0/buster/amd64/out/python/python37-appservice.Dockerfile \
@@ -165,6 +196,8 @@ jobs:
   - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/python:$(Build.SourceBranchName)-python3.7-buildenv
+      IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
+      echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
 
       docker build -t $IMAGE_NAME \
                   -f host/3.0/buster/amd64/python/python37/python37-buildenv.Dockerfile \
@@ -174,6 +207,19 @@ jobs:
     continueOnError: false
     env:
       DOCKER_BUILDKIT: 1
+
+  - task: AzureArtifacts.manifest-generator-task.manifest-generator-task.ManifestGeneratorTask@0
+    displayName: 'Manifest Generator'
+    inputs:
+      BuildDropPath: host
+      Verbosity: Verbose
+      DockerImagesToScan: $(image_list)
+
+  - task: PublishPipelineArtifact@1
+    displayName: 'Publish SBOM Artifact'
+    inputs:
+      targetPath: host/_manifest
+      artifact: SBOM-Functionsv3-Python3.7-$(Build.SourceBranchName)
 
 - job: python38
   displayName: python 3.8
@@ -199,6 +245,7 @@ jobs:
   - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/python:$(Build.SourceBranchName)-python3.8
+      echo "##vso[task.setvariable variable=image_list;]$IMAGE_NAME"
 
       docker build -t $IMAGE_NAME \
                   -f host/3.0/buster/amd64/python/python38/python38.Dockerfile \
@@ -213,6 +260,8 @@ jobs:
   - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/python:$(Build.SourceBranchName)-python3.8-slim
+      IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
+      echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
 
       docker build -t $IMAGE_NAME \
                   -f host/3.0/buster/amd64/python/python38/python38-slim.Dockerfile \
@@ -227,6 +276,8 @@ jobs:
   - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/python:$(Build.SourceBranchName)-python3.8-appservice
+      IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
+      echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
 
       docker build -t $IMAGE_NAME \
                   -f host/3.0/buster/amd64/out/python/python38-appservice.Dockerfile \
@@ -241,6 +292,8 @@ jobs:
   - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/python:$(Build.SourceBranchName)-python3.8-buildenv
+      IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
+      echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
 
       docker build -t $IMAGE_NAME \
                   -f host/3.0/buster/amd64/python/python38/python38-buildenv.Dockerfile \
@@ -250,6 +303,19 @@ jobs:
     continueOnError: false
     env:
       DOCKER_BUILDKIT: 1
+
+ - task: AzureArtifacts.manifest-generator-task.manifest-generator-task.ManifestGeneratorTask@0
+    displayName: 'Manifest Generator'
+    inputs:
+      BuildDropPath: host
+      Verbosity: Verbose
+      DockerImagesToScan: $(image_list)
+
+  - task: PublishPipelineArtifact@1
+    displayName: 'Publish SBOM Artifact'
+    inputs:
+      targetPath: host/_manifest
+      artifact: SBOM-Functionsv3-Python3.8-$(Build.SourceBranchName)
 
 - job: python39
   displayName: python 3.9
@@ -275,6 +341,7 @@ jobs:
   - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/python:$(Build.SourceBranchName)-python3.9
+      echo "##vso[task.setvariable variable=image_list;]$IMAGE_NAME"
 
       docker build -t $IMAGE_NAME \
                   -f host/3.0/buster/amd64/python/python39/python39.Dockerfile \
@@ -289,6 +356,8 @@ jobs:
   - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/python:$(Build.SourceBranchName)-python3.9-slim
+      IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
+      echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
 
       docker build -t $IMAGE_NAME \
                   -f host/3.0/buster/amd64/python/python39/python39-slim.Dockerfile \
@@ -303,6 +372,8 @@ jobs:
   - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/python:$(Build.SourceBranchName)-python3.9-appservice
+      IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
+      echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
 
       docker build -t $IMAGE_NAME \
                   -f host/3.0/buster/amd64/out/python/python39-appservice.Dockerfile \
@@ -317,6 +388,8 @@ jobs:
   - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/python:$(Build.SourceBranchName)-python3.9-buildenv
+      IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
+      echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
 
       docker build -t $IMAGE_NAME \
                   -f host/3.0/buster/amd64/python/python39/python39-buildenv.Dockerfile \
@@ -326,3 +399,16 @@ jobs:
     continueOnError: false
     env:
       DOCKER_BUILDKIT: 1
+    
+  - task: AzureArtifacts.manifest-generator-task.manifest-generator-task.ManifestGeneratorTask@0
+    displayName: 'Manifest Generator'
+    inputs:
+      BuildDropPath: host
+      Verbosity: Verbose
+      DockerImagesToScan: $(image_list)
+
+  - task: PublishPipelineArtifact@1
+    displayName: 'Publish SBOM Artifact'
+    inputs:
+      targetPath: host/_manifest
+      artifact: SBOM-Functionsv3-Python3.9-$(Build.SourceBranchName)

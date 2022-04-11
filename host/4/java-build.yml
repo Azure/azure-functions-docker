@@ -13,6 +13,7 @@ pr:
       - host/4/bullseye/amd64/java/java8-zulu/*
       - host/4/bullseye/amd64/java/java11/*
       - host/4/bullseye/amd64/java/java11-zulu/*
+      - host/4/java-build.yml
 
 trigger:
   branches:
@@ -27,6 +28,11 @@ trigger:
       - host/4/bullseye/amd64/java/java8-zulu/*
       - host/4/bullseye/amd64/java/java11/*
       - host/4/bullseye/amd64/java/java11-zulu/*
+      - host/4/java-build.yml
+
+variables:
+- name: image_list
+  value: ''
 
 steps:
   - bash: |
@@ -55,6 +61,8 @@ steps:
   - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/java:$(Build.SourceBranchName)-java8
+      echo "##vso[task.setvariable variable=image_list;]$IMAGE_NAME"
+
       docker build -t $IMAGE_NAME \
                   -f host/4/bullseye/amd64/java/java8/java8.Dockerfile \
                   host/4/bullseye/amd64/java/java8
@@ -66,6 +74,9 @@ steps:
   - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/java:$(Build.SourceBranchName)-java8-slim
+      IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
+      echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
+
       docker build -t $IMAGE_NAME \
                   -f host/4/bullseye/amd64/java/java8/java8-slim.Dockerfile \
                   host/4/bullseye/amd64/java/java8
@@ -77,6 +88,9 @@ steps:
   - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/java:$(Build.SourceBranchName)-java8-appservice
+      IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
+      echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
+
       docker build -t $IMAGE_NAME \
                   -f host/4/bullseye/amd64/out/java/java8-appservice.Dockerfile \
                   host/4/bullseye/amd64/out/java
@@ -88,6 +102,9 @@ steps:
   - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/java:$(Build.SourceBranchName)-java8.1-appservice
+      IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
+      echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
+
       docker build -t $IMAGE_NAME \
                   -f host/4/bullseye/amd64/out/java/java8-zulu-appservice.Dockerfile \
                   host/4/bullseye/amd64/out/java
@@ -99,6 +116,9 @@ steps:
   - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/java:$(Build.SourceBranchName)-java8-build
+      IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
+      echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
+
       docker build -t $IMAGE_NAME \
                   -f host/4/bullseye/amd64/java/java8/java8-build.Dockerfile \
                   host/4/bullseye/amd64/java/java8
@@ -109,6 +129,9 @@ steps:
   - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/java:$(Build.SourceBranchName)-java11
+      IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
+      echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
+      
 
       docker build -t $IMAGE_NAME \
                 -f host/4/bullseye/amd64/java/java11/java11.Dockerfile \
@@ -121,6 +144,9 @@ steps:
   - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/java:$(Build.SourceBranchName)-java11-slim
+      IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
+      echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
+
       docker build -t $IMAGE_NAME \
                   -f host/4/bullseye/amd64/java/java11/java11-slim.Dockerfile \
                   host/4/bullseye/amd64/java/java11
@@ -132,6 +158,9 @@ steps:
   - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/java:$(Build.SourceBranchName)-java11-appservice
+      IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
+      echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
+
       docker build -t $IMAGE_NAME \
                   -f host/4/bullseye/amd64/out/java/java11-appservice.Dockerfile \
                   host/4/bullseye/amd64/out/java
@@ -143,6 +172,9 @@ steps:
   - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/java:$(Build.SourceBranchName)-java11.1-appservice
+      IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
+      echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
+
       docker build -t $IMAGE_NAME \
                   -f host/4/bullseye/amd64/out/java/java11-zulu-appservice.Dockerfile \
                   host/4/bullseye/amd64/out/java
@@ -154,9 +186,25 @@ steps:
   - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/java:$(Build.SourceBranchName)-java11-build
+      IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
+      echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
+
       docker build -t $IMAGE_NAME \
                   -f host/4/bullseye/amd64/java/java11/java11-build.Dockerfile \
                   host/4/bullseye/amd64/java/java11
       docker push $IMAGE_NAME
     displayName: java11-build
     continueOnError: false
+
+  - task: AzureArtifacts.manifest-generator-task.manifest-generator-task.ManifestGeneratorTask@0
+    displayName: 'Manifest Generator'
+    inputs:
+      BuildDropPath: host
+      Verbosity: Verbose
+      DockerImagesToScan: $(image_list)
+
+  - task: PublishPipelineArtifact@1
+    displayName: 'Publish SBOM Artifact'
+    inputs:
+      targetPath: host/_manifest
+      artifact: SBOM-Functionsv4-Java-$(Build.SourceBranchName)
