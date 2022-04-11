@@ -140,5 +140,5 @@ steps:
   - task: PublishPipelineArtifact@1
     displayName: 'Publish SBOM Artifact'
     inputs:
-      targetPath: host
+      targetPath: host/_manifest
       artifact: SBOM-Functionsv4-Powershell-$(Build.SourceBranchName)

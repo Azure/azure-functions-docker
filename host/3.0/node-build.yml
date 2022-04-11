@@ -195,5 +195,5 @@ steps:
   - task: PublishPipelineArtifact@1
     displayName: 'Publish SBOM Artifact'
     inputs:
-      targetPath: host
+      targetPath: host/_manifest
       artifact: SBOM-Functionsv3-Node-$(Build.SourceBranchName)
