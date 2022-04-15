@@ -25,8 +25,7 @@ trigger:
       - host/3.0/python-build.yml
 
 variables:
-- name: image_list
-  value: ''
+  image_list: ''
 
 jobs:
 - job: python36
