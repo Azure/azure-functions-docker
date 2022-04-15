@@ -148,7 +148,7 @@ jobs:
   - bash: |
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/python:$(Build.SourceBranchName)-python3.7
-      echo "##vso[task.setvariable variable=image_list;]$IMAGE_NAME""
+      echo "##vso[task.setvariable variable=image_list;]$IMAGE_NAME"
 
       docker build -t $IMAGE_NAME \
                   -f host/3.0/buster/amd64/python/python37/python37.Dockerfile \
