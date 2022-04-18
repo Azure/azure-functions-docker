@@ -56,6 +56,7 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     DOTNET_USE_POLLING_FILE_WATCHER=true \
     HOST_VERSION=${HOST_VERSION} \
     ASPNETCORE_CONTENTROOT=/azure-functions-host \
+    ApplicationInsightsAgent_EXTENSION_VERSION=/var/log/applicationinsights \
     JAVA_HOME=${JAVA_HOME}
 
 COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
