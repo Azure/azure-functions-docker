@@ -555,13 +555,11 @@ stages:
 
       - bash: |
           set -e
-          docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node14-core-tools
-
-          docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node14-core-tools $TARGET_REGISTRY/node:$(TargetVersion)-core-tools   
-          docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node14-core-tools $TARGET_REGISTRY/node:$(TargetVersion)-node14-core-tools
-
-          docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node14-core-tools $TARGET_REGISTRY/node:$(MajorVersion)-core-tools   
-          docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node14-core-tools $TARGET_REGISTRY/node:$(MajorVersion)-node14-core-tools
+          docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java11-core-tools
+    
+          docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java11-core-tools $TARGET_REGISTRY/java:$(TargetVersion)-java11-core-tools
+  
+          docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java11-core-tools $TARGET_REGISTRY/java:$(MajorVersion)-java11-core-tools  
 
         displayName: tag java17 images
         continueOnError: false

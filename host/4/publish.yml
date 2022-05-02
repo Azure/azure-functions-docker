@@ -103,6 +103,10 @@ steps:
       docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java11-appservice
       docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java11.1-appservice
       docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java11-build
+      docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java17
+      docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java17-slim
+      docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java17-appservice
+      docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java17-build
 
       docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8 $TARGET_REGISTRY/java:$(TargetVersion)
       docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-slim $TARGET_REGISTRY/java:$(TargetVersion)-slim
@@ -121,8 +125,14 @@ steps:
       docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java11.1-appservice $TARGET_REGISTRY/java:$(TargetVersion)-java11.1-appservice
       docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java11-appservice $TARGET_REGISTRY/java:$(TargetVersion)-java11-appservice-quickstart
 
+      docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java17 $TARGET_REGISTRY/java:$(TargetVersion)-java17
+      docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java17-slim $TARGET_REGISTRY/java:$(TargetVersion)-java17-slim
+      docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java17-appservice $TARGET_REGISTRY/java:$(TargetVersion)-java17-appservice
+      docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java17-appservice $TARGET_REGISTRY/java:$(TargetVersion)-java17-appservice-quickstart
+
       docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-build $TARGET_REGISTRY/java:$(TargetVersion)-java8-build
       docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java11-build $TARGET_REGISTRY/java:$(TargetVersion)-java11-build
+      docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java17-build $TARGET_REGISTRY/java:$(TargetVersion)-java17-build
 
       docker push $TARGET_REGISTRY/java:$(TargetVersion)
       docker push $TARGET_REGISTRY/java:$(TargetVersion)-slim
@@ -144,6 +154,7 @@ steps:
       docker push $TARGET_REGISTRY/java:$(TargetVersion)-java17
       docker push $TARGET_REGISTRY/java:$(TargetVersion)-java17-slim
       docker push $TARGET_REGISTRY/java:$(TargetVersion)-java17-appservice
+      docker push $TARGET_REGISTRY/java:$(TargetVersion)-java17-appservice-quickstart
       
       docker push $TARGET_REGISTRY/java:$(TargetVersion)-java8-build
       docker push $TARGET_REGISTRY/java:$(TargetVersion)-java11-build
