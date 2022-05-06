@@ -29,7 +29,7 @@ RUN apt-get update && \
     rm -f /$EXTENSION_BUNDLE_FILENAME_V3 &&\
     find /FuncExtensionBundles/ -type f -exec chmod 644 {} \;
 
-FROM mcr.microsoft.com/dotnet/runtime-deps:6.0.0
+FROM mcr.microsoft.com/dotnet/runtime-deps:6.0
 ARG HOST_VERSION
 
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot \

@@ -40,7 +40,7 @@ RUN wget https://github.com/adoptium/temurin8-binaries/releases/download/${JDK_N
     tar -xzf OpenJDK8U-jdk_x64_linux_hotspot_${JAVA_VERSION}.tar.gz -C ${JAVA_HOME} --strip-components=1 && \
     rm -f OpenJDK8U-jdk_x64_linux_hotspot_${JAVA_VERSION}.tar.gz
 
-FROM mcr.microsoft.com/dotnet/runtime-deps:6.0.0
+FROM mcr.microsoft.com/dotnet/runtime-deps:6.0
 ARG HOST_VERSION
 ARG JAVA_HOME
 
