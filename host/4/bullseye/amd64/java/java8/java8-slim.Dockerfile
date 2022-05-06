@@ -3,7 +3,7 @@ ARG HOST_VERSION=4.3.2
 ARG JAVA_VERSION=8u302b08
 ARG JDK_NAME=jdk8u302-b08
 ARG JAVA_HOME=/usr/lib/jvm/adoptium-8-x64
-FROM mcr.microsoft.com/dotnet/sdk:6.0.100 AS runtime-image
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS runtime-image
 ARG HOST_VERSION
 ARG JAVA_VERSION
 ARG JDK_NAME
