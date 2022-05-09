@@ -4,7 +4,7 @@ CoreTools Healthcheck: [![CoreTools healthcheck](https://azure-functions.visuals
 
 # Dockerhub
 
-## V4 Images
+## V4 Image
 
 See release artifacts for Dockerfiles - example : https://github.com/Azure/azure-functions-docker/releases/download/3.4.2/3.4.2-appservice.zip
 
