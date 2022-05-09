@@ -1,6 +1,6 @@
 # Build the runtime from source
 ARG HOST_VERSION=3.8.0
-FROM mcr.microsoft.com/dotnet/sdk:5.0 AS runtime-image
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS runtime-image
 ARG HOST_VERSION
 
 ENV PublishWithAspNetCoreTargetManifest=false

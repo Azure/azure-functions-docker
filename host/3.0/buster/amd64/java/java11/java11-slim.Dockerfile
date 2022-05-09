@@ -2,7 +2,7 @@
 ARG HOST_VERSION=3.8.0
 ARG JAVA_VERSION=11.0.12.7.1
 ARG JAVA_HOME=/usr/lib/jvm/msft-11-x64
-FROM mcr.microsoft.com/dotnet/sdk:5.0 AS runtime-image
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS runtime-image
 ARG HOST_VERSION
 ARG JAVA_VERSION
 ARG JAVA_HOME

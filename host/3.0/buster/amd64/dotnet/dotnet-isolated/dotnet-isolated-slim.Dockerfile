@@ -1,6 +1,6 @@
 # Build the runtime from source
 ARG HOST_VERSION=3.8.0
-FROM mcr.microsoft.com/dotnet/sdk:5.0 AS runtime-image
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS runtime-image
 ARG HOST_VERSION
 
 ENV PublishWithAspNetCoreTargetManifest=false
@@ -36,9 +36,9 @@ RUN EXTENSION_BUNDLE_VERSION=1.8.1 && \
     find /FuncExtensionBundles/ -type f -exec chmod 644 {} \;
 
 # Include ASP.NET Core shared framework from dotnet/aspnet image.
-FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS aspnet5
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS aspnet5
 
-FROM mcr.microsoft.com/dotnet/runtime:5.0
+FROM mcr.microsoft.com/dotnet/runtime:6.0
 ARG HOST_VERSION
 
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
