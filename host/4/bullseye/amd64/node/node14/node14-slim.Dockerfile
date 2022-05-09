@@ -1,6 +1,6 @@
 # Build the runtime from source
 ARG HOST_VERSION=4.3.2
-FROM mcr.microsoft.com/dotnet/sdk:6.0.100 AS runtime-image
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS runtime-image
 ARG HOST_VERSION
 
 ENV PublishWithAspNetCoreTargetManifest=false
@@ -29,7 +29,7 @@ RUN apt-get update && \
     rm -f /$EXTENSION_BUNDLE_FILENAME_V3 &&\
     find /FuncExtensionBundles/ -type f -exec chmod 644 {} \;
 
-FROM mcr.microsoft.com/dotnet/runtime-deps:6.0.0
+FROM mcr.microsoft.com/dotnet/runtime-deps:6.0
 ARG HOST_VERSION
 
 RUN apt-get update && \
