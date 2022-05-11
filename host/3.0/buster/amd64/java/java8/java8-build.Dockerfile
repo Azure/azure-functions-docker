@@ -1,4 +1,4 @@
-FROM debian:buster
+FROM mcr.microsoft.com/dotnet/sdk:5.0
 
 ARG MAVEN_VERSION=3.8.5
 ARG USER_HOME_DIR="/root"
