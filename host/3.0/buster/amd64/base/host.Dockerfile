@@ -1,5 +1,5 @@
 
-ARG HOST_VERSION=3.8.0
+ARG HOST_VERSION=3.8.1
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS runtime-image
 ARG HOST_VERSION
