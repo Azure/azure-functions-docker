@@ -64,6 +64,10 @@ Linux amd64 Tags
 | `4-powershell7-slim`                         |  Debian 10  |
 | `4-powershell7-appservice`                   |  Debian 10  |
 | `4-powershell7-core-tools`                   | Debian 10  |
+| `4-powershell7.2`                              |  Debian 10  |
+| `4-powershell7.2-slim`                         |  Debian 10  |
+| `4-powershell7.2-appservice`                   |  Debian 10  |
+| `4-powershell7.2-core-tools`                   | Debian 10  |
 
 #### Java
 
@@ -251,6 +255,14 @@ Linux amd64 Tags
 | `3.0`            |  Debian 10  |
 | `3.0-slim`       |  Debian 10  |
 | `3.0-appservice` |  Debian 10  |
+
+#### MCR Docs
+
+For new images update the following:
+
+- [MCR Syndication](https://github.com/microsoft/mcr/blob/main/teams/azurefunctions/azure-functions.yml)
+
+- [Docs on DockerHub](https://github.com/microsoft/mcrdocs/tree/main/teams/azurefunctions)
 
 # Contributing
 
