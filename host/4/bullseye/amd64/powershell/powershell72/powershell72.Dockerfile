@@ -1,5 +1,5 @@
 # Build the runtime from source
-ARG HOST_VERSION=4.5.0
+ARG HOST_VERSION=4.5.1
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS runtime-image
 ARG HOST_VERSION
 
@@ -18,7 +18,7 @@ RUN BUILD_NUMBER=$(echo ${HOST_VERSION} | cut -d'.' -f 3) && \
 # Install extension bundles
 RUN apt-get update && \
     apt-get install -y gnupg wget unzip && \
-    EXTENSION_BUNDLE_VERSION_V2=2.12.1 && \
+    EXTENSION_BUNDLE_VERSION_V2=2.13.0 && \
     EXTENSION_BUNDLE_FILENAME_V2=Microsoft.Azure.Functions.ExtensionBundle.${EXTENSION_BUNDLE_VERSION_V2}_linux-x64.zip && \
     wget https://functionscdn.azureedge.net/public/ExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION_V2/$EXTENSION_BUNDLE_FILENAME_V2 && \
     mkdir -p /FuncExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION_V2 && \
