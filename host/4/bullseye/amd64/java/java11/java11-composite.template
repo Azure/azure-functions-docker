@@ -24,7 +24,7 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
 
 # Fix from https://github.com/GoogleCloudPlatform/google-cloud-dotnet-powerpack/issues/22#issuecomment-729895157
 RUN apt-get update && \
-    apt-get install -y libc-dev wget && \
+    apt-get install -y libc-dev wget libfreetype6 fontconfig fonts-dejavu && \
     wget https://aka.ms/download-jdk/microsoft-jdk-${JAVA_VERSION}-linux-x64.tar.gz && \
     mkdir -p ${JAVA_HOME} && \
     tar -xzf microsoft-jdk-${JAVA_VERSION}-linux-x64.tar.gz -C ${JAVA_HOME} --strip-components=1 && \

@@ -10,6 +10,7 @@ ARG JAVA_HOME=/usr/lib/jvm/msft-11-x64
 
 RUN apt-get -qq update \
     && apt-get -qqy install curl \
+    && apt-get install -y libfreetype6 fontconfig fonts-dejavu \
     && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /usr/share/maven /usr/share/maven/ref \
