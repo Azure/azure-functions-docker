@@ -16,20 +16,20 @@ Linux amd64 Tags
 
 | Tags      | OS Version |
 |----------------------|----------------------------------|
-| `4`                                      | Debian 10  |
-| `4-slim`                                 | Debian 10  |
-| `4-appservice`, `4-dotnet3-appservice` | Debian 10  |
-| `4-dotnet6-core-tools` |  Debian 10  |
+| `4`                                      | Debian 11  |
+| `4-slim`                                 | Debian 11  |
+| `4-appservice` | Debian 11  |
+| `4-dotnet6-core-tools` |  Debian 11  |
 
 
 `mcr.microsoft.com/azure-functions/dotnet-isolated`
 
 | Tags                                       | OS Version |
 |-------------------------------------------|------------|
-| `4`                                      | Debian 10  |
-| `4-dotnet-isolated5.0-slim`                               | Debian 10  |
-| `4-appservice`, `4-dotnet-isolated5.0-appservice` |Debian 10  |
-| `4-dotnet-isolated6.0-core-tools` | Debian 10  |
+| `4`                                      | Debian 11  |
+| `4-dotnet-isolated5.0-slim`                               | Debian 11 |
+| `4-appservice`, `4-dotnet-isolated5.0-appservice` |Debian 11  |
+| `4-dotnet-isolated6.0-core-tools` | Debian 11  |
 
 #### Node
 
@@ -39,14 +39,14 @@ Linux amd64 Tags
 
 | Tags                                      |  OS Version |
 |-------------------------------------------|----------------------|
-| `4-node14`                              |  Debian 10  |
-| `4-node14-slim`                         | Debian 10  |
-| `4-node14-appservice`                   |  Debian 10  |
-| `4-node14-core-tools`                   |  Debian 10  |
-| `4-node16`                              |  Debian 10  |
-| `4-node16-slim`                         |  Debian 10  |
-| `4-node16-appservice`                   |  Debian 10  |
-| `4-node16-core-tools`                   |  Debian 10  |
+| `4-node14`                              |  Debian 11  |
+| `4-node14-slim`                         | Debian 11 |
+| `4-node14-appservice`                   |  Debian 11  |
+| `4-node14-core-tools`                   |  Debian 11  |
+| `4-node16`                              |  Debian 11  |
+| `4-node16-slim`                         |  Debian 11  |
+| `4-node16-appservice`                   |  Debian 11  |
+| `4-node16-core-tools`                   |  Debian 11  |
 
 #### Powershell
 
@@ -56,14 +56,14 @@ Linux amd64 Tags
 
 |Tags               | OS Version |
 |----------------------------------|------------|
-| `4`, `4-powershell6`                       |  Debian 10  |
-| `4-slim`, `4-powershell6-slim`             |  Debian 10  |
-| `4-appservice`, `4-powershell6-appservice` |  Debian 10  |
-| `4-powershell6-core-tools`                   |  Debian 10   |
-| `4-powershell7`                              |  Debian 10  |
-| `4-powershell7-slim`                         |  Debian 10  |
-| `4-powershell7-appservice`                   |  Debian 10  |
-| `4-powershell7-core-tools`                   | Debian 10  |
+| `4`, `4-powershell7`                       |  Debian 11  |
+| `4-slim`, `4-powershell7-slim`             |  Debian 11  |
+| `4-appservice`, `4-powershell7-appservice` |  Debian 11  |
+| `4-powershell7-core-tools`                   | Debian 11 |
+| `4-powershell7.2`                              |  Debian 11  |
+| `4-powershell7.2-slim`                         |  Debian 11  |
+| `4-powershell7.2-appservice`                   |  Debian 11  |
+| `4-powershell7.2-core-tools`                   | Debian 11 |
 
 #### Java
 
@@ -73,15 +73,15 @@ Linux amd64 Tags
 
 | Tags                                     |  OS Version |
 |------------------------------------------|------------|
-| `4`, `4-java8`                       |  Debian 10  |
-| `4-slim`, `4-java8-slim`             |  Debian 10  |
-| `4-appservice`, `4-java8-appservice` |  Debian 10  |
-| `4-java8-build`               | Debian 10   |
-| `4-java11`                             |Debian 10  |
-| `4-java11-slim`                        |  Debian 10  |
-| `4-java11-appservice`                  |  Debian 10  |
-| `4-java11-core-tools`                  |  Debian 10   |
-| `4-java11-build`            | Debian 10  |
+| `4`, `4-java8`                       |  Debian 11  |
+| `4-slim`, `4-java8-slim`             |  Debian 11  |
+| `4-appservice`, `4-java8-appservice` |  Debian 11  |
+| `4-java8-build`               | Debian 11   |
+| `4-java11`                             |Debian 11  |
+| `4-java11-slim`                        |  Debian 11  |
+| `4-java11-appservice`                  |  Debian 11  |
+| `4-java11-core-tools`                  |  Debian 11   |
+| `4-java11-build`            | Debian 11  |
 
 ### Python
 
@@ -115,9 +115,9 @@ Linux amd64 Tags
 
 | Tags             | OS Version |
 |------------------|------------|
-| `4`            |  Debian 10  |
-| `4-slim`       |  Debian 10  |
-| `4-appservice` |  Debian 10  |
+| `4`            |  Debian 11  |
+| `4-slim`       |  Debian 11  |
+| `4-appservice` |  Debian 11  |
 
 ## V3 Images
 
@@ -251,6 +251,14 @@ Linux amd64 Tags
 | `3.0`            |  Debian 10  |
 | `3.0-slim`       |  Debian 10  |
 | `3.0-appservice` |  Debian 10  |
+
+#### MCR Docs
+
+For new images update the following:
+
+- [MCR Syndication](https://github.com/microsoft/mcr/blob/main/teams/azurefunctions/azure-functions.yml)
+
+- [Docs on DockerHub](https://github.com/microsoft/mcrdocs/tree/main/teams/azurefunctions)
 
 # Contributing
 
