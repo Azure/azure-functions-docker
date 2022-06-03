@@ -118,6 +118,20 @@ steps:
 
   - bash: |
       set -e
+      docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node18-appservice
+
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node18-appservice $TARGET_REGISTRY/node:$(TargetVersion)-appservice-stage$(StageNumber)
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node18-appservice $TARGET_REGISTRY/node:$(TargetVersion)-node18-appservice-stage$(StageNumber)
+
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)-appservice-stage$(StageNumber)
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)-node18-appservice-stage$(StageNumber)
+
+      docker system prune -a -f
+    displayName: tag and push node images
+    continueOnError: false
+
+  - bash: |
+      set -e
       docker pull $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7-appservice
       docker pull $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7.2-appservice
 

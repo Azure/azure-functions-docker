@@ -215,6 +215,38 @@ steps:
 
   - bash: |
       set -e
+      docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node18
+      docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node18-slim
+      docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node18-appservice
+
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node18 $TARGET_REGISTRY/node:$(TargetVersion)
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node18-slim $TARGET_REGISTRY/node:$(TargetVersion)-slim
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node18-appservice $TARGET_REGISTRY/node:$(TargetVersion)-appservice
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node18-appservice $TARGET_REGISTRY/node:$(TargetVersion)-appservice-quickstart
+
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node18 $TARGET_REGISTRY/node:$(TargetVersion)-node18
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node18-slim $TARGET_REGISTRY/node:$(TargetVersion)-node18-slim
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node18-appservice $TARGET_REGISTRY/node:$(TargetVersion)-node18-appservice
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node18-appservice $TARGET_REGISTRY/node:$(TargetVersion)-node18-appservice-quickstart
+
+
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)-slim
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)-appservice
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)-appservice-quickstart
+
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)-node18
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)-node18-slim
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)-node18-appservice
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)-node18-appservice-quickstart
+
+
+      docker system prune -a -f
+    displayName: tag and push node18 images
+    continueOnError: false
+
+  - bash: |
+      set -e
       docker pull $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7
       docker pull $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7-slim
       docker pull $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7-appservice
