@@ -34,8 +34,22 @@ RUN apt-get update && \
     rm -f /$EXTENSION_BUNDLE_FILENAME_V3 &&\
     find /FuncExtensionBundles/ -type f -exec chmod 644 {} \;
 
-FROM python:3.10-slim-bullseye
+FROM mcr.microsoft.com/dotnet/runtime-deps:6.0
 ARG HOST_VERSION
+
+RUN apt-get update && \
+    apt-get install -y wget build-essential zlib1g-dev && \
+    wget https://www.python.org/ftp/python/3.10.4/Python-3.10.4.tgz && \
+    apt-get update && \
+    apt-get upgrade && \
+    apt-get install -y make build-essential libssl-dev zlib1g-dev \
+       libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm \
+       libncurses5-dev libncursesw5-dev xz-utils tk-dev && \
+    tar xvf Python-3.10.4.tgz && \
+    cd Python-3.10.4 && \
+    ./configure && \
+    make && \
+    make install
 
 COPY --from=runtime-image ["/azure-functions-host", "/azure-functions-host"]
 COPY --from=runtime-image [ "/workers/python/3.10/LINUX", "/azure-functions-host/workers/python/3.10/LINUX" ]
@@ -88,5 +102,7 @@ RUN apt-get update && \
     #apt-get install -y libc-dev
 
 ENV FUNCTIONS_WORKER_RUNTIME_VERSION=3.10
+
+RUN ln -s /usr/local/bin/python3 /usr/local/bin/python
 
 CMD [ "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost" ]
