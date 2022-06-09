@@ -91,6 +91,11 @@ Linux amd64 Tags
 
 | Tags                  | OS Version |
 |--------------------------------------------|------------|
+| `4-python3.7`                              |  Debian 11  |
+| `4-python3.7-slim`                         |  Debian 11  |
+| `4-python3.7-appservice`                   | Debian 11  |
+| `4-python3.7-buildenv`                     |  Debian 11  |
+| `4-python3.7-core-tools`                   | Debian 11  |
 | `4-python3.8`                              |  Debian 11  |
 | `4-python3.8-slim`                         |  Debian 11  |
 | `4-python3.8-appservice`                   | Debian 11  |
