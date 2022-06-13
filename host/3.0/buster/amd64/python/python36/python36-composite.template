@@ -12,6 +12,7 @@ ENV LANG=C.UTF-8 \
     HOST_VERSION=${HOST_VERSION} \
     ASPNETCORE_CONTENTROOT=/azure-functions-host
 
+# validate python for Prashant
 # Install Python dependencies
 RUN apt-get update && \
     apt-get install -y wget && \
