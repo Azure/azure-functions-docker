@@ -63,7 +63,7 @@ ENV LANG=C.UTF-8 \
     HOST_VERSION=${HOST_VERSION} \
     ASPNETCORE_CONTENTROOT=/azure-functions-host
 
-# Install Python dependencies
+# Install Python dependencies.
 RUN apt-get update && \
     apt-get install -y wget && \
     echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections && \
