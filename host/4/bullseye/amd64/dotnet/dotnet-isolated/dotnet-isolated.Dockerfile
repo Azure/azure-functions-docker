@@ -32,7 +32,7 @@ RUN apt-get update && \
 # Include ASP.NET Core shared framework from dotnet/aspnet image.
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS aspnet6
 
-FROM mcr.microsoft.com/dotnet/runtime:6.0.0
+FROM mcr.microsoft.com/dotnet/runtime:6.0
 ARG HOST_VERSION
 
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
