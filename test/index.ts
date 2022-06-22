@@ -80,8 +80,6 @@ const dockerFile = (function() {
 
   if (imageName.indexOf("nanoserver") !== -1) {
     fileName = "test-win.Dockerfile";
-  } else if (imageName.indexOf("arm32v7") !== -1) {
-    fileName = "test-arm32v7.Dockerfile";
   } else if (imageName.indexOf("alpine") !== -1) {
     fileName = "test-alpine.Dockerfile";
   }
