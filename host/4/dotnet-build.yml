@@ -128,6 +128,48 @@ steps:
     displayName: dotnet-isolated-appservice (.NET 6)
     continueOnError: false
 
+  - bash: |
+      set -e
+      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/dotnet-isolated:$(Build.SourceBranchName)-dotnet-isolated7.0
+      IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
+      echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
+
+      docker build -t $IMAGE_NAME \
+                  -f host/4/bullseye/amd64/dotnet/dotnet7-isolated/dotnet-isolated.Dockerfile \
+                  host/4/bullseye/amd64/dotnet/dotnet-isolated/
+      npm run test $IMAGE_NAME --prefix test/
+      docker push $IMAGE_NAME
+    displayName: dotnet-isolated (.NET 7 Preview)
+    continueOnError: false
+
+  - bash: |
+      set -e
+      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/dotnet-isolated:$(Build.SourceBranchName)-dotnet-isolated7.0-slim
+      IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
+      echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
+
+      docker build -t $IMAGE_NAME \
+                  -f host/4/bullseye/amd64/dotnet/dotnet7-isolated/dotnet7-isolated-slim.Dockerfile \
+                  host/4/bullseye/amd64/dotnet/dotnet-isolated/
+      npm run test $IMAGE_NAME --prefix  test/
+      docker push $IMAGE_NAME
+    displayName: dotnet-isolated-slim (.NET 7 Preview)
+    continueOnError: false
+
+  - bash: |
+      set -e
+      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/dotnet-isolated:$(Build.SourceBranchName)-dotnet-isolated7.0-appservice
+      IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
+      echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
+
+      docker build -t $IMAGE_NAME \
+                  -f host/4/bullseye/amd64/out/dotnet/dotnet7-isolated-appservice.Dockerfile \
+                  host/4/bullseye/amd64/out/dotnet/
+      npm run test $IMAGE_NAME --prefix  test/
+      docker push $IMAGE_NAME
+    displayName: dotnet-isolated-appservice (.NET 7 Preview)
+    continueOnError: false
+
   - task: AzureArtifacts.manifest-generator-task.manifest-generator-task.ManifestGeneratorTask@0
     displayName: 'Manifest Generator'
     inputs:

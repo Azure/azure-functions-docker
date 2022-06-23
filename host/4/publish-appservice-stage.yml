@@ -67,6 +67,18 @@ steps:
 
   - bash: |
       set -e
+      docker pull $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated7.0-appservice
+
+      docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated7.0-appservice $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated7.0-appservice-stage$(StageNumber)
+
+      docker push $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated7.0-appservice-stage$(StageNumber)
+
+      docker system prune -a -f
+    displayName: tag and push dotnet-isolated7 images
+    continueOnError: false
+
+  - bash: |
+      set -e
       docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-appservice
       docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java8.1-appservice
       docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java11-appservice

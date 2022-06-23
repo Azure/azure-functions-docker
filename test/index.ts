@@ -23,6 +23,12 @@ const dotnetIsolated6 = {
   response: "Hello, Test"
 }
 
+const dotnetIsolated7 = {
+  package: `${storagePath}/dotnet-isolated7-functions.zip`,
+  invoke: "/api/DotnetIsolated7HttpFunction",
+  response: "Welcome to Azure Functions! .NET 7 Preview 5"
+}
+
 const map = {
   python: {
     package: `${storagePath}/python-functions.zip`,
@@ -60,6 +66,7 @@ const testData = (function() {
   else if (imageName.indexOf("node") !== -1) return map.node;
   else if (imageName.indexOf("dotnet-isolated5.0") !== -1) return dotnetIsolated5;
   else if (imageName.indexOf("dotnet-isolated6.0") !== -1) return dotnetIsolated6;
+  else if (imageName.indexOf("dotnet-isolated7.0") !== -1) return dotnetIsolated7;
   else if (imageName.indexOf("mesh") !== -1) return map;
   else return map.dotnet;
 })();
