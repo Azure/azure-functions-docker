@@ -136,7 +136,7 @@ steps:
 
       docker build -t $IMAGE_NAME \
                   -f host/4/bullseye/amd64/dotnet/dotnet7-isolated/dotnet-isolated.Dockerfile \
-                  host/4/bullseye/amd64/dotnet/dotnet-isolated/
+                  host/4/bullseye/amd64/dotnet/dotnet7-isolated/
       npm run test $IMAGE_NAME --prefix test/
       docker push $IMAGE_NAME
     displayName: dotnet-isolated (.NET 7 Preview)
@@ -149,8 +149,8 @@ steps:
       echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
 
       docker build -t $IMAGE_NAME \
-                  -f host/4/bullseye/amd64/dotnet/dotnet7-isolated/dotnet7-isolated-slim.Dockerfile \
-                  host/4/bullseye/amd64/dotnet/dotnet-isolated/
+                  -f host/4/bullseye/amd64/dotnet/dotnet7-isolated/dotnet-isolated-slim.Dockerfile \
+                  host/4/bullseye/amd64/dotnet/dotnet7-isolated/
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
     displayName: dotnet-isolated-slim (.NET 7 Preview)
