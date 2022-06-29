@@ -3,7 +3,7 @@
 # Licensed under the MIT License. See https://go.microsoft.com/fwlink/?linkid=2090316 for license information.
 #-------------------------------------------------------------------------------------------------------------
 
-FROM python:3.7-slim-bullseye
+FROM mcr.microsoft.com/mirror/docker/library/python:3.7-slim
 
 ENV LANG=C.UTF-8 \
     ACCEPT_EULA=Y \

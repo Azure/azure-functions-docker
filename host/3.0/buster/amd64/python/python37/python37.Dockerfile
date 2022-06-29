@@ -35,7 +35,7 @@ RUN EXTENSION_BUNDLE_VERSION=1.8.1 && \
     rm -f /$EXTENSION_BUNDLE_FILENAME_V3 &&\
     find /FuncExtensionBundles/ -type f -exec chmod 644 {} \;
 
-FROM python:3.7-slim-buster
+FROM mcr.microsoft.com/mirror/docker/library/python:3.7-buster
 ARG HOST_VERSION
 
 ENV LANG=C.UTF-8 \

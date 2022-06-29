@@ -1,4 +1,4 @@
-FROM python:3.9-slim-buster
+FROM mcr.microsoft.com/mirror/docker/library/python:3.9-slim-buster
 ARG HOST_VERSION
 
 ENV LANG=C.UTF-8 \
