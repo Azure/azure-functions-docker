@@ -1,4 +1,4 @@
-FROM python:3.8-slim-buster
+FROM mcr.microsoft.com/mirror/docker/library/python:3.8-slim-buster
 
 ENV LANG=C.UTF-8 \
     ACCEPT_EULA=Y \
