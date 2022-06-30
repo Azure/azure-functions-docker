@@ -82,6 +82,11 @@ Linux amd64 Tags
 | `4-java11-appservice`                  |  Debian 11  |
 | `4-java11-core-tools`                  |  Debian 11   |
 | `4-java11-build`            | Debian 11  |
+| `4-java17`                             |Debian 11  |
+| `4-java17-slim`                        |  Debian 11  |
+| `4-java17-appservice`                  |  Debian 11  |
+| `4-java17-core-tools`                  |  Debian 11   |
+| `4-java17-build`            | Debian 11  |
 
 ### Python
 
