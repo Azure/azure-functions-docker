@@ -35,8 +35,21 @@ RUN EXTENSION_BUNDLE_VERSION=1.8.1 && \
     rm -f /$EXTENSION_BUNDLE_FILENAME_V3 &&\
     find /FuncExtensionBundles/ -type f -exec chmod 644 {} \;
 
-FROM python:3.6-slim-buster
+FROM mcr.microsoft.com/dotnet/core/runtime-deps:3.1
 ARG HOST_VERSION
+
+RUN apt-get update && \
+    apt-get install -y wget build-essential zlib1g-dev && \
+    wget https://www.python.org/ftp/python/3.6.15/Python-3.6.15.tgz && \
+    apt-get update && \
+    apt-get install -y make build-essential libssl-dev zlib1g-dev \
+       libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm \
+       libncurses5-dev libncursesw5-dev xz-utils tk-dev && \
+    tar xzf Python-3.6.15.tgz && \
+    cd Python-3.6.15 && \
+    ./configure && \
+    make && \
+    make install
 
 ENV LANG=C.UTF-8 \
     ACCEPT_EULA=Y \
@@ -95,5 +108,8 @@ COPY --from=runtime-image [ "/workers/python/worker.config.json", "/azure-functi
 COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
 
 ENV FUNCTIONS_WORKER_RUNTIME_VERSION=3.6
+
+RUN ln -s /usr/local/bin/python3 /usr/local/bin/python
+RUN ln -s /usr/local/bin/pip3 /usr/local/bin/pip
 
 CMD [ "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost" ]
