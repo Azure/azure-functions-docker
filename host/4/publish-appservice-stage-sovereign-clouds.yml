@@ -138,7 +138,21 @@ steps:
           
           docker system prune -a -f
         displayName: tag and push node images for stage ${{stage}}
-        continueOnError: false        
+        continueOnError: false
+
+      - bash: |
+          set -e
+          docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node18-appservice
+          
+          docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node18-appservice $TARGET_REGISTRY/node:$(TargetVersion)-appservice-$(CloudName)-stage${{stage}}
+          docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node18-appservice $TARGET_REGISTRY/node:$(TargetVersion)-node18-appservice-$(CloudName)-stage${{stage}}
+          
+          docker push $TARGET_REGISTRY/node:$(TargetVersion)-appservice-$(CloudName)-stage${{stage}}
+          docker push $TARGET_REGISTRY/node:$(TargetVersion)-node18-appservice-$(CloudName)-stage${{stage}}
+          
+          docker system prune -a -f
+        displayName: tag and push node images for stage ${{stage}}
+        continueOnError: false
 
       - bash: |
           set -e

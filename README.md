@@ -47,6 +47,10 @@ Linux amd64 Tags
 | `4-node16-slim`                         |  Debian 11  |
 | `4-node16-appservice`                   |  Debian 11  |
 | `4-node16-core-tools`                   |  Debian 11  |
+| `4-node18`                              |  Debian 11  |
+| `4-node18-slim`                         |  Debian 11  |
+| `4-node18-appservice`                   |  Debian 11  |
+| `4-node18-core-tools`                   |  Debian 11  |
 
 #### Powershell
 
