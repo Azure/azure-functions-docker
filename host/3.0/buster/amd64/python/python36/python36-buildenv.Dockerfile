@@ -10,7 +10,10 @@ RUN apt-get update && \
        libncurses5-dev libncursesw5-dev xz-utils tk-dev && \
     tar xzf Python-3.6.15.tgz && \
     cd Python-3.6.15 && \
-    ./configure --enable-shared && \
+    ./configure --enable-shared \
+                --enable-loadable-sqlite-extensions \
+		        --enable-optimizations \
+		        --enable-option-checking=fatal && \
     make && \
     make install
 
