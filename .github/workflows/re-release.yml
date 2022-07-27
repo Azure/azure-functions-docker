@@ -25,9 +25,8 @@ jobs:
         git config --local user.email "azfuncgh@github.com"
         git config --local user.name "Azure Functions"
         git fetch --all
-        git checkout -b ${{ github.event.inputs.targetTag }} origin/${{ github.event.inputs.targetTag }}
+        git checkout ${{ github.event.inputs.targetTag }}
         git tag ${{ github.event.inputs.version }}
-        git push
         git push origin ${{ github.event.inputs.version }}
       env:
         GITHUB_TOKEN: ${{ secrets.PIPELINE_ADMIN }}  
