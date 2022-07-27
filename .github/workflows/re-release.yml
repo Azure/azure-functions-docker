@@ -1,0 +1,40 @@
+name: Re-release Non-appservice
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Re-release version (e.g. 4.9.0.a)'
+        required: true
+      targetTag:
+        description: 'Tag to re-release (e.g. 4.9.0)'
+        required: true
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Branch
+      uses: actions/checkout@v2
+      with:
+        ref: dev
+        fetch-depth: 0
+        token: ${{ secrets.PIPELINE_ADMIN }}
+    - name: Create Release Tag
+      id: createBranch
+      run: |
+        set -e
+        git config --local user.email "azfuncgh@github.com"
+        git config --local user.name "Azure Functions"
+        git fetch --all
+        git checkout -b ${{ github.event.inputs.targetTag }} origin/${{ github.event.inputs.targetTag }}
+        git tag ${{ github.event.inputs.version }}
+        git push
+        git push origin ${{ github.event.inputs.version }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.PIPELINE_ADMIN }}  
+    - name: Release Drafter
+      id: release
+      uses: release-drafter/release-drafter@v5.15.0
+      with:
+        tag: ${{ github.event.inputs.version }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
