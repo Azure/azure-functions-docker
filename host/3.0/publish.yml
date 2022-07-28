@@ -259,10 +259,10 @@ stages:
 
     - bash: |
         set -e
-        docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6
-        docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-slim
-        docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-appservice
-        docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-buildenv
+        # docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6
+        # docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-slim
+        # docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-appservice
+        # docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-buildenv
         docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7
         docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7-slim
         docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7-appservice
@@ -276,17 +276,17 @@ stages:
         docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.9-appservice
         docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.9-buildenv
 
-        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6 $TARGET_REGISTRY/python:$(TargetVersion)
-        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-slim $TARGET_REGISTRY/python:$(TargetVersion)-slim
-        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-appservice $TARGET_REGISTRY/python:$(TargetVersion)-appservice
-        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-appservice $TARGET_REGISTRY/python:$(TargetVersion)-appservice-quickstart
-        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-buildenv $TARGET_REGISTRY/python:$(TargetVersion)-buildenv
+        # docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6 $TARGET_REGISTRY/python:$(TargetVersion)
+        # docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-slim $TARGET_REGISTRY/python:$(TargetVersion)-slim
+        # docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-appservice $TARGET_REGISTRY/python:$(TargetVersion)-appservice
+        # docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-appservice $TARGET_REGISTRY/python:$(TargetVersion)-appservice-quickstart
+        # docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-buildenv $TARGET_REGISTRY/python:$(TargetVersion)-buildenv
 
-        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6 $TARGET_REGISTRY/python:$(TargetVersion)-python3.6
-        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-slim $TARGET_REGISTRY/python:$(TargetVersion)-python3.6-slim
-        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.6-appservice
-        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.6-appservice-quickstart
-        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-buildenv $TARGET_REGISTRY/python:$(TargetVersion)-python3.6-buildenv
+        # docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6 $TARGET_REGISTRY/python:$(TargetVersion)-python3.6
+        # docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-slim $TARGET_REGISTRY/python:$(TargetVersion)-python3.6-slim
+        # docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.6-appservice
+        # docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.6-appservice-quickstart
+        # docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-buildenv $TARGET_REGISTRY/python:$(TargetVersion)-python3.6-buildenv
 
         docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7 $TARGET_REGISTRY/python:$(TargetVersion)-python3.7
         docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7-slim $TARGET_REGISTRY/python:$(TargetVersion)-python3.7-slim
@@ -306,11 +306,11 @@ stages:
         docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.9-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.9-appservice-quickstart
         docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.9-buildenv $TARGET_REGISTRY/python:$(TargetVersion)-python3.9-buildenv
 
-        docker push $TARGET_REGISTRY/python:$(TargetVersion)
-        docker push $TARGET_REGISTRY/python:$(TargetVersion)-slim
-        docker push $TARGET_REGISTRY/python:$(TargetVersion)-appservice
-        docker push $TARGET_REGISTRY/python:$(TargetVersion)-appservice-quickstart
-        docker push $TARGET_REGISTRY/python:$(TargetVersion)-buildenv
+        # docker push $TARGET_REGISTRY/python:$(TargetVersion)
+        # docker push $TARGET_REGISTRY/python:$(TargetVersion)-slim
+        # docker push $TARGET_REGISTRY/python:$(TargetVersion)-appservice
+        # docker push $TARGET_REGISTRY/python:$(TargetVersion)-appservice-quickstart
+        # docker push $TARGET_REGISTRY/python:$(TargetVersion)-buildenv
 
         # INFO 07/27/2022 - Commenting all Python 3.6 releases until we can hotfix 3.12.1.
         # docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.6
