@@ -306,11 +306,11 @@ stages:
         docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.9-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.9-appservice-quickstart
         docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.9-buildenv $TARGET_REGISTRY/python:$(TargetVersion)-python3.9-buildenv
 
-        docker push $TARGET_REGISTRY/python:$(TargetVersion)
-        docker push $TARGET_REGISTRY/python:$(TargetVersion)-slim
-        docker push $TARGET_REGISTRY/python:$(TargetVersion)-appservice
-        docker push $TARGET_REGISTRY/python:$(TargetVersion)-appservice-quickstart
-        docker push $TARGET_REGISTRY/python:$(TargetVersion)-buildenv
+        # docker push $TARGET_REGISTRY/python:$(TargetVersion)
+        # docker push $TARGET_REGISTRY/python:$(TargetVersion)-slim
+        # docker push $TARGET_REGISTRY/python:$(TargetVersion)-appservice
+        # docker push $TARGET_REGISTRY/python:$(TargetVersion)-appservice-quickstart
+        # docker push $TARGET_REGISTRY/python:$(TargetVersion)-buildenv
 
         # INFO 07/27/2022 - Commenting all Python 3.6 releases until we can hotfix 3.12.1.
         # docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.6
