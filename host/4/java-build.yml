@@ -22,6 +22,7 @@ trigger:
       - dev
       - refs/tags/4.*
       - release/4.x
+      - rebuild/4.*
   paths:
     include:
       - host/4/bullseye/amd64/base/*
