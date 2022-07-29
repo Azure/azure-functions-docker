@@ -311,7 +311,7 @@ stages:
         docker push $TARGET_REGISTRY/python:$(TargetVersion)-appservice
         docker push $TARGET_REGISTRY/python:$(TargetVersion)-appservice-quickstart
         docker push $TARGET_REGISTRY/python:$(TargetVersion)-buildenv
-
+Python3.6B -> :3.11.0-appservice
         # INFO 07/27/2022 - Commenting all Python 3.6 releases until we can hotfix 3.12.1.
         # docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.6
         # docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.6-slim
