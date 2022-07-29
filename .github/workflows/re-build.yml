@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Re-release version (e.g. 4.9.0.a)'
+        description: 'Re-release version (e.g. 4.9.0-rebuild.1)'
         required: true
       targetTag:
         description: 'Tag to re-release (e.g. 4.9.0)'
@@ -27,6 +27,8 @@ jobs:
         git fetch --all
         git checkout ${{ github.event.inputs.targetTag }}
         git checkout -b "rebuild/${{ github.event.inputs.version }}"
+        cd host
+        ./verify-republish-pipeline.sh ${{ github.event.inputs.version }}
         git push origin "rebuild/${{ github.event.inputs.version }}"
       env:
         GITHUB_TOKEN: ${{ secrets.PIPELINE_ADMIN }} 
