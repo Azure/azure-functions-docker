@@ -94,6 +94,7 @@ RUN apt-get update && \
 COPY --from=runtime-image ["/azure-functions-host", "/azure-functions-host"]
 COPY --from=runtime-image [ "/workers/python/3.9/LINUX", "/azure-functions-host/workers/python/3.9/LINUX" ]
 COPY --from=runtime-image [ "/workers/python/worker.config.json", "/azure-functions-host/workers/python" ]
+COPY --from=runtime-image [ "/workers/ServerlessSecurity", "/azure-functions-host/workers/ServerlessSecurity" ]
 COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
 
 ENV FUNCTIONS_WORKER_RUNTIME_VERSION=3.9

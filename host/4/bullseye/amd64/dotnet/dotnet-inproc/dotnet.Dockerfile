@@ -44,6 +44,7 @@ RUN apt-get update && \
     apt-get install -y libc-dev
 
 COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
+COPY --from=runtime-image [ "/workers/ServerlessSecurity", "/azure-functions-host/workers/ServerlessSecurity" ]
 COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
 
 CMD [ "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost" ]

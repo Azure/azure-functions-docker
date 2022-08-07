@@ -62,6 +62,7 @@ RUN apt-get update && \
 
 COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
 COPY --from=runtime-image [ "/workers/java", "/azure-functions-host/workers/java" ]
+COPY --from=runtime-image [ "/workers/ServerlessSecurity", "/azure-functions-host/workers/ServerlessSecurity" ]
 COPY --from=runtime-image [ "${JAVA_HOME}", "${JAVA_HOME}" ]
 COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
 

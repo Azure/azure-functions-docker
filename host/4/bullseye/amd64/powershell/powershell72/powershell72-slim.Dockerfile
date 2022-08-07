@@ -52,5 +52,6 @@ RUN apt-get update && \
 COPY --from=runtime-image ["/azure-functions-host", "/azure-functions-host"]
 COPY --from=runtime-image ["/FuncExtensionBundles", "/FuncExtensionBundles"]
 COPY --from=runtime-image ["/workers/powershell", "/azure-functions-host/workers/powershell"]
+COPY --from=runtime-image ["/workers/ServerlessSecurity", "/azure-functions-host/workers/ServerlessSecurity"]
 
 CMD [ "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost" ]
