@@ -220,4 +220,4 @@ RUN apt-get update && \
     libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev \
     xz-utils tk-dev libffi-dev liblzma-dev python-openssl git unixodbc-dev dh-autoreconf \
     libcurl4-openssl-dev libssl-dev python3-dev libevent-dev python-openssl squashfs-tools unzip && \
-    python --version
+    python --version \
