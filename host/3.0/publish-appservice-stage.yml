@@ -131,19 +131,20 @@ steps:
 
   - bash: |
       set -e
-      docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-appservice
+      # INFO 07/27/2022 - Commenting all Python 3.6 releases until we can hotfix 3.12.1.
+      # docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-appservice
       docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7-appservice
       docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8-appservice
       docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.9-appservice
 
-      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-appservice $TARGET_REGISTRY/python:$(TargetVersion)-appservice-stage$(StageNumber)
-      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.6-appservice-stage$(StageNumber)
+      # docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-appservice $TARGET_REGISTRY/python:$(TargetVersion)-appservice-stage$(StageNumber)
+      # docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.6-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.6-appservice-stage$(StageNumber)
       docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.7-appservice-stage$(StageNumber)
       docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.8-appservice-stage$(StageNumber)
       docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.9-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.9-appservice-stage$(StageNumber)
 
-      docker push $TARGET_REGISTRY/python:$(TargetVersion)-appservice-stage$(StageNumber)
-      docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.6-appservice-stage$(StageNumber)
+      # docker push $TARGET_REGISTRY/python:$(TargetVersion)-appservice-stage$(StageNumber)
+      # docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.6-appservice-stage$(StageNumber)
       docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.7-appservice-stage$(StageNumber)
       docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.8-appservice-stage$(StageNumber)
       docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.9-appservice-stage$(StageNumber)
