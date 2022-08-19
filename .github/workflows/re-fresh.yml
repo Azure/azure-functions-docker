@@ -1,12 +1,9 @@
-name: Re-Build Non-appservice Images
+name: Re-Fresh Non-appservice Images
 on:
   workflow_dispatch:
     inputs:
-      version:
-        description: 'Re-build version (e.g. 4.9.0-rebuild.1)'
-        required: true
       targetTag:
-        description: 'Tag to re-build (e.g. 4.9.0)'
+        description: 'Tag to re-fresh (e.g. 4.9.0)'
         required: true
 jobs:
   release:
@@ -26,9 +23,9 @@ jobs:
         git config --local user.name "Azure Functions"
         git fetch --all
         git checkout ${{ github.event.inputs.targetTag }}
-        git checkout -b "rebuild/${{ github.event.inputs.version }}"
+        git checkout -b "refresh/${{ github.event.inputs.targetTag }}-refresh"
         cd host
-        ./verify-republish-pipeline.sh ${{ github.event.inputs.version }}
-        git push origin "rebuild/${{ github.event.inputs.version }}"
+        ./verify-republish-pipeline.sh ${{ github.event.inputs.targetTag }}
+        git push origin "refresh/${{ github.event.inputs.targetTag }}-refresh --force"
       env:
         GITHUB_TOKEN: ${{ secrets.PIPELINE_ADMIN }} 
