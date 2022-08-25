@@ -40,7 +40,6 @@ ARG HOST_VERSION
 COPY --from=runtime-image ["/azure-functions-host", "/azure-functions-host"]
 COPY --from=runtime-image [ "/workers/python/3.10/LINUX", "/azure-functions-host/workers/python/3.10/LINUX" ]
 COPY --from=runtime-image [ "/workers/python/worker.config.json", "/azure-functions-host/workers/python" ]
-COPY --from=runtime-image [ "/workers/ServerlessSecurity", "/azure-functions-host/workers/ServerlessSecurity" ]
 COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
 
 ENV LANG=C.UTF-8 \

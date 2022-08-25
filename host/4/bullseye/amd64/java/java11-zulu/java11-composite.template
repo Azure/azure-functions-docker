@@ -1,7 +1,7 @@
 ARG JAVA_VERSION=11u11
 
 FROM mcr.microsoft.com/java/jre-headless:${JAVA_VERSION}-zulu-debian10-with-tools as jre
-FROM mcr.microsoft.com/dotnet/runtime-deps:6.0
+FROM mcr.microsoft.com/dotnet/aspnet:6.0-bullseye-slim
 ARG HOST_VERSION
 
 COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]

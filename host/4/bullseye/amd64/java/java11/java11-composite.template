@@ -1,6 +1,6 @@
 ARG JAVA_VERSION=11.0.13.8.1
 ARG JAVA_HOME=/usr/lib/jvm/msft-11-x64
-FROM mcr.microsoft.com/dotnet/runtime-deps:6.0
+FROM mcr.microsoft.com/dotnet/aspnet:6.0-bullseye-slim
 ARG HOST_VERSION
 ARG JAVA_VERSION
 ARG JAVA_HOME
@@ -9,9 +9,8 @@ COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
 COPY sshd_config /etc/ssh/
 COPY start.sh /azure-functions-host/
 COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
-
-COPY --from=runtime-image [ "/workers/java", "/azure-functions-host/workers/java" ]
 COPY --from=runtime-image [ "/workers/ServerlessSecurity", "/azure-functions-host/workers/ServerlessSecurity" ]
+COPY --from=runtime-image [ "/workers/java", "/azure-functions-host/workers/java" ]
 
 EXPOSE 2222 80
 
