@@ -4,6 +4,7 @@ DIR=$(dirname $0)
 
 function print_usage {
   echo -e "Usage: $0 <MajorVersion> <FullVersion>\n"
+  echo -e "Requires gnu-sed for it to work. Please install it using `brew install gnu-sed --with-default-names`"
   echo -e "Example: $0 3.0 3.1.1"
   echo -e "Example: $0 4.0 4.10.2"
 }
@@ -21,7 +22,7 @@ if [ -z "$2" ]; then
 fi
 
 if [ "$1" == "3" ]; then
-   find $DIR/3.0 -name "*Dockerfile" -exec sed -i "s/\bHOST_VERSION=$1\..*/HOST_VERSION=$2/g" "$0" {} \;
+   find $DIR/3.0 -name "*Dockerfile" -exec gsed -i "s/\bHOST_VERSION=$1\..*/HOST_VERSION=$2/g" {} \;
 else 
-   find $DIR/$1 -name "*Dockerfile" -exec sed -i "s/\bHOST_VERSION=$1\..*/HOST_VERSION=$2/g" "$0" {} \;
+   find $DIR/$1 -name "*Dockerfile" -exec gsed -i "s/\bHOST_VERSION=$1\..*/HOST_VERSION=$2/g" {} \;
 fi
