@@ -6,6 +6,7 @@ pr:
     include:
       - dev
       - release/3.x
+      - refresh/3.*
   paths:
     include:
       - host/3.0/nanoserver/*
@@ -16,6 +17,7 @@ trigger:
       - dev
       - refs/tags/3.*.*
       - release/3.x
+      - refresh/3.*
   paths:
     include:
       - host/3.0/nanoserver/*

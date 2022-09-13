@@ -6,6 +6,7 @@ pr:
     include:
       - dev
       - release/3.x
+      - refresh/3.*
   paths:
     include:
       - host/3.0/buster/amd64/base/*
@@ -21,6 +22,7 @@ trigger:
       - dev
       - refs/tags/3.*.*
       - release/3.x
+      - refresh/3.*
   paths:
     include:
       - host/3.0/buster/amd64/base/*

@@ -1,0 +1,651 @@
+
+Testing mcr.microsoft.com/azure-functions/dotnet:4.8.0-refresh...
+
+✗ Low severity vulnerability found in util-linux/libblkid1
+  Description: Information Exposure
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-UTILLINUX-2401081
+  Introduced through: util-linux/libblkid1@2.36.1-8+deb11u1, e2fsprogs@1.46.2-2, util-linux/libmount1@2.36.1-8+deb11u1, util-linux/mount@2.36.1-8+deb11u1, util-linux/libuuid1@2.36.1-8+deb11u1, glibc/libc-devtools@2.31-13+deb11u3, util-linux@2.36.1-8+deb11u1, util-linux/bsdutils@1:2.36.1-8+deb11u1, util-linux/libsmartcols1@2.36.1-8+deb11u1
+  From: util-linux/libblkid1@2.36.1-8+deb11u1
+  From: e2fsprogs@1.46.2-2 > util-linux/libblkid1@2.36.1-8+deb11u1
+  From: util-linux/libmount1@2.36.1-8+deb11u1 > util-linux/libblkid1@2.36.1-8+deb11u1
+  and 16 more...
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in tiff/libtiff5
+  Description: Out-of-bounds Read
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-TIFF-2434417
+  Introduced through: tiff/libtiff5@4.2.0-1+deb11u1, glibc/libc-devtools@2.31-13+deb11u3
+  From: tiff/libtiff5@4.2.0-1+deb11u1
+  From: glibc/libc-devtools@2.31-13+deb11u3 > libgd2/libgd3@2.3.0-2 > tiff/libtiff5@4.2.0-1+deb11u1
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in tiff/libtiff5
+  Description: Resource Exhaustion
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-TIFF-2440571
+  Introduced through: tiff/libtiff5@4.2.0-1+deb11u1, glibc/libc-devtools@2.31-13+deb11u3
+  From: tiff/libtiff5@4.2.0-1+deb11u1
+  From: glibc/libc-devtools@2.31-13+deb11u3 > libgd2/libgd3@2.3.0-2 > tiff/libtiff5@4.2.0-1+deb11u1
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in tiff/libtiff5
+  Description: CVE-2022-1354
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-TIFF-2774162
+  Introduced through: tiff/libtiff5@4.2.0-1+deb11u1, glibc/libc-devtools@2.31-13+deb11u3
+  From: tiff/libtiff5@4.2.0-1+deb11u1
+  From: glibc/libc-devtools@2.31-13+deb11u3 > libgd2/libgd3@2.3.0-2 > tiff/libtiff5@4.2.0-1+deb11u1
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in tiff/libtiff5
+  Description: CVE-2022-1355
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-TIFF-2774167
+  Introduced through: tiff/libtiff5@4.2.0-1+deb11u1, glibc/libc-devtools@2.31-13+deb11u3
+  From: tiff/libtiff5@4.2.0-1+deb11u1
+  From: glibc/libc-devtools@2.31-13+deb11u3 > libgd2/libgd3@2.3.0-2 > tiff/libtiff5@4.2.0-1+deb11u1
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in tiff/libtiff5
+  Description: Out-of-bounds Read
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-TIFF-2823289
+  Introduced through: tiff/libtiff5@4.2.0-1+deb11u1, glibc/libc-devtools@2.31-13+deb11u3
+  From: tiff/libtiff5@4.2.0-1+deb11u1
+  From: glibc/libc-devtools@2.31-13+deb11u3 > libgd2/libgd3@2.3.0-2 > tiff/libtiff5@4.2.0-1+deb11u1
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in tiff/libtiff5
+  Description: Out-of-bounds Read
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-TIFF-2823291
+  Introduced through: tiff/libtiff5@4.2.0-1+deb11u1, glibc/libc-devtools@2.31-13+deb11u3
+  From: tiff/libtiff5@4.2.0-1+deb11u1
+  From: glibc/libc-devtools@2.31-13+deb11u3 > libgd2/libgd3@2.3.0-2 > tiff/libtiff5@4.2.0-1+deb11u1
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in tiff/libtiff5
+  Description: Divide By Zero
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-TIFF-2938519
+  Introduced through: tiff/libtiff5@4.2.0-1+deb11u1, glibc/libc-devtools@2.31-13+deb11u3
+  From: tiff/libtiff5@4.2.0-1+deb11u1
+  From: glibc/libc-devtools@2.31-13+deb11u3 > libgd2/libgd3@2.3.0-2 > tiff/libtiff5@4.2.0-1+deb11u1
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in tiff/libtiff5
+  Description: Divide By Zero
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-TIFF-2938520
+  Introduced through: tiff/libtiff5@4.2.0-1+deb11u1, glibc/libc-devtools@2.31-13+deb11u3
+  From: tiff/libtiff5@4.2.0-1+deb11u1
+  From: glibc/libc-devtools@2.31-13+deb11u3 > libgd2/libgd3@2.3.0-2 > tiff/libtiff5@4.2.0-1+deb11u1
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in tiff/libtiff5
+  Description: Divide By Zero
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-TIFF-2938525
+  Introduced through: tiff/libtiff5@4.2.0-1+deb11u1, glibc/libc-devtools@2.31-13+deb11u3
+  From: tiff/libtiff5@4.2.0-1+deb11u1
+  From: glibc/libc-devtools@2.31-13+deb11u3 > libgd2/libgd3@2.3.0-2 > tiff/libtiff5@4.2.0-1+deb11u1
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in tiff/libtiff5
+  Description: Out-of-bounds Write
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-TIFF-2964237
+  Introduced through: tiff/libtiff5@4.2.0-1+deb11u1, glibc/libc-devtools@2.31-13+deb11u3
+  From: tiff/libtiff5@4.2.0-1+deb11u1
+  From: glibc/libc-devtools@2.31-13+deb11u3 > libgd2/libgd3@2.3.0-2 > tiff/libtiff5@4.2.0-1+deb11u1
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in tiff/libtiff5
+  Description: Out-of-bounds Read
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-TIFF-2987009
+  Introduced through: tiff/libtiff5@4.2.0-1+deb11u1, glibc/libc-devtools@2.31-13+deb11u3
+  From: tiff/libtiff5@4.2.0-1+deb11u1
+  From: glibc/libc-devtools@2.31-13+deb11u3 > libgd2/libgd3@2.3.0-2 > tiff/libtiff5@4.2.0-1+deb11u1
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in tiff/libtiff5
+  Description: Out-of-bounds Read
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-TIFF-2987011
+  Introduced through: tiff/libtiff5@4.2.0-1+deb11u1, glibc/libc-devtools@2.31-13+deb11u3
+  From: tiff/libtiff5@4.2.0-1+deb11u1
+  From: glibc/libc-devtools@2.31-13+deb11u3 > libgd2/libgd3@2.3.0-2 > tiff/libtiff5@4.2.0-1+deb11u1
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in tiff/libtiff5
+  Description: Improper Input Validation
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-TIFF-2987014
+  Introduced through: tiff/libtiff5@4.2.0-1+deb11u1, glibc/libc-devtools@2.31-13+deb11u3
+  From: tiff/libtiff5@4.2.0-1+deb11u1
+  From: glibc/libc-devtools@2.31-13+deb11u3 > libgd2/libgd3@2.3.0-2 > tiff/libtiff5@4.2.0-1+deb11u1
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in tiff/libtiff5
+  Description: CVE-2022-2953
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-TIFF-3008946
+  Introduced through: tiff/libtiff5@4.2.0-1+deb11u1, glibc/libc-devtools@2.31-13+deb11u3
+  From: tiff/libtiff5@4.2.0-1+deb11u1
+  From: glibc/libc-devtools@2.31-13+deb11u3 > libgd2/libgd3@2.3.0-2 > tiff/libtiff5@4.2.0-1+deb11u1
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in tiff/libtiff5
+  Description: Out-of-bounds Read
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-TIFF-514595
+  Introduced through: tiff/libtiff5@4.2.0-1+deb11u1, glibc/libc-devtools@2.31-13+deb11u3
+  From: tiff/libtiff5@4.2.0-1+deb11u1
+  From: glibc/libc-devtools@2.31-13+deb11u3 > libgd2/libgd3@2.3.0-2 > tiff/libtiff5@4.2.0-1+deb11u1
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in tiff/libtiff5
+  Description: NULL Pointer Dereference
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-TIFF-516778
+  Introduced through: tiff/libtiff5@4.2.0-1+deb11u1, glibc/libc-devtools@2.31-13+deb11u3
+  From: tiff/libtiff5@4.2.0-1+deb11u1
+  From: glibc/libc-devtools@2.31-13+deb11u3 > libgd2/libgd3@2.3.0-2 > tiff/libtiff5@4.2.0-1+deb11u1
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in tiff/libtiff5
+  Description: Missing Release of Resource after Effective Lifetime
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-TIFF-518574
+  Introduced through: tiff/libtiff5@4.2.0-1+deb11u1, glibc/libc-devtools@2.31-13+deb11u3
+  From: tiff/libtiff5@4.2.0-1+deb11u1
+  From: glibc/libc-devtools@2.31-13+deb11u3 > libgd2/libgd3@2.3.0-2 > tiff/libtiff5@4.2.0-1+deb11u1
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in tiff/libtiff5
+  Description: Use After Free
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-TIFF-520936
+  Introduced through: tiff/libtiff5@4.2.0-1+deb11u1, glibc/libc-devtools@2.31-13+deb11u3
+  From: tiff/libtiff5@4.2.0-1+deb11u1
+  From: glibc/libc-devtools@2.31-13+deb11u3 > libgd2/libgd3@2.3.0-2 > tiff/libtiff5@4.2.0-1+deb11u1
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in tiff/libtiff5
+  Description: Out-of-bounds Read
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-TIFF-531474
+  Introduced through: tiff/libtiff5@4.2.0-1+deb11u1, glibc/libc-devtools@2.31-13+deb11u3
+  From: tiff/libtiff5@4.2.0-1+deb11u1
+  From: glibc/libc-devtools@2.31-13+deb11u3 > libgd2/libgd3@2.3.0-2 > tiff/libtiff5@4.2.0-1+deb11u1
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in tiff/libtiff5
+  Description: Divide By Zero
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-TIFF-531590
+  Introduced through: tiff/libtiff5@4.2.0-1+deb11u1, glibc/libc-devtools@2.31-13+deb11u3
+  From: tiff/libtiff5@4.2.0-1+deb11u1
+  From: glibc/libc-devtools@2.31-13+deb11u3 > libgd2/libgd3@2.3.0-2 > tiff/libtiff5@4.2.0-1+deb11u1
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in tar
+  Description: CVE-2005-2541
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-TAR-523480
+  Introduced through: meta-common-packages@meta
+  From: meta-common-packages@meta > tar@1.34+dfsg-1
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in systemd/libsystemd0
+  Description: Authentication Bypass
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-SYSTEMD-1291054
+  Introduced through: systemd/libsystemd0@247.3-7, apt@2.2.4, util-linux/bsdutils@1:2.36.1-8+deb11u1, util-linux/mount@2.36.1-8+deb11u1, systemd/libudev1@247.3-7
+  From: systemd/libsystemd0@247.3-7
+  From: apt@2.2.4 > systemd/libsystemd0@247.3-7
+  From: util-linux/bsdutils@1:2.36.1-8+deb11u1 > systemd/libsystemd0@247.3-7
+  and 5 more...
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in systemd/libsystemd0
+  Description: Link Following
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-SYSTEMD-524969
+  Introduced through: systemd/libsystemd0@247.3-7, apt@2.2.4, util-linux/bsdutils@1:2.36.1-8+deb11u1, util-linux/mount@2.36.1-8+deb11u1, systemd/libudev1@247.3-7
+  From: systemd/libsystemd0@247.3-7
+  From: apt@2.2.4 > systemd/libsystemd0@247.3-7
+  From: util-linux/bsdutils@1:2.36.1-8+deb11u1 > systemd/libsystemd0@247.3-7
+  and 5 more...
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in shadow/passwd
+  Description: Access Restriction Bypass
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-SHADOW-526940
+  Introduced through: shadow/passwd@1:4.8.1-1, adduser@3.118, shadow/login@1:4.8.1-1, util-linux/mount@2.36.1-8+deb11u1
+  From: shadow/passwd@1:4.8.1-1
+  From: adduser@3.118 > shadow/passwd@1:4.8.1-1
+  From: shadow/login@1:4.8.1-1
+  and 1 more...
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in shadow/passwd
+  Description: Time-of-check Time-of-use (TOCTOU)
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-SHADOW-528840
+  Introduced through: shadow/passwd@1:4.8.1-1, adduser@3.118, shadow/login@1:4.8.1-1, util-linux/mount@2.36.1-8+deb11u1
+  From: shadow/passwd@1:4.8.1-1
+  From: adduser@3.118 > shadow/passwd@1:4.8.1-1
+  From: shadow/login@1:4.8.1-1
+  and 1 more...
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in shadow/passwd
+  Description: Incorrect Permission Assignment for Critical Resource
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-SHADOW-539870
+  Introduced through: shadow/passwd@1:4.8.1-1, adduser@3.118, shadow/login@1:4.8.1-1, util-linux/mount@2.36.1-8+deb11u1
+  From: shadow/passwd@1:4.8.1-1
+  From: adduser@3.118 > shadow/passwd@1:4.8.1-1
+  From: shadow/login@1:4.8.1-1
+  and 1 more...
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in perl/perl-base
+  Description: Improper Verification of Cryptographic Signature
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-PERL-1925976
+  Introduced through: meta-common-packages@meta
+  From: meta-common-packages@meta > perl/perl-base@5.32.1-4+deb11u2
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in perl/perl-base
+  Description: Link Following
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-PERL-532614
+  Introduced through: meta-common-packages@meta
+  From: meta-common-packages@meta > perl/perl-base@5.32.1-4+deb11u2
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in pcre3/libpcre3
+  Description: Out-of-Bounds
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-PCRE3-523392
+  Introduced through: pcre3/libpcre3@2:8.39-13, grep@3.6-1
+  From: pcre3/libpcre3@2:8.39-13
+  From: grep@3.6-1 > pcre3/libpcre3@2:8.39-13
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in pcre3/libpcre3
+  Description: Out-of-Bounds
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-PCRE3-525075
+  Introduced through: pcre3/libpcre3@2:8.39-13, grep@3.6-1
+  From: pcre3/libpcre3@2:8.39-13
+  From: grep@3.6-1 > pcre3/libpcre3@2:8.39-13
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in pcre3/libpcre3
+  Description: Uncontrolled Recursion
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-PCRE3-529298
+  Introduced through: pcre3/libpcre3@2:8.39-13, grep@3.6-1
+  From: pcre3/libpcre3@2:8.39-13
+  From: grep@3.6-1 > pcre3/libpcre3@2:8.39-13
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in pcre3/libpcre3
+  Description: Out-of-Bounds
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-PCRE3-529490
+  Introduced through: pcre3/libpcre3@2:8.39-13, grep@3.6-1
+  From: pcre3/libpcre3@2:8.39-13
+  From: grep@3.6-1 > pcre3/libpcre3@2:8.39-13
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in pcre3/libpcre3
+  Description: Out-of-bounds Read
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-PCRE3-572353
+  Introduced through: pcre3/libpcre3@2:8.39-13, grep@3.6-1
+  From: pcre3/libpcre3@2:8.39-13
+  From: grep@3.6-1 > pcre3/libpcre3@2:8.39-13
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in pcre2/libpcre2-8-0
+  Description: Out-of-bounds Read
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-PCRE2-2808697
+  Introduced through: meta-common-packages@meta
+  From: meta-common-packages@meta > pcre2/libpcre2-8-0@10.36-2
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in pcre2/libpcre2-8-0
+  Description: Out-of-bounds Read
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-PCRE2-2808704
+  Introduced through: meta-common-packages@meta
+  From: meta-common-packages@meta > pcre2/libpcre2-8-0@10.36-2
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in openssl/libssl1.1
+  Description: Inadequate Encryption Strength
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-OPENSSL-2941242
+  Introduced through: openssl/libssl1.1@1.1.1n-0+deb11u3, ca-certificates@20210119, glibc/libc6-dev@2.31-13+deb11u3
+  From: openssl/libssl1.1@1.1.1n-0+deb11u3
+  From: ca-certificates@20210119 > openssl@1.1.1n-0+deb11u3 > openssl/libssl1.1@1.1.1n-0+deb11u3
+  From: glibc/libc6-dev@2.31-13+deb11u3 > libnsl/libnsl-dev@1.3.0-2 > libnsl/libnsl2@1.3.0-2 > libtirpc/libtirpc3@1.3.1-1+deb11u1 > krb5/libgssapi-krb5-2@1.18.3-6+deb11u1 > krb5/libkrb5-3@1.18.3-6+deb11u1 > openssl/libssl1.1@1.1.1n-0+deb11u3
+  and 1 more...
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in openssl/libssl1.1
+  Description: Cryptographic Issues
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-OPENSSL-518334
+  Introduced through: openssl/libssl1.1@1.1.1n-0+deb11u3, ca-certificates@20210119, glibc/libc6-dev@2.31-13+deb11u3
+  From: openssl/libssl1.1@1.1.1n-0+deb11u3
+  From: ca-certificates@20210119 > openssl@1.1.1n-0+deb11u3 > openssl/libssl1.1@1.1.1n-0+deb11u3
+  From: glibc/libc6-dev@2.31-13+deb11u3 > libnsl/libnsl-dev@1.3.0-2 > libnsl/libnsl2@1.3.0-2 > libtirpc/libtirpc3@1.3.1-1+deb11u1 > krb5/libgssapi-krb5-2@1.18.3-6+deb11u1 > krb5/libkrb5-3@1.18.3-6+deb11u1 > openssl/libssl1.1@1.1.1n-0+deb11u3
+  and 1 more...
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in openssl/libssl1.1
+  Description: Cryptographic Issues
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-OPENSSL-525332
+  Introduced through: openssl/libssl1.1@1.1.1n-0+deb11u3, ca-certificates@20210119, glibc/libc6-dev@2.31-13+deb11u3
+  From: openssl/libssl1.1@1.1.1n-0+deb11u3
+  From: ca-certificates@20210119 > openssl@1.1.1n-0+deb11u3 > openssl/libssl1.1@1.1.1n-0+deb11u3
+  From: glibc/libc6-dev@2.31-13+deb11u3 > libnsl/libnsl-dev@1.3.0-2 > libnsl/libnsl2@1.3.0-2 > libtirpc/libtirpc3@1.3.1-1+deb11u1 > krb5/libgssapi-krb5-2@1.18.3-6+deb11u1 > krb5/libkrb5-3@1.18.3-6+deb11u1 > openssl/libssl1.1@1.1.1n-0+deb11u3
+  and 1 more...
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in ncurses/libtinfo6
+  Description: Out-of-bounds Write
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-NCURSES-1655741
+  Introduced through: ncurses/libtinfo6@6.2+20201114-2, bash@5.1-2+deb11u1, ncurses/ncurses-bin@6.2+20201114-2, util-linux/mount@2.36.1-8+deb11u1, ncurses/ncurses-base@6.2+20201114-2
+  From: ncurses/libtinfo6@6.2+20201114-2
+  From: bash@5.1-2+deb11u1 > ncurses/libtinfo6@6.2+20201114-2
+  From: ncurses/ncurses-bin@6.2+20201114-2 > ncurses/libtinfo6@6.2+20201114-2
+  and 3 more...
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in ncurses/libtinfo6
+  Description: Out-of-bounds Read
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-NCURSES-2767191
+  Introduced through: ncurses/libtinfo6@6.2+20201114-2, bash@5.1-2+deb11u1, ncurses/ncurses-bin@6.2+20201114-2, util-linux/mount@2.36.1-8+deb11u1, ncurses/ncurses-base@6.2+20201114-2
+  From: ncurses/libtinfo6@6.2+20201114-2
+  From: bash@5.1-2+deb11u1 > ncurses/libtinfo6@6.2+20201114-2
+  From: ncurses/ncurses-bin@6.2+20201114-2 > ncurses/libtinfo6@6.2+20201114-2
+  and 3 more...
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in libwebp/libwebp6
+  Description: Integer Overflow or Wraparound
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-LIBWEBP-523457
+  Introduced through: libwebp/libwebp6@0.6.1-2.1, glibc/libc-devtools@2.31-13+deb11u3
+  From: libwebp/libwebp6@0.6.1-2.1
+  From: glibc/libc-devtools@2.31-13+deb11u3 > libgd2/libgd3@2.3.0-2 > libwebp/libwebp6@0.6.1-2.1
+  From: glibc/libc-devtools@2.31-13+deb11u3 > libgd2/libgd3@2.3.0-2 > tiff/libtiff5@4.2.0-1+deb11u1 > libwebp/libwebp6@0.6.1-2.1
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in libsepol/libsepol1
+  Description: Use After Free
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-LIBSEPOL-1315627
+  Introduced through: libsepol/libsepol1@3.1-1, adduser@3.118
+  From: libsepol/libsepol1@3.1-1
+  From: adduser@3.118 > shadow/passwd@1:4.8.1-1 > libsemanage/libsemanage1@3.1-1+b2 > libsepol/libsepol1@3.1-1
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in libsepol/libsepol1
+  Description: Out-of-bounds Read
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-LIBSEPOL-1315629
+  Introduced through: libsepol/libsepol1@3.1-1, adduser@3.118
+  From: libsepol/libsepol1@3.1-1
+  From: adduser@3.118 > shadow/passwd@1:4.8.1-1 > libsemanage/libsemanage1@3.1-1+b2 > libsepol/libsepol1@3.1-1
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in libsepol/libsepol1
+  Description: Use After Free
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-LIBSEPOL-1315635
+  Introduced through: libsepol/libsepol1@3.1-1, adduser@3.118
+  From: libsepol/libsepol1@3.1-1
+  From: adduser@3.118 > shadow/passwd@1:4.8.1-1 > libsemanage/libsemanage1@3.1-1+b2 > libsepol/libsepol1@3.1-1
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in libsepol/libsepol1
+  Description: Use After Free
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-LIBSEPOL-1315641
+  Introduced through: libsepol/libsepol1@3.1-1, adduser@3.118
+  From: libsepol/libsepol1@3.1-1
+  From: adduser@3.118 > shadow/passwd@1:4.8.1-1 > libsemanage/libsemanage1@3.1-1+b2 > libsepol/libsepol1@3.1-1
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in libpng1.6/libpng16-16
+  Description: Out-of-bounds Write
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-LIBPNG16-2363923
+  Introduced through: libpng1.6/libpng16-16@1.6.37-3, glibc/libc-devtools@2.31-13+deb11u3
+  From: libpng1.6/libpng16-16@1.6.37-3
+  From: glibc/libc-devtools@2.31-13+deb11u3 > libgd2/libgd3@2.3.0-2 > libpng1.6/libpng16-16@1.6.37-3
+  From: glibc/libc-devtools@2.31-13+deb11u3 > libgd2/libgd3@2.3.0-2 > fontconfig/libfontconfig1@2.13.1-4.2 > freetype/libfreetype6@2.10.4+dfsg-1+deb11u1 > libpng1.6/libpng16-16@1.6.37-3
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in libpng1.6/libpng16-16
+  Description: Memory Leak
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-LIBPNG16-529373
+  Introduced through: libpng1.6/libpng16-16@1.6.37-3, glibc/libc-devtools@2.31-13+deb11u3
+  From: libpng1.6/libpng16-16@1.6.37-3
+  From: glibc/libc-devtools@2.31-13+deb11u3 > libgd2/libgd3@2.3.0-2 > libpng1.6/libpng16-16@1.6.37-3
+  From: glibc/libc-devtools@2.31-13+deb11u3 > libgd2/libgd3@2.3.0-2 > fontconfig/libfontconfig1@2.13.1-4.2 > freetype/libfreetype6@2.10.4+dfsg-1+deb11u1 > libpng1.6/libpng16-16@1.6.37-3
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in libjpeg-turbo/libjpeg62-turbo
+  Description: Out-of-bounds Write
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-LIBJPEGTURBO-2932112
+  Introduced through: libjpeg-turbo/libjpeg62-turbo@1:2.0.6-4, glibc/libc-devtools@2.31-13+deb11u3
+  From: libjpeg-turbo/libjpeg62-turbo@1:2.0.6-4
+  From: glibc/libc-devtools@2.31-13+deb11u3 > libgd2/libgd3@2.3.0-2 > libjpeg-turbo/libjpeg62-turbo@1:2.0.6-4
+  From: glibc/libc-devtools@2.31-13+deb11u3 > libgd2/libgd3@2.3.0-2 > tiff/libtiff5@4.2.0-1+deb11u1 > libjpeg-turbo/libjpeg62-turbo@1:2.0.6-4
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in libgd2/libgd3
+  Description: Out-of-bounds Read
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-LIBGD2-1536763
+  Introduced through: libgd2/libgd3@2.3.0-2, glibc/libc-devtools@2.31-13+deb11u3
+  From: libgd2/libgd3@2.3.0-2
+  From: glibc/libc-devtools@2.31-13+deb11u3 > libgd2/libgd3@2.3.0-2
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in libgd2/libgd3
+  Description: Double Free
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-LIBGD2-1570130
+  Introduced through: libgd2/libgd3@2.3.0-2, glibc/libc-devtools@2.31-13+deb11u3
+  From: libgd2/libgd3@2.3.0-2
+  From: glibc/libc-devtools@2.31-13+deb11u3 > libgd2/libgd3@2.3.0-2
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in libgd2/libgd3
+  Description: Out-of-bounds Read
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-LIBGD2-1583889
+  Introduced through: libgd2/libgd3@2.3.0-2, glibc/libc-devtools@2.31-13+deb11u3
+  From: libgd2/libgd3@2.3.0-2
+  From: glibc/libc-devtools@2.31-13+deb11u3 > libgd2/libgd3@2.3.0-2
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in libgcrypt20
+  Description: Information Exposure
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-LIBGCRYPT20-1297892
+  Introduced through: libgcrypt20@1.8.7-6, apt@2.2.4
+  From: libgcrypt20@1.8.7-6
+  From: apt@2.2.4 > apt/libapt-pkg6.0@2.2.4 > libgcrypt20@1.8.7-6
+  From: apt@2.2.4 > gnupg2/gpgv@2.2.27-2+deb11u2 > libgcrypt20@1.8.7-6
+  and 1 more...
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in libgcrypt20
+  Description: Use of a Broken or Risky Cryptographic Algorithm
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-LIBGCRYPT20-523947
+  Introduced through: libgcrypt20@1.8.7-6, apt@2.2.4
+  From: libgcrypt20@1.8.7-6
+  From: apt@2.2.4 > apt/libapt-pkg6.0@2.2.4 > libgcrypt20@1.8.7-6
+  From: apt@2.2.4 > gnupg2/gpgv@2.2.27-2+deb11u2 > libgcrypt20@1.8.7-6
+  and 1 more...
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in krb5/libk5crypto3
+  Description: CVE-2004-0971
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-KRB5-519904
+  Introduced through: glibc/libc6-dev@2.31-13+deb11u3, krb5/libgssapi-krb5-2@1.18.3-6+deb11u1, meta-common-packages@meta
+  From: glibc/libc6-dev@2.31-13+deb11u3 > libnsl/libnsl-dev@1.3.0-2 > libnsl/libnsl2@1.3.0-2 > libtirpc/libtirpc3@1.3.1-1+deb11u1 > krb5/libgssapi-krb5-2@1.18.3-6+deb11u1 > krb5/libk5crypto3@1.18.3-6+deb11u1
+  From: glibc/libc6-dev@2.31-13+deb11u3 > libnsl/libnsl-dev@1.3.0-2 > libnsl/libnsl2@1.3.0-2 > libtirpc/libtirpc3@1.3.1-1+deb11u1 > krb5/libgssapi-krb5-2@1.18.3-6+deb11u1 > krb5/libkrb5-3@1.18.3-6+deb11u1 > krb5/libk5crypto3@1.18.3-6+deb11u1
+  From: glibc/libc6-dev@2.31-13+deb11u3 > libnsl/libnsl-dev@1.3.0-2 > libnsl/libnsl2@1.3.0-2 > libtirpc/libtirpc3@1.3.1-1+deb11u1 > krb5/libgssapi-krb5-2@1.18.3-6+deb11u1 > krb5/libkrb5-3@1.18.3-6+deb11u1
+  and 3 more...
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in krb5/libk5crypto3
+  Description: Integer Overflow or Wraparound
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-KRB5-524883
+  Introduced through: glibc/libc6-dev@2.31-13+deb11u3, krb5/libgssapi-krb5-2@1.18.3-6+deb11u1, meta-common-packages@meta
+  From: glibc/libc6-dev@2.31-13+deb11u3 > libnsl/libnsl-dev@1.3.0-2 > libnsl/libnsl2@1.3.0-2 > libtirpc/libtirpc3@1.3.1-1+deb11u1 > krb5/libgssapi-krb5-2@1.18.3-6+deb11u1 > krb5/libk5crypto3@1.18.3-6+deb11u1
+  From: glibc/libc6-dev@2.31-13+deb11u3 > libnsl/libnsl-dev@1.3.0-2 > libnsl/libnsl2@1.3.0-2 > libtirpc/libtirpc3@1.3.1-1+deb11u1 > krb5/libgssapi-krb5-2@1.18.3-6+deb11u1 > krb5/libkrb5-3@1.18.3-6+deb11u1 > krb5/libk5crypto3@1.18.3-6+deb11u1
+  From: glibc/libc6-dev@2.31-13+deb11u3 > libnsl/libnsl-dev@1.3.0-2 > libnsl/libnsl2@1.3.0-2 > libtirpc/libtirpc3@1.3.1-1+deb11u1 > krb5/libgssapi-krb5-2@1.18.3-6+deb11u1 > krb5/libkrb5-3@1.18.3-6+deb11u1
+  and 3 more...
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in jbigkit/libjbig0
+  Description: Out-of-Bounds
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-JBIGKIT-514977
+  Introduced through: jbigkit/libjbig0@2.1-3.1+b2, glibc/libc-devtools@2.31-13+deb11u3
+  From: jbigkit/libjbig0@2.1-3.1+b2
+  From: glibc/libc-devtools@2.31-13+deb11u3 > libgd2/libgd3@2.3.0-2 > tiff/libtiff5@4.2.0-1+deb11u1 > jbigkit/libjbig0@2.1-3.1+b2
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in gnutls28/libgnutls30
+  Description: Improper Input Validation
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-GNUTLS28-515971
+  Introduced through: gnutls28/libgnutls30@3.7.1-5+deb11u2, apt@2.2.4
+  From: gnutls28/libgnutls30@3.7.1-5+deb11u2
+  From: apt@2.2.4 > gnutls28/libgnutls30@3.7.1-5+deb11u2
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in glibc/libc-bin
+  Description: Off-by-one Error
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-GLIBC-2340919
+  Introduced through: glibc/libc-bin@2.31-13+deb11u3, glibc/libc-devtools@2.31-13+deb11u3, glibc/libc6-dev@2.31-13+deb11u3, meta-common-packages@meta
+  From: glibc/libc-bin@2.31-13+deb11u3
+  From: glibc/libc-devtools@2.31-13+deb11u3
+  From: glibc/libc6-dev@2.31-13+deb11u3 > glibc/libc-dev-bin@2.31-13+deb11u3
+  and 2 more...
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in glibc/libc-bin
+  Description: Out-of-Bounds
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-GLIBC-521063
+  Introduced through: glibc/libc-bin@2.31-13+deb11u3, glibc/libc-devtools@2.31-13+deb11u3, glibc/libc6-dev@2.31-13+deb11u3, meta-common-packages@meta
+  From: glibc/libc-bin@2.31-13+deb11u3
+  From: glibc/libc-devtools@2.31-13+deb11u3
+  From: glibc/libc6-dev@2.31-13+deb11u3 > glibc/libc-dev-bin@2.31-13+deb11u3
+  and 2 more...
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in glibc/libc-bin
+  Description: Uncontrolled Recursion
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-GLIBC-521199
+  Introduced through: glibc/libc-bin@2.31-13+deb11u3, glibc/libc-devtools@2.31-13+deb11u3, glibc/libc6-dev@2.31-13+deb11u3, meta-common-packages@meta
+  From: glibc/libc-bin@2.31-13+deb11u3
+  From: glibc/libc-devtools@2.31-13+deb11u3
+  From: glibc/libc6-dev@2.31-13+deb11u3 > glibc/libc-dev-bin@2.31-13+deb11u3
+  and 2 more...
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in glibc/libc-bin
+  Description: Use of Insufficiently Random Values
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-GLIBC-522385
+  Introduced through: glibc/libc-bin@2.31-13+deb11u3, glibc/libc-devtools@2.31-13+deb11u3, glibc/libc6-dev@2.31-13+deb11u3, meta-common-packages@meta
+  From: glibc/libc-bin@2.31-13+deb11u3
+  From: glibc/libc-devtools@2.31-13+deb11u3
+  From: glibc/libc6-dev@2.31-13+deb11u3 > glibc/libc-dev-bin@2.31-13+deb11u3
+  and 2 more...
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in glibc/libc-bin
+  Description: Information Exposure
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-GLIBC-529848
+  Introduced through: glibc/libc-bin@2.31-13+deb11u3, glibc/libc-devtools@2.31-13+deb11u3, glibc/libc6-dev@2.31-13+deb11u3, meta-common-packages@meta
+  From: glibc/libc-bin@2.31-13+deb11u3
+  From: glibc/libc-devtools@2.31-13+deb11u3
+  From: glibc/libc6-dev@2.31-13+deb11u3 > glibc/libc-dev-bin@2.31-13+deb11u3
+  and 2 more...
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in glibc/libc-bin
+  Description: CVE-2019-1010023
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-GLIBC-531451
+  Introduced through: glibc/libc-bin@2.31-13+deb11u3, glibc/libc-devtools@2.31-13+deb11u3, glibc/libc6-dev@2.31-13+deb11u3, meta-common-packages@meta
+  From: glibc/libc-bin@2.31-13+deb11u3
+  From: glibc/libc-devtools@2.31-13+deb11u3
+  From: glibc/libc6-dev@2.31-13+deb11u3 > glibc/libc-dev-bin@2.31-13+deb11u3
+  and 2 more...
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in glibc/libc-bin
+  Description: Uncontrolled Recursion
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-GLIBC-531492
+  Introduced through: glibc/libc-bin@2.31-13+deb11u3, glibc/libc-devtools@2.31-13+deb11u3, glibc/libc6-dev@2.31-13+deb11u3, meta-common-packages@meta
+  From: glibc/libc-bin@2.31-13+deb11u3
+  From: glibc/libc-devtools@2.31-13+deb11u3
+  From: glibc/libc6-dev@2.31-13+deb11u3 > glibc/libc-dev-bin@2.31-13+deb11u3
+  and 2 more...
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in glibc/libc-bin
+  Description: Resource Management Errors
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-GLIBC-532215
+  Introduced through: glibc/libc-bin@2.31-13+deb11u3, glibc/libc-devtools@2.31-13+deb11u3, glibc/libc6-dev@2.31-13+deb11u3, meta-common-packages@meta
+  From: glibc/libc-bin@2.31-13+deb11u3
+  From: glibc/libc-devtools@2.31-13+deb11u3
+  From: glibc/libc6-dev@2.31-13+deb11u3 > glibc/libc-dev-bin@2.31-13+deb11u3
+  and 2 more...
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in freetype/libfreetype6
+  Description: Out-of-bounds Write
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-FREETYPE-2848681
+  Introduced through: freetype/libfreetype6@2.10.4+dfsg-1+deb11u1, glibc/libc-devtools@2.31-13+deb11u3
+  From: freetype/libfreetype6@2.10.4+dfsg-1+deb11u1
+  From: glibc/libc-devtools@2.31-13+deb11u3 > libgd2/libgd3@2.3.0-2 > freetype/libfreetype6@2.10.4+dfsg-1+deb11u1
+  From: glibc/libc-devtools@2.31-13+deb11u3 > libgd2/libgd3@2.3.0-2 > fontconfig/libfontconfig1@2.13.1-4.2 > freetype/libfreetype6@2.10.4+dfsg-1+deb11u1
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in expat/libexpat1
+  Description: XML External Entity (XXE) Injection
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-EXPAT-524217
+  Introduced through: expat/libexpat1@2.2.10-2+deb11u3, glibc/libc-devtools@2.31-13+deb11u3
+  From: expat/libexpat1@2.2.10-2+deb11u3
+  From: glibc/libc-devtools@2.31-13+deb11u3 > libgd2/libgd3@2.3.0-2 > fontconfig/libfontconfig1@2.13.1-4.2 > expat/libexpat1@2.2.10-2+deb11u3
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in e2fsprogs/libcom-err2
+  Description: Out-of-bounds Read
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-E2FSPROGS-2628459
+  Introduced through: e2fsprogs@1.46.2-2, glibc/libc6-dev@2.31-13+deb11u3, e2fsprogs/libext2fs2@1.46.2-2, e2fsprogs/libss2@1.46.2-2, e2fsprogs/logsave@1.46.2-2
+  From: e2fsprogs@1.46.2-2 > e2fsprogs/libcom-err2@1.46.2-2
+  From: e2fsprogs@1.46.2-2 > e2fsprogs/libss2@1.46.2-2 > e2fsprogs/libcom-err2@1.46.2-2
+  From: glibc/libc6-dev@2.31-13+deb11u3 > libnsl/libnsl-dev@1.3.0-2 > libnsl/libnsl2@1.3.0-2 > libtirpc/libtirpc3@1.3.1-1+deb11u1 > krb5/libgssapi-krb5-2@1.18.3-6+deb11u1 > e2fsprogs/libcom-err2@1.46.2-2
+  and 8 more...
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in db5.3/libdb5.3
+  Description: Out-of-bounds Read
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-DB53-2825168
+  Introduced through: db5.3/libdb5.3@5.3.28+dfsg1-0.8, adduser@3.118
+  From: db5.3/libdb5.3@5.3.28+dfsg1-0.8
+  From: adduser@3.118 > shadow/passwd@1:4.8.1-1 > pam/libpam-modules@1.4.0-9+deb11u1 > db5.3/libdb5.3@5.3.28+dfsg1-0.8
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in coreutils/coreutils
+  Description: Improper Input Validation
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-COREUTILS-514776
+  Introduced through: coreutils/coreutils@8.32-4+b1, fontconfig/fontconfig-config@2.13.1-4.2
+  From: coreutils/coreutils@8.32-4+b1
+  From: fontconfig/fontconfig-config@2.13.1-4.2 > ucf@3.0043 > coreutils/coreutils@8.32-4+b1
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in coreutils/coreutils
+  Description: Race Condition
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-COREUTILS-527269
+  Introduced through: coreutils/coreutils@8.32-4+b1, fontconfig/fontconfig-config@2.13.1-4.2
+  From: coreutils/coreutils@8.32-4+b1
+  From: fontconfig/fontconfig-config@2.13.1-4.2 > ucf@3.0043 > coreutils/coreutils@8.32-4+b1
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+✗ Low severity vulnerability found in apt/libapt-pkg6.0
+  Description: Improper Verification of Cryptographic Signature
+  Info: https://snyk.io/vuln/SNYK-DEBIAN11-APT-522585
+  Introduced through: apt/libapt-pkg6.0@2.2.4, apt@2.2.4
+  From: apt/libapt-pkg6.0@2.2.4
+  From: apt@2.2.4 > apt/libapt-pkg6.0@2.2.4
+  From: apt@2.2.4
+  Image layer: Introduced by your base image (debian:11.4-slim)
+
+
+
+Package manager:   deb
+Project name:      docker-image|mcr.microsoft.com/azure-functions/dotnet
+Docker image:      mcr.microsoft.com/azure-functions/dotnet:4.8.0-refresh
+Platform:          linux/amd64
+Base image:        debian:11.4-slim
+
+Tested 132 dependencies for known vulnerabilities, found 73 vulnerabilities.
+
+According to our scan, you are currently using the most secure version of the selected base image
+
+For more free scans that keep your images secure, sign up to Snyk at https://dockr.ly/3ePqVcp
+
+
