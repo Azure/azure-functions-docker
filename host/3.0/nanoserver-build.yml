@@ -15,7 +15,7 @@ trigger:
     include:
       - dev
       - refs/tags/3.*.*
-      - release/3.x
+      - release/3.*
   paths:
     include:
       - host/3.0/nanoserver/*
