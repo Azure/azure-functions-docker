@@ -1,4 +1,4 @@
-ARG JAVA_VERSION=11.0.13.8.1
+ARG JAVA_VERSION=11.0.14.1_1-31205
 ARG JAVA_HOME=/usr/lib/jvm/msft-11-x64
 FROM mcr.microsoft.com/dotnet/runtime-deps:6.0
 ARG HOST_VERSION
