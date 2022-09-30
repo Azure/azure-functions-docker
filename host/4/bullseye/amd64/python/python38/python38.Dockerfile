@@ -4,7 +4,7 @@
 #-------------------------------------------------------------------------------------------------------------
 
 # Build the runtime from source
-ARG HOST_VERSION=4.12.2
+ARG HOST_VERSION=4.13.0
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS runtime-image
 ARG HOST_VERSION
 
