@@ -30,9 +30,9 @@ RUN apt-get update && \
     find /FuncExtensionBundles/ -type f -exec chmod 644 {} \;
 
 # Include ASP.NET Core shared framework from dotnet/aspnet image.
-FROM mcr.microsoft.com/dotnet/nightly/aspnet:7.0 AS aspnet7
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS aspnet7
 
-FROM mcr.microsoft.com/dotnet/nightly/runtime:7.0
+FROM mcr.microsoft.com/dotnet/runtime:7.0
 ARG HOST_VERSION
 
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
