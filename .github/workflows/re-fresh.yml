@@ -22,7 +22,7 @@ jobs:
         git config --local user.email "azfuncgh@github.com"
         git config --local user.name "Azure Functions"
         git fetch --all
-        git push origin --delete "refresh/${{ github.event.inputs.targetTag }}-refresh"
+        git push origin --delete "refresh/${{ github.event.inputs.targetTag }}-refresh" &> /dev/null
         git checkout ${{ github.event.inputs.targetTag }}
         git checkout -b "refresh/${{ github.event.inputs.targetTag }}-refresh"
         touch host/4/thisisarefresh.txt
