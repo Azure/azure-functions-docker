@@ -1,12 +1,5 @@
 trigger: none
 # Publish pipelines are triggered via HTTP method in release pipeline. See v4 publish
-schedules:
-- cron: "0 3 * * *"
-  displayName: 3 AM Nightly Publish
-  branches:
-    include:
-    - nightly-build
-  always: true
 pool:
     vmImage: 'Ubuntu-latest'
 
@@ -17,13 +10,6 @@ steps:
     continueOnError: false
     env:
       pswd: $(dockerPassword)
-
-  - bash: |
-        echo "##vso[task.setvariable variable=PrivateVersion;]nightly-build"
-        echo "##vso[task.setvariable variable=TargetVersion;]4-nightly"
-      displayName: Set Nightly Build Variables
-      continueOnError: false
-      condition: eq(variables['Build.Reason'], 'Schedule')
 
   - bash: |
       set -e
