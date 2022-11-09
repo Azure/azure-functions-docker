@@ -15,20 +15,11 @@ pr:
 trigger:
   branches:
     include:
-      - nightly-build
-      - refresh/4.*
-
-trigger:
-  branches:
-    include:
       - dev
       - refs/tags/4.*
       - release/4.x
-  paths:
-    include:
-      - host/4/bullseye/amd64/base/*
-      - host/4/bullseye/amd64/python/*
-      - host/4/python-build.yml
+      - nightly-build
+      - refresh/4.*
 
 variables:
   HOST_MAJOR_VERSION: 4

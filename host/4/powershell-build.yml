@@ -16,21 +16,11 @@ pr:
 trigger:
   branches:
     include:
-      - nightly-build
-      - refresh/4.*
-
-trigger:
-  branches:
-    include:
       - dev
       - refs/tags/4.*
       - release/4.x
-  paths:
-    include:
-      - host/4/bullseye/amd64/base/*
-      - host/4/bullseye/amd64/powershell/powershell70/*
-      - host/4/bullseye/amd64/powershell/powershell72/*
-      - host/4/powershell-build.yml
+      - nightly-build
+      - refresh/4.*
 
 variables:
 - name: image_list
