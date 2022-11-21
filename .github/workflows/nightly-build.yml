@@ -1,30 +1,28 @@
 name: Nightly-Build
-schedules:
-- cron: "0 0 * * *"
-  displayName: Daily midnight build
-  branches:
-    include:
-    - dev
-  always: true
+on:
+  schedule:
+    - cron: '0 0 * * *'
+     
+## This Action will run every day at 12:00 AM UTC and keep Nightly-Build up to date with the latest changes in the repository.
 jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout Dev Branch
+    - name: Checkout Branch
       uses: actions/checkout@v2
       with:
         ref: dev
         fetch-depth: 0
         token: ${{ secrets.PIPELINE_ADMIN }}
-    - name: Update Nightly with Latest Dev
+    - name: Force Update Nightly Build Branch with Dev
       id: createBranch
       run: |
         set -e
         git config --local user.email "azfuncgh@github.com"
         git config --local user.name "Azure Functions"
-        git fetch --all
-        git checkout -b  nightly-build origin/nightly-build
-        git merge dev
-        git push origin nightly-build
+        date > build-time.txt
+        git add build-time.txt
+        git commit -m "Nightly Build Update"
+        git push origin nightly-build --force
       env:
         GITHUB_TOKEN: ${{ secrets.PIPELINE_ADMIN }}
