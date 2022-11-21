@@ -20,7 +20,6 @@ trigger:
       - release/4.x
       - nightly-build
       - refresh/4.*
-  always: true
 
 variables:
 - name: image_list
