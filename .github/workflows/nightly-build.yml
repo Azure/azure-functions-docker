@@ -20,6 +20,9 @@ jobs:
         set -e
         git config --local user.email "azfuncgh@github.com"
         git config --local user.name "Azure Functions"
+        date > build-time.txt
+        git add build-time.txt
+        git commit -m "Nightly Build Update"
         git push origin nightly-build --force
       env:
         GITHUB_TOKEN: ${{ secrets.PIPELINE_ADMIN }}
