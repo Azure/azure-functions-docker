@@ -23,6 +23,7 @@ jobs:
         date > build-time.txt
         git add build-time.txt
         git commit -m "Nightly Build Update"
+        git checkout -b "nightly-build"
         git push origin nightly-build --force
       env:
         GITHUB_TOKEN: ${{ secrets.PIPELINE_ADMIN }}
