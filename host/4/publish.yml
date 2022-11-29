@@ -21,9 +21,9 @@ steps:
   - bash: |
         echo "##vso[task.setvariable variable=PrivateVersion;]nightly-build"
         echo "##vso[task.setvariable variable=TargetVersion;]4-nightly"
-      displayName: Set Nightly Build Variables
-      continueOnError: false
-      condition: eq(variables['Build.Reason'], 'Schedule')
+    displayName: Set Nightly Build Variables
+    continueOnError: false
+    condition: eq(variables['Build.Reason'], 'Schedule')
 
   - bash: |
       set -e
