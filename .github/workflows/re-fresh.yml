@@ -24,8 +24,6 @@ jobs:
         git fetch --all
         git checkout ${{ github.event.inputs.targetTag }}
         git checkout -b "refresh/${{ github.event.inputs.targetTag }}-refresh"
-        cd host
-        ./verify-republish-pipeline.sh ${{ github.event.inputs.targetTag }}
         git push origin "refresh/${{ github.event.inputs.targetTag }}-refresh" --force
       env:
         GITHUB_TOKEN: ${{ secrets.PIPELINE_ADMIN }} 
