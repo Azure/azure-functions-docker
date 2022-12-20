@@ -23,6 +23,9 @@ jobs:
         git config --local user.name "Azure Functions"
         git fetch --all
         git checkout ${{ github.event.inputs.targetTag }}
+        date > refresh-time.txt
+        git add refresh-time.txt
+        git commit -m "Version Dependency Refresh"
         git checkout -b "refresh/${{ github.event.inputs.targetTag }}-refresh"
         cd host
         ./verify-republish-pipeline.sh ${{ github.event.inputs.targetTag }}
