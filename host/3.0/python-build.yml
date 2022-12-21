@@ -17,13 +17,8 @@ trigger:
     include:
       - dev
       - refs/tags/3.*.*
-      - release/3.x
       - refresh/3.*
-  paths:
-    include:
-      - host/3.0/buster/amd64/base/*
-      - host/3.0/buster/amd64/python/*
-      - host/3.0/python-build.yml
+      - release/3.x
 
 variables:
   image_list: ''

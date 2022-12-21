@@ -20,16 +20,8 @@ trigger:
     include:
       - dev
       - refs/tags/3.*.*
+      - refresh/3.*      
       - release/3.x
-      - refresh/3.*
-  paths:
-    include:
-      - host/3.0/buster/amd64/base/*
-      - host/3.0/buster/amd64/java/java8/*
-      - host/3.0/buster/amd64/java/java8-zulu/*
-      - host/3.0/buster/amd64/java/java11/*
-      - host/3.0/buster/amd64/java/java11-zulu/*
-      - host/3.0/java-build.yml
 
 variables:
 - name: image_list
