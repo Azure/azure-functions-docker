@@ -25,7 +25,7 @@ jobs:
         git checkout ${{ github.event.inputs.targetTag }}
         date > refresh-time.txt
         git add refresh-time.txt
-        git commit -m "Refresh Images for ${{ github.event.inputs.targetTag }}""
+        git commit -m "Refresh Images for ${{ github.event.inputs.targetTag }}"
         git checkout -b "refresh/${{ github.event.inputs.targetTag }}-refresh"
         cd host
         ./verify-republish-pipeline.sh ${{ github.event.inputs.targetTag }}
