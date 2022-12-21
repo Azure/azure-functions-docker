@@ -17,9 +17,9 @@ trigger:
     include:
       - dev
       - refs/tags/4.*
+      - refresh/4.*
       - release/4.x
       - nightly-build
-      - refresh/4.*
 
 variables:
   HOST_MAJOR_VERSION: 4

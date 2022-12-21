@@ -19,14 +19,8 @@ trigger:
     include:
       - dev
       - refs/tags/3.*.*
-      - release/3.x
       - refresh/3.*
-  paths:
-    include:
-      - host/3.0/buster/amd64/dotnet/*
-      - host/3.0/buster/arm32v7/dotnet/*
-      - host/3.0/bionic/arm32v7/dotnet/*
-      - host/3.0/dotnet-build.yml
+      - release/3.x
 
 variables:
 - name: image_list
