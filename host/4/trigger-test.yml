@@ -1,0 +1,35 @@
+pool:
+    vmImage: 'Ubuntu-latest'
+
+pr:
+  branches:
+    include:
+      - dev
+      - release/4.x
+
+
+trigger:
+  branches:
+    include:
+      - dev
+      - refs/tags/4.*
+      - refresh/4.*
+      - release/4.x
+      - nightly-build
+
+variables:
+- name: image_list
+  value: ''
+
+steps:
+  - bash: |
+      # login
+      set -e
+      echo $pswd | docker login -u $(dockerUsername) --password-stdin azurefunctions.azurecr.io
+
+    displayName: login to registry
+    continueOnError: false
+    env:
+      pswd: $(dockerPassword)
+
+ 
