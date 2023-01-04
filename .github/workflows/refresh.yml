@@ -1,9 +1,9 @@
-name: Re-Fresh Non-appservice Images
+name: Refresh Non-appservice Images
 on:
   workflow_dispatch:
     inputs:
       targetTag:
-        description: 'Tag to re-fresh (e.g. 4.9.0)'
+        description: 'Tag to refresh (e.g. 4.9.0)'
         required: true
 jobs:
   release:
@@ -26,9 +26,11 @@ jobs:
         date > refresh-time.txt
         git add refresh-time.txt
         git commit -m "Refresh Images for ${{ github.event.inputs.targetTag }}"
-        git checkout -b "refresh/${{ github.event.inputs.targetTag }}-refresh"
+        fullversion=${{ github.event.inputs.targetTag }}
+        majorversion=${fullversion:0:1}
+        git checkout -b "refresh/${majorversion}-refresh"
         cd host
         ./verify-republish-pipeline.sh ${{ github.event.inputs.targetTag }}
-        git push origin "refresh/${{ github.event.inputs.targetTag }}-refresh" --force
+        git push origin "refresh/${majorversion}-refresh" --force
       env:
         GITHUB_TOKEN: ${{ secrets.PIPELINE_ADMIN }} 
