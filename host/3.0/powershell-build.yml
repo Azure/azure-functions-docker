@@ -19,7 +19,7 @@ trigger:
     include:
       - dev
       - refs/tags/3.*.*
-      - "refresh/3.*"
+      - refresh/3-refresh
       - release/3.x
 
 variables:
