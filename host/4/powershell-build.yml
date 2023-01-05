@@ -20,7 +20,7 @@ trigger:
       - refs/tags/4.*
       - release/4.x
       - nightly-build
-      - 4-refresh
+      - refresh/4.*
 
 variables:
 - name: image_list
