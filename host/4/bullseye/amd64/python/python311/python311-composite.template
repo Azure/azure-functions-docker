@@ -1,0 +1,72 @@
+#-------------------------------------------------------------------------------------------------------------
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License. See https://go.microsoft.com/fwlink/?linkid=2090316 for license information.
+#-------------------------------------------------------------------------------------------------------------
+
+FROM mcr.microsoft.com/mirror/docker/library/python:3.11-slim
+ARG HOST_VERSION
+
+COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
+COPY start.sh /azure-functions-host/
+COPY --from=runtime-image ["/azure-functions-host", "/azure-functions-host"]
+COPY sshd_config /etc/ssh/
+COPY --from=runtime-image [ "/workers/python/3.11/LINUX", "/azure-functions-host/workers/python/3.11/LINUX" ]
+COPY --from=runtime-image [ "/workers/python/worker.config.json", "/azure-functions-host/workers/python" ]
+
+ENV LANG=C.UTF-8 \
+    ACCEPT_EULA=Y \
+    AzureWebJobsScriptRoot=/home/site/wwwroot \
+    HOME=/home \
+    FUNCTIONS_WORKER_RUNTIME=python \
+    ASPNETCORE_URLS=http://+:80 \
+    DOTNET_RUNNING_IN_CONTAINER=true \
+    DOTNET_USE_POLLING_FILE_WATCHER=true \
+    HOST_VERSION=${HOST_VERSION} \
+    ASPNETCORE_CONTENTROOT=/azure-functions-host
+
+# Install Python dependencies
+RUN apt-get update && \
+    apt-get install -y wget && \
+    echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections && \
+    apt-get update && \
+    apt-get install -y apt-transport-https curl gnupg && \
+    curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
+    curl https://packages.microsoft.com/config/debian/9/prod.list > /etc/apt/sources.list.d/mssql-release.list && \
+    # Needed for libss1.0.0 and in turn MS SQL
+    echo 'deb http://security.debian.org/debian-security jessie/updates main' >> /etc/apt/sources.list && \
+    # install necessary locales for MS SQL
+    apt-get update && apt-get install -y locales && \
+    echo 'en_US.UTF-8 UTF-8' > /etc/locale.gen && \
+    locale-gen && \
+    # install MS SQL related packages
+    apt-get update && \
+    apt-get install -y unixodbc msodbcsql17 mssql-tools && \
+    # .NET Core dependencies
+    apt-get install -y --no-install-recommends ca-certificates \
+    libc6 libgcc1 libgssapi-krb5-2 libicu67 libssl1.1 libstdc++6 zlib1g && \
+    rm -rf /var/lib/apt/lists/* && \
+    # Custom dependencies:
+    #  OpenCV dependencies:
+    apt-get update && \
+    apt-get install -y libglib2.0-0 libsm6 libxext6 libxrender-dev xvfb && \
+    #  binutils
+    apt-get install -y binutils && \
+    #  OpenMP dependencies
+    apt-get install -y libgomp1 && \
+    # mysql dependencies
+    apt-get install -y default-libmysqlclient-dev
+    # Fix from https://github.com/GoogleCloudPlatform/google-cloud-dotnet-powerpack/issues/22#issuecomment-729895157
+    #apt-get install -y libc-dev
+
+ENV FUNCTIONS_WORKER_RUNTIME_VERSION=3.11
+
+EXPOSE 2222 80
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends openssh-server dialog && \
+    echo "root:Docker!" | chpasswd && \
+    pip install ptvsd
+
+RUN chmod +x /azure-functions-host/start.sh
+
+ENTRYPOINT ["/azure-functions-host/start.sh"]
