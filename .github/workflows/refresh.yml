@@ -1,10 +1,9 @@
 name: Refresh Non-appservice Images
+
 on:
-  workflow_dispatch:
-    inputs:
-      targetTag:
-        description: 'Tag to refresh (e.g. 4.9.0)'
-        required: true
+  repository_dispatch:
+    types: [refresh]
+
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -22,15 +21,13 @@ jobs:
         git config --local user.email "azfuncgh@github.com"
         git config --local user.name "Azure Functions"
         git fetch --all
-        git checkout ${{ github.event.inputs.targetTag }}
+        git checkout ${{ github.event.client_payload.targetTag }}
         date > refresh-time.txt
         git add refresh-time.txt
-        git commit -m "Refresh Images for ${{ github.event.inputs.targetTag }}"
-        fullversion=${{ github.event.inputs.targetTag }}
-        majorversion=${fullversion:0:1}
-        git checkout -b "${majorversion}-refresh"
+        git commit -m "Refresh Images for ${{ github.event.client_payload.targetTag }}"
+        git checkout -b "refresh/${{ github.event.client_payload.targetTag }}-refresh"
         cd host
-        ./verify-republish-pipeline.sh ${{ github.event.inputs.targetTag }}
-        git push origin "${majorversion}-refresh" --force
+        ./verify-republish-pipeline.sh ${{ github.event.client_payload.targetTag }}
+        git push origin "refresh/${{ github.event.client_payload.targetTag }}-refresh" --force
       env:
         GITHUB_TOKEN: ${{ secrets.PIPELINE_ADMIN }} 
