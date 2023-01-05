@@ -17,7 +17,7 @@ trigger:
     include:
       - dev
       - refs/tags/4.*
-      - refresh/4-refresh
+      - 4-refresh
       - release/4.x
       - nightly-build
 

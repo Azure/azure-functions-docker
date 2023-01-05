@@ -28,9 +28,9 @@ jobs:
         git commit -m "Refresh Images for ${{ github.event.inputs.targetTag }}"
         fullversion=${{ github.event.inputs.targetTag }}
         majorversion=${fullversion:0:1}
-        git checkout -b "refresh/${majorversion}-refresh"
+        git checkout -b "${majorversion}-refresh"
         cd host
         ./verify-republish-pipeline.sh ${{ github.event.inputs.targetTag }}
-        git push origin "refresh/${majorversion}-refresh" --force
+        git push origin "${majorversion}-refresh" --force
       env:
         GITHUB_TOKEN: ${{ secrets.PIPELINE_ADMIN }} 
