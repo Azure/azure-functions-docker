@@ -6,6 +6,9 @@ CoreTools Healthcheck: [![CoreTools healthcheck](https://azure-functions.visuals
 
 ## V4 Images
 
+All languages have a default version published as the major version tag without a language version suffix. Suggested usage is to define the language version using the tags below.  There are no guarantees that the default language version will be static. 
+ Ex. `node:4-appservice` -> `node:4-node14-appservice` (preferred)
+
 See release artifacts for Dockerfiles - example : https://github.com/Azure/azure-functions-docker/releases/download/3.4.2/3.4.2-appservice.zip
 
 #### Dotnet
@@ -27,16 +30,15 @@ Linux amd64 Tags
 
 | Tags                                       | OS Version |
 |-------------------------------------------|------------|
-| `4`                                      | Debian 11  |
-| `4-dotnet-isolated5.0-slim`                               | Debian 11 |
-| `4-appservice`, `4-dotnet-isolated5.0-appservice` |Debian 11  |
-| `4-dotnet-isolated6.0` | Debian 11  |
-| `4-dotnet-isolated6.0-core-tools` | Debian 11  |
+| `4-dotnet-isolated6.0`                    | Debian 11 |
+| `4-dotnet-isolated6.0-slim`               | Debian 11 |
+| `4-dotnet-isolated6.0-appservice`         | Debian 11 |
 | `4-dotnet-isolated6.0-appservice-quickstart` | Debian 11 |
-| `4-dotnet-isolated7.0` | Debian 11  |
-| `4-dotnet-isolated7.0-core-tools` | Debian 11  |
+| `4-dotnet-isolated6.0-core-tools`         | Debian 11 |
+| `4-dotnet-isolated7.0`                    | Debian 11 |
+| `4-dotnet-isolated7.0-slim`               | Debian 11 |
+| `4-dotnet-isolated7.0-appservice`         | Debian 11 |
 | `4-dotnet-isolated7.0-appservice-quickstart` | Debian 11 |
-
 
 #### Node
 
@@ -84,15 +86,15 @@ Linux amd64 Tags
 
 | Tags                                     |  OS Version |
 |------------------------------------------|------------|
-| `4`, `4-java8`                       |  Debian 11  |
-| `4-slim`, `4-java8-slim`             |  Debian 11  |
-| `4-appservice`, `4-java8-appservice` |  Debian 11  |
-| `4-java8-build`               | Debian 11   |
+| `4-java8`                             | Debian 11  |
+| `4-java8-slim`                        |  Debian 11  |
+| `4-java8-appservice`                  |  Debian 11  |
+| `4-java8-build`                       | Debian 11   |
 | `4-java11`                             |Debian 11  |
 | `4-java11-slim`                        |  Debian 11  |
 | `4-java11-appservice`                  |  Debian 11  |
 | `4-java11-core-tools`                  |  Debian 11   |
-| `4-java11-build`            | Debian 11  |
+| `4-java11-build`                      | Debian 11  |
 | `4-java17`                             |Debian 11  |
 | `4-java17-slim`                        |  Debian 11  |
 | `4-java17-appservice`                  |  Debian 11  |
