@@ -20,6 +20,7 @@ Linux amd64 Tags
 | `4-slim`                                 | Debian 11  |
 | `4-appservice` | Debian 11  |
 | `4-dotnet6-core-tools` |  Debian 11  |
+| `4-appservice-quickstart` | Debian 11 |
 
 
 `mcr.microsoft.com/azure-functions/dotnet-isolated`
@@ -29,7 +30,13 @@ Linux amd64 Tags
 | `4`                                      | Debian 11  |
 | `4-dotnet-isolated5.0-slim`                               | Debian 11 |
 | `4-appservice`, `4-dotnet-isolated5.0-appservice` |Debian 11  |
+| `4-dotnet-isolated6.0` | Debian 11  |
 | `4-dotnet-isolated6.0-core-tools` | Debian 11  |
+| `4-dotnet-isolated6.0-appservice-quickstart` | Debian 11 |
+| `4-dotnet-isolated7.0` | Debian 11  |
+| `4-dotnet-isolated7.0-core-tools` | Debian 11  |
+| `4-dotnet-isolated7.0-appservice-quickstart` | Debian 11 |
+
 
 #### Node
 
@@ -43,14 +50,17 @@ Linux amd64 Tags
 | `4-node14-slim`                         | Debian 11 |
 | `4-node14-appservice`                   |  Debian 11  |
 | `4-node14-core-tools`                   |  Debian 11  |
+| `4-node14-appservice-quickstart`                     |  Debian 11  |
 | `4-node16`                              |  Debian 11  |
 | `4-node16-slim`                         |  Debian 11  |
 | `4-node16-appservice`                   |  Debian 11  |
 | `4-node16-core-tools`                   |  Debian 11  |
+| `4-node16-appservice-quickstart`                     |  Debian 11  |
 | `4-node18`                              |  Debian 11  |
 | `4-node18-slim`                         |  Debian 11  |
 | `4-node18-appservice`                   |  Debian 11  |
 | `4-node18-core-tools`                   |  Debian 11  |
+| `4-node18-appservice-quickstart`                     |  Debian 11  |
 
 #### Powershell
 
@@ -60,14 +70,11 @@ Linux amd64 Tags
 
 |Tags               | OS Version |
 |----------------------------------|------------|
-| `4`, `4-powershell7`                       |  Debian 11  |
-| `4-slim`, `4-powershell7-slim`             |  Debian 11  |
-| `4-appservice`, `4-powershell7-appservice` |  Debian 11  |
-| `4-powershell7-core-tools`                   | Debian 11 |
 | `4-powershell7.2`                              |  Debian 11  |
 | `4-powershell7.2-slim`                         |  Debian 11  |
 | `4-powershell7.2-appservice`                   |  Debian 11  |
 | `4-powershell7.2-core-tools`                   | Debian 11 |
+| `4-powershell7.2-appservice-quickstart`         |Debian 11  |
 
 #### Java
 
@@ -91,6 +98,7 @@ Linux amd64 Tags
 | `4-java17-appservice`                  |  Debian 11  |
 | `4-java17-core-tools`                  |  Debian 11   |
 | `4-java17-build`            | Debian 11  |
+| `4-java17-appservice-quickstart`            | Debian 11  |
 
 ### Python
 
@@ -102,17 +110,20 @@ Linux amd64 Tags
 |--------------------------------------------|------------|
 | `4-python3.7`                              |  Debian 11  |
 | `4-python3.7-slim`                         |  Debian 11  |
-| `4-python3.7-appservice`                   | Debian 11  |
+| `4-python3.7-appservice`                   |  Debian 11  |
 | `4-python3.7-buildenv`                     |  Debian 11  |
 | `4-python3.7-core-tools`                   | Debian 11  |
+| `4-python3.7-appservice-quickstart`        | Debian 11 |
 | `4-python3.8`                              |  Debian 11  |
 | `4-python3.8-slim`                         |  Debian 11  |
 | `4-python3.8-appservice`                   | Debian 11  |
+| `4-python3.8-appservice-quickstart`        | Debian 11 |
 | `4-python3.8-buildenv`                     |  Debian 11  |
 | `4-python3.8-core-tools`                   | Debian 11  |
 | `4-python3.9`                              |  Debian 11  |
 | `4-python3.9-slim`                         |  Debian 11  |
 | `4-python3.9-appservice`                   |  Debian 11  |
+| `4-python3.9-appservice-quickstart`        | Debian 11 |
 | `4-python3.9-buildenv`                     | Debian 11  |
 | `4-python3.9-core-tools`                   |  Debian 11  |
 | `4-python3.10`                             |  Debian 11  |
@@ -120,6 +131,7 @@ Linux amd64 Tags
 | `4-python3.10-appservice`                  |  Debian 11  |
 | `4-python3.10-buildenv`                    | Debian 11  |
 | `4-python3.10-core-tools`                  |  Debian 11  |
+| `4-python3.10-appservice-quickstart`        | Debian 11 |
 
 #### Base
 
@@ -132,139 +144,6 @@ Linux amd64 Tags
 | `4`            |  Debian 11  |
 | `4-slim`       |  Debian 11  |
 | `4-appservice` |  Debian 11  |
-
-## V3 Images
-
-#### Dotnet
-
-`mcr.microsoft.com/azure-functions/dotnet`
-
-Linux amd64 Tags
-
-| Tags                                       |  OS Version |
-|--------------------------------------------|------------|
-| `3.0`                                      | Debian 10  |
-| `3.0-slim`                                 |  Debian 10  |
-| `3.0-appservice`, `3.0-dotnet3-appservice` |  Debian 10  |
-| `3.0-dotnet3-core-tools` | Debian 10  |
-
-`mcr.microsoft.com/azure-functions/dotnet-isolated`
-
-| Tags                                       | OS Version |
-|--------------------------------------------|------------|
-| `3.0`                                      | Debian 10  |
-| `3.0-dotnet-isolated5.0-slim`             |  Debian 10  |
-| `3.0-appservice`, `3.0-dotnet-isolated5.0-appservice` |  Debian 10  |
-| `3.0-dotnet-isolated5.0-core-tools` |  Debian 10  |
-
-Linux arm32v7 Tags
-
-| Tags                 |  OS Version   |
-|----------------------|--------------|
-| `3.0-arm32v7`        |  Debian 10    |
-| `3.0-bionic-arm32v7` | Ubuntu 18.04 |
-
-Windows Server
-
-| Tags                  | OS Version          |
-|-----------------------|---------------------|
-| `3.0-nanoserver-1809` | Windows Server 1809 |
-
-#### Node
-
-`mcr.microsoft.com/azure-functions/node`
-
-Linux amd64 Tags
-
-| Tags     | OS Version |
-|----------|------------|
-| `3.0`, `3.0-node10`                       |Debian 10  |
-| `3.0-slim`, `3.0-node10-slim`             |  Debian 10  |
-| `3.0-appservice`, `3.0-node10-appservice` |  Debian 10  |
-| `3.0-core-tools`, `3.0-node10-core-tools` | Debian 9  |
-| `3.0-node12`                              | Debian 10  |
-| `3.0-node12-slim`                         |  Debian 10  |
-| `3.0-node12-appservice`                   | Debian 10  |
-| `3.0-node12-core-tools`                   |  Debian 9  |
-| `3.0-node14`                              |  Debian 10  |
-| `3.0-node14-slim`                         |  Debian 10  |
-| `3.0-node14-appservice`                   |  Debian 10  |
-| `3.0-node14-core-tools`                   |  Debian 9  |
-
-#### Powershell
-
-`mcr.microsoft.com/azure-functions/powershell`
-
-Linux amd64 Tags
-
-| Tags                                          | OS Version |
-|------------------------------------------------|------------|
-| `3.0`, `3.0-powershell6`                       |  Debian 10  |
-| `3.0-slim`, `3.0-powershell6-slim`             |  Debian 10  |
-| `3.0-appservice`, `3.0-powershell6-appservice` | Debian 10  |
-| `3.0-powershell6-core-tools`                   |  Debian 9   |
-| `3.0-powershell7`                              |  Debian 10  |
-| `3.0-powershell7-slim`                         |  Debian 10  |
-| `3.0-powershell7-appservice`                   | Debian 10  |
-| `3.0-powershell7-core-tools`                   |  Debian 10  |
-
-#### Java
-
-`mcr.microsoft.com/azure-functions/java`
-
-Linux amd64 Tags
-
-| Tags           |  OS Version |
-|------------------------------------------------|------------|
-| `3.0`, `3.0-java8`                       | Debian 10  |
-| `3.0-slim`, `3.0-java8-slim`             |  Debian 10  |
-| `3.0-appservice`, `3.0-java8-appservice` |  Debian 10  |
-| `3.0-java8-core-tools`                   |  Debian 10   |
-| `3.0-java8-build`                        | Debian 10   |
-| `3.0-java11`                             | Debian 10  |
-| `3.0-java11-slim`                        |  Debian 10  |
-| `3.0-java11-appservice`                  |  Debian 10  |
-| `3.0-java11-core-tools`                  |  Debian 10   |
-| `3.0-java11-build`                       |  Debian 10  |
-
-### Python
-
-`mcr.microsoft.com/azure-functions/python`
-
-Linux amd64 Tags
-
-| Tags                                        |OS Version |
-|--------------------------------------|------------|
-| `3.0`, `3.0-python3.6`                       |Debian 10  |
-| `3.0-slim`, `3.0-python3.6-slim`             |  Debian 10  |
-| `3.0-appservice`, `3.0-python3.6-appservice` |  Debian 10  |
-| `3.0-python3.6-buildenv`                     |  Debian 10  |
-| `3.0-python3.7`                              | Debian 10  |
-| `3.0-python3.7-slim`                         |  Debian 10  |
-| `3.0-python3.7-appservice`                   |  Debian 10  |
-| `3.0-python3.7-buildenv`                     |  Debian 10  |
-| `3.0-python3.8`                              |  Debian 10  |
-| `3.0-python3.8-slim`                         | Debian 10  |
-| `3.0-python3.8-appservice`                   |  Debian 10  |
-| `3.0-python3.8-buildenv`                     | Debian 10  |
-| `3.0-python3.8-core-tools`                   |  Debian 10  |
-| `3.0-python3.9`                              |  Debian 10  |
-| `3.0-python3.9-slim`                         | Debian 10  |
-| `3.0-python3.9-appservice`                   | Debian 10  |
-| `3.0-python3.9-buildenv`                     |  Debian 10  |
-| `3.0-python3.9-core-tools`                   | Debian 10  |
-
-#### Base
-
-`mcr.microsoft.com/azure-functions/base`
-
-Linux amd64 Tags
-
-| Tags             |  OS Version |
-|------------------|------------|
-| `3.0`            |  Debian 10  |
-| `3.0-slim`       |  Debian 10  |
-| `3.0-appservice` |  Debian 10  |
 
 #### MCR Docs
 
