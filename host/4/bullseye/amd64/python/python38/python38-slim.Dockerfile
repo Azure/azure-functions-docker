@@ -84,7 +84,9 @@ RUN apt-get update && \
     #  OpenMP dependencies
     apt-get install -y libgomp1 && \
     # Fix from https://github.com/GoogleCloudPlatform/google-cloud-dotnet-powerpack/issues/22#issuecomment-729895157
-    apt-get install -y libc-dev
+    apt-get install -y libc-dev && \
+    #  Azure ML dependencies
+    apt-get install -y liblttng-ust0
 
 COPY --from=runtime-image ["/azure-functions-host", "/azure-functions-host"]
 COPY --from=runtime-image [ "/workers/python/3.8/LINUX", "/azure-functions-host/workers/python/3.8/LINUX" ]
