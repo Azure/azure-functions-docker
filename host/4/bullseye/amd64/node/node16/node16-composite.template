@@ -36,7 +36,7 @@ RUN apt-get update && \
 EXPOSE 2222 80
 
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends openssh-server dialog && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends openssh-server dialog && \
     echo "root:Docker!" | chpasswd
 
 RUN chmod +x /azure-functions-host/start.sh
