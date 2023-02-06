@@ -11,6 +11,8 @@ All languages have a default version published as the major version tag without 
 
 See release artifacts for Dockerfiles - example : https://github.com/Azure/azure-functions-docker/releases/download/3.4.2/3.4.2-appservice.zip
 
+Information about how we keep our images up to date can be found [in the wiki](https://github.com/Azure/azure-functions-docker/wiki/Refreshing-Upstream-Dependencies-for-available-non-appservice-images)
+
 #### Dotnet
 
 `mcr.microsoft.com/azure-functions/dotnet`
