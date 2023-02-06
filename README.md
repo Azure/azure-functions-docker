@@ -2,11 +2,35 @@ Build Status: [![Build Status](https://azure-functions.visualstudio.com/azure-fu
 
 CoreTools Healthcheck: [![CoreTools healthcheck](https://azure-functions.visualstudio.com/azure-functions-docker/_apis/build/status/v3%20core-tools%20image%20health%20check?branchName=dev)](https://azure-functions.visualstudio.com/azure-functions-docker/_build/latest?definitionId=43&branchName=dev)
 
+# Host Release Information
+
+Azure-Functions-Docker/host Images : 
+
+Azure-Functions-Docker releases Linux Container Images for Azure-Functions-Host.  These images consist of the[ Azure-Functions-Host](https://github.com/Azure/azure-functions-host), [Extension Bundles](https://github.com/Azure/azure-functions-extension-bundles), and a language worker (ex. [Powershell-Worker](https://github.com/Azure/azure-functions-powershell-worker)).  
+
+Host images have an expected release cadence of once a month. These images are available at the Microsoft Container Registry links visible below.  Versions 3 and 4 are currently being updated in parallel.  Major Version images, those beginning in :3.0 or :4, are the preferred images and will always host the latest released versions after thorough testing and verification. Customers that need a custom image should follow [this documentation for building a custom image](https://docs.microsoft.com/en-us/azure/azure-functions/functions-create-function-linux-custom-image). 
+
+There are a variety of Host images that are released. All images contain everything necessary to run Azure-Functions-Host
+
+Images without a suffix are the basic image
+
+-appservice images enable SSH on the Functions-Host container as described for App-Services here : https://docs.microsoft.com/en-us/azure/app-service/configure-linux-open-ssh-session
+
+-slim images are built off of slim base images when possible
+
+
+
+# Dockerfiles
+
+Dockerfile artifacts are generated with each release version and uploaded alongside the release notes. 
+
+Release notes for v4.3.0 release : https://github.com/Azure/azure-functions-docker/releases/tag/4.3.0
+
+Artifacts can be downloaded directly here : https://github.com/Azure/azure-functions-docker/releases/download/4.3.0/4.3.0-appservice.zip
+
 # Dockerhub
 
 ## V4 Images
-
-See release artifacts for Dockerfiles - example : https://github.com/Azure/azure-functions-docker/releases/download/3.4.2/3.4.2-appservice.zip
 
 #### Dotnet
 
