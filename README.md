@@ -6,9 +6,6 @@ CoreTools Healthcheck: [![CoreTools healthcheck](https://azure-functions.visuals
 
 ## V4 Images
 
-All languages have a default version published as the major version tag without a language version suffix. Suggested usage is to define the language version using the tags below.  There are no guarantees that the default language version will be static. 
- Ex. `node:4-appservice` -> `node:4-node14-appservice` (preferred)
-
 See release artifacts for Dockerfiles - example : https://github.com/Azure/azure-functions-docker/releases/download/3.4.2/3.4.2-appservice.zip
 
 Information about how we keep our images up to date can be found [in the wiki](https://github.com/Azure/azure-functions-docker/wiki/Refreshing-Upstream-Dependencies-for-available-non-appservice-images)
