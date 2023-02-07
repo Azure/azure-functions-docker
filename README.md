@@ -8,6 +8,8 @@ CoreTools Healthcheck: [![CoreTools healthcheck](https://azure-functions.visuals
 
 See release artifacts for Dockerfiles - example : https://github.com/Azure/azure-functions-docker/releases/download/3.4.2/3.4.2-appservice.zip
 
+Information about how we keep our images up to date can be found [in the wiki](https://github.com/Azure/azure-functions-docker/wiki/Refreshing-Upstream-Dependencies-for-available-non-appservice-images)
+
 #### Dotnet
 
 `mcr.microsoft.com/azure-functions/dotnet`
@@ -27,16 +29,15 @@ Linux amd64 Tags
 
 | Tags                                       | OS Version |
 |-------------------------------------------|------------|
-| `4`                                      | Debian 11  |
-| `4-dotnet-isolated5.0-slim`                               | Debian 11 |
-| `4-appservice`, `4-dotnet-isolated5.0-appservice` |Debian 11  |
-| `4-dotnet-isolated6.0` | Debian 11  |
-| `4-dotnet-isolated6.0-core-tools` | Debian 11  |
+| `4-dotnet-isolated6.0`                    | Debian 11 |
+| `4-dotnet-isolated6.0-slim`               | Debian 11 |
+| `4-dotnet-isolated6.0-appservice`         | Debian 11 |
 | `4-dotnet-isolated6.0-appservice-quickstart` | Debian 11 |
-| `4-dotnet-isolated7.0` | Debian 11  |
-| `4-dotnet-isolated7.0-core-tools` | Debian 11  |
+| `4-dotnet-isolated6.0-core-tools`         | Debian 11 |
+| `4-dotnet-isolated7.0`                    | Debian 11 |
+| `4-dotnet-isolated7.0-slim`               | Debian 11 |
+| `4-dotnet-isolated7.0-appservice`         | Debian 11 |
 | `4-dotnet-isolated7.0-appservice-quickstart` | Debian 11 |
-
 
 #### Node
 
@@ -84,15 +85,15 @@ Linux amd64 Tags
 
 | Tags                                     |  OS Version |
 |------------------------------------------|------------|
-| `4`, `4-java8`                       |  Debian 11  |
-| `4-slim`, `4-java8-slim`             |  Debian 11  |
-| `4-appservice`, `4-java8-appservice` |  Debian 11  |
-| `4-java8-build`               | Debian 11   |
+| `4-java8`                             | Debian 11  |
+| `4-java8-slim`                        |  Debian 11  |
+| `4-java8-appservice`                  |  Debian 11  |
+| `4-java8-build`                       | Debian 11   |
 | `4-java11`                             |Debian 11  |
 | `4-java11-slim`                        |  Debian 11  |
 | `4-java11-appservice`                  |  Debian 11  |
 | `4-java11-core-tools`                  |  Debian 11   |
-| `4-java11-build`            | Debian 11  |
+| `4-java11-build`                      | Debian 11  |
 | `4-java17`                             |Debian 11  |
 | `4-java17-slim`                        |  Debian 11  |
 | `4-java17-appservice`                  |  Debian 11  |
