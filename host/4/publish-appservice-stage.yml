@@ -145,6 +145,16 @@ steps:
     displayName: tag and push node images
     continueOnError: false
 
+
+  - bash: |
+      set -e
+      docker pull $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7.2-appservice
+      docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7.2-appservice $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell7.2-appservice-stage$(StageNumber)
+      docker push $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell7.2-appservice-stage$(StageNumber)
+      docker system prune -a -f
+    displayName: tag and push powershell images
+    continueOnError: false
+
   - bash: |
       set -e
       docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7-appservice
