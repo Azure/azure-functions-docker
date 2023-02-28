@@ -35,8 +35,6 @@ RUN apt-get update && \
 
 COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
 
-COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
-
 COPY --from=aspnet6 [ "/usr/share/dotnet", "/usr/share/dotnet" ]
 
 CMD [ "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost" ]
