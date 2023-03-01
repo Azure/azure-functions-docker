@@ -4,7 +4,6 @@ FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS aspnet7
 FROM mcr.microsoft.com/dotnet/runtime:7.0
 ARG HOST_VERSION
 
-COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
 COPY sshd_config /etc/ssh/
 COPY start.sh /azure-functions-host/
 COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
