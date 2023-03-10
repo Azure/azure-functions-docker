@@ -19,7 +19,7 @@ fi
 
 sed -i "s/SSH_PORT/$SSH_PORT/g" /etc/ssh/sshd_config
 
-service ssh start
+/usr/sbin/sshd
 
 if [ -f /azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost ]; then
     /azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost
