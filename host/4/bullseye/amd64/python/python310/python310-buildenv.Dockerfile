@@ -42,7 +42,9 @@ RUN apt-get update && \
     #  binutils
     apt-get install -y binutils && \
     #  OpenMP dependencies
-    apt-get install -y libgomp1
+    apt-get install -y libgomp1 && \
+    #  Azure ML dependencies
+    apt-get install -y liblttng-ust0
 
 RUN apt-get update && \
     apt-get install -y build-essential libssl-dev zlib1g-dev libbz2-dev \
