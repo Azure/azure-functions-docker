@@ -226,7 +226,7 @@ steps:
       set -e
       docker pull $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7.2
       docker pull $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7.2-slim
-      dockerp pull $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7.2-appservice
+      docker pull $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7.2-appservice
 
       docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7.2 $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell7.2
       docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7.2-slim $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell7.2-slim
