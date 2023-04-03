@@ -1,5 +1,5 @@
 # Build the runtime from source
-ARG HOST_VERSION=4.17.3
+ARG HOST_VERSION=4.17.4
 ARG JAVA_VERSION=8u322b06
 ARG JDK_NAME=jdk8u322-b06
 ARG JAVA_HOME=/usr/lib/jvm/adoptium-8-x64
