@@ -123,7 +123,7 @@ steps:
 
       docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8 $TARGET_REGISTRY/java:$(TargetVersion)
       docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-slim $TARGET_REGISTRY/java:$(TargetVersion)-slim
-      docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-appservice $TARGET_REGISTRY/java:$(TargetVersion)-
+      docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-appservice $TARGET_REGISTRY/java:$(TargetVersion)-appservice
       
       docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8.1-appservice $TARGET_REGISTRY/java:$(TargetVersion)-java8.1-appservice
       docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java11.1-appservice $TARGET_REGISTRY/java:$(TargetVersion)-java11.1-appservice
