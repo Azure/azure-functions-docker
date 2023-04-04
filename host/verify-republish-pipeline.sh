@@ -44,7 +44,7 @@ if [ ${#difference[@]} == 1 ] && [[ $difference == *"nanoserver"* ]]; then
    echo -e "Republish pipeline excludes nanoserver image. This is a known difference. Redeployment Safe. \n"
    exit 0
 else 
-   echo -e "Republish and Publish pipelines inconsistent. Other than the /base image all pipelines should publish the same non-appservice images. The following differences exist for appservice images between the pipelines: "
+   echo -e "Republish and Publish pipelines inconsistent. Other than the /base image all pipelines should publish the same non-quickstart images. The following differences exist for images between the pipelines: "
    echo -e ${difference[@]}
    exit 1
 fi
