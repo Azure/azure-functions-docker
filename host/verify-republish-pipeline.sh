@@ -27,7 +27,7 @@ else
    TARGET="./4"
 fi
 
-repub=($(((grep "docker push".* ${TARGET}/republish-nonappservice.yml) | awk -F 'TARGET_REGISTRY' '{print $2}') ))
+repub=($(((grep "docker push".* ${TARGET}/republish.yml) | awk -F 'TARGET_REGISTRY' '{print $2}') ))
 
 pub=($(((((grep "docker push".*  ${TARGET}/publish.yml)| grep -v appservice)| grep -v nanoserver) | awk -F 'TARGET_REGISTRY' '{print $2}') ))
 
