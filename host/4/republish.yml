@@ -40,16 +40,20 @@ steps:
 
       docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion) $TARGET_REGISTRY/dotnet:$(TargetVersion)
       docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-slim $TARGET_REGISTRY/dotnet:$(TargetVersion)-slim
+      docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-appservice $TARGET_REGISTRY/dotnet:$(TargetVersion)-dotnet6-appservice
       docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-appservice $TARGET_REGISTRY/dotnet:$(TargetVersion)-appservice
 
       docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion) $TARGET_REGISTRY/base:$(TargetVersion)
       docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-slim $TARGET_REGISTRY/base:$(TargetVersion)-slim
+      docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-appservice $TARGET_REGISTRY/base:$(TargetVersion)-appservice
 
       docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)
       docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-slim
+      docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-dotnet6-appservice
       docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-appservice
       docker push $TARGET_REGISTRY/base:$(TargetVersion)
       docker push $TARGET_REGISTRY/base:$(TargetVersion)-slim
+      docker push $TARGET_REGISTRY/base:$(TargetVersion)-appservice
 
       docker system prune -a -f
     displayName: tag and push dotnet images
@@ -114,9 +118,15 @@ steps:
       docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java17-build
       docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java17-appservice
 
+      docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java8.1-appservice
+      docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java11.1-appservice
+
       docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8 $TARGET_REGISTRY/java:$(TargetVersion)
       docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-slim $TARGET_REGISTRY/java:$(TargetVersion)-slim
-      docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-appservice $TARGET_REGISTRY/java:$(TargetVersion)-appservice
+      docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-appservice $TARGET_REGISTRY/java:$(TargetVersion)-
+      
+      docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8.1-appservice $TARGET_REGISTRY/java:$(TargetVersion)-java8.1-appservice
+      docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java11.1-appservice $TARGET_REGISTRY/java:$(TargetVersion)-java11.1-appservice
 
       docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8 $TARGET_REGISTRY/java:$(TargetVersion)-java8
       docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-slim $TARGET_REGISTRY/java:$(TargetVersion)-java8-slim
@@ -137,6 +147,9 @@ steps:
       docker push $TARGET_REGISTRY/java:$(TargetVersion)
       docker push $TARGET_REGISTRY/java:$(TargetVersion)-slim
       docker push $TARGET_REGISTRY/java:$(TargetVersion)-appservice
+
+      docker push $TARGET_REGISTRY/java:$(TargetVersion)-java8.1-appservice
+      docker push $TARGET_REGISTRY/java:$(TargetVersion)-java11.1-appservice
 
       docker push $TARGET_REGISTRY/java:$(TargetVersion)-java8
       docker push $TARGET_REGISTRY/java:$(TargetVersion)-java8-slim
@@ -290,6 +303,7 @@ steps:
       docker push $TARGET_REGISTRY/python:$(TargetVersion)
       docker push $TARGET_REGISTRY/python:$(TargetVersion)-slim
       docker push $TARGET_REGISTRY/python:$(TargetVersion)-buildenv
+      docker push $TARGET_REGISTRY/python:$(TargetVersion)-appservice
 
       docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.7
       docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.7-slim
