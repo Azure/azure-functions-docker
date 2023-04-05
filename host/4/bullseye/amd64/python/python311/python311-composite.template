@@ -3,7 +3,7 @@
 # Licensed under the MIT License. See https://go.microsoft.com/fwlink/?linkid=2090316 for license information.
 #-------------------------------------------------------------------------------------------------------------
 
-FROM mcr.microsoft.com/mirror/docker/library/python:3.11-slim
+FROM mcr.microsoft.com/dotnet/runtime-deps:6.0
 ARG HOST_VERSION
 
 COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
@@ -67,7 +67,7 @@ EXPOSE 2222 80
 RUN apt-get update && \
     apt-get install -y --no-install-recommends openssh-server dialog && \
     echo "root:Docker!" | chpasswd && \
-    pip install ptvsd
+    pip install debugpy
 
 RUN chmod +x /azure-functions-host/start.sh
 

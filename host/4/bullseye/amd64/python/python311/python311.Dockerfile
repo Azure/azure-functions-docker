@@ -4,7 +4,7 @@
 #-------------------------------------------------------------------------------------------------------------
 
 # Build the runtime from source
-ARG HOST_VERSION=4.17.1
+ARG HOST_VERSION=4.17.3
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS runtime-image
 ARG HOST_VERSION
 
@@ -79,6 +79,12 @@ RUN apt-get update && \
 FROM mcr.microsoft.com/dotnet/runtime-deps:6.0
 ARG HOST_VERSION
 
+COPY --from=runtime-image ["/azure-functions-host", "/azure-functions-host"]
+COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
+COPY --from=runtime-image [ "/workers/python/3.11/LINUX", "/azure-functions-host/workers/python/3.11/LINUX" ]
+COPY --from=runtime-image [ "/workers/python/worker.config.json", "/azure-functions-host/workers/python" ]
+COPY --from=python [ "/", "/" ]
+
 ENV LANG=C.UTF-8 \
     ACCEPT_EULA=Y \
     AzureWebJobsScriptRoot=/home/site/wwwroot \
@@ -89,12 +95,6 @@ ENV LANG=C.UTF-8 \
     DOTNET_USE_POLLING_FILE_WATCHER=true \
     HOST_VERSION=${HOST_VERSION} \
     ASPNETCORE_CONTENTROOT=/azure-functions-host
-
-COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
-COPY --from=runtime-image ["/azure-functions-host", "/azure-functions-host"]
-COPY --from=runtime-image [ "/workers/python/3.11/LINUX", "/azure-functions-host/workers/python/3.11/LINUX" ]
-COPY --from=runtime-image [ "/workers/python/worker.config.json", "/azure-functions-host/workers/python" ]
-COPY --from=python [ "/", "/" ]
 
 ENV FUNCTIONS_WORKER_RUNTIME_VERSION=3.11
 
