@@ -16,35 +16,28 @@ ENV LANG=C.UTF-8 \
 
 # Install Python dependencies
 RUN apt-get update && \
-    apt-get install -y wget && \
+    apt-get install -y wget apt-transport-https curl gnupg locales && \
     echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections && \
-    apt-get update && \
-    apt-get install -y apt-transport-https curl gnupg && \
     curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
     curl https://packages.microsoft.com/config/debian/11/prod.list > /etc/apt/sources.list.d/mssql-release.list && \
     # Needed for libss1.0.0 and in turn MS SQL
     echo 'deb http://security.debian.org/debian-security stable-security main' >> /etc/apt/sources.list && \
     # install necessary locales for MS SQL
-    apt-get update && apt-get install -y locales && \
     echo 'en_US.UTF-8 UTF-8' > /etc/locale.gen && \
     locale-gen && \
-    # install MS SQL related packages
     apt-get update && \
-    apt-get install -y unixodbc msodbcsql17 mssql-tools && \
-    # .NET Core dependencies
+    ACCEPT_EULA=Y apt-get install -y unixodbc msodbcsql17 mssql-tools &&\
     apt-get install -y --no-install-recommends ca-certificates \
-    libc6 libgcc1 libgssapi-krb5-2 libicu67 libssl1.1 libstdc++6 zlib1g && \
-    rm -rf /var/lib/apt/lists/* && \
-    # Custom dependencies:
-    #  OpenCV dependencies:
-    apt-get update && \
-    apt-get install -y libglib2.0-0 libsm6 libxext6 libxrender-dev xvfb && \
-    #  binutils
-    apt-get install -y binutils && \
-    #  OpenMP dependencies
-    apt-get install -y libgomp1 && \
-    #  Azure ML dependencies
-    apt-get install -y liblttng-ust0
+    libc6 libgcc1 libgssapi-krb5-2 libicu67 libssl1.1 libstdc++6 zlib1g &&\
+    apt-get install -y libglib2.0-0 libsm6 libxext6 libxrender-dev xvfb binutils\
+    binutils libgomp1 liblttng-ust0 && \
+    rm -rf /var/lib/apt/lists/*
+    # MS SQL related packages: unixodbc msodbcsql17 mssql-tools
+    # .NET Core dependencies: --no-install-recommends ca-certificates libc6 libgcc1 libgssapi-krb5-2 libicu67 libssl1.1 libstdc++6 zlib1g
+    # OpenCV dependencies:libglib2.0-0 libsm6 libxext6 libxrender-dev xvfb
+    # binutils: binutils
+    # OpenMP dependencies: libgomp1
+    # Azure ML dependencies: liblttng-ust0
 
 RUN apt-get update && \
     apt-get install -y build-essential libssl-dev zlib1g-dev libbz2-dev \
