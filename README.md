@@ -107,32 +107,38 @@ Linux amd64 Tags
 
 Linux amd64 Tags
 
-| Tags                  | OS Version |
-|--------------------------------------------|------------|
-| `4-python3.7`                              |  Debian 11  |
-| `4-python3.7-slim`                         |  Debian 11  |
-| `4-python3.7-appservice`                   |  Debian 11  |
-| `4-python3.7-buildenv`                     |  Debian 11  |
-| `4-python3.7-core-tools`                   | Debian 11  |
-| `4-python3.7-appservice-quickstart`        | Debian 11 |
-| `4-python3.8`                              |  Debian 11  |
-| `4-python3.8-slim`                         |  Debian 11  |
-| `4-python3.8-appservice`                   | Debian 11  |
-| `4-python3.8-appservice-quickstart`        | Debian 11 |
-| `4-python3.8-buildenv`                     |  Debian 11  |
-| `4-python3.8-core-tools`                   | Debian 11  |
-| `4-python3.9`                              |  Debian 11  |
-| `4-python3.9-slim`                         |  Debian 11  |
-| `4-python3.9-appservice`                   |  Debian 11  |
-| `4-python3.9-appservice-quickstart`        | Debian 11 |
-| `4-python3.9-buildenv`                     | Debian 11  |
-| `4-python3.9-core-tools`                   |  Debian 11  |
-| `4-python3.10`                             |  Debian 11  |
-| `4-python3.10-slim`                        |  Debian 11  |
-| `4-python3.10-appservice`                  |  Debian 11  |
-| `4-python3.10-buildenv`                    | Debian 11  |
-| `4-python3.10-core-tools`                  |  Debian 11  |
-| `4-python3.10-appservice-quickstart`        | Debian 11 |
+| Tags                                 | OS Version |
+|--------------------------------------|------------|
+| `4-python3.7`                        |  Debian 11  |
+| `4-python3.7-slim`                   |  Debian 11  |
+| `4-python3.7-appservice`             |  Debian 11  |
+| `4-python3.7-buildenv`               |  Debian 11  |
+| `4-python3.7-core-tools`             | Debian 11  |
+| `4-python3.7-appservice-quickstart`  | Debian 11 |
+| `4-python3.8`                        |  Debian 11  |
+| `4-python3.8-slim`                   |  Debian 11  |
+| `4-python3.8-appservice`             | Debian 11  |
+| `4-python3.8-appservice-quickstart`  | Debian 11 |
+| `4-python3.8-buildenv`               |  Debian 11  |
+| `4-python3.8-core-tools`             | Debian 11  |
+| `4-python3.9`                        |  Debian 11  |
+| `4-python3.9-slim`                   |  Debian 11  |
+| `4-python3.9-appservice`             |  Debian 11  |
+| `4-python3.9-appservice-quickstart`  | Debian 11 |
+| `4-python3.9-buildenv`               | Debian 11  |
+| `4-python3.9-core-tools`             |  Debian 11  |
+| `4-python3.10`                       |  Debian 11  |
+| `4-python3.10-slim`                  |  Debian 11  |
+| `4-python3.10-appservice`            |  Debian 11  |
+| `4-python3.10-buildenv`              | Debian 11  |
+| `4-python3.10-core-tools`            |  Debian 11  |
+| `4-python3.10-appservice-quickstart` | Debian 11 |
+| `4-python3.11`                       |  Debian 11  |
+| `4-python3.11-slim`                  |  Debian 11  |
+| `4-python3.11-appservice`            |  Debian 11  |
+| `4-python3.11-buildenv`              | Debian 11  |
+| `4-python3.11-core-tools`            |  Debian 11  |
+| `4-python3.11-appservice-quickstart` | Debian 11 |
 
 #### Base
 
