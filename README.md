@@ -133,7 +133,7 @@ Linux amd64 Tags
 | `4-python3.10-buildenv`              | Debian 11  |
 | `4-python3.10-core-tools`            |  Debian 11  |
 | `4-python3.10-appservice-quickstart` | Debian 11 |
- | `4-python3.11`                       |  Debian 11  |
+| `4-python3.11`                       |  Debian 11  |
 | `4-python3.11-slim`                  |  Debian 11  |
 | `4-python3.11-appservice`            |  Debian 11  |
 | `4-python3.11-buildenv`              | Debian 11  |

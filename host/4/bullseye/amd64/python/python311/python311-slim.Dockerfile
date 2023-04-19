@@ -43,6 +43,13 @@ RUN apt-get update && \
 FROM mcr.microsoft.com/mirror/docker/library/python:3.11-slim as python
 
 # Install Python dependencies
+# MS SQL related packages: unixodbc msodbcsql17 mssql-tools
+# .NET Core dependencies: --no-install-recommends ca-certificates libc6 libgcc1 libgssapi-krb5-2 libicu67 libssl1.1 libstdc++6 zlib1g
+# OpenCV dependencies:libglib2.0-0 libsm6 libxext6 libxrender-dev xvfb
+# binutils: binutils
+# OpenMP dependencies: libgomp1 && \
+# Fix from https://github.com/GoogleCloudPlatform/google-cloud-dotnet-powerpack/issues/22#issuecomment-729895157 : libc-dev
+# Azure ML dependencies: liblttng-ust0
 RUN apt-get update && \
     apt-get install -y wget apt-transport-https curl gnupg locales && \
     echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections && \
@@ -60,13 +67,6 @@ RUN apt-get update && \
     apt-get install -y libglib2.0-0 libsm6 libxext6 libxrender-dev xvfb binutils\
     binutils libgomp1 libc-dev liblttng-ust0 && \
     rm -rf /var/lib/apt/lists/*
-    # MS SQL related packages: unixodbc msodbcsql17 mssql-tools
-    # .NET Core dependencies: --no-install-recommends ca-certificates libc6 libgcc1 libgssapi-krb5-2 libicu67 libssl1.1 libstdc++6 zlib1g
-    # OpenCV dependencies:libglib2.0-0 libsm6 libxext6 libxrender-dev xvfb
-    # binutils: binutils
-    # OpenMP dependencies: libgomp1 && \
-    # Fix from https://github.com/GoogleCloudPlatform/google-cloud-dotnet-powerpack/issues/22#issuecomment-729895157 : libc-dev
-    # Azure ML dependencies: liblttng-ust0
 
 FROM mcr.microsoft.com/dotnet/runtime-deps:6.0
 ARG HOST_VERSION

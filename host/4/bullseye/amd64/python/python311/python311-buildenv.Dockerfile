@@ -15,6 +15,12 @@ ENV LANG=C.UTF-8 \
     DOTNET_USE_POLLING_FILE_WATCHER=true
 
 # Install Python dependencies
+# MS SQL related packages: unixodbc msodbcsql17 mssql-tools
+# .NET Core dependencies: --no-install-recommends ca-certificates libc6 libgcc1 libgssapi-krb5-2 libicu67 libssl1.1 libstdc++6 zlib1g
+# OpenCV dependencies:libglib2.0-0 libsm6 libxext6 libxrender-dev xvfb
+# binutils: binutils
+# OpenMP dependencies: libgomp1
+# Azure ML dependencies: liblttng-ust0
 RUN apt-get update && \
     apt-get install -y wget apt-transport-https curl gnupg locales && \
     echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections && \
@@ -32,16 +38,10 @@ RUN apt-get update && \
     apt-get install -y libglib2.0-0 libsm6 libxext6 libxrender-dev xvfb binutils\
     binutils libgomp1 liblttng-ust0 && \
     rm -rf /var/lib/apt/lists/*
-    # MS SQL related packages: unixodbc msodbcsql17 mssql-tools
-    # .NET Core dependencies: --no-install-recommends ca-certificates libc6 libgcc1 libgssapi-krb5-2 libicu67 libssl1.1 libstdc++6 zlib1g
-    # OpenCV dependencies:libglib2.0-0 libsm6 libxext6 libxrender-dev xvfb
-    # binutils: binutils
-    # OpenMP dependencies: libgomp1
-    # Azure ML dependencies: liblttng-ust0
 
 RUN apt-get update && \
     apt-get install -y build-essential libssl-dev zlib1g-dev libbz2-dev \
     libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev \
     xz-utils tk-dev libffi-dev liblzma-dev python3-openssl git unixodbc-dev dh-autoreconf \
-    libcurl4-openssl-dev libssl-dev python3-dev libevent-dev python3-openssl squashfs-tools unzip && \
-    python --version
+    libcurl4-openssl-dev libssl-dev python3-dev libevent-dev python3-openssl squashfs-tools unzip
+
