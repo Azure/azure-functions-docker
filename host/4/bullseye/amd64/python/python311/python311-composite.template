@@ -37,8 +37,8 @@ ARG HOST_VERSION
 
 COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
 COPY sshd_config /etc/ssh/
-COPY --from=runtime-image ["/azure-functions-host", "/azure-functions-host"]
 COPY start.sh /azure-functions-host/
+COPY --from=runtime-image ["/azure-functions-host", "/azure-functions-host"]
 COPY --from=runtime-image [ "/workers/python/3.11/LINUX", "/azure-functions-host/workers/python/3.11/LINUX" ]
 COPY --from=runtime-image [ "/workers/python/worker.config.json", "/azure-functions-host/workers/python" ]
 COPY --from=python [ "/usr", "/usr" ]
