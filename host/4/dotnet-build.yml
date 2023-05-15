@@ -174,8 +174,8 @@ steps:
       echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
 
       docker build -t $IMAGE_NAME \
-                  -f host/mariner/dotnet/dotnet7-isolated-appservice.Dockerfile \
-                  host/mariner/dotnet/
+                  -f host/4/mariner/dotnet/dotnet7-isolated-appservice.Dockerfile \
+                  host/4/mariner/dotnet/
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
     displayName: dotnet7-isolated-mariner
