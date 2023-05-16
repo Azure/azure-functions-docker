@@ -89,6 +89,8 @@ const dockerFile = (function() {
     fileName = "test-win.Dockerfile";
   } else if (imageName.indexOf("alpine") !== -1) {
     fileName = "test-alpine.Dockerfile";
+  } else if (imageName.indexOf("mariner") !== -1) {
+    fileName = "test-mariner.Dockerfile";
   }
 
   return path.join(__dirname, fileName);
