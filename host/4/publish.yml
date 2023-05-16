@@ -124,6 +124,17 @@ steps:
     displayName: tag and push dotnet7-isolated images
     continueOnError: false
 
+  - bash: |
+      set -e
+      docker pull $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated7.0-mariner
+
+      docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated7.0-mariner $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated7.0-mariner
+
+      docker push $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated7.0-mariner
+
+      docker system prune -a -f
+    displayName: tag and push dotnet7-isolated mariner images
+    continueOnError: false
 
   - bash: |
       set -e
