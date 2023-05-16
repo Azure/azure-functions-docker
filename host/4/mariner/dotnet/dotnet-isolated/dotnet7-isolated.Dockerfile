@@ -13,16 +13,14 @@ RUN BUILD_NUMBER=$(echo ${HOST_VERSION} | cut -d'.' -f 3) && \
     mv /azure-functions-host/workers /workers && mkdir /azure-functions-host/workers && \
     rm -rf /root/.local /root/.nuget /src
 
-RUN yum install -y dnf && \
-    dnf install -y gnupg wget unzip
-
 # Include ASP.NET Core shared framework from dotnet/aspnet image.
 FROM mcr.microsoft.com/dotnet/aspnet:7.0-cbl-mariner2.0 AS aspnet7
 
 FROM mcr.microsoft.com/dotnet/runtime:7.0-cbl-mariner2.0
 ARG HOST_VERSION
 
-RUN yum install -y dnf
+RUN yum install -y dnf && \
+    dnf install -y gnupg wget unzip
 
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     HOME=/home \
