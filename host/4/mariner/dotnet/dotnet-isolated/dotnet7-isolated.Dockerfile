@@ -19,8 +19,7 @@ FROM mcr.microsoft.com/dotnet/aspnet:7.0-cbl-mariner2.0 AS aspnet7
 FROM mcr.microsoft.com/dotnet/runtime:7.0-cbl-mariner2.0
 ARG HOST_VERSION
 
-RUN yum install -y dnf && \
-    dnf install -y gnupg wget unzip
+RUN yum install -y dnf
 
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     HOME=/home \
