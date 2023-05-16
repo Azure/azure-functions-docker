@@ -10,6 +10,7 @@ pr:
     include:
       - host/4/bullseye/amd64/base/*
       - host/4/bullseye/amd64/dotnet/*
+      - host/4/mariner/dotnet/*
       - host/4/dotnet-build.yml
 
 trigger:
