@@ -1,7 +1,7 @@
 # Build the runtime from source
 ARG HOST_VERSION=3.19.0
-ARG JAVA_VERSION=8u372b07
-ARG JDK_NAME=jdk8u372-b07
+ARG JAVA_VERSION=8u362-b09
+ARG JDK_NAME=jdk8u362-b09
 ARG JAVA_HOME=/usr/lib/jvm/adoptium-8-x64
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS runtime-image
 ARG HOST_VERSION
