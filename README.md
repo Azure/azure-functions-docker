@@ -62,6 +62,10 @@ Linux amd64 Tags
 | `4-node18-appservice`                   |  Debian 11  |
 | `4-node18-core-tools`                   |  Debian 11  |
 | `4-node18-appservice-quickstart`                     |  Debian 11  |
+| `4-node20`                              |  Debian 11  |
+| `4-node20-slim`                         |  Debian 11  |
+| `4-node20-appservice`                   |  Debian 11  |
+| `4-node20-core-tools`                   |  Debian 11  |
 
 #### Powershell
 
