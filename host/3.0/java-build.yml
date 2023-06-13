@@ -10,9 +10,7 @@ pr:
     include:
       - host/3.0/buster/amd64/base/*
       - host/3.0/buster/amd64/java/java8/*
-      - host/3.0/buster/amd64/java/java8-zulu/*
       - host/3.0/buster/amd64/java/java11/*
-      - host/3.0/buster/amd64/java/java11-zulu/*
       - host/3.0/java-build.yml
 
 trigger:
@@ -94,20 +92,6 @@ steps:
 
   - bash: |
       set -e
-      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/java:$(Build.SourceBranchName)-java8.1-appservice
-      IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
-      echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
-
-      docker build -t $IMAGE_NAME \
-                  -f host/3.0/buster/amd64/out/java/java8-zulu-appservice.Dockerfile \
-                  host/3.0/buster/amd64/out/java
-      npm run test $IMAGE_NAME --prefix  test/
-      docker push $IMAGE_NAME
-    displayName: java8.1-appservice
-    continueOnError: false
-
-  - bash: |
-      set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/java:$(Build.SourceBranchName)-java8-build
       IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
       echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
@@ -160,20 +144,6 @@ steps:
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
     displayName: java11-appservice
-    continueOnError: false
-
-  - bash: |
-      set -e
-      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/3.0/java:$(Build.SourceBranchName)-java11.1-appservice
-      IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
-      echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
-
-      docker build -t $IMAGE_NAME \
-                  -f host/3.0/buster/amd64/out/java/java11-zulu-appservice.Dockerfile \
-                  host/3.0/buster/amd64/out/java
-      npm run test $IMAGE_NAME --prefix  test/
-      docker push $IMAGE_NAME
-    displayName: java11.1-appservice
     continueOnError: false
 
   - bash: |
