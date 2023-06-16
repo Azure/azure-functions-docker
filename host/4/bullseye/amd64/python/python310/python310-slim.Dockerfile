@@ -40,7 +40,7 @@ RUN apt-get update && \
     rm -f /$EXTENSION_BUNDLE_FILENAME_V4 &&\
     find /FuncExtensionBundles/ -type f -exec chmod 644 {} \;
 
-FROM mcr.microsoft.com/mirror/docker/library/python:3.10-slim
+FROM mcr.microsoft.com/mirror/docker/library/python:3.10-slim-bullseye
 ARG HOST_VERSION
 
 ENV LANG=C.UTF-8 \
