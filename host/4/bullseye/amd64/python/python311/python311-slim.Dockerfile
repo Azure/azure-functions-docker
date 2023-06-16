@@ -40,7 +40,7 @@ RUN apt-get update && \
     rm -f /$EXTENSION_BUNDLE_FILENAME_V4 &&\
     find /FuncExtensionBundles/ -type f -exec chmod 644 {} \;
 
-FROM mcr.microsoft.com/mirror/docker/library/python:3.11-slim as python
+FROM mcr.microsoft.com/mirror/docker/library/python:3.11-slim-bullseye as python
 
 # Install Python dependencies
 # MS SQL related packages: unixodbc msodbcsql17 mssql-tools
