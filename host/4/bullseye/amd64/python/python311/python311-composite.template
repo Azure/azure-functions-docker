@@ -3,7 +3,7 @@
 # Licensed under the MIT License. See https://go.microsoft.com/fwlink/?linkid=2090316 for license information.
 #-------------------------------------------------------------------------------------------------------------
 
-FROM mcr.microsoft.com/mirror/docker/library/python:3.11-slim as python-bullseye
+FROM mcr.microsoft.com/mirror/docker/library/python:3.11-slim-bullseye as python
 
 # Install Python dependencies
 # MS SQL related packages: unixodbc msodbcsql17 mssql-tools
