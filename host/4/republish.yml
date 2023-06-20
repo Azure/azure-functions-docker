@@ -111,7 +111,7 @@ steps:
       docker push $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated7.0-mariner
 
       docker system prune -a -f
-    displayName: tag and push dotnet7-isolated images
+    displayName: tag and push dotnet7-isolated mariner images
     continueOnError: false
 
 
