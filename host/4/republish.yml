@@ -106,7 +106,7 @@ steps:
       set -e
       docker pull $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated7.0-mariner
 
-      docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated7.0 $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated7.0-mariner
+      docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated7.0-mariner $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated7.0-mariner
 
       docker push $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated7.0-mariner
 
