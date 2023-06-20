@@ -123,15 +123,11 @@ steps:
 
       - bash: |
           set -e
-          docker pull $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell6-appservice
           docker pull $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7-appservice
 
-          docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell6-appservice $TARGET_REGISTRY/powershell:$(TargetVersion)-appservice-$(CloudName)-stage${{stage}}
-          docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell6-appservice $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell6-appservice-$(CloudName)-stage${{stage}}
           docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7-appservice $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell7-appservice-$(CloudName)-stage${{stage}}
 
           docker push $TARGET_REGISTRY/powershell:$(TargetVersion)-appservice-$(CloudName)-stage${{stage}}
-          docker push $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell6-appservice-$(CloudName)-stage${{stage}}
           docker push $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell7-appservice-$(CloudName)-stage${{stage}}
 
           docker system prune -a -f

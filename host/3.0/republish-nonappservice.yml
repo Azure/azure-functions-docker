@@ -155,25 +155,14 @@ jobs:
 
   - bash: |
       set -e
-      docker pull $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell6
-      docker pull $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell6-slim
       docker pull $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7
       docker pull $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7-slim
-
-      docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell6 $TARGET_REGISTRY/powershell:$(TargetVersion)
-      docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell6-slim $TARGET_REGISTRY/powershell:$(TargetVersion)-slim
-
-      docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell6 $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell6
-      docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell6-slim $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell6-slim
 
       docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7 $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell7
       docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7-slim $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell7-slim
 
       docker push $TARGET_REGISTRY/powershell:$(TargetVersion)
       docker push $TARGET_REGISTRY/powershell:$(TargetVersion)-slim
-
-      docker push $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell6
-      docker push $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell6-slim
 
       docker push $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell7
       docker push $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell7-slim
