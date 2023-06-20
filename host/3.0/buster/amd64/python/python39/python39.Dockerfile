@@ -64,7 +64,7 @@ RUN apt-get update && \
     curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
     curl https://packages.microsoft.com/config/debian/9/prod.list > /etc/apt/sources.list.d/mssql-release.list && \
     # Needed for libss1.0.0 and in turn MS SQL
-    echo 'deb http://security.debian.org/debian-security jessie/updates main' >> /etc/apt/sources.list && \
+    echo 'deb http://archive.debian.org/debian-security jessie/updates main' >> /etc/apt/sources.list && \
     # install necessary locales for MS SQL
     apt-get update && apt-get install -y locales && \
     echo 'en_US.UTF-8 UTF-8' > /etc/locale.gen && \
