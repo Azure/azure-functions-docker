@@ -182,6 +182,62 @@ steps:
     displayName: dotnet7-isolated-mariner
     continueOnError: false
 
+  - bash: |
+      set -e
+      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/dotnet-isolated:$(Build.SourceBranchName)-dotnet-isolated8.0
+      IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
+      echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
+
+      docker build -t $IMAGE_NAME \
+                  -f host/4/bullseye/amd64/dotnet/dotnet8-isolated/dotnet-isolated.Dockerfile \
+                  host/4/bullseye/amd64/dotnet/dotnet8-isolated/
+      npm run test $IMAGE_NAME --prefix test/
+      docker push $IMAGE_NAME
+    displayName: dotnet-isolated (.NET 8 Preview)
+    continueOnError: false
+
+  - bash: |
+      set -e
+      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/dotnet-isolated:$(Build.SourceBranchName)-dotnet-isolated8.0-slim
+      IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
+      echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
+
+      docker build -t $IMAGE_NAME \
+                  -f host/4/bullseye/amd64/dotnet/dotnet8-isolated/dotnet-isolated-slim.Dockerfile \
+                  host/4/bullseye/amd64/dotnet/dotnet8-isolated/
+      npm run test $IMAGE_NAME --prefix  test/
+      docker push $IMAGE_NAME
+    displayName: dotnet-isolated-slim (.NET 8 Preview)
+    continueOnError: false
+
+  - bash: |
+      set -e
+      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/dotnet-isolated:$(Build.SourceBranchName)-dotnet-isolated8.0-appservice
+      IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
+      echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
+
+      docker build -t $IMAGE_NAME \
+                  -f host/4/bullseye/amd64/out/dotnet/dotnet8-isolated-appservice.Dockerfile \
+                  host/4/bullseye/amd64/out/dotnet/
+      npm run test $IMAGE_NAME --prefix  test/
+      docker push $IMAGE_NAME
+    displayName: dotnet-isolated-appservice (.NET 8 Preview)
+    continueOnError: false
+
+  - bash: |
+      set -e
+      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/dotnet-isolated:$(Build.SourceBranchName)-dotnet-isolated8.0-mariner
+      IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
+      echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
+
+      docker build -t $IMAGE_NAME \
+                  -f host/4/mariner/dotnet/dotnet-isolated/dotnet8-isolated.Dockerfile \
+                  host/4/mariner/dotnet/dotnet-isolated/
+      npm run test $IMAGE_NAME --prefix  test/
+      docker push $IMAGE_NAME
+    displayName: dotnet8-isolated-mariner
+    continueOnError: false
+
   - task: AzureArtifacts.manifest-generator-task.manifest-generator-task.ManifestGeneratorTask@0
     displayName: 'Manifest Generator'
     inputs:
