@@ -30,9 +30,9 @@ const dotnetIsolated7 = {
 }
 
 const dotnetIsolated8 = {
-  package: `${storagePath}/dotnet-isolated7-functions.zip`,
-  invoke: "/api/DotnetIsolated7HttpFunction",
-  response: "Welcome to Azure Functions! .NET 7 Preview 5"
+  package: `${storagePath}/dotnet-isolated8-functions.zip`,
+  invoke: "/api/DotnetIsolated8HttpFunction",
+  response: "Welcome to Azure Functions! .NET 8"
 }
 
 const map = {
