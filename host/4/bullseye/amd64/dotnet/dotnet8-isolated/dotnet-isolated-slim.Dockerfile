@@ -16,10 +16,7 @@ RUN BUILD_NUMBER=$(echo ${HOST_VERSION} | cut -d'.' -f 3) && \
 RUN apt-get update && \
     apt-get install -y gnupg wget unzip
 
-# Include ASP.NET Core shared framework from dotnet/aspnet image.
-FROM mcr.microsoft.com/dotnet/aspnet:8.0-preview AS aspnet8
-
-FROM mcr.microsoft.com/dotnet/runtime:8.0-preview
+FROM mcr.microsoft.com/dotnet/aspnet:8.0-preview
 ARG HOST_VERSION
 
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
@@ -35,6 +32,5 @@ RUN apt-get update && \
     apt-get install -y libc-dev
 
 COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
-COPY --from=aspnet8 [ "/usr/share/dotnet", "/usr/share/dotnet" ]
 
 CMD [ "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost" ]
