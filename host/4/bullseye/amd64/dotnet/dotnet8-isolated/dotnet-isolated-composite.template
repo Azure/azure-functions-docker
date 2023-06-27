@@ -1,4 +1,5 @@
-FROM mcr.microsoft.com/dotnet/aspnet:8.0-preview
+# TO DO : Replace preview tags. https://github.com/Azure/azure-functions-docker/issues/927
+FROM mcr.microsoft.com/dotnet/aspnet:8.0-preview-bookworm-slim-amd64
 ARG HOST_VERSION
 
 COPY sshd_config /etc/ssh/
