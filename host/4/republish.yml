@@ -266,6 +266,25 @@ steps:
 
   - bash: |
       set -e
+      docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node20
+      docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node20-slim
+      docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node20-appservice
+
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node20 $TARGET_REGISTRY/node:$(TargetVersion)-node20
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node20-slim $TARGET_REGISTRY/node:$(TargetVersion)-node20-slim
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node20-appservice $TARGET_REGISTRY/node:$(TargetVersion)-node20-appservice
+
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)-node20
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)-node20-slim
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)-node20-appservice
+
+
+      docker system prune -a -f
+    displayName: tag and push node20 images
+    continueOnError: false
+
+  - bash: |
+      set -e
       docker pull $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7.2
       docker pull $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7.2-slim
       docker pull $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7.2-appservice
