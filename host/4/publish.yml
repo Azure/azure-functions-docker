@@ -138,6 +138,26 @@ steps:
 
   - bash: |
       set -e
+      docker pull $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated8.0
+      docker pull $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated8.0-slim
+      docker pull $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated8.0-appservice
+
+      docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated8.0 $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated8.0
+      docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated8.0-slim $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated8.0-slim
+      docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated8.0-appservice $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated8.0-appservice
+      docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated8.0-appservice $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated8.0-appservice-quickstart
+
+      docker push $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated8.0
+      docker push $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated8.0-slim
+      docker push $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated8.0-appservice
+      docker push $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated8.0-appservice-quickstart
+
+      docker system prune -a -f
+    displayName: tag and push dotnet8-isolated images
+    continueOnError: false
+
+  - bash: |
+      set -e
       docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java8
       docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-slim
       docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-appservice
@@ -304,6 +324,27 @@ steps:
 
       docker system prune -a -f
     displayName: tag and push node18 images
+    continueOnError: false
+  
+  - bash: |
+      set -e
+      docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node20
+      docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node20-slim
+      docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node20-appservice
+
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node20 $TARGET_REGISTRY/node:$(TargetVersion)-node20
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node20-slim $TARGET_REGISTRY/node:$(TargetVersion)-node20-slim
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node20-appservice $TARGET_REGISTRY/node:$(TargetVersion)-node20-appservice
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node20-appservice $TARGET_REGISTRY/node:$(TargetVersion)-node20-appservice-quickstart
+
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)-node20
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)-node20-slim
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)-node20-appservice
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)-node20-appservice-quickstart
+
+
+      docker system prune -a -f
+    displayName: tag and push node20 images
     continueOnError: false
 
   - bash: |

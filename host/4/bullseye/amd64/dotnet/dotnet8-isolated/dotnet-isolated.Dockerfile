@@ -16,10 +16,8 @@ RUN BUILD_NUMBER=$(echo ${HOST_VERSION} | cut -d'.' -f 3) && \
 RUN apt-get update && \
     apt-get install -y gnupg wget unzip
 
-# Include ASP.NET Core shared framework from dotnet/aspnet image.
-FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS aspnet6
-
-FROM mcr.microsoft.com/dotnet/runtime:6.0
+# TO DO : Replace preview tags. https://github.com/Azure/azure-functions-docker/issues/927
+FROM mcr.microsoft.com/dotnet/aspnet:8.0-preview-bookworm-slim-amd64
 ARG HOST_VERSION
 
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
@@ -27,14 +25,13 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     FUNCTIONS_WORKER_RUNTIME=dotnet-isolated \
     DOTNET_USE_POLLING_FILE_WATCHER=true \
     HOST_VERSION=${HOST_VERSION} \
-    ASPNETCORE_CONTENTROOT=/azure-functions-host
+    ASPNETCORE_CONTENTROOT=/azure-functions-host \
+    ASPNETCORE_URLS=http://+:80
 
 # Fix from https://github.com/GoogleCloudPlatform/google-cloud-dotnet-powerpack/issues/22#issuecomment-729895157
 RUN apt-get update && \
     apt-get install -y libc-dev
 
 COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
-
-COPY --from=aspnet6 [ "/usr/share/dotnet", "/usr/share/dotnet" ]
 
 CMD [ "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost" ]

@@ -1,5 +1,5 @@
 # Build the runtime from source
-ARG HOST_VERSION=3.19.0
+ARG HOST_VERSION=3.20.0
 ARG JAVA_VERSION=8u362b09
 ARG JDK_NAME=jdk8u362-b09
 ARG JAVA_HOME=/usr/lib/jvm/adoptium-8-x64
@@ -33,7 +33,7 @@ RUN EXTENSION_BUNDLE_VERSION=1.8.1 && \
     mkdir -p /FuncExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION_V2 && \
     unzip /$EXTENSION_BUNDLE_FILENAME_V2 -d /FuncExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION_V2 && \
     rm -f /$EXTENSION_BUNDLE_FILENAME_V2 &&\
-    EXTENSION_BUNDLE_VERSION_V3=3.19.0 && \
+    EXTENSION_BUNDLE_VERSION_V3=3.20.0 && \
     EXTENSION_BUNDLE_FILENAME_V3=Microsoft.Azure.Functions.ExtensionBundle.${EXTENSION_BUNDLE_VERSION_V3}_linux-x64.zip && \
     wget https://functionscdn.azureedge.net/public/ExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION_V3/$EXTENSION_BUNDLE_FILENAME_V3 && \
     mkdir -p /FuncExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION_V3 && \

@@ -79,6 +79,18 @@ steps:
 
   - bash: |
       set -e
+      docker pull $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated8.0-appservice
+
+      docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated8.0-appservice $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated8.0-appservice-stage$(StageNumber)
+
+      docker push $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated8.0-appservice-stage$(StageNumber)
+
+      docker system prune -a -f
+    displayName: tag and push dotnet-isolated8 images
+    continueOnError: false
+
+  - bash: |
+      set -e
       docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-appservice
       docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java8.1-appservice
       docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java11-appservice
@@ -140,6 +152,18 @@ steps:
 
       docker push $TARGET_REGISTRY/node:$(TargetVersion)-appservice-stage$(StageNumber)
       docker push $TARGET_REGISTRY/node:$(TargetVersion)-node18-appservice-stage$(StageNumber)
+
+      docker system prune -a -f
+    displayName: tag and push node images
+    continueOnError: false
+  
+  - bash: |
+      set -e
+      docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node20-appservice
+
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node20-appservice $TARGET_REGISTRY/node:$(TargetVersion)-node20-appservice-stage$(StageNumber)
+
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)-node20-appservice-stage$(StageNumber)
 
       docker system prune -a -f
     displayName: tag and push node images
