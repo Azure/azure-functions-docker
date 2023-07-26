@@ -1,13 +1,7 @@
 # Build the runtime from source
 ARG HOST_VERSION=4.23.1
-ARG JAVA_VERSION=8u362b09
-ARG JDK_NAME=jdk8u362-b09
-ARG JAVA_HOME=/usr/lib/jvm/adoptium-8-x64
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS runtime-image
 ARG HOST_VERSION
-ARG JAVA_VERSION
-ARG JDK_NAME
-ARG JAVA_HOME
 
 ENV PublishWithAspNetCoreTargetManifest=false
 
@@ -21,19 +15,19 @@ RUN BUILD_NUMBER=$(echo ${HOST_VERSION} | cut -d'.' -f 3) && \
 
 RUN apt-get update && \
     apt-get install -y gnupg wget unzip && \
-    EXTENSION_BUNDLE_VERSION_V2=2.26.0 && \
+    EXTENSION_BUNDLE_VERSION_V2=2.27.0 && \
     EXTENSION_BUNDLE_FILENAME_V2=Microsoft.Azure.Functions.ExtensionBundle.${EXTENSION_BUNDLE_VERSION_V2}_linux-x64.zip && \
     wget https://functionscdn.azureedge.net/public/ExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION_V2/$EXTENSION_BUNDLE_FILENAME_V2 && \
     mkdir -p /FuncExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION_V2 && \
     unzip /$EXTENSION_BUNDLE_FILENAME_V2 -d /FuncExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION_V2 && \
     rm -f /$EXTENSION_BUNDLE_FILENAME_V2 &&\
-    EXTENSION_BUNDLE_VERSION_V3=3.24.0 && \
+    EXTENSION_BUNDLE_VERSION_V3=3.26.0 && \
     EXTENSION_BUNDLE_FILENAME_V3=Microsoft.Azure.Functions.ExtensionBundle.${EXTENSION_BUNDLE_VERSION_V3}_linux-x64.zip && \
     wget https://functionscdn.azureedge.net/public/ExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION_V3/$EXTENSION_BUNDLE_FILENAME_V3 && \
     mkdir -p /FuncExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION_V3 && \
     unzip /$EXTENSION_BUNDLE_FILENAME_V3 -d /FuncExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION_V3 && \
     rm -f /$EXTENSION_BUNDLE_FILENAME_V3 &&\
-    EXTENSION_BUNDLE_VERSION_V4=4.7.0 && \
+    EXTENSION_BUNDLE_VERSION_V4=4.8.0 && \
     EXTENSION_BUNDLE_FILENAME_V4=Microsoft.Azure.Functions.ExtensionBundle.${EXTENSION_BUNDLE_VERSION_V4}_linux-x64.zip && \
     wget https://functionscdn.azureedge.net/public/ExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION_V4/$EXTENSION_BUNDLE_FILENAME_V4 && \
     mkdir -p /FuncExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION_V4 && \
@@ -41,34 +35,28 @@ RUN apt-get update && \
     rm -f /$EXTENSION_BUNDLE_FILENAME_V4 &&\
     find /FuncExtensionBundles/ -type f -exec chmod 644 {} \;
 
-RUN wget https://github.com/adoptium/temurin8-binaries/releases/download/${JDK_NAME}/OpenJDK8U-jdk_x64_linux_hotspot_${JAVA_VERSION}.tar.gz && \
-    mkdir -p ${JAVA_HOME} && \
-    tar -xzf OpenJDK8U-jdk_x64_linux_hotspot_${JAVA_VERSION}.tar.gz -C ${JAVA_HOME} --strip-components=1 && \
-    rm -f OpenJDK8U-jdk_x64_linux_hotspot_${JAVA_VERSION}.tar.gz
-
 FROM mcr.microsoft.com/dotnet/runtime-deps:6.0
 ARG HOST_VERSION
-ARG JAVA_HOME
+
+RUN apt-get update && \
+    apt-get install -y curl gnupg && \
+    curl -sL https://deb.nodesource.com/setup_20.x | bash - && \
+    apt-get update && \
+    apt-get install -y nodejs
 
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     HOME=/home \
-    FUNCTIONS_WORKER_RUNTIME=java \
+    FUNCTIONS_WORKER_RUNTIME=node \
     DOTNET_USE_POLLING_FILE_WATCHER=true \
     HOST_VERSION=${HOST_VERSION} \
-    ASPNETCORE_CONTENTROOT=/azure-functions-host \
-    JAVA_HOME=${JAVA_HOME}
+    ASPNETCORE_CONTENTROOT=/azure-functions-host
 
 # Fix from https://github.com/GoogleCloudPlatform/google-cloud-dotnet-powerpack/issues/22#issuecomment-729895157
 RUN apt-get update && \
     apt-get install -y libc-dev
 
-# Fix from https://github.com/AdoptOpenJDK/blog/blob/ba5844ddc0b7e25d8ae49ac65a8b4e25dea5a48c/content/blog/prerequisites-for-font-support-in-adoptopenjdk/index.md#linux
-RUN apt-get update && \
-    apt-get install -y libfreetype6 fontconfig fonts-dejavu
-
 COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
-COPY --from=runtime-image [ "/workers/java", "/azure-functions-host/workers/java" ]
-COPY --from=runtime-image [ "${JAVA_HOME}", "${JAVA_HOME}" ]
+COPY --from=runtime-image [ "/workers/node", "/azure-functions-host/workers/node" ]
 COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
 
 CMD [ "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost" ]
