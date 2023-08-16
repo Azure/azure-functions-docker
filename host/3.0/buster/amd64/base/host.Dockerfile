@@ -16,6 +16,7 @@ RUN BUILD_NUMBER=$(echo ${HOST_VERSION} | cut -d'.' -f 3) && \
     rm -rf /root/.local /root/.nuget /src && \
     find /workers/node/dist/src/grpc/src/node/extension_binary/ -mindepth 1 -type d ! -regex ".*linux-x64.*" -prune -exec rm -rf '{}' \;
 
+## Do not upgrade Extension Bundles for v3 images.  They are manually capped in the Host.   Link : https://github.com/Azure/azure-functions-host/commit/d251aef1d33a585294a849e6750c4a950d75fc1b
 RUN EXTENSION_BUNDLE_VERSION=1.8.1 && \
     EXTENSION_BUNDLE_FILENAME=Microsoft.Azure.Functions.ExtensionBundle.1.8.1_linux-x64.zip && \
     apt-get update && \
