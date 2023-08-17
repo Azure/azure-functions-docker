@@ -6,7 +6,7 @@ ARG HOST_VERSION
 ENV PublishWithAspNetCoreTargetManifest=false
 
 RUN apk update && apk upgrade && \
-    apk --no-cache add git gnupg wget unzip
+    apk --no-cache add git gnupg wget unzip grpc grpc-plugins protobuf protobuf-dev protoc
 
 RUN BUILD_NUMBER=$(echo ${HOST_VERSION} | cut -d'.' -f 3) && \
     git clone --branch v${HOST_VERSION} https://github.com/Azure/azure-functions-host /src/azure-functions-host && \
