@@ -8,6 +8,9 @@ ENV PublishWithAspNetCoreTargetManifest=false
 RUN apk update && apk upgrade && \
     apk --no-cache add git gnupg wget unzip grpc grpc-plugins protobuf protobuf-dev protoc
 
+ENV GRPC_PROTOC_PLUGIN=/usr/bin/grpc_csharp_plugin
+ENV PROTOBUF_PROTOC=/usr/bin/protoc
+
 RUN BUILD_NUMBER=$(echo ${HOST_VERSION} | cut -d'.' -f 3) && \
     git clone --branch v${HOST_VERSION} https://github.com/Azure/azure-functions-host /src/azure-functions-host && \
     cd /src/azure-functions-host && \
