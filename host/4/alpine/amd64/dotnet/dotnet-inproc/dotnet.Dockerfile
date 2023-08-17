@@ -5,8 +5,8 @@ ARG HOST_VERSION
 
 ENV PublishWithAspNetCoreTargetManifest=false
 
-RUN apt-get update && \
-    apt-get install -y gnupg wget unzip
+RUN apk update && apk upgrade && \
+    apk --no-cache add git gnupg wget unzip
 
 RUN BUILD_NUMBER=$(echo ${HOST_VERSION} | cut -d'.' -f 3) && \
     git clone --branch v${HOST_VERSION} https://github.com/Azure/azure-functions-host /src/azure-functions-host && \
