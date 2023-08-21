@@ -147,16 +147,10 @@ steps:
       docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java17-build
       docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java17-appservice
 
-      docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java8.1-appservice
-      docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java11.1-appservice
-
       docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8 $TARGET_REGISTRY/java:$(TargetVersion)
       docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-slim $TARGET_REGISTRY/java:$(TargetVersion)-slim
       docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-appservice $TARGET_REGISTRY/java:$(TargetVersion)-appservice
       
-      docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8.1-appservice $TARGET_REGISTRY/java:$(TargetVersion)-java8.1-appservice
-      docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java11.1-appservice $TARGET_REGISTRY/java:$(TargetVersion)-java11.1-appservice
-
       docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8 $TARGET_REGISTRY/java:$(TargetVersion)-java8
       docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-slim $TARGET_REGISTRY/java:$(TargetVersion)-java8-slim
       docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-appservice $TARGET_REGISTRY/java:$(TargetVersion)-java8-appservice
@@ -176,9 +170,6 @@ steps:
       docker push $TARGET_REGISTRY/java:$(TargetVersion)
       docker push $TARGET_REGISTRY/java:$(TargetVersion)-slim
       docker push $TARGET_REGISTRY/java:$(TargetVersion)-appservice
-
-      docker push $TARGET_REGISTRY/java:$(TargetVersion)-java8.1-appservice
-      docker push $TARGET_REGISTRY/java:$(TargetVersion)-java11.1-appservice
 
       docker push $TARGET_REGISTRY/java:$(TargetVersion)-java8
       docker push $TARGET_REGISTRY/java:$(TargetVersion)-java8-slim

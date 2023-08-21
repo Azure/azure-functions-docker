@@ -161,12 +161,10 @@ steps:
       docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java8
       docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-slim
       docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-appservice
-      docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java8.1-appservice
       docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-build
       docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java11
       docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java11-slim
       docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java11-appservice
-      docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java11.1-appservice
       docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java11-build
       docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java17
       docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java17-slim
@@ -181,13 +179,11 @@ steps:
       docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8 $TARGET_REGISTRY/java:$(TargetVersion)-java8
       docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-slim $TARGET_REGISTRY/java:$(TargetVersion)-java8-slim
       docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-appservice $TARGET_REGISTRY/java:$(TargetVersion)-java8-appservice
-      docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8.1-appservice $TARGET_REGISTRY/java:$(TargetVersion)-java8.1-appservice
       docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-appservice $TARGET_REGISTRY/java:$(TargetVersion)-java8-appservice-quickstart
 
       docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java11 $TARGET_REGISTRY/java:$(TargetVersion)-java11
       docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java11-slim $TARGET_REGISTRY/java:$(TargetVersion)-java11-slim
       docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java11-appservice $TARGET_REGISTRY/java:$(TargetVersion)-java11-appservice
-      docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java11.1-appservice $TARGET_REGISTRY/java:$(TargetVersion)-java11.1-appservice
       docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java11-appservice $TARGET_REGISTRY/java:$(TargetVersion)-java11-appservice-quickstart
 
       docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java17 $TARGET_REGISTRY/java:$(TargetVersion)-java17
@@ -207,13 +203,11 @@ steps:
       docker push $TARGET_REGISTRY/java:$(TargetVersion)-java8
       docker push $TARGET_REGISTRY/java:$(TargetVersion)-java8-slim
       docker push $TARGET_REGISTRY/java:$(TargetVersion)-java8-appservice
-      docker push $TARGET_REGISTRY/java:$(TargetVersion)-java8.1-appservice
       docker push $TARGET_REGISTRY/java:$(TargetVersion)-java8-appservice-quickstart
 
       docker push $TARGET_REGISTRY/java:$(TargetVersion)-java11
       docker push $TARGET_REGISTRY/java:$(TargetVersion)-java11-slim
       docker push $TARGET_REGISTRY/java:$(TargetVersion)-java11-appservice
-      docker push $TARGET_REGISTRY/java:$(TargetVersion)-java11.1-appservice
       docker push $TARGET_REGISTRY/java:$(TargetVersion)-java11-appservice-quickstart
 
       docker push $TARGET_REGISTRY/java:$(TargetVersion)-java17
