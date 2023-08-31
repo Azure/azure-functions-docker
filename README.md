@@ -38,6 +38,9 @@ Linux amd64 Tags
 | `4-dotnet-isolated7.0-slim`               | Debian 11 |
 | `4-dotnet-isolated7.0-appservice`         | Debian 11 |
 | `4-dotnet-isolated7.0-appservice-quickstart` | Debian 11 |
+| `4-dotnet-isolated8.0`                    | Debian 12 |
+| `4-dotnet-isolated8.0-slim`               | Debian 12 |
+| `4-dotnet-isolated8.0-appservice`         | Debian 12 |
 
 #### Node
 
