@@ -17,7 +17,7 @@ RUN apt-get update && \
     apt-get install -y gnupg wget unzip
 
 # TO DO : Replace preview tags. https://github.com/Azure/azure-functions-docker/issues/927
-FROM mcr.microsoft.com/dotnet/aspnet:8.0-preview-bookworm-slim-amd64
+FROM mcr.microsoft.com/dotnet/aspnet:8.0-bookworm-slim-amd64
 ARG HOST_VERSION
 
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
