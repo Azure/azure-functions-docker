@@ -11,7 +11,7 @@ ARG HOST_VERSION
 ENV PublishWithAspNetCoreTargetManifest=false
 
 RUN BUILD_NUMBER=$(echo ${HOST_VERSION} | cut -d'.' -f 3) && \
-    git clone --branch v${HOST_VERSION} https://github.com/Azure/azure-functions-host /src/azure-functions-host && \
+    git clone --branch liliankasem/bug/skip-channel-recreation https://github.com/Azure/azure-functions-host /src/azure-functions-host && \
     cd /src/azure-functions-host && \
     HOST_COMMIT=$(git rev-list -1 HEAD) && \
     dotnet publish -v q /p:BuildNumber=$BUILD_NUMBER /p:CommitHash=$HOST_COMMIT src/WebJobs.Script.WebHost/WebJobs.Script.WebHost.csproj -c Release --output /azure-functions-host --runtime linux-x64 && \
@@ -105,5 +105,11 @@ COPY --from=runtime-image [ "/workers/python/worker.config.json", "/azure-functi
 COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
 
 ENV FUNCTIONS_WORKER_RUNTIME_VERSION=3.9
+ENV AzureFunctionsJobHost__Logging__Console__IsEnabled=true
+
+COPY app/requirements.txt /
+RUN pip install -r /requirements.txt
+
+COPY app/ /home/site/wwwroot
 
 CMD [ "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost" ]
