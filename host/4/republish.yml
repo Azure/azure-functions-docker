@@ -37,11 +37,13 @@ steps:
       docker pull $SOURCE_REGISTRY/dotnet:$(PrivateVersion)
       docker pull $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-slim
       docker pull $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-appservice
+      docker pull $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-alpine
 
       docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion) $TARGET_REGISTRY/dotnet:$(TargetVersion)
       docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-slim $TARGET_REGISTRY/dotnet:$(TargetVersion)-slim
       docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-appservice $TARGET_REGISTRY/dotnet:$(TargetVersion)-dotnet6-appservice
       docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-appservice $TARGET_REGISTRY/dotnet:$(TargetVersion)-appservice
+      docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-alpine $TARGET_REGISTRY/dotnet:$(TargetVersion)-alpine
 
       docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion) $TARGET_REGISTRY/base:$(TargetVersion)
       docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-slim $TARGET_REGISTRY/base:$(TargetVersion)-slim
@@ -51,6 +53,7 @@ steps:
       docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-slim
       docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-dotnet6-appservice
       docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-appservice
+      docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-alpine
       docker push $TARGET_REGISTRY/base:$(TargetVersion)
       docker push $TARGET_REGISTRY/base:$(TargetVersion)-slim
       docker push $TARGET_REGISTRY/base:$(TargetVersion)-appservice
