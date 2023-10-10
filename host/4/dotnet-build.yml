@@ -10,6 +10,7 @@ pr:
     include:
       - host/4/bullseye/amd64/base/*
       - host/4/bullseye/amd64/dotnet/*
+      - host/4/bookworm/dotnet/*
       - host/4/mariner/dotnet/*
       - host/4/dotnet-build.yml
 
@@ -221,8 +222,26 @@ steps:
                   host/4/bullseye/amd64/out/dotnet/
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
+
+      docker system df -v
     displayName: dotnet-isolated-appservice (.NET 8 Preview)
     continueOnError: false
+
+  - bash: |
+      docker system df -v
+      set -e
+      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/dotnet:$(Build.SourceBranchName)-dotnet6-bookworm
+      IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
+      echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
+
+      docker build -t $IMAGE_NAME \
+                  -f host/4/bookworm/dotnet/dotnet6.Dockerfile \
+                  host/4/bookworm/dotnet
+      npm run test $IMAGE_NAME --prefix  test/
+      docker push $IMAGE_NAME
+    displayName: dotnet6-bookworm
+    continueOnError: false
+
 
   - task: AzureArtifacts.manifest-generator-task.manifest-generator-task.ManifestGeneratorTask@0
     displayName: 'Manifest Generator'
