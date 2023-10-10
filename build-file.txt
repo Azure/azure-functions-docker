@@ -1,0 +1,1 @@
+Dotnet 8 RC2 Build trigger file - This file is necessray to trigger a new Azure Pipelines build for dotnet8 RC2
