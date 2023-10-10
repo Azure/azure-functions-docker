@@ -75,9 +75,7 @@ COPY --from=runtime-image ["/azure-functions-host", "/azure-functions-host"]
 COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
 COPY --from=runtime-image [ "/workers/python/3.11/LINUX", "/azure-functions-host/workers/python/3.11/LINUX" ]
 COPY --from=runtime-image [ "/workers/python/worker.config.json", "/azure-functions-host/workers/python" ]
-COPY --from=python [ "/usr", "/usr" ]
-COPY --from=python [ "/lib", "/lib" ]
-COPY --from=python [ "/lib64", "/lib64" ]
+COPY --from=python [ "/", "/" ]
 
 ENV LANG=C.UTF-8 \
     ACCEPT_EULA=Y \
