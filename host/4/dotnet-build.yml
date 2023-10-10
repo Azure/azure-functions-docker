@@ -222,10 +222,13 @@ steps:
                   host/4/bullseye/amd64/out/dotnet/
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
+
+      docker system df -v
     displayName: dotnet-isolated-appservice (.NET 8 Preview)
     continueOnError: false
 
   - bash: |
+      docker system df -v
       set -e
       IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/dotnet:$(Build.SourceBranchName)-dotnet6-bookworm
       IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
