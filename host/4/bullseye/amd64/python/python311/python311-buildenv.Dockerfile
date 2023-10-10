@@ -24,15 +24,15 @@ ENV LANG=C.UTF-8 \
 RUN apt-get update && \
     apt-get install -y wget apt-transport-https curl gnupg locales && \
     echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections && \
-    curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
-    curl https://packages.microsoft.com/config/debian/11/prod.list > /etc/apt/sources.list.d/mssql-release.list && \
+    curl https://packages.microsoft.com/keys/microsoft.asc | tee /etc/apt/trusted.gpg.d/microsoft.asc && \
+    curl https://packages.microsoft.com/config/debian/11/prod.list | tee /etc/apt/sources.list.d/mssql-release.list && \
     # Needed for libss1.0.0 and in turn MS SQL
     echo 'deb http://security.debian.org/debian-security bullseye-security main' >> /etc/apt/sources.list && \
     # install necessary locales for MS SQL
     echo 'en_US.UTF-8 UTF-8' > /etc/locale.gen && \
     locale-gen && \
     apt-get update && \
-    ACCEPT_EULA=Y apt-get install -y unixodbc msodbcsql17 mssql-tools &&\
+    ACCEPT_EULA=Y apt-get install -y unixodbc msodbcsql18 mssql-tools18 &&\
     apt-get install -y --no-install-recommends ca-certificates \
     libc6 libgcc1 libgssapi-krb5-2 libicu67 libssl1.1 libstdc++6 zlib1g &&\
     apt-get install -y libglib2.0-0 libsm6 libxext6 libxrender-dev xvfb binutils\
