@@ -1,8 +1,8 @@
 # Build the runtime from source
-ARG HOST_VERSION=4.27.2
+ARG HOST_VERSION=4.27.3
 ARG JAVA_VERSION=21.0.0
 ARG JAVA_HOME=/usr/lib/jvm/msft-21-x64
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS runtime-image
+FROM mcr.microsoft.com/azure-functions/dotnet:4-dotnet6-bookworm AS runtime-image
 ARG HOST_VERSION
 ARG JAVA_VERSION
 ARG JAVA_HOME
@@ -32,7 +32,7 @@ RUN apt-get update && \
     mkdir -p /FuncExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION_V3 && \
     unzip /$EXTENSION_BUNDLE_FILENAME_V3 -d /FuncExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION_V3 && \
     rm -f /$EXTENSION_BUNDLE_FILENAME_V3 &&\
-    EXTENSION_BUNDLE_VERSION_V4=4.10.0 && \
+    EXTENSION_BUNDLE_VERSION_V4=4.9.0 && \
     EXTENSION_BUNDLE_FILENAME_V4=Microsoft.Azure.Functions.ExtensionBundle.${EXTENSION_BUNDLE_VERSION_V4}_linux-x64.zip && \
     wget https://functionscdn.azureedge.net/public/ExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION_V4/$EXTENSION_BUNDLE_FILENAME_V4 && \
     mkdir -p /FuncExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION_V4 && \
