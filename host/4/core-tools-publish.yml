@@ -181,8 +181,8 @@ stages:
           set -e
           IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/java:$(PrivateVersion)-java21-core-tools
           docker build -t $IMAGE_NAME \
-                      -f host/4/bullseye/amd64/java/java21/java21-core-tools.Dockerfile \
-                      host/4/bullseye/amd64/java/java21
+                      -f host/4/bookworm/java/java21/java21-core-tools.Dockerfile \
+                      host/4/bookworm/java/java21
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
         displayName: java21-core-tools

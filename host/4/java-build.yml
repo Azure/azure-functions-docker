@@ -10,6 +10,7 @@ pr:
     include:
       - host/4/bullseye/amd64/base/*
       - host/4/bullseye/amd64/java/*
+      - host/4/bookworm/java/*
       - host/4/java-build.yml
 
 trigger:
@@ -31,12 +32,16 @@ jobs:
       matrix:
         _8:
           javaVersion: "8"
+          path: "bullseye/amd64"
         _11:
           javaVersion: "11"
+          path: "bullseye/amd64"
         _17:
           javaVersion: "17"
+          path: "bullseye/amd64"
         _21:
           javaVersion: "21"
+          path: "bookworm"
     steps:
       - bash: |
           # login
@@ -50,8 +55,8 @@ jobs:
 
       - bash: |
           set -e
-          cp host/mvn-entrypoint.sh host/4/bullseye/amd64/java/java$(javaVersion)
-          cp host/settings-docker.xml host/4/bullseye/amd64/java/java$(javaVersion)
+          cp host/mvn-entrypoint.sh host/4/$(path)/java/java$(javaVersion)
+          cp host/settings-docker.xml host/4/$(path)/java/java$(javaVersion)
 
       - bash: |
           ./host/generate-composite.sh -4 java
@@ -66,8 +71,8 @@ jobs:
           echo "##vso[task.setvariable variable=image_list;]$IMAGE_NAME"
 
           docker build -t $IMAGE_NAME \
-                      -f host/4/bullseye/amd64/java/java$(javaVersion)/java$(javaVersion).Dockerfile \
-                      host/4/bullseye/amd64/java/java$(javaVersion)
+                      -f host/4/$(path)/java/java$(javaVersion)/java$(javaVersion).Dockerfile \
+                      host/4/$(path)/java/java$(javaVersion)
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
         displayName: java$(javaVersion)
@@ -80,8 +85,8 @@ jobs:
           echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
 
           docker build -t $IMAGE_NAME \
-                      -f host/4/bullseye/amd64/java/java$(javaVersion)/java$(javaVersion)-slim.Dockerfile \
-                      host/4/bullseye/amd64/java/java$(javaVersion)
+                      -f host/4/$(path)/java/java$(javaVersion)/java$(javaVersion)-slim.Dockerfile \
+                      host/4/$(path)/java/java$(javaVersion)
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
         displayName: java$(javaVersion)-slim
@@ -94,8 +99,8 @@ jobs:
           echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
 
           docker build -t $IMAGE_NAME \
-                      -f host/4/bullseye/amd64/out/java/java$(javaVersion)-appservice.Dockerfile \
-                      host/4/bullseye/amd64/out/java
+                      -f host/4/$(path)/out/java/java$(javaVersion)-appservice.Dockerfile \
+                      host/4/$(path)/out/java
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
         displayName: java$(javaVersion)-appservice
@@ -108,8 +113,8 @@ jobs:
           echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
 
           docker build -t $IMAGE_NAME \
-                      -f host/4/bullseye/amd64/java/java$(javaVersion)/java$(javaVersion)-build.Dockerfile \
-                      host/4/bullseye/amd64/java/java$(javaVersion)
+                      -f host/4/$(path)/java/java$(javaVersion)/java$(javaVersion)-build.Dockerfile \
+                      host/4/$(path)/java/java$(javaVersion)
           docker push $IMAGE_NAME
         displayName: java$(javaVersion)-build
         continueOnError: false

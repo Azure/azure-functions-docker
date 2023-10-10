@@ -2,7 +2,7 @@
 ARG HOST_VERSION=4.27.3
 ARG JAVA_VERSION=21.0.0
 ARG JAVA_HOME=/usr/lib/jvm/msft-21-x64
-FROM mcr.microsoft.com/azure-functions/dotnet:4-dotnet6-bookworm AS runtime-image
+FROM mcr.microsoft.com/dotnet/sdk:6.0-bookworm-slim-amd64 AS runtime-image
 ARG HOST_VERSION
 ARG JAVA_VERSION
 ARG JAVA_HOME
