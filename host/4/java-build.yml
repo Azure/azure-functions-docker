@@ -33,15 +33,19 @@ jobs:
         _8:
           javaVersion: "8"
           path: "bullseye/amd64"
+          appservicePath: "host/4/bullseye/amd64/out/java/java8-appservice.Dockerfile"
         _11:
           javaVersion: "11"
           path: "bullseye/amd64"
+          appservicePath: "host/4/bullseye/amd64/out/java/java11-appservice.Dockerfile"
         _17:
           javaVersion: "17"
           path: "bullseye/amd64"
+          appservicePath: "host/4/bullseye/amd64/out/java/java17-appservice.Dockerfile"
         _21:
           javaVersion: "21"
           path: "bookworm"
+          appservicePath: "host/4/bookworm/java/java21/java21-appservice.Dockerfile"
     steps:
       - bash: |
           # login
@@ -99,7 +103,7 @@ jobs:
           echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
 
           docker build -t $IMAGE_NAME \
-                      -f host/4/$(path)/out/java/java$(javaVersion)-appservice.Dockerfile \
+                      -f $(appservicePath) \
                       host/4/$(path)/out/java
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
