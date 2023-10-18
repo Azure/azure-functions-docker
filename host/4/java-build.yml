@@ -9,9 +9,8 @@ pr:
   paths:
     include:
       - host/4/bullseye/amd64/base/*
-      - host/4/bullseye/amd64/java/java8/*
-      - host/4/bullseye/amd64/java/java11/*
-      - host/4/bullseye/amd64/java/java17/*
+      - host/4/bullseye/amd64/java/*
+      - host/4/bookworm/java/*
       - host/4/java-build.yml
 
 trigger:
@@ -27,208 +26,115 @@ variables:
 - name: image_list
   value: ''
 
-steps:
-  - bash: |
-      # login
-      set -e
-      echo $pswd | docker login -u $(dockerUsername) --password-stdin azurefunctions.azurecr.io
+jobs:
+  - job: Java
+    strategy:
+      matrix:
+        _8:
+          javaVersion: "8"
+          dockerfilePath: "bullseye/amd64"
+          appservicePath: "host/4/bullseye/amd64/out/java"
+        _11:
+          javaVersion: "11"
+          dockerfilePath: "bullseye/amd64"
+          appservicePath: "host/4/bullseye/amd64/out/java"
+        _17:
+          javaVersion: "17"
+          dockerfilePath: "bullseye/amd64"
+          appservicePath: "host/4/bullseye/amd64/out/java"
+        _21:
+          javaVersion: "21"
+          dockerfilePath: "bookworm"
+          appservicePath: "host/4/bookworm/java/java21"
+    steps:
+      - bash: |
+          # login
+          set -e
+          echo $pswd | docker login -u $(dockerUsername) --password-stdin azurefunctions.azurecr.io
 
-    displayName: login to registry
-    continueOnError: false
-    env:
-      pswd: $(dockerPassword)
+        displayName: login to registry
+        continueOnError: false
+        env:
+          pswd: $(dockerPassword)
 
-  - bash: |
-      set -e
-      cp host/mvn-entrypoint.sh host/4/bullseye/amd64/java/java8
-      cp host/mvn-entrypoint.sh host/4/bullseye/amd64/java/java11
-      cp host/mvn-entrypoint.sh host/4/bullseye/amd64/java/java17
-      cp host/settings-docker.xml host/4/bullseye/amd64/java/java8
-      cp host/settings-docker.xml host/4/bullseye/amd64/java/java11
-      cp host/settings-docker.xml host/4/bullseye/amd64/java/java17
-      
+      - bash: |
+          set -e
+          cp host/mvn-entrypoint.sh host/4/$(dockerfilePath)/java/java$(javaVersion)
+          cp host/settings-docker.xml host/4/$(dockerfilePath)/java/java$(javaVersion)
 
-  - bash: |
-      ./host/generate-composite.sh -4 java
+      - bash: |
+          ./host/generate-composite.sh -4 java
 
-    displayName: create java-appservice dockerfiles
-    continueOnError: false
+        displayName: create java-appservice dockerfiles
+        continueOnError: false
 
-  - bash: |
-      set -e
-      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/java:$(Build.SourceBranchName)-java8
-      echo "##vso[task.setvariable variable=image_list;]$IMAGE_NAME"
+      - bash: |
+          set -e
+          IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/java:$(Build.SourceBranchName)-java$(javaVersion)
+          IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
+          echo "##vso[task.setvariable variable=image_list;]$IMAGE_NAME"
 
-      docker build -t $IMAGE_NAME \
-                  -f host/4/bullseye/amd64/java/java8/java8.Dockerfile \
-                  host/4/bullseye/amd64/java/java8
-      npm run test $IMAGE_NAME --prefix  test/
-      docker push $IMAGE_NAME
-    displayName: java8
-    continueOnError: false
+          docker build -t $IMAGE_NAME \
+                      -f host/4/$(dockerfilePath)/java/java$(javaVersion)/java$(javaVersion).Dockerfile \
+                      host/4/$(dockerfilePath)/java/java$(javaVersion)
+          npm run test $IMAGE_NAME --prefix  test/
+          docker push $IMAGE_NAME
+        displayName: java$(javaVersion)
+        continueOnError: false
 
-  - bash: |
-      set -e
-      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/java:$(Build.SourceBranchName)-java8-slim
-      IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
-      echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
+      - bash: |
+          set -e
+          IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/java:$(Build.SourceBranchName)-java$(javaVersion)-slim
+          IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
+          echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
 
-      docker build -t $IMAGE_NAME \
-                  -f host/4/bullseye/amd64/java/java8/java8-slim.Dockerfile \
-                  host/4/bullseye/amd64/java/java8
-      npm run test $IMAGE_NAME --prefix  test/
-      docker push $IMAGE_NAME
-    displayName: java8-slim
-    continueOnError: false
+          docker build -t $IMAGE_NAME \
+                      -f host/4/$(dockerfilePath)/java/java$(javaVersion)/java$(javaVersion)-slim.Dockerfile \
+                      host/4/$(dockerfilePath)/java/java$(javaVersion)
+          npm run test $IMAGE_NAME --prefix  test/
+          docker push $IMAGE_NAME
+        displayName: java$(javaVersion)-slim
+        continueOnError: false
 
-  - bash: |
-      set -e
-      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/java:$(Build.SourceBranchName)-java8-appservice
-      IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
-      echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
+      - bash: |
+          set -e
+          IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/java:$(Build.SourceBranchName)-java$(javaVersion)-appservice
+          IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
+          echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
 
-      docker build -t $IMAGE_NAME \
-                  -f host/4/bullseye/amd64/out/java/java8-appservice.Dockerfile \
-                  host/4/bullseye/amd64/out/java
-      npm run test $IMAGE_NAME --prefix  test/
-      docker push $IMAGE_NAME
-    displayName: java8-appservice
-    continueOnError: false
+          docker build -t $IMAGE_NAME \
+                      -f $(appservicePath)/java$(javaVersion)-appservice.Dockerfile \
+                      $(appservicePath)
+          npm run test $IMAGE_NAME --prefix  test/
+          docker push $IMAGE_NAME
+        displayName: java$(javaVersion)-appservice
+        continueOnError: false
 
-  - bash: |
-      set -e
-      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/java:$(Build.SourceBranchName)-java8-build
-      IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
-      echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
+      - bash: |
+          set -e
+          IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/java:$(Build.SourceBranchName)-java$(javaVersion)-build
+          IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
+          echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
 
-      docker build -t $IMAGE_NAME \
-                  -f host/4/bullseye/amd64/java/java8/java8-build.Dockerfile \
-                  host/4/bullseye/amd64/java/java8
-      docker push $IMAGE_NAME
-    displayName: java8-build
-    continueOnError: false
+          docker build -t $IMAGE_NAME \
+                      -f host/4/$(dockerfilePath)/java/java$(javaVersion)/java$(javaVersion)-build.Dockerfile \
+                      host/4/$(dockerfilePath)/java/java$(javaVersion)
+          docker push $IMAGE_NAME
+        displayName: java$(javaVersion)-build
+        continueOnError: false
 
-  - bash: |
-      set -e
-      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/java:$(Build.SourceBranchName)-java11
-      IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
-      echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
-      
+  - job: Publish
+    dependsOn: Java
+    steps:
+      - task: AzureArtifacts.manifest-generator-task.manifest-generator-task.ManifestGeneratorTask@0
+        displayName: 'Manifest Generator'
+        inputs:
+          BuildDropPath: host
+          Verbosity: Verbose
+          DockerImagesToScan: $(image_list)
 
-      docker build -t $IMAGE_NAME \
-                -f host/4/bullseye/amd64/java/java11/java11.Dockerfile \
-                host/4/bullseye/amd64/java/java11
-      npm run test $IMAGE_NAME --prefix  test/
-      docker push $IMAGE_NAME
-    displayName: java11
-    continueOnError: false
-
-  - bash: |
-      set -e
-      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/java:$(Build.SourceBranchName)-java11-slim
-      IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
-      echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
-
-      docker build -t $IMAGE_NAME \
-                  -f host/4/bullseye/amd64/java/java11/java11-slim.Dockerfile \
-                  host/4/bullseye/amd64/java/java11
-      npm run test $IMAGE_NAME --prefix  test/
-      docker push $IMAGE_NAME
-    displayName: java11-slim
-    continueOnError: false
-
-  - bash: |
-      set -e
-      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/java:$(Build.SourceBranchName)-java11-appservice
-      IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
-      echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
-
-      docker build -t $IMAGE_NAME \
-                  -f host/4/bullseye/amd64/out/java/java11-appservice.Dockerfile \
-                  host/4/bullseye/amd64/out/java
-      npm run test $IMAGE_NAME --prefix  test/
-      docker push $IMAGE_NAME
-    displayName: java11-appservice
-    continueOnError: false
-
-  - bash: |
-      set -e
-      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/java:$(Build.SourceBranchName)-java11-build
-      IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
-      echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
-
-      docker build -t $IMAGE_NAME \
-                  -f host/4/bullseye/amd64/java/java11/java11-build.Dockerfile \
-                  host/4/bullseye/amd64/java/java11
-      docker push $IMAGE_NAME
-    displayName: java11-build
-    continueOnError: false
-
-  - bash: |
-      set -e
-      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/java:$(Build.SourceBranchName)-java17
-      IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
-      echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
-      
-
-      docker build -t $IMAGE_NAME \
-                -f host/4/bullseye/amd64/java/java17/java17.Dockerfile \
-                host/4/bullseye/amd64/java/java17
-      npm run test $IMAGE_NAME --prefix  test/
-      docker push $IMAGE_NAME
-    displayName: java17
-    continueOnError: false
-
-  - bash: |
-      set -e
-      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/java:$(Build.SourceBranchName)-java17-slim
-      IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
-      echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
-
-      docker build -t $IMAGE_NAME \
-                  -f host/4/bullseye/amd64/java/java17/java17-slim.Dockerfile \
-                  host/4/bullseye/amd64/java/java17
-      npm run test $IMAGE_NAME --prefix  test/
-      docker push $IMAGE_NAME
-    displayName: java17-slim
-    continueOnError: false
-
-  - bash: |
-      set -e
-      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/java:$(Build.SourceBranchName)-java17-appservice
-      IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
-      echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
-
-      docker build -t $IMAGE_NAME \
-                  -f host/4/bullseye/amd64/out/java/java17-appservice.Dockerfile \
-                  host/4/bullseye/amd64/out/java
-      npm run test $IMAGE_NAME --prefix  test/
-      docker push $IMAGE_NAME
-    displayName: java17-appservice
-    continueOnError: false
-
-  - bash: |
-      set -e
-      IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/java:$(Build.SourceBranchName)-java17-build
-      IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
-      echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
-
-      docker build -t $IMAGE_NAME \
-                  -f host/4/bullseye/amd64/java/java17/java17-build.Dockerfile \
-                  host/4/bullseye/amd64/java/java17
-      docker push $IMAGE_NAME
-    displayName: java17-build
-    continueOnError: false
-
-  - task: AzureArtifacts.manifest-generator-task.manifest-generator-task.ManifestGeneratorTask@0
-    displayName: 'Manifest Generator'
-    inputs:
-      BuildDropPath: host
-      Verbosity: Verbose
-      DockerImagesToScan: $(image_list)
-
-  - task: PublishPipelineArtifact@1
-    displayName: 'Publish SBOM Artifact'
-    inputs:
-      targetPath: host/_manifest
-      artifact: SBOM-Functionsv4-Java-$(Build.SourceBranchName)
+      - task: PublishPipelineArtifact@1
+        displayName: 'Publish SBOM Artifact'
+        inputs:
+          targetPath: host/_manifest
+          artifact: SBOM-Functionsv4-Java-$(Build.SourceBranchName)
