@@ -37,7 +37,7 @@ jobs:
           dockerfilePath: "bullseye/amd64"
           appservicePath: "host/4/bullseye/amd64/out/powershell"
         _74:
-          powerShellVersion: "7.4"
+          psVersion: "7.4"
           psFileVersion: "74"
           dockerfilePath: "bookworm"
           appservicePath: "host/4/bookworm/powershell"
