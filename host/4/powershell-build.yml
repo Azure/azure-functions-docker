@@ -40,7 +40,7 @@ jobs:
           psVersion: "7.4"
           psFileVersion: "74"
           dockerfilePath: "bookworm"
-          appservicePath: "host/4/bookworm/powershell"
+          appservicePath: "host/4/bookworm/powershell/powershell74"
     steps:
       - bash: |
           # login
@@ -94,7 +94,7 @@ jobs:
 
           docker build -t $IMAGE_NAME \
                       -f $(appservicePath)/powershell$(psFileVersion)-appservice.Dockerfile \
-                      host/4/$(dockerfilePath)/out/powershell
+                      $(appservicePath)
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
         displayName: powershell$(psVersion)-appservice
