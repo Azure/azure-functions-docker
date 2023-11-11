@@ -26,7 +26,6 @@ jobs:
         git config --local user.name "Azure Functions"
         git fetch --all
         git checkout -b ${{ github.event.inputs.targetBranch }} origin/${{ github.event.inputs.targetBranch }}
-        git merge dev
         git tag ${{ github.event.inputs.version }}
         git push
         git push origin ${{ github.event.inputs.version }}
