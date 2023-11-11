@@ -1,4 +1,4 @@
-ARG HOST_VERSION=4.27.6
+ARG HOST_VERSION=4.27.7
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS runtime-image
 ARG HOST_VERSION
