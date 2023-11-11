@@ -1,5 +1,5 @@
 # Build the runtime from source
-ARG HOST_VERSION=4.27.5
+ARG HOST_VERSION=4.27.7
 ARG JAVA_VERSION=11.0.18
 ARG JAVA_HOME=/usr/lib/jvm/msft-11-x64
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS runtime-image
