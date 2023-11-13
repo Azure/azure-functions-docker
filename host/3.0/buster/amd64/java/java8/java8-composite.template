@@ -36,3 +36,4 @@ RUN apt-get update && \
     chmod +x /azure-functions-host/start.sh
 
 ENTRYPOINT ["/azure-functions-host/start.sh"]
+ // TODO

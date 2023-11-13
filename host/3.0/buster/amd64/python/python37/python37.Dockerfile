@@ -103,4 +103,4 @@ COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
 
 ENV FUNCTIONS_WORKER_RUNTIME_VERSION=3.7
 
-CMD [ "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost" ]
+CMD [ "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost" ] // TODO

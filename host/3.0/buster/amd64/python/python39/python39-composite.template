@@ -71,4 +71,4 @@ COPY start.sh /azure-functions-host/
 
 RUN chmod +x /azure-functions-host/start.sh
 
-ENTRYPOINT ["/azure-functions-host/start.sh"]
+ENTRYPOINT ["/azure-functions-host/start.sh"] // TODO

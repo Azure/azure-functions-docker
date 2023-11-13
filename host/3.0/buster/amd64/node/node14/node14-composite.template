@@ -37,4 +37,4 @@ COPY sshd_config /etc/ssh/
 
 RUN chmod +x /azure-functions-host/start.sh
 
-ENTRYPOINT ["/azure-functions-host/start.sh"]
+ENTRYPOINT ["/azure-functions-host/start.sh"] // TODO

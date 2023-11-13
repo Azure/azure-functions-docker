@@ -61,4 +61,4 @@ COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
 
 COPY --from=aspnet5 [ "/usr/share/dotnet", "/usr/share/dotnet" ]
 
-CMD [ "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost" ]
+CMD [ "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost" ] // TODO

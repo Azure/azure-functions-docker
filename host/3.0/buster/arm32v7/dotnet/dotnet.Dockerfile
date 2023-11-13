@@ -70,4 +70,4 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
 
 RUN rm /usr/bin/qemu-arm-static
 
-CMD ["dotnet", "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost.dll"]
+CMD ["dotnet", "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost.dll"] // TODO

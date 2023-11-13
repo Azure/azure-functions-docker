@@ -73,4 +73,4 @@ COPY --from=runtime-image [ "/workers/java", "/azure-functions-host/workers/java
 COPY --from=runtime-image [ "${JAVA_HOME}", "${JAVA_HOME}" ]
 COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
 
-CMD [ "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost" ]
+CMD [ "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost" ] // TODO
