@@ -41,6 +41,11 @@ RUN apt-get update && \
 FROM mcr.microsoft.com/dotnet/aspnet:8.0-bookworm-slim-amd64
 ARG HOST_VERSION
 
+# copy bundles, host runtime and powershell worker from the build image
+COPY --from=runtime-image ["/azure-functions-host", "/azure-functions-host"]
+COPY --from=runtime-image ["/FuncExtensionBundles", "/FuncExtensionBundles"]
+COPY --from=runtime-image ["/workers/powershell/7.4", "/azure-functions-host/workers/powershell/7.4"]
+
 # set runtime env variables
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     HOME=/home \
@@ -51,13 +56,9 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     ASPNETCORE_CONTENTROOT=/azure-functions-host \
     ASPNETCORE_URLS=http://+:80
 
+
 # Fix from https://github.com/GoogleCloudPlatform/google-cloud-dotnet-powerpack/issues/22#issuecomment-729895157
 RUN apt-get update && \
     apt-get install -y libc-dev
-
-# copy bundles, host runtime and powershell worker from the build image
-COPY --from=runtime-image ["/azure-functions-host", "/azure-functions-host"]
-COPY --from=runtime-image ["/FuncExtensionBundles", "/FuncExtensionBundles"]
-COPY --from=runtime-image ["/workers/powershell", "/azure-functions-host/workers/powershell"]
 
 CMD [ "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost" ]
