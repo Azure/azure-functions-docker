@@ -25,6 +25,8 @@ sed -i "s/SSH_PORT/$SSH_PORT/g" /etc/ssh/sshd_config
 
 service ssh start
 
+echo "DeprecationMsg"
+
 if [ -f /azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost ]; then
     /azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost
 else
