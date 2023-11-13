@@ -44,6 +44,7 @@ ARG HOST_VERSION
 # copy bundles, host runtime and powershell worker from the build image
 COPY --from=runtime-image ["/azure-functions-host", "/azure-functions-host"]
 COPY --from=runtime-image ["/FuncExtensionBundles", "/FuncExtensionBundles"]
+COPY --from=runtime-image ["/workers/powershell/worker.config.json", "/azure-functions-host/workers/powershell/worker.config.json"]
 COPY --from=runtime-image ["/workers/powershell/7.4", "/azure-functions-host/workers/powershell/7.4"]
 
 # set runtime env variables
