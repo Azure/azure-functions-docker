@@ -1,0 +1,1 @@
+Dotnet8 GA release Build Trigger file - This file prevents the re-use of a previous build in the creation of the Linux docker files. 
