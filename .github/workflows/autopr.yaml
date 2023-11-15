@@ -26,6 +26,7 @@ jobs:
         ./verify-pipelines.sh ${{ github.event.inputs.majorVersion }}
         ./update-version.sh ${{ github.event.inputs.majorVersion }} ${{ github.event.inputs.targetVersion }}
         ./validate-hostversion.sh ${{ github.event.inputs.majorVersion }}
+        ./validate-extbundle.sh ${{ github.event.inputs.majorVersion }}
         git add .
         git commit -m "Update Version ${{ github.event.inputs.targetVersion }}"
     - name: Create PullRequest
