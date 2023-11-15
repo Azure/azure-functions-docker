@@ -62,5 +62,8 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
 COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
 COPY --from=runtime-image [ "/workers/node", "/azure-functions-host/workers/node" ]
 COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
+COPY start_deprecated.sh /azure-functions-host/
 
-CMD [ "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost" ] // TODO
+RUN chmod +x /azure-functions-host/start_deprecated.sh
+
+CMD ["/azure-functions-host/start_deprecated.sh"]

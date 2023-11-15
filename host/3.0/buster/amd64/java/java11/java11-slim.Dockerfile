@@ -72,5 +72,8 @@ COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
 COPY --from=runtime-image [ "/workers/java", "/azure-functions-host/workers/java" ]
 COPY --from=runtime-image [ "${JAVA_HOME}", "${JAVA_HOME}" ]
 COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
+COPY start_deprecated.sh /azure-functions-host/
 
-CMD [ "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost" ] // TODO
+RUN chmod +x /azure-functions-host/start_deprecated.sh
+
+CMD ["/azure-functions-host/start_deprecated.sh"]
