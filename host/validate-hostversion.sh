@@ -31,7 +31,7 @@ for file in $(find $TARGET -name '*.Dockerfile'); do
   fi
   # Compare the values and print a message if they are different
   if [ "$current_version" != "$expected_host_version" ]; then
-    echo "Mismatch found: $file has HOST_VERSION=$current_version, while $first_file has HOST_VERSION=$first_version"
+    echo "Mismatch found: $file has HOST_VERSION=$current_version, while $first_file has HOST_VERSION=$expected_host_version"
     # Set the inconsistency flag to true
     inconsistent=true
   fi
