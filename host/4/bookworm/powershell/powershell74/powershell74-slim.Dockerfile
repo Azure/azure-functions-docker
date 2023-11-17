@@ -1,6 +1,6 @@
 # Build the runtime from source
 ARG HOST_VERSION=4.27.7
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS runtime-image
+FROM mcr.microsoft.com/dotnet/sdk:6.0-bookworm-slim-amd64 AS runtime-image
 ARG HOST_VERSION
 
 ENV PublishWithAspNetCoreTargetManifest=false
@@ -38,28 +38,28 @@ RUN apt-get update && \
     rm -f /$EXTENSION_BUNDLE_FILENAME_V4 &&\
     find /FuncExtensionBundles/ -type f -exec chmod 644 {} \;
 
-FROM mcr.microsoft.com/dotnet/aspnet:6.0-bullseye-slim
+FROM mcr.microsoft.com/dotnet/aspnet:8.0-bookworm-slim-amd64
 ARG HOST_VERSION
 
-# Powershell worker requires 3.1 for now
-COPY --from=mcr.microsoft.com/dotnet/core/aspnet:3.1 /usr/share/dotnet /usr/share/dotnet
+# copy bundles, host runtime and powershell worker from the build image
+COPY --from=runtime-image ["/azure-functions-host", "/azure-functions-host"]
+COPY --from=runtime-image ["/FuncExtensionBundles", "/FuncExtensionBundles"]
+COPY --from=runtime-image ["/workers/powershell/worker.config.json", "/azure-functions-host/workers/powershell/worker.config.json"]
+COPY --from=runtime-image ["/workers/powershell/7.4", "/azure-functions-host/workers/powershell/7.4"]
 
 # set runtime env variables
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     HOME=/home \
     FUNCTIONS_WORKER_RUNTIME=powershell \
-    FUNCTIONS_WORKER_RUNTIME_VERSION=~7 \
+    FUNCTIONS_WORKER_RUNTIME_VERSION=7.4 \
     DOTNET_USE_POLLING_FILE_WATCHER=true \
     HOST_VERSION=${HOST_VERSION} \
-    ASPNETCORE_CONTENTROOT=/azure-functions-host
+    ASPNETCORE_CONTENTROOT=/azure-functions-host \
+    ASPNETCORE_URLS=http://+:80
+
 
 # Fix from https://github.com/GoogleCloudPlatform/google-cloud-dotnet-powerpack/issues/22#issuecomment-729895157
 RUN apt-get update && \
     apt-get install -y libc-dev
-
-# copy bundles, host runtime and powershell worker from the build image
-COPY --from=runtime-image ["/azure-functions-host", "/azure-functions-host"]
-COPY --from=runtime-image ["/FuncExtensionBundles", "/FuncExtensionBundles"]
-COPY --from=runtime-image ["/workers/powershell", "/azure-functions-host/workers/powershell"]
 
 CMD [ "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost" ]

@@ -1,5 +1,5 @@
 # Build the runtime from source
-ARG HOST_VERSION=4.27.6
+ARG HOST_VERSION=4.27.7
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS runtime-image
 ARG HOST_VERSION
 
@@ -25,6 +25,7 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     DOTNET_USE_POLLING_FILE_WATCHER=true \
     HOST_VERSION=${HOST_VERSION} \
     ASPNETCORE_CONTENTROOT=/azure-functions-host \
+    AzureWebJobsFeatureFlags=EnableWorkerIndexing \
     ASPNETCORE_URLS=http://+:80
 
 # Fix from https://github.com/GoogleCloudPlatform/google-cloud-dotnet-powerpack/issues/22#issuecomment-729895157
