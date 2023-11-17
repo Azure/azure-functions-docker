@@ -365,19 +365,30 @@ steps:
       docker pull $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7.2
       docker pull $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7.2-slim
       docker pull $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7.2-appservice
+      docker pull $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7.4
+      docker pull $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7.4-slim
+      docker pull $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7.4-appservice
 
       docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7.2 $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell7.2
       docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7.2-slim $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell7.2-slim
       docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7.2-appservice $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell7.2-appservice
       docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7.2-appservice $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell7.2-appservice-quickstart
+      docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7.4 $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell7.4
+      docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7.4-slim $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell7.4-slim
+      docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7.4-appservice $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell7.4-appservice
+      docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7.4-appservice $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell7.4-appservice-quickstart
 
       docker push $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell7.2
       docker push $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell7.2-slim
       docker push $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell7.2-appservice
       docker push $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell7.2-appservice-quickstart
+      docker push $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell7.4
+      docker push $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell7.4-slim
+      docker push $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell7.4-appservice
+      docker push $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell7.4-appservice-quickstart
 
       docker system prune -a -f
-    displayName: tag and push powershell 7.2 images
+    displayName: tag and push powershell 7.2/7.4 images
     continueOnError: false
 
   - bash: |
