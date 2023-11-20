@@ -42,6 +42,4 @@ COPY start_deprecated.sh /azure-functions-host/
 ENV AzureWebJobsScriptRoot=C:\approot `
     WEBSITE_HOSTNAME=localhost:80
 
-RUN chmod +x /azure-functions-host/start_deprecated.sh
-
 CMD ["/azure-functions-host/start_deprecated.sh"]
