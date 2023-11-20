@@ -54,7 +54,6 @@ COPY --from=runtime-image ["/usr/bin/qemu-arm-static", "/usr/bin"]
 COPY --from=runtime-image ["/azure-functions-host", "/azure-functions-host"]
 COPY --from=runtime-image ["/FuncExtensionBundles", "/FuncExtensionBundles"]
 COPY --from=grpc-image ["/libgrpc_csharp_ext.so.2.27.3", "/"]
-COPY start_deprecated.sh /azure-functions-host/
 
 RUN rm -f /azure-functions-host/runtimes/linux/native/* && \
     mv libgrpc_csharp_ext.so.2.27.3 /azure-functions-host/runtimes/linux/native/ && \
@@ -72,6 +71,4 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
 
 RUN rm /usr/bin/qemu-arm-static
 
-RUN chmod +x /azure-functions-host/start_deprecated.sh
-
-CMD ["/azure-functions-host/start_deprecated.sh"]
+CMD ["dotnet", "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost.dll"]
