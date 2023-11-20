@@ -68,6 +68,7 @@ RUN apt-get update && \
 
 COPY sshd_config /etc/ssh/
 COPY start.sh /azure-functions-host/
+COPY start_deprecated.sh /azure-functions-host/
 
 RUN chmod +x /azure-functions-host/start.sh
 
