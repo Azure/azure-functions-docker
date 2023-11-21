@@ -70,4 +70,7 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
 
 RUN rm /usr/bin/qemu-arm-static
 
-CMD ["dotnet", "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost.dll"]
+CMD echo "**WARNING**: You are using an outdated version of the Azure Functions runtime:" \
+&& echo "https://learn.microsoft.com/en-us/azure/azure-functions/migrate-version-3-version-4" \
+&& echo "====================================================================================" \
+&& dotnet "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost.dll"
