@@ -19,12 +19,16 @@ jobs:
       with:
         ref: dev
     - id: createBranch
+    # Validate-hostVersion and validate-extbundle are custom scripts to ensure all images share the same version
+    # They can be safely removed if blocking a hotfix release.  Ex. Only Python Images need to be updated. 
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         cd host
         ./verify-pipelines.sh ${{ github.event.inputs.majorVersion }}
         ./update-version.sh ${{ github.event.inputs.majorVersion }} ${{ github.event.inputs.targetVersion }}
+        ./validate-hostversion.sh ${{ github.event.inputs.majorVersion }}
+        ./validate-extbundle.sh ${{ github.event.inputs.majorVersion }}
         git add .
         git commit -m "Update Version ${{ github.event.inputs.targetVersion }}"
     - name: Create PullRequest
