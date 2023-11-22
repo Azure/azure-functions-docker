@@ -3,7 +3,6 @@ ARG HOST_VERSION
 
 COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
 COPY start.sh /azure-functions-host/
-COPY start_deprecated.sh /azure-functions-host/
 COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
 COPY sshd_config /etc/ssh/
 
