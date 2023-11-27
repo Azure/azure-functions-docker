@@ -34,4 +34,4 @@ RUN apt-get update && \
 
 COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
 
-CMD [ "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost" ]
+CMD [ "/opt/startup/start_nonappservice.sh" ]

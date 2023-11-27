@@ -37,4 +37,4 @@ RUN apt-get update && \
 COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
 COPY --from=aspnet6 [ "/usr/share/dotnet", "/usr/share/dotnet" ]
 
-CMD [ "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost" ]
+CMD [ "/opt/startup/start_nonappservice.sh" ]

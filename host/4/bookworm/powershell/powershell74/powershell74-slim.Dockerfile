@@ -62,4 +62,4 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
 RUN apt-get update && \
     apt-get install -y libc-dev
 
-CMD [ "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost" ]
+CMD [ "/opt/startup/start_nonappservice.sh" ]
