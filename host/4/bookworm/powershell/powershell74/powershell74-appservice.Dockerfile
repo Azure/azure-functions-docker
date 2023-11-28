@@ -67,4 +67,4 @@ RUN chmod +x /azure-functions-host/start.sh && \
 RUN apt-get update && \
     apt-get install -y libc-dev
 
-CMD [ "/opt/startup/start_nonappservice.sh" ]
+CMD [ "/azure-functions-host/start.sh" ]
