@@ -50,4 +50,4 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
 COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
 COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
 
-CMD [ "/opt/startup/start_nonappservice.sh" ]
+CMD [ "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost" ]
