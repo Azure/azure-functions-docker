@@ -100,7 +100,10 @@ COPY --from=runtime-image ["/azure-functions-host", "/azure-functions-host"]
 COPY --from=runtime-image [ "/workers/python/3.8/LINUX", "/azure-functions-host/workers/python/3.8/LINUX" ]
 COPY --from=runtime-image [ "/workers/python/worker.config.json", "/azure-functions-host/workers/python" ]
 COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
+COPY start_deprecated.sh /azure-functions-host/
 
 ENV FUNCTIONS_WORKER_RUNTIME_VERSION=3.8
 
-CMD [ "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost" ]
+RUN chmod +x /azure-functions-host/start_deprecated.sh
+
+CMD ["/azure-functions-host/start_deprecated.sh"]

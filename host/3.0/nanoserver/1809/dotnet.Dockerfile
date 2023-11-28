@@ -36,8 +36,9 @@ RUN [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tl
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-nanoserver-1809
 
 COPY --from=installer-env ["C:\\runtime", "C:\\runtime"]
+COPY start_deprecated.sh /azure-functions-host/
 
 ENV AzureWebJobsScriptRoot=C:\approot `
     WEBSITE_HOSTNAME=localhost:80
 
-CMD ["dotnet", "C:\\runtime\\Microsoft.Azure.WebJobs.Script.WebHost.dll"]
+CMD ["/azure-functions-host/start_deprecated.sh"]
