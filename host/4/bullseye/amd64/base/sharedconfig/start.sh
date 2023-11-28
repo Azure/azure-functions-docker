@@ -9,7 +9,7 @@ else
 fi
 
 # Install ca-certificates
-source /opt/startup/install_ca_certs.sh
+source /opt/startup/install_ca_certificates.sh
 
 
 if [ -z $SSH_PORT ]; then
