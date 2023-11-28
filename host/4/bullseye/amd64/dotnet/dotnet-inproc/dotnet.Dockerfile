@@ -52,5 +52,6 @@ RUN apt-get update && \
 COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
 COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
 COPY install_ca_certificates.sh start_nonappservice.sh /opt/startup/
+RUN chmod +x /opt/startup/install_ca_certificates.sh
 
 CMD [ "/opt/startup/start_nonappservice.sh" ]

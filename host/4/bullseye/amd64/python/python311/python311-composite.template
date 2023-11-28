@@ -63,7 +63,8 @@ RUN apt-get update && \
     echo "root:Docker!" | chpasswd && \
     pip install ptvsd
 
-RUN chmod +x /azure-functions-host/start.sh
+RUN chmod +x /azure-functions-host/start.sh && \
+    chmod +x /opt/startup/install_ca_certificates.sh
 
 ENTRYPOINT ["/azure-functions-host/start.sh"]
 

@@ -40,6 +40,7 @@ RUN apt-get update && \
 #    libxcomposite1 libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 \
 #    libxtst6 ca-certificates fonts-liberation libappindicator1 libnss3 lsb-release xdg-utils wget
 
-RUN chmod +x /azure-functions-host/start.sh
+RUN chmod +x /azure-functions-host/start.sh && \
+    chmod +x /opt/startup/install_ca_certificates.sh
 
 ENTRYPOINT ["/azure-functions-host/start.sh"]

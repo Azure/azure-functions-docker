@@ -39,6 +39,7 @@ RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends openssh-server dialog && \
     echo "root:Docker!" | chpasswd
 
-RUN chmod +x /azure-functions-host/start.sh
+RUN chmod +x /azure-functions-host/start.sh && \
+    chmod +x /opt/startup/install_ca_certificates.sh
 
 ENTRYPOINT ["/azure-functions-host/start.sh"]
