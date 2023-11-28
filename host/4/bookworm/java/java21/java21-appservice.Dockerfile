@@ -45,7 +45,7 @@ ARG JAVA_VERSION
 ARG JAVA_HOME
 
 COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
-COPY install_ca_certificates.sh start_nonappservice.sh /opt/startup/
+COPY install_ca_certificates.sh /opt/startup/
 RUN chmod +x /opt/startup/install_ca_certificates.sh
 COPY sshd_config /etc/ssh/
 COPY start.sh /azure-functions-host/

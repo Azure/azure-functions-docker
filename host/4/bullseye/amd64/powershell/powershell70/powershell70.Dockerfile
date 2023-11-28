@@ -62,6 +62,8 @@ COPY --from=runtime-image ["/azure-functions-host", "/azure-functions-host"]
 COPY --from=runtime-image ["/FuncExtensionBundles", "/FuncExtensionBundles"]
 COPY --from=runtime-image ["/workers/powershell", "/azure-functions-host/workers/powershell"]
 COPY install_ca_certificates.sh start_nonappservice.sh /opt/startup/
-RUN chmod +x /opt/startup/install_ca_certificates.sh
+RUN chmod +x /opt/startup/install_ca_certificates.sh && \
+    chmod +x /opt/startup/start_nonappservice.sh
+
 
 CMD [ "/opt/startup/start_nonappservice.sh" ]
