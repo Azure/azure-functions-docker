@@ -30,7 +30,9 @@ RUN apt-get update && \
 
 COPY sshd_config /etc/ssh/
 COPY start.sh /azure-functions-host/
+COPY install_ca_certificates.sh /opt/startup/
 
-RUN chmod +x /azure-functions-host/start.sh
+RUN chmod +x /azure-functions-host/start.sh && \
+    chmod +x /opt/startup/install_ca_certificates.sh
 
 ENTRYPOINT ["/azure-functions-host/start.sh"]

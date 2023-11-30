@@ -8,6 +8,10 @@ else
   export ASPNETCORE_URLS=http://*:$PORT
 fi
 
+# Install ca-certificates
+source /opt/startup/install_ca_certificates.sh
+
+
 if [ -z $SSH_PORT ]; then
   export SSH_PORT=2222
 fi
