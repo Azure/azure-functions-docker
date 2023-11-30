@@ -57,7 +57,7 @@ RUN apt-get update && \
     curl https://packages.microsoft.com/config/debian/11/prod.list | tee /etc/apt/sources.list.d/mssql-release.list && \
     # Needed for libss1.0.0 and in turn MS SQL
     echo 'deb http://security.debian.org/debian-security bullseye-security main' >> /etc/apt/sources.list && \
-    # install necessary locales for MS SQL
+    # install MS SQL related packages.pinned version in PR # 1012.
     echo 'en_US.UTF-8 UTF-8' > /etc/locale.gen && \
     locale-gen && \
     apt-get update && \

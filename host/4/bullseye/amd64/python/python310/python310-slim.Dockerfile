@@ -68,7 +68,7 @@ RUN apt-get update && \
     apt-get update && apt-get install -y locales && \
     echo 'en_US.UTF-8 UTF-8' > /etc/locale.gen && \
     locale-gen && \
-    # install MS SQL related packages
+    # install MS SQL related packages.pinned version in PR # 1012
     apt-get update && \
     apt-get install -y unixodbc msodbcsql17=17.10.4.1-1 mssql-tools && \
     # .NET Core dependencies
