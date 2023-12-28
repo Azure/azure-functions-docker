@@ -1,4 +1,4 @@
-ARG JAVA_VERSION=21.0.0
+ARG JAVA_VERSION=21.0.1
 ARG JAVA_HOME=/usr/lib/jvm/msft-21-x64
 # Build the runtime from source
 ARG HOST_VERSION=4.28.3

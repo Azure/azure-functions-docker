@@ -4,8 +4,8 @@ ARG MAVEN_VERSION=3.8.5
 ARG USER_HOME_DIR="/root"
 ARG SHA=89ab8ece99292476447ef6a6800d9842bbb60787b9b8a45c103aa61d2f205a971d8c3ddfb8b03e514455b4173602bd015e82958c0b3ddc1728a57126f773c743
 ARG BASE_MAVEN_URL=https://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries
-ARG JAVA_VERSION=8u362b09
-ARG JDK_NAME=jdk8u362-b09
+ARG JAVA_VERSION=8u392b08
+ARG JDK_NAME=jdk8u392-b08
 ARG BASE_JDK_URL=https://github.com/adoptium/temurin8-binaries/releases/download/${JDK_NAME}
 ARG JAVA_HOME=/usr/lib/jvm/adoptium-8-x64
 

@@ -1,4 +1,4 @@
-ARG JAVA_VERSION=17.0.6
+ARG JAVA_VERSION=17.0.9
 ARG JAVA_HOME=/usr/lib/jvm/msft-17-x64
 FROM mcr.microsoft.com/dotnet/runtime-deps:6.0
 ARG HOST_VERSION
