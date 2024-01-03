@@ -1,5 +1,5 @@
-ARG JAVA_VERSION=8u362b09
-ARG JDK_NAME=jdk8u362-b09
+ARG JAVA_VERSION=8u392b08
+ARG JDK_NAME=jdk8u392-b08
 ARG JAVA_HOME=/usr/lib/jvm/adoptium-8-x64
 FROM mcr.microsoft.com/dotnet/core/runtime-deps:3.1
 ARG HOST_VERSION
