@@ -1,5 +1,5 @@
 # Build the runtime from source
-ARG HOST_VERSION=4.28.3
+ARG HOST_VERSION=4.28.4
 FROM mcr.microsoft.com/dotnet/sdk:6.0-bookworm-slim-amd64 AS runtime-image
 ARG HOST_VERSION
 
