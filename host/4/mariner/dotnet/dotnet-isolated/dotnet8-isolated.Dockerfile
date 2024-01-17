@@ -34,6 +34,10 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     AzureWebJobsFeatureFlags=EnableWorkerIndexing
 
 # Fix from https://github.com/GoogleCloudPlatform/google-cloud-dotnet-powerpack/issues/22#issuecomment-729895157
+<<<<<<< HEAD
+=======
+# TODO
+>>>>>>> caaeaaac (Temporarily enable glibc-devel installation)
 RUN dnf install -y glibc-devel
 
 COPY --from=sdk-image [ "/azure-functions-host", "/azure-functions-host" ]
