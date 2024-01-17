@@ -20,8 +20,7 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0-cbl-mariner2.0 AS aspnet8
 FROM mcr.microsoft.com/dotnet/runtime:8.0-cbl-mariner2.0
 ARG HOST_VERSION
 
-# TODO
-# RUN yum install -y dnf
+RUN yum install -y dnf
 
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     HOME=/home \
@@ -33,7 +32,7 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
 
 # Fix from https://github.com/GoogleCloudPlatform/google-cloud-dotnet-powerpack/issues/22#issuecomment-729895157
 # TODO
-# RUN dnf install -y glibc-devel
+RUN dnf install -y glibc-devel
 
 COPY --from=sdk-image [ "/azure-functions-host", "/azure-functions-host" ]
 COPY --from=aspnet8 [ "/usr/share/dotnet", "/usr/share/dotnet" ]
