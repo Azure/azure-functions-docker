@@ -1,5 +1,9 @@
 # Build the runtime from source
+<<<<<<< Updated upstream
 ARG HOST_VERSION=4.28.4
+=======
+ARG HOST_VERSION=4.29.1
+>>>>>>> Stashed changes
 # host-builder
 FROM mcr.microsoft.com/dotnet/sdk:6.0-cbl-mariner2.0 AS sdk-image 
 ARG HOST_VERSION
