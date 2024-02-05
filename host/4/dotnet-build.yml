@@ -73,8 +73,8 @@ jobs:
           dockerImageName: "-dotnet-isolated7.0-slim"
         _isolated-net-7-appservice:
           dotnetVersion: "dotnet7-isolated-appservice"
-          dockerfilePath: "bullseye/amd64/dotnet/"
-          dockerImagePath: "host/4/bullseye/amd64/out/dotnet/"
+          dockerfilePath: "host/4/bullseye/amd64/out/dotnet/"
+          dockerImagePath: "dotnet-isolated"
           dockerImageName: "-dotnet-isolated7.0-appservice"
         _isolated-net-7-mariner:
           dotnetVersion: "dotnet7-isolated"
