@@ -129,9 +129,11 @@ jobs:
                       $(dockerfilePath)
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
-        displayName: dotnet $dotnetVersion
+        displayName: $(dotnetVersion)
         continueOnError: false
-
+  - job: Publish
+    dependsOn: Dotnet
+    steps:
       - task: AzureArtifacts.manifest-generator-task.manifest-generator-task.ManifestGeneratorTask@0
         displayName: 'Manifest Generator'
         inputs:
