@@ -68,6 +68,7 @@ steps:
                   host/4/bullseye/amd64/dotnet/dotnet-inproc/
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
+      docker rmi $IMAGE_NAME
     displayName: dotnet-inproc-slim
     continueOnError: false
 
@@ -82,6 +83,7 @@ steps:
                   host/4/bullseye/amd64/out/dotnet/
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
+      docker rmi $IMAGE_NAME
     displayName: dotnet-inproc-appservice
     continueOnError: false
 
@@ -96,6 +98,7 @@ steps:
                   host/4/bullseye/amd64/dotnet/dotnet-isolated/
       npm run test $IMAGE_NAME --prefix test/
       docker push $IMAGE_NAME
+      docker rmi $IMAGE_NAME
     displayName: dotnet-isolated (.NET 6)
     continueOnError: false
 
@@ -110,6 +113,7 @@ steps:
                   host/4/bullseye/amd64/dotnet/dotnet-isolated/
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
+      docker rmi $IMAGE_NAME
     displayName: dotnet-isolated-slim (.NET 6)
     continueOnError: false
 
@@ -124,6 +128,7 @@ steps:
                   host/4/bullseye/amd64/out/dotnet/
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
+      docker rmi $IMAGE_NAME
     displayName: dotnet-isolated-appservice (.NET 6)
     continueOnError: false
 
@@ -138,6 +143,7 @@ steps:
                   host/4/bullseye/amd64/dotnet/dotnet7-isolated/
       npm run test $IMAGE_NAME --prefix test/
       docker push $IMAGE_NAME
+      docker rmi $IMAGE_NAME
     displayName: dotnet-isolated (.NET 7)
     continueOnError: false
 
@@ -152,6 +158,7 @@ steps:
                   host/4/bullseye/amd64/dotnet/dotnet7-isolated/
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
+      docker rmi $IMAGE_NAME
     displayName: dotnet-isolated-slim (.NET 7)
     continueOnError: false
 
@@ -166,6 +173,7 @@ steps:
                   host/4/bullseye/amd64/out/dotnet/
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
+      docker rmi $IMAGE_NAME
     displayName: dotnet-isolated-appservice (.NET 7)
     continueOnError: false
 
@@ -180,6 +188,7 @@ steps:
                   host/4/mariner/dotnet/dotnet-isolated/
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
+      docker rmi $IMAGE_NAME
     displayName: dotnet7-isolated-mariner
     continueOnError: false
 
@@ -194,6 +203,7 @@ steps:
                   host/4/bullseye/amd64/dotnet/dotnet8-isolated/
       npm run test $IMAGE_NAME --prefix test/
       docker push $IMAGE_NAME
+      docker rmi $IMAGE_NAME
     displayName: dotnet-isolated (.NET 8 Preview)
     continueOnError: false
 
@@ -208,6 +218,7 @@ steps:
                   host/4/bullseye/amd64/dotnet/dotnet8-isolated/
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
+      docker rmi $IMAGE_NAME
     displayName: dotnet-isolated-slim (.NET 8 Preview)
     continueOnError: false
 
@@ -222,8 +233,8 @@ steps:
                   host/4/bullseye/amd64/out/dotnet/
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
-
       docker system df -v
+      docker rmi $IMAGE_NAME
     displayName: dotnet-isolated-appservice (.NET 8 Preview)
     continueOnError: false
 
@@ -239,6 +250,7 @@ steps:
                   host/4/bookworm/dotnet
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
+      docker rmi $IMAGE_NAME
     displayName: dotnet6-bookworm
     continueOnError: false
 
