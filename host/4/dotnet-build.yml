@@ -99,6 +99,7 @@ steps:
       npm run test $IMAGE_NAME --prefix test/
       docker push $IMAGE_NAME
       docker rmi $IMAGE_NAME
+      docker system prune --all
     displayName: dotnet-isolated (.NET 6)
     continueOnError: false
 
@@ -159,6 +160,7 @@ steps:
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
       docker rmi $IMAGE_NAME
+      docker system prune --all
     displayName: dotnet-isolated-slim (.NET 7)
     continueOnError: false
 
@@ -204,6 +206,7 @@ steps:
       npm run test $IMAGE_NAME --prefix test/
       docker push $IMAGE_NAME
       docker rmi $IMAGE_NAME
+      docker system prune --all
     displayName: dotnet-isolated (.NET 8 Preview)
     continueOnError: false
 
