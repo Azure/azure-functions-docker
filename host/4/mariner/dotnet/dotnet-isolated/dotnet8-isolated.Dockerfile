@@ -1,9 +1,5 @@
 # Build the runtime from source
 ARG HOST_VERSION=4.28.4
-<<<<<<< HEAD
-=======
-# host-builder
->>>>>>> 1f17ed74 (Fix host version and docker commands)
 FROM mcr.microsoft.com/dotnet/sdk:6.0-cbl-mariner2.0 AS sdk-image 
 ARG HOST_VERSION
 
@@ -34,10 +30,6 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     AzureWebJobsFeatureFlags=EnableWorkerIndexing
 
 # Fix from https://github.com/GoogleCloudPlatform/google-cloud-dotnet-powerpack/issues/22#issuecomment-729895157
-<<<<<<< HEAD
-=======
-# TODO
->>>>>>> caaeaaac (Temporarily enable glibc-devel installation)
 RUN dnf install -y glibc-devel
 
 COPY --from=sdk-image [ "/azure-functions-host", "/azure-functions-host" ]
