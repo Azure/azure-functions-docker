@@ -50,17 +50,17 @@ jobs:
           dotnetVersion: "dotnet-isolated"
           dockerfilePath: "host/4/bullseye/amd64/dotnet/dotnet-isolated/"
           dockerImagePath: "dotnet-isolated"
-          dockerImageName: "-dotnet-isolated-6.0"
+          dockerImageName: "-dotnet-isolated6.0"
         _isolated-slim:
           dotnetVersion: "dotnet-isolated-slim"
           dockerfilePath: "host/4/bullseye/amd64/dotnet/dotnet-isolated/"
           dockerImagePath: "dotnet-isolated"
-          dockerImageName: "-dotnet-isolated-6.0-slim"
+          dockerImageName: "-dotnet-isolated6.0-slim"
         _isolated-appservice:
           dotnetVersion: "dotnet-isolated-appservice"
           dockerfilePath: "host/4/bullseye/amd64/out/dotnet/"
           dockerImagePath: "dotnet-isolated"
-          dockerImageName: "-dotnet-isolated-6.0-appservice"
+          dockerImageName: "-dotnet-isolated6.0-appservice"
         _isolated-net-7:
           dotnetVersion: "dotnet-isolated"
           dockerfilePath: "host/4/bullseye/amd64/dotnet/dotnet7-isolated/"
