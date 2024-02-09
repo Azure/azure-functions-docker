@@ -99,7 +99,7 @@ jobs:
         _bookwork-net-6:
           dotnetVersion: "dotnet6"
           dockerfilePath: "host/4/bookworm/dotnet/"
-          dockerImagePath: "dotnet-isolated"
+          dockerImagePath: "dotnet"
           dockerImageName: "-dotnet6-bookworm"
   
     steps:
