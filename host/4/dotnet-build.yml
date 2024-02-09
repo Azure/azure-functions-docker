@@ -106,7 +106,7 @@ jobs:
           dotnetVersion: "dotnet6"
           dockerfilePath: "host/4/bookworm/dotnet/"
           dockerImagePath: "dotnet-isolated"
-          dockerImageName: "-dotnet-6-bookworm"
+          dockerImageName: "-dotnet6-bookworm"
   
     steps:
       - bash: |
