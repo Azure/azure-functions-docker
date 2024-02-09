@@ -78,7 +78,7 @@ jobs:
           dockerImagePath: "dotnet-isolated"
           dockerImageName: "-dotnet-isolated7.0-appservice"
         _isolated-net-7-mariner:
-          dotnetVersion: "dotnet7-isolated"
+          dotnetVersion: "dotnet7-isolated-mariner"
           dockerfilePath: "host/4/mariner/dotnet/dotnet-isolated/"
           dockerImagePath: "dotnet-isolated"
           dockerImageName: "-dotnet-isolated7.0-mariner"
@@ -98,7 +98,7 @@ jobs:
           dockerImagePath: "dotnet-isolated"
           dockerImageName: "-dotnet-isolated8.0-appservice"
         _isolated-net-8-mariner:
-          dotnetVersion: "dotnet8-isolated"
+          dotnetVersion: "dotnet8-isolated-mariner"
           dockerfilePath: "host/4/mariner/dotnet/dotnet-isolated/"
           dockerImagePath: "dotnet-isolated"
           dockerImageName: "-dotnet-isolated8.0-mariner"
