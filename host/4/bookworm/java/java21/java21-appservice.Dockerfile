@@ -1,7 +1,7 @@
 ARG JAVA_VERSION=21.0.1
 ARG JAVA_HOME=/usr/lib/jvm/msft-21-x64
 # Build the runtime from source
-ARG HOST_VERSION=4.29.1
+ARG HOST_VERSION=4.30.0
 FROM mcr.microsoft.com/dotnet/sdk:6.0-bookworm-slim-amd64 AS runtime-image
 ARG HOST_VERSION
 
