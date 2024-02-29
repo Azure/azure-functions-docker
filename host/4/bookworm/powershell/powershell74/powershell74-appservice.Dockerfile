@@ -50,6 +50,7 @@ COPY install_ca_certificates.sh /opt/startup/
 COPY --from=runtime-image ["/workers/powershell/worker.config.json", "/azure-functions-host/workers/powershell/worker.config.json"]
 COPY --from=runtime-image ["/workers/powershell/7.4", "/azure-functions-host/workers/powershell/7.4"]
 
+EXPOSE 2222 80
 # set runtime env variables
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     HOME=/home \
