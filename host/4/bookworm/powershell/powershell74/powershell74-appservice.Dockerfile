@@ -68,4 +68,8 @@ RUN chmod +x /azure-functions-host/start.sh && \
 RUN apt-get update && \
     apt-get install -y libc-dev
 
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends openssh-server dialog && \
+    echo "root:Docker!" | chpasswd
+
 CMD [ "/azure-functions-host/start.sh" ]
