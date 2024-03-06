@@ -44,12 +44,11 @@ ARG HOST_VERSION
 ARG JAVA_VERSION
 ARG JAVA_HOME
 
+COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
 COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
-COPY install_ca_certificates.sh /opt/startup/
-RUN chmod +x /opt/startup/install_ca_certificates.sh
 COPY sshd_config /etc/ssh/
 COPY start.sh /azure-functions-host/
-COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
+COPY install_ca_certificates.sh /opt/startup/
 COPY --from=runtime-image [ "/workers/java", "/azure-functions-host/workers/java" ]
 
 EXPOSE 2222 80
@@ -73,6 +72,7 @@ RUN apt-get update && \
 RUN apt-get update && \
     apt-get install -y --no-install-recommends openssh-server dialog && \
     echo "root:Docker!" | chpasswd && \
-    chmod +x /azure-functions-host/start.sh
+    chmod +x /azure-functions-host/start.sh && \
+    chmod +x /opt/startup/install_ca_certificates.sh
 
 ENTRYPOINT ["/azure-functions-host/start.sh"]

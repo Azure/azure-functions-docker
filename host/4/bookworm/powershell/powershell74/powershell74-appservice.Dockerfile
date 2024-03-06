@@ -50,6 +50,7 @@ COPY install_ca_certificates.sh /opt/startup/
 COPY --from=runtime-image ["/workers/powershell/worker.config.json", "/azure-functions-host/workers/powershell/worker.config.json"]
 COPY --from=runtime-image ["/workers/powershell/7.4", "/azure-functions-host/workers/powershell/7.4"]
 
+EXPOSE 2222 80
 # set runtime env variables
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     HOME=/home \
@@ -66,5 +67,9 @@ RUN chmod +x /azure-functions-host/start.sh && \
 # Fix from https://github.com/GoogleCloudPlatform/google-cloud-dotnet-powerpack/issues/22#issuecomment-729895157
 RUN apt-get update && \
     apt-get install -y libc-dev
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends openssh-server dialog && \
+    echo "root:Docker!" | chpasswd
 
 CMD [ "/azure-functions-host/start.sh" ]
