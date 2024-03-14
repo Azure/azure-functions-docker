@@ -48,7 +48,7 @@ RUN apt-get update \
     && chown root:root /etc/apt/sources.list.d/microsoft-prod.list \
     && echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $(lsb_release -cs) main" > /etc/apt/sources.list.d/azure-cli.list \
     && apt-get update \
-    && apt-get -y install azure-cli azure-functions-core-tools-3 \
+    && apt-get -y install azure-cli azure-functions-core-tools-3 dotnet-sdk-3.1 \
     #
     # Clean up
     && apt-get autoremove -y \
