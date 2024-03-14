@@ -1,0 +1,45 @@
+FROM mcr.microsoft.com/azure-functions/base:2.0 as runtime-image
+
+# From a dotnet alpine image...
+FROM microsoft/dotnet:2.2-aspnetcore-runtime-alpine
+
+# Copy Azure Functions Host .NET Dependencies
+COPY --from=runtime-image ["/azure-functions-host", "/azure-functions-host"]
+
+# Install Python dependencies
+ENV PYENV_ROOT=/root/.pyenv \
+    PATH=/root/.pyenv/shims:/root/.pyenv/bin:$PATH \
+    ASPNETCORE_URLS=http://+:80 \
+    DOTNET_RUNNING_IN_CONTAINER=true \
+    AzureWebJobsScriptRoot=/home/site/wwwroot \
+    HOME=/home \
+    FUNCTIONS_WORKER_RUNTIME=python \
+    DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=true
+ 
+# install python and your stuff here.
+# libc6-compat needs to be installed https://github.com/grpc/grpc/issues/15605#issuecomment-393974529
+RUN apk update && apk add --no-cache python3-dev gcc bash libc6-compat libnsl && \
+    ln -s /usr/lib/libnsl.so.2 /usr/lib/libnsl.so.1
+RUN apk add --no-cache --virtual build-dependencies \
+        build-base
+ENV WORKER_TAG=1.0.0a6 \
+    AZURE_FUNCTIONS_PACKAGE_VERSION=1.0.0a5 \
+    LANG=C.UTF-8 \
+    PYTHON_VERSION=3.6.8 \
+    PYTHON_PIP_VERSION=19.0 \
+    ACCEPT_EULA=Y \
+    PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+RUN wget https://github.com/Azure/azure-functions-python-worker/archive/$WORKER_TAG.tar.gz && \
+    tar xvzf $WORKER_TAG.tar.gz && \
+    mv azure-functions-python-worker-* azure-functions-python-worker && \
+    cp -R /azure-functions-python-worker/python /azure-functions-host/workers/python && \
+    rm -rf $WORKER_TAG.tar.gz /azure-functions-python-worker && \
+    pip3 install azure-functions==$AZURE_FUNCTIONS_PACKAGE_VERSION azure-functions-worker==$WORKER_TAG && \
+    pip3 install numpy
+
+COPY ./python-context/start.sh ./python-context/worker.config.json /azure-functions-host/workers/python/
+RUN chmod +x /azure-functions-host/workers/python/start.sh
+
+# Symlink python to python3
+RUN ln -s /usr/bin/python3 /usr/bin/python
+CMD [ "dotnet", "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost.dll" ]
