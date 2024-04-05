@@ -28,6 +28,9 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     AzureWebJobsFeatureFlags=EnableWorkerIndexing \
     ASPNETCORE_URLS=http://+:80
 
+# Default EXPOSE port inherited from Dotnet Base image has changed to 8080. Host still hosts on 80
+EXPOSE 80
+
 # Fix from https://github.com/GoogleCloudPlatform/google-cloud-dotnet-powerpack/issues/22#issuecomment-729895157
 RUN apt-get update && \
     apt-get install -y libc-dev
