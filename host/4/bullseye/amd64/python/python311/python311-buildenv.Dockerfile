@@ -28,11 +28,11 @@ RUN apt-get update && \
     curl https://packages.microsoft.com/config/debian/11/prod.list | tee /etc/apt/sources.list.d/mssql-release.list && \
     # Needed for libss1.0.0 and in turn MS SQL
     echo 'deb http://security.debian.org/debian-security bullseye-security main' >> /etc/apt/sources.list && \
-    # install MS SQL related packages.pinned version in PR # 1012.
+    # install MS SQL related packages.
     echo 'en_US.UTF-8 UTF-8' > /etc/locale.gen && \
     locale-gen && \
     apt-get update && \
-    ACCEPT_EULA=Y apt-get install -y unixodbc msodbcsql18=18.2.2.1-1 mssql-tools18 &&\
+    ACCEPT_EULA=Y apt-get install -y unixodbc msodbcsql18 mssql-tools18 &&\
     apt-get install -y --no-install-recommends ca-certificates \
     libc6 libgcc1 libgssapi-krb5-2 libicu67 libssl1.1 libstdc++6 zlib1g &&\
     apt-get install -y libglib2.0-0 libsm6 libxext6 libxrender-dev xvfb binutils\
