@@ -70,6 +70,7 @@ const map = {
 };
 
 const imageName = process.argv[process.argv.length - 1];
+console.log("Image name: " + imageName);
 
 const testData = (function() {
   if (imageName.indexOf("java") !== -1) return map.java;
