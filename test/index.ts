@@ -35,6 +35,12 @@ const dotnetIsolated8 = {
   response: "Welcome to Azure Functions! .NET 8"
 }
 
+const dotnetInProc8 = {
+  package: `${storagePath}/dotnet-inproc8-functions.zip`,
+  invoke: "/api/DotnetInProc8HttpFunction",
+  response: "Welcome to Azure Functions! .NET 8"
+}
+
 const map = {
   python: {
     package: `${storagePath}/python-functions.zip`,
@@ -74,6 +80,7 @@ const testData = (function() {
   else if (imageName.indexOf("dotnet-isolated6.0") !== -1) return dotnetIsolated6;
   else if (imageName.indexOf("dotnet-isolated7.0") !== -1) return dotnetIsolated7;
   else if (imageName.indexOf("dotnet-isolated8.0") !== -1) return dotnetIsolated8;
+  else if (imageName.indexOf("dotnet8") !== -1) return dotnetInProc8;
   else if (imageName.indexOf("mesh") !== -1) return map;
   else return map.dotnet;
 })();
