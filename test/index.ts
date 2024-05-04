@@ -37,8 +37,8 @@ const dotnetIsolated8 = {
 
 const dotnetInProc8 = {
   package: `${storagePath}/dotnet8-inproc.zip`,
-  invoke: "/api/DotnetInProc8HttpFunction",
-  response: "Welcome to Azure Functions! .NET 8"
+  invoke: "/api/CSharpHttpFunction",
+  response: "Welcome to Azure Functions!"
 }
 
 const map = {
