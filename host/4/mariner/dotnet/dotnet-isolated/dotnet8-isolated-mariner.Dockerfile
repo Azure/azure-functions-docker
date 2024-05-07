@@ -1,6 +1,6 @@
 # Build the runtime from source
 ARG HOST_VERSION=4.34.1
-FROM mcr.microsoft.com/dotnet/sdk:6.0-cbl-mariner2.0 AS sdk-image 
+FROM mcr.microsoft.com/dotnet/sdk:8.0-cbl-mariner2.0 AS sdk-image 
 ARG HOST_VERSION
 
 ENV PublishWithAspNetCoreTargetManifest=false
