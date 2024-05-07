@@ -37,8 +37,8 @@ const dotnetIsolated8 = {
 
 const dotnetInProc8 = {
   package: `${storagePath}/dotnet8-inproc.zip`,
-  invoke: "/api/CSharpHttpFunction",
-  response: "Welcome to Azure Functions!"
+  invoke: "/api/CSharpHttpFunction?name=Test",
+  response: "Hello, Test. This HTTP triggered function executed successfully."
 }
 
 const map = {
@@ -83,7 +83,7 @@ const testData = (function() {
   else if (imageName.indexOf("dotnet-isolated8.0") !== -1) return dotnetIsolated8;
   else if (imageName.indexOf("dotnet8") !== -1) return dotnetInProc8;
   else if (imageName.indexOf("mesh") !== -1) return map;
-  else return dotnetInProc8;
+  else return map.dotnet;
 })();
 
 const random = () => {
