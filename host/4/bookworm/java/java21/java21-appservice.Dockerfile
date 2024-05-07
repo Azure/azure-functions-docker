@@ -2,8 +2,9 @@ ARG JAVA_VERSION=21.0.1
 ARG JAVA_HOME=/usr/lib/jvm/msft-21-x64
 # Build the runtime from source
 ARG HOST_VERSION=4.34.1
-FROM mcr.microsoft.com/dotnet/sdk:8.0-bookworm-slim-amd64 AS runtime-image
+FROM mcr.microsoft.com/dotnet/sdk:6.0-bookworm-slim-amd64 AS runtime-image
 ARG HOST_VERSION
+COPY --from=mcr.microsoft.com/dotnet/sdk:8.0-bookworm-slim-amd64 [ "/usr/share/dotnet", "/usr/share/dotnet" ]
 
 ENV PublishWithAspNetCoreTargetManifest=false
 
