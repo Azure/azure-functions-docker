@@ -148,6 +148,7 @@ jobs:
           IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/$(dockerImagePath):$(Build.SourceBranchName)$(dockerImageName)
           IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
           echo "##vso[task.setvariable variable=image_list;]$IMAGE_NAME"
+          dotnet --info
 
           docker build -t $IMAGE_NAME \
                       -f $(dockerfilePath)$(dotnetVersion).Dockerfile \
