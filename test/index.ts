@@ -127,7 +127,7 @@ const runTest = async (data: typeof map.dotnet, envStr = "") => {
   if (imageName.indexOf("-core-tools") === -1) {
 
     const { stdout: containerId, code: exitCode } = shell.exec(
-      `docker run --rm -p 9097:80 ${envStr} -d ${name}`
+      `docker run --rm -p 9097:5000 ${envStr} -d ${name}`
     );
 
     //const containerId = stdout
