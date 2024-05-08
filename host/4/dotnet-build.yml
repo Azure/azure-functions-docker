@@ -101,12 +101,12 @@ jobs:
           dockerfilePath: "host/4/mariner/dotnet/dotnet-isolated/"
           dockerImagePath: "dotnet-isolated"
           dockerImageName: "-dotnet-isolated8.0-mariner"
-        _bookwork-net-6:
+        _bookworm-net-6:
           dotnetVersion: "dotnet6"
           dockerfilePath: "host/4/bookworm/dotnet/"
           dockerImagePath: "dotnet"
           dockerImageName: "-dotnet6-bookworm"
-        _bookwork-net-8:
+        _bookworm-net-8:
           dotnetVersion: "dotnet8"
           dockerfilePath: "host/4/bookworm/dotnet/"
           dockerImagePath: "dotnet"
@@ -133,7 +133,6 @@ jobs:
           IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/$(dockerImagePath):$(Build.SourceBranchName)$(dockerImageName)
           IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
           echo "##vso[task.setvariable variable=image_list;]$IMAGE_NAME"
-          dotnet --info
 
           docker build -t $IMAGE_NAME \
                       -f $(dockerfilePath)$(dotnetVersion).Dockerfile \
