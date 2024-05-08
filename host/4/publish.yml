@@ -80,30 +80,8 @@ steps:
   - bash: |
       set -e
       docker pull $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-dotnet8
-      docker pull $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-dotnet8-slim
-      docker pull $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-dotnet8-appservice
-      docker pull $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-dotnet8-bookworm
-
       docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-dotnet8 $TARGET_REGISTRY/dotnet:$(TargetVersion)-dotnet8
-      docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-dotnet8-slim $TARGET_REGISTRY/dotnet:$(TargetVersion)-dotnet8-slim
-      docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-dotnet8-appservice $TARGET_REGISTRY/dotnet:$(TargetVersion)-dotnet8-appservice
-      docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-dotnet8-appservice $TARGET_REGISTRY/dotnet:$(TargetVersion)-dotnet8-appservice
-      docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-dotnet8-appservice $TARGET_REGISTRY/dotnet:$(TargetVersion)-dotnet8-appservice-quickstart
-      docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-dotnet8-bookworm $TARGET_REGISTRY/dotnet:$(TargetVersion)-dotnet8-bookworm
-
-      docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-dotnet8 $TARGET_REGISTRY/base:$(TargetVersion)-dotnet8
-      docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-dotnet8-slim $TARGET_REGISTRY/base:$(TargetVersion)-dotnet8-slim
-      docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-dotnet8-appservice $TARGET_REGISTRY/base:$(TargetVersion)-dotnet8-appservice
-
       docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-dotnet8
-      docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-dotnet8-slim
-      docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-dotnet8-appservice
-      docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-dotnet8-appservice
-      docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-dotnet8-appservice-quickstart
-      docker push $TARGET_REGISTRY/base:$(TargetVersion)-dotnet8
-      docker push $TARGET_REGISTRY/base:$(TargetVersion)-dotnet8-slim
-      docker push $TARGET_REGISTRY/base:$(TargetVersion)-dotnet8-appservice
-      docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-dotnet8-bookworm
 
       docker system prune -a -f
     displayName: tag and push dotnet images

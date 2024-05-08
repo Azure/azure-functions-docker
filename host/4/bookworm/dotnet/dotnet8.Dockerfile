@@ -48,9 +48,6 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     ASPNETCORE_CONTENTROOT=/azure-functions-host \
     ASPNETCORE_URLS=http://+:80
 
-# Default EXPOSE port inherited from Dotnet Base image has changed to 8080. Host still hosts on 80
-EXPOSE 80
-
 COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
 COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
 
