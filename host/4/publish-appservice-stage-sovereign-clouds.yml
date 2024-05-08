@@ -59,7 +59,7 @@ steps:
           docker system prune -a -f
         displayName: tag and push dotnet images for stage ${{stage}}
         continueOnError: false
-        
+         
       - bash: |
           set -e
           docker pull $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated6.0-appservice
