@@ -113,8 +113,8 @@ jobs:
           dockerImageName: "-dotnet8"
         _appservice-net-8:
           dotnetVersion: "dotnet8"
-          dockerfilePath: "host/4/bookworm/out/dotnet/"
-          dockerImagePath: "dotnet"
+          dockerfilePath: "host/4/bookworm/dotnet/"
+          dockerImagePath: "dotnet8-appservice"
           dockerImageName: "-dotnet8-appservice"
   
     steps:
