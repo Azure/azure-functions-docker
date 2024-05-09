@@ -100,11 +100,11 @@ steps:
 
       - bash: |
           set -e
-          docker pull $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-dotnet8
+          docker pull $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-dotnet8-appservice
           
-          docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-dotnet8 $TARGET_REGISTRY/dotnet:$(TargetVersion)-dotnet8-$(CloudName)-stage${{stage}}
+          docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-dotnet8-appservice $TARGET_REGISTRY/dotnet:$(TargetVersion)-dotnet8-appservice-$(CloudName)-stage${{stage}}
           
-          docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-dotnet8-$(CloudName)-stage${{stage}}
+          docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-dotnet8-appservice-$(CloudName)-stage${{stage}}
           
           docker system prune -a -f
         displayName: tag and push dotnet8 in proc images for stage ${{stage}}
