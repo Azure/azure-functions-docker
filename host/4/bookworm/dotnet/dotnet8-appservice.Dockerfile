@@ -28,5 +28,16 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     ASPNETCORE_URLS=http://+:80
 
 COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
+COPY sshd_config /etc/ssh/
+COPY start.sh /azure-functions-host/
+COPY install_ca_certificates.sh /opt/startup/
+
+EXPOSE 2222 80
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends openssh-server dialog && \
+    echo "root:Docker!" | chpasswd && \
+    chmod +x /azure-functions-host/start.sh && \
+    chmod +x /opt/startup/install_ca_certificates.sh
 
 CMD [ "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost" ]
