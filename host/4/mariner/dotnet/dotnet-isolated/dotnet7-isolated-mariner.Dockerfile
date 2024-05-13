@@ -1,8 +1,10 @@
 # Build the runtime from source
 ARG HOST_VERSION=4.34.1
+FROM mcr.microsoft.com/dotnet/sdk:8.0-cbl-mariner2.0 AS dn8-sdk-image
 FROM mcr.microsoft.com/dotnet/sdk:6.0-cbl-mariner2.0 AS runtime-image
 ARG HOST_VERSION
 
+COPY --from=dn8-sdk-image [ "/usr/share/dotnet", "/usr/share/dotnet" ]
 ENV PublishWithAspNetCoreTargetManifest=false
 
 RUN BUILD_NUMBER=$(echo ${HOST_VERSION} | cut -d'.' -f 3) && \

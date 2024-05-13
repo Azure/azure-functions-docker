@@ -7,6 +7,7 @@ ARG HOST_VERSION
 ARG JAVA_VERSION
 ARG JAVA_HOME
 
+COPY --from=mcr.microsoft.com/dotnet/sdk:8.0-bookworm-slim-amd64 [ "/usr/share/dotnet", "/usr/share/dotnet" ]
 ENV PublishWithAspNetCoreTargetManifest=false
 ENV DEBIAN_FRONTEND=noninteractive
 
