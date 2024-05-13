@@ -100,6 +100,18 @@ steps:
 
       - bash: |
           set -e
+          docker pull $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-dotnet8-appservice
+          
+          docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-dotnet8-appservice $TARGET_REGISTRY/dotnet:$(TargetVersion)-dotnet8-appservice-$(CloudName)-stage${{stage}}
+          
+          docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-dotnet8-appservice-$(CloudName)-stage${{stage}}
+          
+          docker system prune -a -f
+        displayName: tag and push dotnet8 in proc images for stage ${{stage}}
+        continueOnError: false
+
+      - bash: |
+          set -e
           docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-appservice
           docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java11-appservice
           docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java17-appservice
