@@ -35,12 +35,6 @@ const dotnetIsolated8 = {
   response: "Welcome to Azure Functions! .NET 8"
 }
 
-const dotnetInProc8 = {
-  package: `${storagePath}/dotnet8-inproc.zip`,
-  invoke: "/api/CSharpHttpFunction?name=Test",
-  response: "Hello, Test. This HTTP triggered function executed successfully."
-}
-
 const map = {
   python: {
     package: `${storagePath}/python-functions.zip`,
@@ -70,7 +64,6 @@ const map = {
 };
 
 const imageName = process.argv[process.argv.length - 1];
-console.log("Image name: " + imageName);
 
 const testData = (function() {
   if (imageName.indexOf("java") !== -1) return map.java;
@@ -81,7 +74,6 @@ const testData = (function() {
   else if (imageName.indexOf("dotnet-isolated6.0") !== -1) return dotnetIsolated6;
   else if (imageName.indexOf("dotnet-isolated7.0") !== -1) return dotnetIsolated7;
   else if (imageName.indexOf("dotnet-isolated8.0") !== -1) return dotnetIsolated8;
-  else if (imageName.indexOf("dotnet8") !== -1) return dotnetInProc8;
   else if (imageName.indexOf("mesh") !== -1) return map;
   else return map.dotnet;
 })();
