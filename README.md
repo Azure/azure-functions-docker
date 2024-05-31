@@ -24,7 +24,6 @@ Linux amd64 Tags
 | `4-dotnet6-core-tools` |  Debian 11  |
 | `4-appservice-quickstart` | Debian 11 |
 
-
 `mcr.microsoft.com/azure-functions/dotnet-isolated`
 
 | Tags                                       | OS Version |
@@ -83,6 +82,7 @@ Linux amd64 Tags
 | `4-powershell7.2-appservice`                   |  Debian 11  |
 | `4-powershell7.2-core-tools`                   | Debian 11 |
 | `4-powershell7.2-appservice-quickstart`         |Debian 11  |
+| `4-powershell7.4`                              |  Debian 12  |
 
 #### Java
 
