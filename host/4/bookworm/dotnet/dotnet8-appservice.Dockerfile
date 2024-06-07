@@ -13,9 +13,6 @@ RUN BUILD_NUMBER=$(echo ${HOST_VERSION} | cut -d'.' -f 3) && \
     mv /azure-functions-host/workers /workers && mkdir /azure-functions-host/workers && \
     rm -rf /root/.local /root/.nuget /src
 
-RUN apt-get update && \
-    apt-get install -y gnupg wget unzip;
-
 FROM mcr.microsoft.com/dotnet/runtime-deps:8.0-bookworm-slim-amd64
 ARG HOST_VERSION
 
