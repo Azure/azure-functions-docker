@@ -101,11 +101,21 @@ jobs:
           dockerfilePath: "host/4/mariner/dotnet/dotnet-isolated/"
           dockerImagePath: "dotnet-isolated"
           dockerImageName: "-dotnet-isolated8.0-mariner"
-        _bookwork-net-6:
+        _bookworm-net-6:
           dotnetVersion: "dotnet6"
           dockerfilePath: "host/4/bookworm/dotnet/"
           dockerImagePath: "dotnet"
           dockerImageName: "-dotnet6-bookworm"
+        _bookworm-net-8:
+          dotnetVersion: "dotnet8"
+          dockerfilePath: "host/4/bookworm/dotnet/"
+          dockerImagePath: "dotnet"
+          dockerImageName: "-dotnet8.0"
+        _appservice-net-8:
+          dotnetVersion: "dotnet8-appservice"
+          dockerfilePath: "host/4/bookworm/dotnet/"
+          dockerImagePath: "dotnet"
+          dockerImageName: "-dotnet8.0appservice"
   
     steps:
       - bash: |
