@@ -50,7 +50,7 @@ RUN apt-get update \
     && apt-get update \
     && apt-get install -y azure-cli dotnet-sdk-6.0 \
     #
-    # Install coretools packages from linux software repository
+    # Install coretools package from linux software repository
     && curl -sSL -O https://packages.microsoft.com/config/debian/12/packages-microsoft-prod.deb \
     && dpkg -i packages-microsoft-prod.deb \
     && rm packages-microsoft-prod.deb \

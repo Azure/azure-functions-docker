@@ -16,7 +16,13 @@ RUN \
     && echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-debian-$(lsb_release -cs)-prod $(lsb_release -cs) main" > /etc/apt/sources.list.d/dotnetdev.list \
     && curl -sL https://packages.microsoft.com/keys/microsoft.asc | (OUT=$(apt-key add - 2>&1) || echo $OUT) \
     && apt-get update \
-    && apt-get install -y azure-cli dotnet-sdk-6.0 azure-functions-core-tools-4 \
+    && apt-get install -y azure-cli dotnet-sdk-6.0 \
+    #
+    # Install coretools package for debian-11/bullseye from linux software repository
+    && curl -sSL -O https://packages.microsoft.com/config/debian/11/packages-microsoft-prod.deb \
+    && dpkg -i packages-microsoft-prod.deb \
+    && rm packages-microsoft-prod.deb \
+    && apt-get update && apt-get install azure-functions-core-tools-4 \
     #
     # Install Docker CE CLI (needed for publish with --build-native-deps)
     && apt-get install -y apt-transport-https ca-certificates curl gnupg-agent software-properties-common lsb-release \
