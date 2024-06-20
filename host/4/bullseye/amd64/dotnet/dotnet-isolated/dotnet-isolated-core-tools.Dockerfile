@@ -48,7 +48,13 @@ RUN apt-get update \
     && chown root:root /etc/apt/sources.list.d/microsoft-prod.list \
     && echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $(lsb_release -cs) main" > /etc/apt/sources.list.d/azure-cli.list \
     && apt-get update \
-    && apt-get -y install azure-cli azure-functions-core-tools-4 \
+    && apt-get -y install azure-cli \
+    #
+    # Install coretools package for debian-11/bullseye from linux software repository
+    && curl -sSL -O https://packages.microsoft.com/config/debian/11/packages-microsoft-prod.deb \
+    && dpkg -i packages-microsoft-prod.deb \
+    && rm packages-microsoft-prod.deb \
+    && apt-get update && apt-get install azure-functions-core-tools-4 \
     #
     # Clean up
     && apt-get autoremove -y \
