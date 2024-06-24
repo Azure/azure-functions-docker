@@ -5,7 +5,7 @@
 
 # Build the runtime from source
 ARG HOST_VERSION=4.28.3
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS runtime-image
+FROM mcr.microsoft.com/dotnet/sdk:6.0-bookworm-slim-amd64 AS runtime-image
 ARG HOST_VERSION
 
 ENV PublishWithAspNetCoreTargetManifest=false
@@ -69,9 +69,6 @@ RUN echo 'Running apt get' && \
     apt-get install -y libglib2.0-0 libsm6 libxext6 libxrender-dev xvfb binutils \
     binutils libgomp1 libc-dev liblttng-ust0 && \
     rm -rf /var/lib/apt/lists/*
-
-
-
 
 
 FROM mcr.microsoft.com/dotnet/runtime-deps:6.0

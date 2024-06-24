@@ -5,7 +5,7 @@
 
 # Build the runtime from source
 ARG HOST_VERSION=4.28.3
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS runtime-image
+FROM mcr.microsoft.com/dotnet/sdk:6.0-bookworm-slim-amd64 AS runtime-image
 ARG HOST_VERSION
 
 ENV PublishWithAspNetCoreTargetManifest=false
@@ -40,7 +40,7 @@ RUN apt-get update && \
     rm -f /$EXTENSION_BUNDLE_FILENAME_V4 &&\
     find /FuncExtensionBundles/ -type f -exec chmod 644 {} \;
 
-FROM mcr.microsoft.com/mirror/docker/library/python:3.12-slim-bullseye as python
+FROM mcr.microsoft.com/oryx/python:3.12-debian-bookworm as python
 
 # Install Python dependencies
 # MS SQL related packages: unixodbc msodbcsql17 mssql-tools

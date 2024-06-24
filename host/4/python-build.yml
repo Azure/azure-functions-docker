@@ -10,6 +10,7 @@ pr:
     include:
       - host/4/bullseye/amd64/base/*
       - host/4/bullseye/amd64/python/*
+      - host/4/bookwork/python/*
       - host/4/python-build.yml
 
 trigger:
@@ -33,18 +34,27 @@ jobs:
         _37:
           pythonVersion: "3.7"
           pythonImageNameSuffix: "37"
+          dockerfilePath: "bullseye/amd64"
         _38:
           pythonVersion: "3.8"
           pythonImageNameSuffix: "38"
+          dockerfilePath: "bullseye/amd64"
         _39:
           pythonVersion: "3.9"
           pythonImageNameSuffix: "39"
+          dockerfilePath: "bullseye/amd64"
         _310:
           pythonVersion: "3.10"
           pythonImageNameSuffix: "310"
+          dockerfilePath: "bullseye/amd64"
         _311:
           pythonVersion: "3.11"
           pythonImageNameSuffix: "311"
+          dockerfilePath: "bullseye/amd64"
+        _312:
+          pythonVersion: "3.12"
+          pythonImageNameSuffix: "312"
+          dockerfilePath: "bookworm"
     steps:
       - bash: |
           # login
@@ -63,8 +73,8 @@ jobs:
           IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/$(HOST_MAJOR_VERSION)/python:$(Build.SourceBranchName)-python$(pythonVersion)
           echo "##vso[task.setvariable variable=image_list;]$IMAGE_NAME"
           docker build -t $IMAGE_NAME \
-                      -f host/$(HOST_MAJOR_VERSION)/bullseye/amd64/python/python$(pythonImageNameSuffix)/python$(pythonImageNameSuffix).Dockerfile \
-                      host/$(HOST_MAJOR_VERSION)/bullseye/amd64/python/python$(pythonImageNameSuffix)
+                      -f host/$(HOST_MAJOR_VERSION)/$(dockerfilePath)/python/python$(pythonImageNameSuffix)/python$(pythonImageNameSuffix).Dockerfile \
+                      host/$(HOST_MAJOR_VERSION)/$(dockerfilePath)/python/python$(pythonImageNameSuffix)
           npm run test $IMAGE_NAME --prefix test/
           docker push $IMAGE_NAME
         displayName: python
@@ -75,8 +85,8 @@ jobs:
           IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
           echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
           docker build -t $IMAGE_NAME \
-                      -f host/$(HOST_MAJOR_VERSION)/bullseye/amd64/python/python$(pythonImageNameSuffix)/python$(pythonImageNameSuffix)-slim.Dockerfile \
-                      host/$(HOST_MAJOR_VERSION)/bullseye/amd64/python/python$(pythonImageNameSuffix)/
+                      -f host/$(HOST_MAJOR_VERSION)/$(dockerfilePath)/python/python$(pythonImageNameSuffix)/python$(pythonImageNameSuffix)-slim.Dockerfile \
+                      host/$(HOST_MAJOR_VERSION)/$(dockerfilePath)/python/python$(pythonImageNameSuffix)/
           npm run test $IMAGE_NAME --prefix test/
           docker push $IMAGE_NAME
         displayName: python-slim
@@ -87,8 +97,8 @@ jobs:
           IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
           echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
           docker build -t $IMAGE_NAME \
-                      -f host/$(HOST_MAJOR_VERSION)/bullseye/amd64/out/python/python$(pythonImageNameSuffix)-appservice.Dockerfile \
-                      host/$(HOST_MAJOR_VERSION)/bullseye/amd64/out/python/
+                      -f host/$(HOST_MAJOR_VERSION)/$(dockerfilePath)/out/python/python$(pythonImageNameSuffix)-appservice.Dockerfile \
+                      host/$(HOST_MAJOR_VERSION)/$(dockerfilePath)/out/python/
           npm run test $IMAGE_NAME --prefix test/
           docker push $IMAGE_NAME
         displayName: python-appservice
@@ -99,8 +109,8 @@ jobs:
           IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
           echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
           docker build -t $IMAGE_NAME \
-                      -f host/$(HOST_MAJOR_VERSION)/bullseye/amd64/python/python$(pythonImageNameSuffix)/python$(pythonImageNameSuffix)-buildenv.Dockerfile \
-                      host/$(HOST_MAJOR_VERSION)/bullseye/amd64/python/python$(pythonImageNameSuffix)/
+                      -f host/$(HOST_MAJOR_VERSION)/$(dockerfilePath)/python/python$(pythonImageNameSuffix)/python$(pythonImageNameSuffix)-buildenv.Dockerfile \
+                      host/$(HOST_MAJOR_VERSION)/$(dockerfilePath)/python/python$(pythonImageNameSuffix)/
           docker push $IMAGE_NAME
         displayName: python-buildenv
         continueOnError: false
