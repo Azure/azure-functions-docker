@@ -1,9 +1,15 @@
 # Build the runtime from source
-ARG HOST_VERSION=4.28.4
+ARG HOST_VERSION=4.34.2
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS runtime-image
 ARG HOST_VERSION
 
 ENV PublishWithAspNetCoreTargetManifest=false
+
+RUN wget https://packages.microsoft.com/config/debian/11/packages-microsoft-prod.deb -O packages-microsoft-prod.deb && \
+    dpkg -i packages-microsoft-prod.deb && \
+    rm packages-microsoft-prod.deb && \
+    apt-get update && \
+    apt-get install -y dotnet-sdk-8.0
 
 RUN BUILD_NUMBER=$(echo ${HOST_VERSION} | cut -d'.' -f 3) && \
     git clone --branch v${HOST_VERSION} https://github.com/Azure/azure-functions-host /src/azure-functions-host && \
@@ -27,6 +33,9 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     ASPNETCORE_CONTENTROOT=/azure-functions-host \
     AzureWebJobsFeatureFlags=EnableWorkerIndexing \
     ASPNETCORE_URLS=http://+:80
+
+# Default EXPOSE port inherited from Dotnet Base image has changed to 8080. Host still hosts on 80
+EXPOSE 80
 
 # Fix from https://github.com/GoogleCloudPlatform/google-cloud-dotnet-powerpack/issues/22#issuecomment-729895157
 RUN apt-get update && \

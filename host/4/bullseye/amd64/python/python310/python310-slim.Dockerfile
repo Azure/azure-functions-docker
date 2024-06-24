@@ -4,11 +4,17 @@
 #-------------------------------------------------------------------------------------------------------------
 
 # Build the runtime from source
-ARG HOST_VERSION=4.28.4
+ARG HOST_VERSION=4.34.2
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS runtime-image
 ARG HOST_VERSION
 
 ENV PublishWithAspNetCoreTargetManifest=false
+
+RUN wget https://packages.microsoft.com/config/debian/11/packages-microsoft-prod.deb -O packages-microsoft-prod.deb && \
+    dpkg -i packages-microsoft-prod.deb && \
+    rm packages-microsoft-prod.deb && \
+    apt-get update && \
+    apt-get install -y dotnet-sdk-8.0
 
 RUN BUILD_NUMBER=$(echo ${HOST_VERSION} | cut -d'.' -f 3) && \
     git clone --branch v${HOST_VERSION} https://github.com/Azure/azure-functions-host /src/azure-functions-host && \
@@ -20,19 +26,19 @@ RUN BUILD_NUMBER=$(echo ${HOST_VERSION} | cut -d'.' -f 3) && \
 
 RUN apt-get update && \
     apt-get install -y gnupg wget unzip && \
-    EXTENSION_BUNDLE_VERSION_V2=2.30.0 && \
+    EXTENSION_BUNDLE_VERSION_V2=2.33.1 && \
     EXTENSION_BUNDLE_FILENAME_V2=Microsoft.Azure.Functions.ExtensionBundle.${EXTENSION_BUNDLE_VERSION_V2}_linux-x64.zip && \
     wget https://functionscdn.azureedge.net/public/ExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION_V2/$EXTENSION_BUNDLE_FILENAME_V2 && \
     mkdir -p /FuncExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION_V2 && \
     unzip /$EXTENSION_BUNDLE_FILENAME_V2 -d /FuncExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION_V2 && \
     rm -f /$EXTENSION_BUNDLE_FILENAME_V2 &&\
-    EXTENSION_BUNDLE_VERSION_V3=3.29.0 && \
+    EXTENSION_BUNDLE_VERSION_V3=3.33.0 && \
     EXTENSION_BUNDLE_FILENAME_V3=Microsoft.Azure.Functions.ExtensionBundle.${EXTENSION_BUNDLE_VERSION_V3}_linux-x64.zip && \
     wget https://functionscdn.azureedge.net/public/ExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION_V3/$EXTENSION_BUNDLE_FILENAME_V3 && \
     mkdir -p /FuncExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION_V3 && \
     unzip /$EXTENSION_BUNDLE_FILENAME_V3 -d /FuncExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION_V3 && \
     rm -f /$EXTENSION_BUNDLE_FILENAME_V3 &&\
-    EXTENSION_BUNDLE_VERSION_V4=4.13.1 && \
+    EXTENSION_BUNDLE_VERSION_V4=4.17.0 && \
     EXTENSION_BUNDLE_FILENAME_V4=Microsoft.Azure.Functions.ExtensionBundle.${EXTENSION_BUNDLE_VERSION_V4}_linux-x64.zip && \
     wget https://functionscdn.azureedge.net/public/ExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION_V4/$EXTENSION_BUNDLE_FILENAME_V4 && \
     mkdir -p /FuncExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION_V4 && \
@@ -68,9 +74,9 @@ RUN apt-get update && \
     apt-get update && apt-get install -y locales && \
     echo 'en_US.UTF-8 UTF-8' > /etc/locale.gen && \
     locale-gen && \
-    # install MS SQL related packages.pinned version in PR # 1012
+    # install MS SQL related packages.
     apt-get update && \
-    apt-get install -y unixodbc msodbcsql17=17.10.4.1-1 mssql-tools && \
+    apt-get install -y unixodbc msodbcsql17 mssql-tools && \
     # .NET Core dependencies
     apt-get install -y --no-install-recommends ca-certificates \
     libc6 libgcc1 libgssapi-krb5-2 libicu67 libssl1.1 libstdc++6 zlib1g && \

@@ -64,6 +64,21 @@ steps:
 
   - bash: |
       set -e
+      docker pull $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-dotnet8.0
+      docker pull $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-dotnet8.0-appservice
+
+      docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-dotnet8.0 $TARGET_REGISTRY/dotnet:$(TargetVersion)-dotnet8.0
+      docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-dotnet8.0-appservice $TARGET_REGISTRY/dotnet:$(TargetVersion)-dotnet8.0-appservice
+      
+      docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-dotnet8.0
+      docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-dotnet8.0-appservice
+
+      docker system prune -a -f
+    displayName: tag and push dotnet images
+    continueOnError: false
+
+  - bash: |
+      set -e
       docker pull $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated6.0
       docker pull $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated6.0-slim
       docker pull $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated6.0-appservice
@@ -133,6 +148,18 @@ steps:
 
       docker system prune -a -f
     displayName: tag and push dotnet8-isolated images
+    continueOnError: false
+
+  - bash: |
+        set -e
+        docker pull $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated8.0-mariner
+
+        docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated8.0-mariner $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated8.0-mariner
+
+        docker push $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated8.0-mariner
+
+        docker system prune -a -f
+    displayName: tag and push dotnet8-isolated mariner images
     continueOnError: false
 
   - bash: |

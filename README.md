@@ -24,7 +24,6 @@ Linux amd64 Tags
 | `4-dotnet6-core-tools` |  Debian 11  |
 | `4-appservice-quickstart` | Debian 11 |
 
-
 `mcr.microsoft.com/azure-functions/dotnet-isolated`
 
 | Tags                                       | OS Version |
@@ -68,7 +67,7 @@ Linux amd64 Tags
 | `4-node20`                              |  Debian 11  |
 | `4-node20-slim`                         |  Debian 11  |
 | `4-node20-appservice`                   |  Debian 11  |
-| `4-node20-core-tools`                   |  Debian 11  |
+
 
 #### Powershell
 
@@ -83,6 +82,7 @@ Linux amd64 Tags
 | `4-powershell7.2-appservice`                   |  Debian 11  |
 | `4-powershell7.2-core-tools`                   | Debian 11 |
 | `4-powershell7.2-appservice-quickstart`         |Debian 11  |
+| `4-powershell7.4`                              |  Debian 12  |
 
 #### Java
 
@@ -110,7 +110,6 @@ Linux amd64 Tags
 | `4-java21`                             |Debian 12  |
 | `4-java21-slim`                        |  Debian 12  |
 | `4-java21-appservice`                  |  Debian 12  |
-| `4-java21-core-tools`                  |  Debian 12   |
 | `4-java21-build`            | Debian 12  |
 | `4-java21-appservice-quickstart`            | Debian 12  |
 
@@ -150,7 +149,6 @@ Linux amd64 Tags
 | `4-python3.11-slim`                  |  Debian 11  |
 | `4-python3.11-appservice`            |  Debian 11  |
 | `4-python3.11-buildenv`              | Debian 11  |
-| `4-python3.11-core-tools`            |  Debian 11  |
 | `4-python3.11-appservice-quickstart` | Debian 11 |
 
 #### Base

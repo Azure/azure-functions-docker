@@ -1,10 +1,10 @@
 # Build the runtime from source
-ARG HOST_VERSION=4.28.4
+ARG HOST_VERSION=4.34.2
 FROM mcr.microsoft.com/dotnet/sdk:6.0-bookworm-slim-amd64 AS runtime-image
 ARG HOST_VERSION
 
 ENV PublishWithAspNetCoreTargetManifest=false
-
+COPY --from=mcr.microsoft.com/dotnet/sdk:8.0-bookworm-slim-amd64 [ "/usr/share/dotnet", "/usr/share/dotnet" ]
 # Build WebJobs.Script.WebHost from source
 RUN BUILD_NUMBER=$(echo ${HOST_VERSION} | cut -d'.' -f 3) && \
     git clone --branch v${HOST_VERSION} https://github.com/Azure/azure-functions-host /src/azure-functions-host && \
@@ -18,19 +18,19 @@ RUN BUILD_NUMBER=$(echo ${HOST_VERSION} | cut -d'.' -f 3) && \
 # Install extension bundles
 RUN apt-get update && \
     apt-get install -y gnupg wget unzip && \
-    EXTENSION_BUNDLE_VERSION_V2=2.30.0 && \
+    EXTENSION_BUNDLE_VERSION_V2=2.33.1 && \
     EXTENSION_BUNDLE_FILENAME_V2=Microsoft.Azure.Functions.ExtensionBundle.${EXTENSION_BUNDLE_VERSION_V2}_linux-x64.zip && \
     wget https://functionscdn.azureedge.net/public/ExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION_V2/$EXTENSION_BUNDLE_FILENAME_V2 && \
     mkdir -p /FuncExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION_V2 && \
     unzip /$EXTENSION_BUNDLE_FILENAME_V2 -d /FuncExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION_V2 && \
     rm -f /$EXTENSION_BUNDLE_FILENAME_V2 &&\
-    EXTENSION_BUNDLE_VERSION_V3=3.29.0 && \
+    EXTENSION_BUNDLE_VERSION_V3=3.33.0 && \
     EXTENSION_BUNDLE_FILENAME_V3=Microsoft.Azure.Functions.ExtensionBundle.${EXTENSION_BUNDLE_VERSION_V3}_linux-x64.zip && \
     wget https://functionscdn.azureedge.net/public/ExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION_V3/$EXTENSION_BUNDLE_FILENAME_V3 && \
     mkdir -p /FuncExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION_V3 && \
     unzip /$EXTENSION_BUNDLE_FILENAME_V3 -d /FuncExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION_V3 && \
     rm -f /$EXTENSION_BUNDLE_FILENAME_V3 &&\
-    EXTENSION_BUNDLE_VERSION_V4=4.13.1 && \
+    EXTENSION_BUNDLE_VERSION_V4=4.17.0 && \
     EXTENSION_BUNDLE_FILENAME_V4=Microsoft.Azure.Functions.ExtensionBundle.${EXTENSION_BUNDLE_VERSION_V4}_linux-x64.zip && \
     wget https://functionscdn.azureedge.net/public/ExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION_V4/$EXTENSION_BUNDLE_FILENAME_V4 && \
     mkdir -p /FuncExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION_V4 && \
@@ -50,6 +50,7 @@ COPY install_ca_certificates.sh /opt/startup/
 COPY --from=runtime-image ["/workers/powershell/worker.config.json", "/azure-functions-host/workers/powershell/worker.config.json"]
 COPY --from=runtime-image ["/workers/powershell/7.4", "/azure-functions-host/workers/powershell/7.4"]
 
+EXPOSE 2222 80
 # set runtime env variables
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     HOME=/home \
@@ -66,5 +67,9 @@ RUN chmod +x /azure-functions-host/start.sh && \
 # Fix from https://github.com/GoogleCloudPlatform/google-cloud-dotnet-powerpack/issues/22#issuecomment-729895157
 RUN apt-get update && \
     apt-get install -y libc-dev
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends openssh-server dialog && \
+    echo "root:Docker!" | chpasswd
 
 CMD [ "/azure-functions-host/start.sh" ]

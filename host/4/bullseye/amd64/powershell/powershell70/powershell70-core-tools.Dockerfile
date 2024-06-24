@@ -66,7 +66,13 @@ RUN apt-get update \
     && echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-debian-$(lsb_release -cs)-prod $(lsb_release -cs) main" > /etc/apt/sources.list.d/dotnetdev.list \
     && curl -sL https://packages.microsoft.com/keys/microsoft.asc | (OUT=$(apt-key add - 2>&1) || echo $OUT) \
     && apt-get update \
-    && apt-get install -y azure-cli azure-functions-core-tools-4 \
+    && apt-get install -y azure-cli \
+    #
+    # Install coretools package for debian-11/bullseye from linux software repository
+    && curl -sSL -O https://packages.microsoft.com/config/debian/11/packages-microsoft-prod.deb \
+    && dpkg -i packages-microsoft-prod.deb \
+    && rm packages-microsoft-prod.deb \
+    && apt-get update && apt-get install azure-functions-core-tools-4 \
     #
     # Create a non-root user to use if preferred - see https://aka.ms/vscode-remote/containers/non-root-user.
     && groupadd --gid $USER_GID $USERNAME \
