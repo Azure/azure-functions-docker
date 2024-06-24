@@ -81,10 +81,7 @@ RUN chmod +x /opt/startup/install_ca_certificates.sh && \
     chmod +x /opt/startup/start_nonappservice.sh
 
 COPY --from=runtime-image [ "/workers/python/3.12/LINUX", "/azure-functions-host/workers/python/3.12/LINUX" ]
-# COPY --from=runtime-image [ "/workers/python/worker.config.json", "/azure-functions-host/workers/python" ]
-COPY [ "worker.config.json", "/azure-functions-host/workers/python" ]
-COPY [ "worker.py", "/azure-functions-host/workers/python/3.12/LINUX/X64" ]
-
+COPY --from=runtime-image [ "/workers/python/worker.config.json", "/azure-functions-host/workers/python" ]
 COPY --from=python [ "/", "/" ]
 
 RUN ln -s /opt/python/3.12/bin/* /usr/local/bin/
