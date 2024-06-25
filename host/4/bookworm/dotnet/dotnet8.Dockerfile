@@ -1,5 +1,5 @@
 # Build the runtime from source
-ARG HOST_VERSION=4.834.0
+ARG HOST_VERSION=4.834.4
 FROM mcr.microsoft.com/dotnet/sdk:8.0-bookworm-slim-amd64 AS runtime-image
 ARG HOST_VERSION
 
@@ -12,9 +12,6 @@ RUN BUILD_NUMBER=$(echo ${HOST_VERSION} | cut -d'.' -f 3) && \
     dotnet publish -v q /p:BuildNumber=$BUILD_NUMBER /p:CommitHash=$HOST_COMMIT src/WebJobs.Script.WebHost/WebJobs.Script.WebHost.csproj -c Release --output /azure-functions-host --runtime linux-x64 --framework net8.0 --self-contained /p:MinorVersionPrefix=8 && \
     mv /azure-functions-host/workers /workers && mkdir /azure-functions-host/workers && \
     rm -rf /root/.local /root/.nuget /src
-
-RUN apt-get update && \
-    apt-get install -y gnupg wget unzip;
 
 FROM mcr.microsoft.com/dotnet/runtime-deps:8.0-bookworm-slim-amd64
 ARG HOST_VERSION

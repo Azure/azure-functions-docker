@@ -53,11 +53,11 @@ steps:
 
   - bash: |
       set -e
-      docker pull $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-dotnet8-appservice
+      docker pull $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-dotnet8.0-appservice
 
-      docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-dotnet8-appservice $TARGET_REGISTRY/dotnet:$(TargetVersion)-dotnet8-appservice-stage$(StageNumber)
+      docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-dotnet8.0-appservice $TARGET_REGISTRY/dotnet:$(TargetVersion)-dotnet8.0-appservice-stage$(StageNumber)
 
-      docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-dotnet8-appservice-stage$(StageNumber)
+      docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-dotnet8.0-appservice-stage$(StageNumber)
 
       docker system prune -a -f
     displayName: tag and push dotnet images
