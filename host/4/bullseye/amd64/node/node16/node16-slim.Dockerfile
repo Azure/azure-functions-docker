@@ -59,7 +59,9 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
 
 # Fix from https://github.com/GoogleCloudPlatform/google-cloud-dotnet-powerpack/issues/22#issuecomment-729895157
 RUN apt-get update && \
-    apt-get install -y libc-dev
+    apt-get install -y libc-dev && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
 COPY --from=runtime-image [ "/workers/node", "/azure-functions-host/workers/node" ]
