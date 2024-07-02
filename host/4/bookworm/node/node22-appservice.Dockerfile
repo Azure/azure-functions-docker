@@ -42,9 +42,7 @@ RUN apt-get update && \
 FROM mcr.microsoft.com/dotnet/runtime-deps:6.0-bookworm-slim-amd64
 ARG HOST_VERSION
 
-COPY install_ca_certificates.sh start_nonappservice.sh /opt/startup/
-RUN chmod +x /opt/startup/install_ca_certificates.sh && \
-    chmod +x /opt/startup/start_nonappservice.sh
+EXPOSE 2222 80
 
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     HOME=/home \
@@ -56,6 +54,9 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
 COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
 COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
 COPY --from=runtime-image [ "/workers/node", "/azure-functions-host/workers/node" ]
+COPY sshd_config /etc/ssh/
+COPY start.sh /azure-functions-host/
+COPY install_ca_certificates.sh /opt/startup/
 
 RUN apt-get update && \
     apt-get install -y curl gnupg && \
@@ -63,4 +64,10 @@ RUN apt-get update && \
     apt-get update && \
     apt-get install -y nodejs
 
-CMD [ "/opt/startup/start_nonappservice.sh" ]
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends openssh-server dialog && \
+    echo "root:Docker!" | chpasswd && \
+    chmod +x /azure-functions-host/start.sh && \
+    chmod +x /opt/startup/install_ca_certificates.sh
+
+CMD [ "/azure-functions-host/start.sh" ]
