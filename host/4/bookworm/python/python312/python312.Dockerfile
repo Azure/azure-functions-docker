@@ -40,7 +40,18 @@ RUN apt-get update && \
     rm -f /$EXTENSION_BUNDLE_FILENAME_V4 &&\
     find /FuncExtensionBundles/ -type f -exec chmod 644 {} \;
 
-FROM mcr.microsoft.com/oryx/python:3.12-debian-bookworm as python
+FROM mcr.microsoft.com/dotnet/runtime-deps:6.0-bookworm-slim-amd64
+ARG HOST_VERSION
+
+COPY --from=runtime-image ["/azure-functions-host", "/azure-functions-host"]
+COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
+COPY install_ca_certificates.sh start_nonappservice.sh /opt/startup/
+RUN chmod +x /opt/startup/install_ca_certificates.sh && \
+    chmod +x /opt/startup/start_nonappservice.sh
+
+COPY --from=runtime-image [ "/workers/python/3.12/LINUX", "/azure-functions-host/workers/python/3.12/LINUX" ]
+COPY --from=runtime-image [ "/workers/python/worker.config.json", "/azure-functions-host/workers/python" ]
+COPY --from=mcr.microsoft.com/oryx/python:3.12-debian-bookworm [ "/", "/" ]
 
 # Install Python dependencies
 # MS SQL related packages: unixodbc msodbcsql17 mssql-tools
@@ -70,19 +81,6 @@ RUN echo 'Running apt get' && \
     binutils libgomp1 libc-dev liblttng-ust0 && \
     rm -rf /var/lib/apt/lists/*
 
-
-FROM mcr.microsoft.com/dotnet/runtime-deps:6.0
-ARG HOST_VERSION
-
-COPY --from=runtime-image ["/azure-functions-host", "/azure-functions-host"]
-COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
-COPY install_ca_certificates.sh start_nonappservice.sh /opt/startup/
-RUN chmod +x /opt/startup/install_ca_certificates.sh && \
-    chmod +x /opt/startup/start_nonappservice.sh
-
-COPY --from=runtime-image [ "/workers/python/3.12/LINUX", "/azure-functions-host/workers/python/3.12/LINUX" ]
-COPY --from=runtime-image [ "/workers/python/worker.config.json", "/azure-functions-host/workers/python" ]
-COPY --from=python [ "/", "/" ]
 
 RUN ln -s /opt/python/3.12/bin/* /usr/local/bin/
 
