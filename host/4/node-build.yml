@@ -112,11 +112,11 @@ jobs:
     dependsOn: Node
     steps:
       - task: AzureArtifacts.manifest-generator-task.manifest-generator-task.ManifestGeneratorTask@0
-      displayName: 'Manifest Generator'
-      inputs:
-        BuildDropPath: host
-        Verbosity: Verbose
-        DockerImagesToScan: $(image_list)
+        displayName: 'Manifest Generator'
+        inputs:
+          BuildDropPath: host
+          Verbosity: Verbose
+          DockerImagesToScan: $(image_list)
 
       - task: PublishPipelineArtifact@1
         displayName: 'Publish SBOM Artifact'
