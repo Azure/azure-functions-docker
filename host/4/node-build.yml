@@ -73,7 +73,7 @@ jobs:
           echo "##vso[task.setvariable variable=image_list;]$IMAGE_NAME"
 
           docker build -t $IMAGE_NAME \
-                      -f host/4/bullseye/amd64/node/node$(nodeVersion)/node$(nodeVersion).Dockerfile \
+                      -f host/4/$(dockerfilePath)/node/node$(nodeVersion)/node$(nodeVersion).Dockerfile \
                       host/4/$(dockerfilePath)/node/node$(nodeVersion)
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
