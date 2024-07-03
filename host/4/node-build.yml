@@ -47,7 +47,7 @@ jobs:
           bookworm: false
         _22:
           nodeVersion: "22"
-          dockerfilePath: "bullseye/amd64"
+          dockerfilePath: "bookworm"
           appservicePath: "host/4/bookworm/node/node22"
           bookworm: true
     steps:
