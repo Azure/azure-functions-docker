@@ -384,6 +384,22 @@ steps:
 
   - bash: |
       set -e
+      docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node22
+      docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node22-slim
+
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node22 $TARGET_REGISTRY/node:$(TargetVersion)-node22
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node22-slim $TARGET_REGISTRY/node:$(TargetVersion)-node22-slim
+
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)-node22
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)-node22-slim
+
+
+      docker system prune -a -f
+    displayName: tag and push node22 images
+    continueOnError: false
+
+  - bash: |
+      set -e
       docker pull $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7.2
       docker pull $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7.2-slim
       docker pull $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7.2-appservice
