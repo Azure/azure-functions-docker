@@ -21,7 +21,6 @@ Linux amd64 Tags
 | `4`                                      | Debian 11  |
 | `4-slim`                                 | Debian 11  |
 | `4-appservice` | Debian 11  |
-| `4-dotnet6-core-tools` |  Debian 11  |
 | `4-appservice-quickstart` | Debian 11 |
 
 `mcr.microsoft.com/azure-functions/dotnet-isolated`
@@ -32,7 +31,6 @@ Linux amd64 Tags
 | `4-dotnet-isolated6.0-slim`               | Debian 11 |
 | `4-dotnet-isolated6.0-appservice`         | Debian 11 |
 | `4-dotnet-isolated6.0-appservice-quickstart` | Debian 11 |
-| `4-dotnet-isolated6.0-core-tools`         | Debian 11 |
 | `4-dotnet-isolated7.0`                    | Debian 11 |
 | `4-dotnet-isolated7.0-slim`               | Debian 11 |
 | `4-dotnet-isolated7.0-appservice`         | Debian 11 |
@@ -57,12 +55,10 @@ Linux amd64 Tags
 | `4-node16`                              |  Debian 11  |
 | `4-node16-slim`                         |  Debian 11  |
 | `4-node16-appservice`                   |  Debian 11  |
-| `4-node16-core-tools`                   |  Debian 11  |
 | `4-node16-appservice-quickstart`                     |  Debian 11  |
 | `4-node18`                              |  Debian 11  |
 | `4-node18-slim`                         |  Debian 11  |
 | `4-node18-appservice`                   |  Debian 11  |
-| `4-node18-core-tools`                   |  Debian 11  |
 | `4-node18-appservice-quickstart`                     |  Debian 11  |
 | `4-node20`                              |  Debian 11  |
 | `4-node20-slim`                         |  Debian 11  |
@@ -80,7 +76,6 @@ Linux amd64 Tags
 | `4-powershell7.2`                              |  Debian 11  |
 | `4-powershell7.2-slim`                         |  Debian 11  |
 | `4-powershell7.2-appservice`                   |  Debian 11  |
-| `4-powershell7.2-core-tools`                   | Debian 11 |
 | `4-powershell7.2-appservice-quickstart`         |Debian 11  |
 | `4-powershell7.4`                              |  Debian 12  |
 
@@ -99,12 +94,10 @@ Linux amd64 Tags
 | `4-java11`                             |Debian 11  |
 | `4-java11-slim`                        |  Debian 11  |
 | `4-java11-appservice`                  |  Debian 11  |
-| `4-java11-core-tools`                  |  Debian 11   |
 | `4-java11-build`                      | Debian 11  |
 | `4-java17`                             |Debian 11  |
 | `4-java17-slim`                        |  Debian 11  |
 | `4-java17-appservice`                  |  Debian 11  |
-| `4-java17-core-tools`                  |  Debian 11   |
 | `4-java17-build`            | Debian 11  |
 | `4-java17-appservice-quickstart`            | Debian 11  |
 | `4-java21`                             |Debian 12  |
@@ -125,25 +118,21 @@ Linux amd64 Tags
 | `4-python3.7-slim`                   |  Debian 11  |
 | `4-python3.7-appservice`             |  Debian 11  |
 | `4-python3.7-buildenv`               |  Debian 11  |
-| `4-python3.7-core-tools`             | Debian 11  |
 | `4-python3.7-appservice-quickstart`  | Debian 11 |
 | `4-python3.8`                        |  Debian 11  |
 | `4-python3.8-slim`                   |  Debian 11  |
 | `4-python3.8-appservice`             | Debian 11  |
 | `4-python3.8-appservice-quickstart`  | Debian 11 |
 | `4-python3.8-buildenv`               |  Debian 11  |
-| `4-python3.8-core-tools`             | Debian 11  |
 | `4-python3.9`                        |  Debian 11  |
 | `4-python3.9-slim`                   |  Debian 11  |
 | `4-python3.9-appservice`             |  Debian 11  |
 | `4-python3.9-appservice-quickstart`  | Debian 11 |
 | `4-python3.9-buildenv`               | Debian 11  |
-| `4-python3.9-core-tools`             |  Debian 11  |
 | `4-python3.10`                       |  Debian 11  |
 | `4-python3.10-slim`                  |  Debian 11  |
 | `4-python3.10-appservice`            |  Debian 11  |
 | `4-python3.10-buildenv`              | Debian 11  |
-| `4-python3.10-core-tools`            |  Debian 11  |
 | `4-python3.10-appservice-quickstart` | Debian 11 |
 | `4-python3.11`                       |  Debian 11  |
 | `4-python3.11-slim`                  |  Debian 11  |
