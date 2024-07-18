@@ -1,6 +1,6 @@
 # Build the runtime from source
 ARG HOST_VERSION=4.1035.0
-FROM mcr.microsoft.com/dotnet/sdk:8.0-bookworm-slim-amd64 AS runtime-image
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS runtime-image
 ARG HOST_VERSION
 
 ENV PublishWithAspNetCoreTargetManifest=false
@@ -44,7 +44,7 @@ RUN apt-get update && \
     rm -f /$EXTENSION_BUNDLE_FILENAME_V4 &&\
     find /FuncExtensionBundles/ -type f -exec chmod 644 {} \;
 
-FROM mcr.microsoft.com/dotnet/aspnet:8.0-bullseye-slim
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
 ARG HOST_VERSION
 
 # set runtime env variables
