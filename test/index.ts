@@ -125,83 +125,51 @@ const runTest = async (data: typeof map.dotnet, envStr = "") => {
 
 // test for host images
 if (imageName.indexOf("-core-tools") === -1) {
-  const { stdout: containerId, code: exitCodeStart } = shell.exec(
+
+  const { stdout: containerIdFull, code: exitCode } = shell.exec(
     `docker run --rm -p 9097:80 ${envStr} -d ${name}`
   );
 
-  if (exitCodeStart !== 0) {
-    console.error("Error starting container");
+  // Trim newline characters and get the shortened container ID
+  const containerId = containerIdFull.trim().substring(0, 12);
+
+  if (exitCode !== 0) {
+    console.error("Error running container");
     process.exit(1);
   }
 
-  // Trim any extra whitespace from containerId
-  const trimmedContainerId = containerId.trim();
-
-  console.log(chalk.yellow.bold("Current containerId from docker run: " + trimmedContainerId));
+  console.log(chalk.yellow.bold("Current containerId from docker run: " + containerId));
 
   // Verify if the container exists
-  const { stdout: containersList, code: exitCodePs } = shell.exec('docker ps -a');
-  
-  if (exitCodePs !== 0) {
-    console.error("Error listing containers");
+  const containerExistsCheck = shell.exec(`docker ps -a | grep ${containerId}`);
+  if (!containerExistsCheck.stdout) {
+    console.error(`Container with ID ${containerId} does not exist.`);
+    console.error('Containers currently available:');
+    shell.exec('docker ps -a');
     process.exit(1);
+  } else {
+    console.log(`Container with ID ${containerId} exists and is running.`);
   }
 
-  if (!containersList.includes(trimmedContainerId)) {
-    console.error(`Container with ID ${trimmedContainerId} does not exist.`);
-    console.log("Containers currently available:");
-    console.log(containersList);
-    process.exit(1);
-  }
-
-  console.log(chalk.green.bold(`Container with ID ${trimmedContainerId} found in docker ps -a.`));
-
-  // Function to wait for a specific amount of time
-  const timeout = (ms: number) => new Promise(res => setTimeout(res, ms));
-
-  // Wait for container to initialize
-  await timeout(imageName.indexOf("arm32v7") === -1 ? 5_000 : 30_000);
+  const containerLogs = shell.exec(`docker logs -f ${containerId}`, {
+    async: true
+  });
+  containerLogs.stdout && containerLogs.stdout.pipe(process.stdout);
+  containerLogs.stderr && containerLogs.stderr.pipe(process.stderr);
 
   let error = false;
   let trials = 0;
 
+  const timeout = (ms) => new Promise(res => setTimeout(res, ms));
+  // arm32 builds are slow
+  await timeout(imageName.indexOf("arm32v7") === -1 ? 5_000 : 30_000);
+
   do {
     trials++;
     try {
-      // Check container status
-      const { stdout: status, code: exitCodeStatus } = shell.exec(
-        `docker inspect -f '{{.State.Status}}' ${trimmedContainerId}`
-      );
-
-      if (exitCodeStatus !== 0) {
-        console.error("Error inspecting container status");
-        console.error(`Status command output: ${status}`);
-        process.exit(1);
-      }
-
-      console.log(chalk.yellow.bold(`Container Status: ${status.trim()}`));
-
-      if (status.trim() === "exited") {
-        // Container exited, check exit code
-        const { stdout: exitCode, code: exitCodeExit } = shell.exec(
-          `docker inspect -f '{{.State.ExitCode}}' ${trimmedContainerId}`
-        );
-
-        if (exitCodeExit !== 0) {
-          console.error(`Container exited with code ${exitCode.trim()}`);
-          process.exit(1);
-        }
-
-        console.log(chalk.yellow.bold("Container exited successfully"));
-        error = true; // Exit loop since container exited
-        break;
-      }
-
-      // Container is running, perform HTTP request validation
       const res = await axios.get(`http://localhost:9097${data.invoke}`, {
         timeout: 10_000
       });
-
       if (res.data !== data.response) {
         console.error(
           chalk.red.bold(
@@ -213,6 +181,7 @@ if (imageName.indexOf("-core-tools") === -1) {
         );
         error = true;
       } else {
+        error = false;
         console.log(
           chalk.green(
             `${imageName} successfully ran ${chalk.blue(
@@ -222,27 +191,22 @@ if (imageName.indexOf("-core-tools") === -1) {
             )} ${chalk.grey(res.data)}`
           )
         );
-        error = false;
       }
     } catch (e) {
       console.error(chalk.red(e));
       error = true;
     }
-
     if (error) {
       await timeout(5_000);
     }
   } while (error && trials < 10);
 
-  // Cleanup: Kill container and remove image
-  shell.exec(`docker kill ${trimmedContainerId}`);
+  shell.exec(`docker kill ${containerId}`);
   shell.exec(`docker rmi ${name}`);
-
   if (error) {
     process.exit(1);
   }
-}
- else {
+} else {
     if (shell.exec(`docker run ${name} func --help`).code !== 0) {
       console.error("Azure Functions Core Tools Not found.");
       process.exit(1);
