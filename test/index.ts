@@ -130,7 +130,6 @@ if (imageName.indexOf("-core-tools") === -1) {
     `docker run --rm -p 9097:80 ${envStr} -d ${name}`
   );
 
-  // Trim newline characters and get the shortened container ID
   const containerId = containerIdFull.trim().substring(0, 12);
 
   if (exitCode !== 0) {
@@ -140,7 +139,6 @@ if (imageName.indexOf("-core-tools") === -1) {
 
   console.log(chalk.yellow.bold("Current containerId from docker run: " + containerId));
 
-  // Verify if the container exists
   const containerExistsCheck = shell.exec(`docker ps -a | grep ${containerId}`);
   if (!containerExistsCheck.stdout) {
     console.error(`Container with ID ${containerId} does not exist.`);
@@ -160,14 +158,9 @@ if (imageName.indexOf("-core-tools") === -1) {
   let error = false;
   let trials = 0;
 
-  /**
-   * The function `timeout` returns a promise that resolves after a specified number of milliseconds.
-   * @param ms - The `ms` parameter in the `timeout` function represents the number of milliseconds to
-   * wait before resolving the promise.
-   */
   const timeout = (ms: number) => new Promise(res => setTimeout(res, ms));
-  // arm32 builds are slow
-  await timeout(imageName.indexOf("arm32v7") === -1 ? 5_000 : 30_000);
+  // Increase wait time to ensure the service is fully started
+  await timeout(imageName.indexOf("arm32v7") === -1 ? 10_000 : 30_000);
 
   do {
     trials++;
