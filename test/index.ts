@@ -160,7 +160,12 @@ if (imageName.indexOf("-core-tools") === -1) {
   let error = false;
   let trials = 0;
 
-  const timeout = (ms) => new Promise(res => setTimeout(res, ms));
+  /**
+   * The function `timeout` returns a promise that resolves after a specified number of milliseconds.
+   * @param ms - The `ms` parameter in the `timeout` function represents the number of milliseconds to
+   * wait before resolving the promise.
+   */
+  const timeout = (ms: number) => new Promise(res => setTimeout(res, ms));
   // arm32 builds are slow
   await timeout(imageName.indexOf("arm32v7") === -1 ? 5_000 : 30_000);
 
@@ -216,7 +221,6 @@ if (imageName.indexOf("-core-tools") === -1) {
       process.exit(1);
     }
   }
-
 };
 
 async function main() {
