@@ -123,7 +123,7 @@ const runTest = async (data: typeof map.dotnet, envStr = "") => {
     process.exit(1);
   }
 
- // test for host images
+// test for host images
 if (imageName.indexOf("-core-tools") === -1) {
   const { stdout: containerId, code: exitCodeStart } = shell.exec(
     `docker run --rm -p 9097:80 ${envStr} -d ${name}`
@@ -134,7 +134,25 @@ if (imageName.indexOf("-core-tools") === -1) {
     process.exit(1);
   }
 
-  console.log(chalk.yellow.bold("current containerId: " + containerId));
+  // Trim any extra whitespace from containerId
+  const trimmedContainerId = containerId.trim();
+
+  console.log(chalk.yellow.bold("current containerId: " + trimmedContainerId));
+
+  // Verify if the container exists
+  const { stdout: containersList, code: exitCodePs } = shell.exec('docker ps -a');
+  
+  if (exitCodePs !== 0) {
+    console.error("Error listing containers");
+    process.exit(1);
+  }
+
+  if (!containersList.includes(trimmedContainerId)) {
+    console.error(`Container with ID ${trimmedContainerId} does not exist.`);
+    process.exit(1);
+  }
+
+  console.log(chalk.green.bold(`Container with ID ${trimmedContainerId} found in docker ps -a.`));
 
   // Function to wait for a specific amount of time
   const timeout = (ms: number) => new Promise(res => setTimeout(res, ms));
@@ -150,11 +168,12 @@ if (imageName.indexOf("-core-tools") === -1) {
     try {
       // Check container status
       const { stdout: status, code: exitCodeStatus } = shell.exec(
-        `docker inspect -f '{{.State.Status}}' ${containerId}`
+        `docker inspect -f '{{.State.Status}}' ${trimmedContainerId}`
       );
 
       if (exitCodeStatus !== 0) {
         console.error("Error inspecting container status");
+        console.error(`Status command output: ${status}`);
         process.exit(1);
       }
 
@@ -163,7 +182,7 @@ if (imageName.indexOf("-core-tools") === -1) {
       if (status.trim() === "exited") {
         // Container exited, check exit code
         const { stdout: exitCode, code: exitCodeExit } = shell.exec(
-          `docker inspect -f '{{.State.ExitCode}}' ${containerId}`
+          `docker inspect -f '{{.State.ExitCode}}' ${trimmedContainerId}`
         );
 
         if (exitCodeExit !== 0) {
@@ -214,7 +233,7 @@ if (imageName.indexOf("-core-tools") === -1) {
   } while (error && trials < 10);
 
   // Cleanup: Kill container and remove image
-  shell.exec(`docker kill ${containerId}`);
+  shell.exec(`docker kill ${trimmedContainerId}`);
   shell.exec(`docker rmi ${name}`);
 
   if (error) {
