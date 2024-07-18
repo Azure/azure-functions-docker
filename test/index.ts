@@ -137,7 +137,7 @@ if (imageName.indexOf("-core-tools") === -1) {
   // Trim any extra whitespace from containerId
   const trimmedContainerId = containerId.trim();
 
-  console.log(chalk.yellow.bold("current containerId: " + trimmedContainerId));
+  console.log(chalk.yellow.bold("Current containerId from docker run: " + trimmedContainerId));
 
   // Verify if the container exists
   const { stdout: containersList, code: exitCodePs } = shell.exec('docker ps -a');
@@ -149,6 +149,8 @@ if (imageName.indexOf("-core-tools") === -1) {
 
   if (!containersList.includes(trimmedContainerId)) {
     console.error(`Container with ID ${trimmedContainerId} does not exist.`);
+    console.log("Containers currently available:");
+    console.log(containersList);
     process.exit(1);
   }
 
@@ -239,7 +241,8 @@ if (imageName.indexOf("-core-tools") === -1) {
   if (error) {
     process.exit(1);
   }
-} else {
+}
+ else {
     if (shell.exec(`docker run ${name} func --help`).code !== 0) {
       console.error("Azure Functions Core Tools Not found.");
       process.exit(1);
