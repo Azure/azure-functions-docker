@@ -123,80 +123,104 @@ const runTest = async (data: typeof map.dotnet, envStr = "") => {
     process.exit(1);
   }
 
-  // test for host images
-  if (imageName.indexOf("-core-tools") === -1) {
+ // test for host images
+if (imageName.indexOf("-core-tools") === -1) {
+  const { stdout: containerId, code: exitCodeStart } = shell.exec(
+    `docker run --rm -p 9097:80 ${envStr} -d ${name}`
+  );
 
-    const { stdout: containerId, code: exitCode } = shell.exec(
-      `docker run --rm -p 9097:80 ${envStr} -d ${name}`
-    );
+  if (exitCodeStart !== 0) {
+    console.error("Error starting container");
+    process.exit(1);
+  }
 
-    //const containerId = stdout
-    if (exitCode !== 0) {
-      console.error("Error running container");
-      process.exit(1);
-    }
+  console.log(chalk.yellow.bold("current containerId: " + containerId));
 
-    const container = shell.exec(`docker logs -f ${containerId}`, {
-      async: true
-    });
-    container.stdout && container.stdout.pipe(process.stdout);
+  // Function to wait for a specific amount of time
+  const timeout = (ms: number) => new Promise(res => setTimeout(res, ms));
 
-    container.stderr && container.stderr.pipe(process.stderr);
+  // Wait for container to initialize
+  await timeout(imageName.indexOf("arm32v7") === -1 ? 5_000 : 30_000);
 
-    console.log(chalk.yellow.bold("current containerId: " + containerId));
+  let error = false;
+  let trials = 0;
 
-    let error = false;
-    let trials = 0;
+  do {
+    trials++;
+    try {
+      // Check container status
+      const { stdout: status, code: exitCodeStatus } = shell.exec(
+        `docker inspect -f '{{.State.Status}}' ${containerId}`
+      );
 
-    const timeout = (ms: number) => new Promise(res => setTimeout(res, ms));
-    // arm32 builds are slow
-    await timeout(imageName.indexOf("arm32v7") === -1 ? 5_000 : 30_000);
+      if (exitCodeStatus !== 0) {
+        console.error("Error inspecting container status");
+        process.exit(1);
+      }
 
-    do {
-      trials++;
-      try {
-        const res = await axios.get(`http://localhost:9097${data.invoke}`, {
-          timeout: 10_000
-        });
-        if (res.data !== data.response) {
-          console.error(
-            chalk.red.bold(
-              "Error: Expected: " +
-                chalk.green(data.response) +
-                " but got: " +
-                chalk.yellow(res.data)
-            )
-          );
-          error = true;
-        } else {
-          error = false;
-          console.log(
-            chalk.green(
-              `${imageName} successfully ran ${chalk.blue(
-                data.invoke
-              )} function with: ${chalk.grey(
-                `(${res.status}: ${res.statusText})`
-              )} ${chalk.grey(res.data)}`
-            )
-          );
+      console.log(chalk.yellow.bold(`Container Status: ${status.trim()}`));
+
+      if (status.trim() === "exited") {
+        // Container exited, check exit code
+        const { stdout: exitCode, code: exitCodeExit } = shell.exec(
+          `docker inspect -f '{{.State.ExitCode}}' ${containerId}`
+        );
+
+        if (exitCodeExit !== 0) {
+          console.error(`Container exited with code ${exitCode.trim()}`);
+          process.exit(1);
         }
-      } catch (e) {
-        console.error(chalk.red(e));
-        error = true;
-      }
-      if (error) {
-        await timeout(5_000);
-      }
-    } while (error && trials < 10);
 
-    shell.exec(`docker kill ${containerId}`);
-    shell.exec(`docker rmi ${name}`);
-    if (error) {
-      process.exit(1);
+        console.log(chalk.yellow.bold("Container exited successfully"));
+        error = true; // Exit loop since container exited
+        break;
+      }
+
+      // Container is running, perform HTTP request validation
+      const res = await axios.get(`http://localhost:9097${data.invoke}`, {
+        timeout: 10_000
+      });
+
+      if (res.data !== data.response) {
+        console.error(
+          chalk.red.bold(
+            "Error: Expected: " +
+              chalk.green(data.response) +
+              " but got: " +
+              chalk.yellow(res.data)
+          )
+        );
+        error = true;
+      } else {
+        console.log(
+          chalk.green(
+            `${imageName} successfully ran ${chalk.blue(
+              data.invoke
+            )} function with: ${chalk.grey(
+              `(${res.status}: ${res.statusText})`
+            )} ${chalk.grey(res.data)}`
+          )
+        );
+        error = false;
+      }
+    } catch (e) {
+      console.error(chalk.red(e));
+      error = true;
     }
-    
-    // test for core-tools images
-  } else {
+
+    if (error) {
+      await timeout(5_000);
+    }
+  } while (error && trials < 10);
+
+  // Cleanup: Kill container and remove image
+  shell.exec(`docker kill ${containerId}`);
+  shell.exec(`docker rmi ${name}`);
+
+  if (error) {
+    process.exit(1);
+  }
+} else {
     if (shell.exec(`docker run ${name} func --help`).code !== 0) {
       console.error("Azure Functions Core Tools Not found.");
       process.exit(1);
