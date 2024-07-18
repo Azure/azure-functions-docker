@@ -46,7 +46,7 @@ RUN wget https://aka.ms/download-jdk/microsoft-jdk-${JAVA_VERSION}-linux-x64.tar
     tar -xzf microsoft-jdk-${JAVA_VERSION}-linux-x64.tar.gz -C ${JAVA_HOME} --strip-components=1 && \
     rm -f microsoft-jdk-${JAVA_VERSION}-linux-x64.tar.gz
 
-FROM mcr.microsoft.com/dotnet/runtime-deps:6.0-bookworm-slim-amd64
+FROM mcr.microsoft.com/dotnet/runtime-deps:8.0-bookworm-slim-amd64
 ARG HOST_VERSION
 ARG JAVA_HOME
 

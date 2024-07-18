@@ -40,7 +40,7 @@ RUN apt-get update && \
     rm -f /$EXTENSION_BUNDLE_FILENAME_V4 &&\
     find /FuncExtensionBundles/ -type f -exec chmod 644 {} \;
 
-FROM mcr.microsoft.com/dotnet/runtime-deps:6.0-bookworm-slim-amd64
+FROM mcr.microsoft.com/dotnet/runtime-deps:8.0-bookworm-slim-amd64
 ARG HOST_VERSION
 ARG JAVA_VERSION
 ARG JAVA_HOME
