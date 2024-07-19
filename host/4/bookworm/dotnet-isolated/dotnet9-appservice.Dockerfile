@@ -1,5 +1,5 @@
 # Build the runtime from source
-ARG HOST_VERSION=4.834.4
+ARG HOST_VERSION=4.1035.0
 FROM mcr.microsoft.com/dotnet/sdk:8.0-bookworm-slim-amd64 AS runtime-image
 ARG HOST_VERSION
 
@@ -18,7 +18,7 @@ ARG HOST_VERSION
 
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     HOME=/home \
-    FUNCTIONS_WORKER_RUNTIME=dotnet \
+    FUNCTIONS_WORKER_RUNTIME=dotnet-isolated \
     DOTNET_USE_POLLING_FILE_WATCHER=true \
     HOST_VERSION=${HOST_VERSION} \
     ASPNETCORE_CONTENTROOT=/azure-functions-host \
@@ -37,4 +37,4 @@ RUN apt-get update && \
     chmod +x /azure-functions-host/start.sh && \
     chmod +x /opt/startup/install_ca_certificates.sh
 
-CMD [ "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost" ]
+ENTRYPOINT ["/azure-functions-host/start.sh"]
