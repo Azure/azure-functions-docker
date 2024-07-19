@@ -114,6 +114,7 @@ const dockerFile = (function() {
 const name = random();
 
 const runTest = async (data: typeof map.dotnet, envStr = "") => {
+  console.log(`docker build -t ${name} --build-arg BASE_IMAGE=${imageName} --build-arg CONTENT_URL=${data.package} -f ${dockerFile} ${__dirname}`)
   if (
     shell.exec(
       `docker build -t ${name} --build-arg BASE_IMAGE=${imageName} --build-arg CONTENT_URL=${data.package} -f ${dockerFile} ${__dirname}`
@@ -125,7 +126,6 @@ const runTest = async (data: typeof map.dotnet, envStr = "") => {
 
 // test for host images
 if (imageName.indexOf("-core-tools") === -1) {
-
   const { stdout: containerIdFull, code: exitCode } = shell.exec(
     `docker run --rm -p 9097:80 ${envStr} -d ${name}`
   );
@@ -198,6 +198,11 @@ if (imageName.indexOf("-core-tools") === -1) {
       await timeout(5_000);
     }
   } while (error && trials < 10);
+
+  // Capture logs before killing the container
+  console.log(chalk.blue(`Fetching logs for container ${containerId} before killing it...`));
+  const logs = shell.exec(`docker logs ${containerId}`);
+  console.log(logs.stdout);
 
   shell.exec(`docker kill ${containerId}`);
   shell.exec(`docker rmi ${name}`);
