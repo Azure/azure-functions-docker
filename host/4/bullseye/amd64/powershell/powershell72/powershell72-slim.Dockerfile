@@ -44,11 +44,12 @@ RUN apt-get update && \
     rm -f /$EXTENSION_BUNDLE_FILENAME_V4 &&\
     find /FuncExtensionBundles/ -type f -exec chmod 644 {} \;
 
-FROM mcr.microsoft.com/dotnet/aspnet:6.0-bullseye-slim
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
 ARG HOST_VERSION
 
 # set runtime env variables
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
+    ASPNETCORE_URLS=http://+:80 \ 
     HOME=/home \
     FUNCTIONS_WORKER_RUNTIME=powershell \
     FUNCTIONS_WORKER_RUNTIME_VERSION=7.2 \
