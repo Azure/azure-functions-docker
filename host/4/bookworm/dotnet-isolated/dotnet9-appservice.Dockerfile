@@ -13,7 +13,7 @@ RUN BUILD_NUMBER=$(echo ${HOST_VERSION} | cut -d'.' -f 3) && \
     mv /azure-functions-host/workers /workers && mkdir /azure-functions-host/workers && \
     rm -rf /root/.local /root/.nuget /src
 
-FROM mcr.microsoft.com/dotnet/runtime-deps:9.0-preview-bookworm-slim-amd64
+FROM mcr.microsoft.com/dotnet/aspnet:9.0-preview-bookworm-slim-amd64
 ARG HOST_VERSION
 
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
