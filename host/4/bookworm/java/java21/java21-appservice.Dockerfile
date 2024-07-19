@@ -2,9 +2,8 @@ ARG JAVA_VERSION=21.0.1
 ARG JAVA_HOME=/usr/lib/jvm/msft-21-x64
 # Build the runtime from source
 ARG HOST_VERSION=4.1035.0
-FROM mcr.microsoft.com/dotnet/sdk:6.0-bookworm-slim-amd64 AS runtime-image
+FROM mcr.microsoft.com/dotnet/sdk:8.0-bookworm-slim-amd64 AS runtime-image
 ARG HOST_VERSION
-COPY --from=mcr.microsoft.com/dotnet/sdk:8.0-bookworm-slim-amd64 [ "/usr/share/dotnet", "/usr/share/dotnet" ]
 
 ENV PublishWithAspNetCoreTargetManifest=false
 
@@ -40,7 +39,7 @@ RUN apt-get update && \
     rm -f /$EXTENSION_BUNDLE_FILENAME_V4 &&\
     find /FuncExtensionBundles/ -type f -exec chmod 644 {} \;
 
-FROM mcr.microsoft.com/dotnet/runtime-deps:8.0-bookworm-slim-amd64
+FROM mcr.microsoft.com/dotnet/aspnet:8.0-bookworm-slim-amd64
 ARG HOST_VERSION
 ARG JAVA_VERSION
 ARG JAVA_HOME
