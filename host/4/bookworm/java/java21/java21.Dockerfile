@@ -52,6 +52,7 @@ ARG HOST_VERSION
 ARG JAVA_HOME
 
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
+    ASPNETCORE_URLS=http://+:80 \ 
     HOME=/home \
     FUNCTIONS_WORKER_RUNTIME=java \
     DOTNET_USE_POLLING_FILE_WATCHER=true \

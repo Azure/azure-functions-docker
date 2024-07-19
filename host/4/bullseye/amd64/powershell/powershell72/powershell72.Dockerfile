@@ -1,6 +1,6 @@
 # Build the runtime from source
 ARG HOST_VERSION=4.1035.0
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS runtime-image
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS runtime-image
 ARG HOST_VERSION
 
 ENV PublishWithAspNetCoreTargetManifest=false
@@ -49,6 +49,7 @@ ARG HOST_VERSION
 
 # set runtime env variables
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
+    ASPNETCORE_URLS=http://+:80 \ 
     HOME=/home \
     FUNCTIONS_WORKER_RUNTIME=powershell \
     FUNCTIONS_WORKER_RUNTIME_VERSION=7.2 \
