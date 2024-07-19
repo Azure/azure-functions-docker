@@ -321,13 +321,13 @@ steps:
   - bash: |
       set -e
       docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node22
-      docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node22-slim
+      docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node22-appservice
 
       docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node22 $TARGET_REGISTRY/node:$(TargetVersion)-node22
-      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node22-slim $TARGET_REGISTRY/node:$(TargetVersion)-node22-slim
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node22-appservice $TARGET_REGISTRY/node:$(TargetVersion)-node22-appservice
 
       docker push $TARGET_REGISTRY/node:$(TargetVersion)-node22
-      docker push $TARGET_REGISTRY/node:$(TargetVersion)-node22-slim
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)-node22-appservice
 
 
       docker system prune -a -f

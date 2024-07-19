@@ -28,6 +28,8 @@ COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
 COPY sshd_config /etc/ssh/
 COPY start.sh /azure-functions-host/
 COPY install_ca_certificates.sh /opt/startup/
+RUN chmod +x /opt/startup/install_ca_certificates.sh && \
+    chmod +x /opt/startup/start.sh
 
 EXPOSE 2222 80
 
@@ -37,4 +39,4 @@ RUN apt-get update && \
     chmod +x /azure-functions-host/start.sh && \
     chmod +x /opt/startup/install_ca_certificates.sh
 
-CMD [ "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost" ]
+ENTRYPOINT ["/azure-functions-host/start.sh"]
