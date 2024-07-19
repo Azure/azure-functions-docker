@@ -3,6 +3,7 @@ ARG HOST_VERSION=4.1035.0
 ARG JAVA_VERSION=8u392b08
 ARG JDK_NAME=jdk8u392-b08
 ARG JAVA_HOME=/usr/lib/jvm/adoptium-8-x64
+# switch back to bullseye
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS runtime-image
 ARG HOST_VERSION
 ARG JAVA_VERSION
@@ -53,6 +54,8 @@ RUN wget https://github.com/adoptium/temurin8-binaries/releases/download/${JDK_N
     rm -f OpenJDK8U-jdk_x64_linux_hotspot_${JAVA_VERSION}.tar.gz
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
+# -slim-bookworm
+# take bullseye dotnet 6
 ARG HOST_VERSION
 ARG JAVA_HOME
 
@@ -64,6 +67,13 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     HOST_VERSION=${HOST_VERSION} \
     ASPNETCORE_CONTENTROOT=/azure-functions-host \
     JAVA_HOME=${JAVA_HOME}
+
+    # RUN wget https://packages.microsoft.com/config/debian/11/packages-microsoft-prod.deb -O packages-microsoft-prod.deb && \
+    # dpkg -i packages-microsoft-prod.deb && \
+    # rm packages-microsoft-prod.deb && \
+    # apt-get update && \
+    # apt-get install -y dotnet-sdk-8.0
+    # we want aspnet here
 
 # Fix from https://github.com/GoogleCloudPlatform/google-cloud-dotnet-powerpack/issues/22#issuecomment-729895157
 RUN apt-get update && \
