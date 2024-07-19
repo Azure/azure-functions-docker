@@ -5,11 +5,11 @@ ARG HOST_VERSION
 
 ENV PublishWithAspNetCoreTargetManifest=false
 
-RUN wget https://packages.microsoft.com/config/debian/11/packages-microsoft-prod.deb -O packages-microsoft-prod.deb && \
-    dpkg -i packages-microsoft-prod.deb && \
-    rm packages-microsoft-prod.deb && \
-    apt-get update && \
-    apt-get install -y dotnet-sdk-8.0
+# RUN wget https://packages.microsoft.com/config/debian/11/packages-microsoft-prod.deb -O packages-microsoft-prod.deb && \
+#     dpkg -i packages-microsoft-prod.deb && \
+#     rm packages-microsoft-prod.deb && \
+#     apt-get update && \
+#     apt-get install -y dotnet-sdk-8.0
 
 # Build WebJobs.Script.WebHost from source
 RUN BUILD_NUMBER=$(echo ${HOST_VERSION} | cut -d'.' -f 3) && \
@@ -44,8 +44,8 @@ RUN apt-get update && \
     rm -f /$EXTENSION_BUNDLE_FILENAME_V4 &&\
     find /FuncExtensionBundles/ -type f -exec chmod 644 {} \;
 
-# FROM mcr.microsoft.com/dotnet/aspnet:6.0-bullseye-slim
-FROM mcr.microsoft.com/dotnet/aspnet:8.0
+FROM mcr.microsoft.com/dotnet/aspnet:6.0-bullseye-slim
+# FROM mcr.microsoft.com/dotnet/aspnet:8.0
 ARG HOST_VERSION
 
 # set runtime env variables
@@ -64,8 +64,7 @@ RUN apt-get update && \
 
 # copy bundles, host runtime and powershell worker from the build image
 
-COPY --from=mcr.microsoft.com/dotnet/aspnet-bookworm-slim-amd64 [ "/usr/share/dotnet", "/usr/share/dotnet" ]
-
+COPY --from=runtime-image [ "/usr/share/dotnet", "/usr/share/dotnet" ]
 COPY --from=runtime-image ["/azure-functions-host", "/azure-functions-host"]
 COPY --from=runtime-image ["/FuncExtensionBundles", "/FuncExtensionBundles"]
 COPY --from=runtime-image ["/workers/powershell", "/azure-functions-host/workers/powershell"]
