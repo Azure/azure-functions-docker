@@ -36,9 +36,9 @@ const dotnetIsolated8 = {
 }
 
 const dotnetIsolated9 = {
-  package: `${storagePath}/Net9HttpApp_Isolated_Portable_20240719.zip`,
+  package: `${storagePath}/Net9HttpApp_Isolated_Portable_20240719_1554.zip`,
   invoke: "/api/hellohttp",
-  response: "Welcome to Azure Functions! .NET 8"
+  response: "Welcome to Azure Functions! .NET 9"
 }
 
 const dotnetInProc8 = {
