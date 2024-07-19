@@ -25,5 +25,8 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     ASPNETCORE_URLS=http://+:80
 
 COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
+COPY install_ca_certificates.sh start_nonappservice.sh /opt/startup/
+RUN chmod +x /opt/startup/install_ca_certificates.sh && \
+    chmod +x /opt/startup/start_nonappservice.sh
 
-CMD [ "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost" ]
+CMD [ "/opt/startup/start_nonappservice.sh" ]
