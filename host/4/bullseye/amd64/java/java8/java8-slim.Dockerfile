@@ -39,7 +39,7 @@ RUN apt-get update && \
     mkdir -p /FuncExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION_V3 && \
     unzip /$EXTENSION_BUNDLE_FILENAME_V3 -d /FuncExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION_V3 && \
     rm -f /$EXTENSION_BUNDLE_FILENAME_V3 &&\
-    EXTENSION_BUNDLE_VERSION_V4=4.17.0 && \
+    EXTENSION_BUNDLE_VERSION_V4=4.18.0 && \
     EXTENSION_BUNDLE_FILENAME_V4=Microsoft.Azure.Functions.ExtensionBundle.${EXTENSION_BUNDLE_VERSION_V4}_linux-x64.zip && \
     wget https://functionscdn.azureedge.net/public/ExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION_V4/$EXTENSION_BUNDLE_FILENAME_V4 && \
     mkdir -p /FuncExtensionBundles/Microsoft.Azure.Functions.ExtensionBundle/$EXTENSION_BUNDLE_VERSION_V4 && \
@@ -52,8 +52,7 @@ RUN wget https://github.com/adoptium/temurin8-binaries/releases/download/${JDK_N
     tar -xzf OpenJDK8U-jdk_x64_linux_hotspot_${JAVA_VERSION}.tar.gz -C ${JAVA_HOME} --strip-components=1 && \
     rm -f OpenJDK8U-jdk_x64_linux_hotspot_${JAVA_VERSION}.tar.gz
 
-    # TODO: ? FROM mcr.microsoft.com/dotnet/aspnet:8.0
-FROM mcr.microsoft.com/dotnet/runtime-deps:8.0
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
 ARG HOST_VERSION
 ARG JAVA_HOME
 
