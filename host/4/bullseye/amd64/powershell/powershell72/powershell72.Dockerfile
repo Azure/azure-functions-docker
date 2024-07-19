@@ -5,12 +5,6 @@ ARG HOST_VERSION
 
 ENV PublishWithAspNetCoreTargetManifest=false
 
-# RUN wget https://packages.microsoft.com/config/debian/11/packages-microsoft-prod.deb -O packages-microsoft-prod.deb && \
-#     dpkg -i packages-microsoft-prod.deb && \
-#     rm packages-microsoft-prod.deb && \
-#     apt-get update && \
-#     apt-get install -y dotnet-sdk-8.0
-
 # Build WebJobs.Script.WebHost from source
 RUN BUILD_NUMBER=$(echo ${HOST_VERSION} | cut -d'.' -f 3) && \
     git clone --branch v${HOST_VERSION} https://github.com/Azure/azure-functions-host /src/azure-functions-host && \
@@ -45,7 +39,6 @@ RUN apt-get update && \
     find /FuncExtensionBundles/ -type f -exec chmod 644 {} \;
 
 FROM mcr.microsoft.com/dotnet/aspnet:6.0-bullseye-slim
-# FROM mcr.microsoft.com/dotnet/aspnet:8.0
 ARG HOST_VERSION
 
 # set runtime env variables
@@ -62,8 +55,7 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
 RUN apt-get update && \
     apt-get install -y libc-dev
 
-# copy bundles, host runtime and powershell worker from the build image
-
+# copy dotnet, bundles, host runtime and powershell worker from the build image
 COPY --from=runtime-image [ "/usr/share/dotnet", "/usr/share/dotnet" ]
 COPY --from=runtime-image ["/azure-functions-host", "/azure-functions-host"]
 COPY --from=runtime-image ["/FuncExtensionBundles", "/FuncExtensionBundles"]
