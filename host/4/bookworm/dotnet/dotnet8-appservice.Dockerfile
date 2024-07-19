@@ -37,4 +37,4 @@ RUN apt-get update && \
     chmod +x /azure-functions-host/start.sh && \
     chmod +x /opt/startup/install_ca_certificates.sh
 
-CMD [ "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost" ]
+ENTRYPOINT ["/azure-functions-host/start.sh"]

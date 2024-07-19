@@ -199,6 +199,19 @@ steps:
         displayName: tag and push node images for stage ${{stage}}
         continueOnError: false
 
+
+      - bash: |
+          set -e
+          docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node22-appservice
+          
+          docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node22-appservice $TARGET_REGISTRY/node:$(TargetVersion)-node22-appservice-$(CloudName)-stage${{stage}}
+                    
+          docker push $TARGET_REGISTRY/node:$(TargetVersion)-node22-appservice-$(CloudName)-stage${{stage}}
+          
+          docker system prune -a -f
+        displayName: tag and push node images for stage ${{stage}}
+        continueOnError: false
+
       - bash: |
           set -e
           docker pull $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7.2-appservice
