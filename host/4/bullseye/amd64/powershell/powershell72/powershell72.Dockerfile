@@ -63,6 +63,9 @@ RUN apt-get update && \
     apt-get install -y libc-dev
 
 # copy bundles, host runtime and powershell worker from the build image
+
+COPY --from=mcr.microsoft.com/dotnet/aspnet-bookworm-slim-amd64 [ "/usr/share/dotnet", "/usr/share/dotnet" ]
+
 COPY --from=runtime-image ["/azure-functions-host", "/azure-functions-host"]
 COPY --from=runtime-image ["/FuncExtensionBundles", "/FuncExtensionBundles"]
 COPY --from=runtime-image ["/workers/powershell", "/azure-functions-host/workers/powershell"]

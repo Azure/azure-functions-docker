@@ -2,7 +2,7 @@
 ARG HOST_VERSION=4.1035.0
 ARG JAVA_VERSION=17.0.9
 ARG JAVA_HOME=/usr/lib/jvm/msft-17-x64
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS runtime-image
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS runtime-image
 ARG HOST_VERSION
 ARG JAVA_VERSION
 ARG JAVA_HOME
@@ -50,12 +50,13 @@ RUN wget https://aka.ms/download-jdk/microsoft-jdk-${JAVA_VERSION}-linux-x64.tar
     mkdir -p ${JAVA_HOME} && \
     tar -xzf microsoft-jdk-${JAVA_VERSION}-linux-x64.tar.gz -C ${JAVA_HOME} --strip-components=1 && \
     rm -f microsoft-jdk-${JAVA_VERSION}-linux-x64.tar.gz
-
-FROM mcr.microsoft.com/dotnet/runtime-deps:6.0
+    
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
 ARG HOST_VERSION
 ARG JAVA_HOME
 
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
+    ASPNETCORE_URLS=http://+:80 \ 
     HOME=/home \
     FUNCTIONS_WORKER_RUNTIME=java \
     DOTNET_USE_POLLING_FILE_WATCHER=true \
