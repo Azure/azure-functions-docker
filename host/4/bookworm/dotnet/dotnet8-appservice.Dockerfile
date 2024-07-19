@@ -28,8 +28,6 @@ COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
 COPY sshd_config /etc/ssh/
 COPY start.sh /azure-functions-host/
 COPY install_ca_certificates.sh /opt/startup/
-RUN chmod +x /opt/startup/install_ca_certificates.sh && \
-    chmod +x /opt/startup/start.sh
 
 EXPOSE 2222 80
 
