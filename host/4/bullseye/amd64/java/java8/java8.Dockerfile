@@ -1,5 +1,5 @@
 # Build the runtime from source
-ARG HOST_VERSION=4.34.2
+ARG HOST_VERSION=4.1035.1
 ARG JAVA_VERSION=8u392b08
 ARG JDK_NAME=jdk8u392-b08
 ARG JAVA_HOME=/usr/lib/jvm/adoptium-8-x64
@@ -62,7 +62,8 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     DOTNET_USE_POLLING_FILE_WATCHER=true \
     HOST_VERSION=${HOST_VERSION} \
     ASPNETCORE_CONTENTROOT=/azure-functions-host \
-    JAVA_HOME=${JAVA_HOME}
+    JAVA_HOME=${JAVA_HOME} \
+    ASPNETCORE_URLS=http://+:80
 
 # Fix from https://github.com/GoogleCloudPlatform/google-cloud-dotnet-powerpack/issues/22#issuecomment-729895157
 RUN apt-get update && \
@@ -72,6 +73,7 @@ RUN apt-get update && \
 RUN apt-get update && \
     apt-get install -y libfreetype6 fontconfig fonts-dejavu
 
+COPY --from=runtime-image [ "/usr/share/dotnet", "/usr/share/dotnet" ]
 COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
 COPY --from=runtime-image [ "/workers/java", "/azure-functions-host/workers/java" ]
 COPY --from=runtime-image [ "${JAVA_HOME}", "${JAVA_HOME}" ]
