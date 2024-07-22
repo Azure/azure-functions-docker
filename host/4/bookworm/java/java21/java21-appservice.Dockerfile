@@ -1,7 +1,7 @@
 ARG JAVA_VERSION=21.0.1
 ARG JAVA_HOME=/usr/lib/jvm/msft-21-x64
 # Build the runtime from source
-ARG HOST_VERSION=4.34.2
+ARG HOST_VERSION=4.1035.1
 FROM mcr.microsoft.com/dotnet/sdk:6.0-bookworm-slim-amd64 AS runtime-image
 ARG HOST_VERSION
 COPY --from=mcr.microsoft.com/dotnet/sdk:8.0-bookworm-slim-amd64 [ "/usr/share/dotnet", "/usr/share/dotnet" ]
@@ -45,6 +45,7 @@ ARG HOST_VERSION
 ARG JAVA_VERSION
 ARG JAVA_HOME
 
+COPY --from=runtime-image [ "/usr/share/dotnet", "/usr/share/dotnet" ]
 COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
 COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
 COPY sshd_config /etc/ssh/
@@ -60,7 +61,8 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     DOTNET_USE_POLLING_FILE_WATCHER=true \
     HOST_VERSION=${HOST_VERSION} \
     ASPNETCORE_CONTENTROOT=/azure-functions-host \
-    JAVA_HOME=${JAVA_HOME}
+    JAVA_HOME=${JAVA_HOME} \
+    ASPNETCORE_URLS=http://+:80
 
 # Fix from https://github.com/GoogleCloudPlatform/google-cloud-dotnet-powerpack/issues/22#issuecomment-729895157
 RUN apt-get update && \
