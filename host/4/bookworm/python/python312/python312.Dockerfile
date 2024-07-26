@@ -5,13 +5,15 @@
 
 # Build the runtime from source
 ARG HOST_VERSION=4.34.2
-FROM mcr.microsoft.com/dotnet/sdk:6.0-bookworm-slim-amd64 AS runtime-image
+FROM mcr.microsoft.com/dotnet/sdk:8.0-bookworm-slim-amd64 AS runtime-image
 ARG HOST_VERSION
 
 ENV PublishWithAspNetCoreTargetManifest=false
+COPY --from=mcr.microsoft.com/dotnet/sdk:8.0-bookworm-slim-amd64 [ "/usr/share/dotnet", "/usr/share/dotnet" ]
+
 
 RUN BUILD_NUMBER=$(echo ${HOST_VERSION} | cut -d'.' -f 3) && \
-    git clone --branch v${HOST_VERSION} https://github.com/Azure/azure-functions-host /src/azure-functions-host && \
+    git clone https://github.com/Azure/azure-functions-host /src/azure-functions-host && \
     cd /src/azure-functions-host && \
     HOST_COMMIT=$(git rev-list -1 HEAD) && \
     dotnet publish -v q /p:BuildNumber=$BUILD_NUMBER /p:CommitHash=$HOST_COMMIT src/WebJobs.Script.WebHost/WebJobs.Script.WebHost.csproj -c Release --output /azure-functions-host --runtime linux-x64 && \
@@ -40,7 +42,7 @@ RUN apt-get update && \
     rm -f /$EXTENSION_BUNDLE_FILENAME_V4 &&\
     find /FuncExtensionBundles/ -type f -exec chmod 644 {} \;
 
-FROM mcr.microsoft.com/oryx/python:3.12-debian-bookworm as python
+FROM mcr.microsoft.com/oryx/python:3.12-debian-bookworm AS python
 
 # Install Python dependencies
 # MS SQL related packages: unixodbc msodbcsql17 mssql-tools
@@ -50,28 +52,31 @@ FROM mcr.microsoft.com/oryx/python:3.12-debian-bookworm as python
 # OpenMP dependencies: libgomp1 && \
 # Fix from https://github.com/GoogleCloudPlatform/google-cloud-dotnet-powerpack/issues/22#issuecomment-729895157 : libc-dev
 # Azure ML dependencies: liblttng-ust0
-RUN echo 'Running apt get' && \
+RUN echo 'Downloading keys' && \
+    curl -fsSL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor -o /usr/share/keyrings/microsoft-prod.gpg && \
+    echo 'Running apt get' && \
     apt-get update && \
     echo 'Installing dependencies' && \
-    apt-get install -y wget apt-transport-https curl gnupg2 locales && \
+    apt-get install -y wget apt-transport-https curl gnupg2 locales rpm && \
     echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections && \
-    curl -sSL https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
+    curl https://packages.microsoft.com/keys/microsoft.asc | tee /etc/apt/trusted.gpg.d/microsoft.asc && \ 
     echo "deb [arch=amd64] https://packages.microsoft.com/debian/12/prod bookworm main" | tee /etc/apt/sources.list.d/mssql-release.list && \
     # Needed for libss1.0.0 and in turn MS SQL
     echo 'deb http://security.debian.org/debian-security bookworm-security main' >> /etc/apt/sources.list && \
+    curl https://packages.microsoft.com/config/debian/12/prod.list | tee /etc/apt/sources.list.d/mssql-release.list && \
     # install MS SQL related packages.pinned version in PR # 1012.
     echo 'en_US.UTF-8 UTF-8' > /etc/locale.gen && \
     locale-gen && \
     apt-get update && \
-    ACCEPT_EULA=Y apt-get install -y unixodbc msodbcsql18=18.2.2.1-1 mssql-tools18 &&\
+    ACCEPT_EULA=Y apt-get install -y unixodbc msodbcsql18 mssql-tools18 &&\
     apt-get install -y --no-install-recommends ca-certificates \
-    libc6 libgcc1 libgssapi-krb5-2 libicu67 libssl1.1 libstdc++6 zlib1g &&\
+    libc6 libgcc1 libgssapi-krb5-2 libicu72 libssl3 libstdc++6 zlib1g &&\
     apt-get install -y libglib2.0-0 libsm6 libxext6 libxrender-dev xvfb binutils \
-    binutils libgomp1 libc-dev liblttng-ust0 && \
-    rm -rf /var/lib/apt/lists/*
+    binutils libgomp1 libc-dev liblttng-ust1 && \
+    rm -rf /var/lib/apt/lists/* 
 
-
-FROM mcr.microsoft.com/dotnet/runtime-deps:6.0
+# FROM mcr.microsoft.com/dotnet/runtime-deps:6.0
+FROM mcr.microsoft.com/oryx/python:3.12-debian-bookworm
 ARG HOST_VERSION
 
 COPY --from=runtime-image ["/azure-functions-host", "/azure-functions-host"]
@@ -82,7 +87,8 @@ RUN chmod +x /opt/startup/install_ca_certificates.sh && \
 
 COPY --from=runtime-image [ "/workers/python/3.12/LINUX", "/azure-functions-host/workers/python/3.12/LINUX" ]
 COPY --from=runtime-image [ "/workers/python/worker.config.json", "/azure-functions-host/workers/python" ]
-COPY --from=python [ "/", "/" ]
+COPY --from=python  ["/", "/"]
+# COPY --from=python ["/opt/python", "/opt/python"]
 
 RUN ln -s /opt/python/3.12/bin/* /usr/local/bin/
 
