@@ -74,7 +74,7 @@ steps:
       docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-dotnet6-bookworm
 
       docker system prune -a -f
-    displayName: tag and push dotnet images
+    displayName: tag and push dotnet 6 inproc images
     continueOnError: false
 
   - bash: |
@@ -89,7 +89,7 @@ steps:
       docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-dotnet8.0-appservice
 
       docker system prune -a -f
-    displayName: tag and push dotnet images
+    displayName: tag and push dotnet8.0 inproc images
     continueOnError: false
 
 
@@ -119,7 +119,7 @@ steps:
       docker push $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated6.0-appservice-quickstart
 
       docker system prune -a -f
-    displayName: tag and push dotnet-isolated images
+    displayName: tag and push dotnet6-isolated images
     continueOnError: false
 
   - bash: |
@@ -183,7 +183,7 @@ steps:
       docker push $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated9.0-appservice
 
       docker system prune -a -f
-    displayName: tag and push dotnet8-isolated mariner images
+    displayName: tag and push dotnet9-isolated images
     continueOnError: false
 
   - bash: |
@@ -402,14 +402,14 @@ steps:
   - bash: |
       set -e
       docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node22
-      docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node22-slim
+      docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node22-appservice
+      
 
       docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node22 $TARGET_REGISTRY/node:$(TargetVersion)-node22
-      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node22-slim $TARGET_REGISTRY/node:$(TargetVersion)-node22-slim
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node22-appservice $TARGET_REGISTRY/node:$(TargetVersion)-node22-appservice
 
       docker push $TARGET_REGISTRY/node:$(TargetVersion)-node22
-      docker push $TARGET_REGISTRY/node:$(TargetVersion)-node22-slim
-
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)-node22-appservice
 
       docker system prune -a -f
     displayName: tag and push node22 images
