@@ -34,14 +34,14 @@ export const retry = async (
   } while (true);
 };
 
-export const encryptContext = (encryptionKey: CryptoJS.WordArray, plainText: string) => {
+export const encryptContext = (encryptionKey: CryptoJS.lib.WordArray, plainText: string) => {
   const plainTextUtf8Bytes = CryptoJS.enc.Utf8.parse(plainText);
   const aesEncrypted = CryptoJS.AES.encrypt(plainTextUtf8Bytes, encryptionKey, {
     iv: CryptoJS.enc.Utf8.parse('0123456789abcdef')
   });
   const aesIvBase64 = CryptoJS.enc.Base64.stringify(aesEncrypted.iv);
   const aesEncryptedMessageBase64 = CryptoJS.enc.Base64.stringify(aesEncrypted.ciphertext);
-  const aesKeySHA256Base64 = CryptoJS.SHA256(aesEncrypted.key as string).toString(CryptoJS.enc.Base64);
+  const aesKeySHA256Base64 = CryptoJS.SHA256(aesEncrypted.key as unknown as string).toString(CryptoJS.enc.Base64);
 
   return `${aesIvBase64}.${aesEncryptedMessageBase64}.${aesKeySHA256Base64}`;
 };

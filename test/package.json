@@ -13,13 +13,13 @@
     "axios": "^0.21.2",
     "chalk": "^3.0.0",
     "commander": "^4.1.1",
-    "crypto-js": "^4.0.0",
+    "crypto-js": "^4.2.0",
     "shelljs": "^0.8.5",
     "ts-node": "^8.6.2",
     "typescript": "^3.8.3"
   },
   "devDependencies": {
     "@types/shelljs": "^0.8.6",
-    "@types/crypto-js": "^3.1.47"
+    "@types/crypto-js": "^4.2.2"
   }
 }
