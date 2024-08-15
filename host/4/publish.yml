@@ -89,7 +89,7 @@ jobs:
       displayName: tag and push dotnet images
       continueOnError: false
 
-- job: Dotnet-isolated
+- job: DotnetIsolated
   steps:
     - bash: |
         echo $pswd | docker login -u $(dockerUsername) --password-stdin azurefunctions.azurecr.io
