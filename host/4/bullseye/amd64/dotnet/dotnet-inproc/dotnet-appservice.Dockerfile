@@ -58,8 +58,14 @@ RUN apt-get update && \
 
 COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
 COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
-COPY install_ca_certificates.sh start_nonappservice.sh /opt/startup/
-RUN chmod +x /opt/startup/install_ca_certificates.sh && \
-    chmod +x /opt/startup/start_nonappservice.sh
+COPY sshd_config /etc/ssh/
+COPY start.sh /azure-functions-host/
+COPY install_ca_certificates.sh /opt/startup/
 
-CMD [ "/opt/startup/start_nonappservice.sh" ]
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends openssh-server dialog && \
+    echo "root:Docker!" | chpasswd && \
+    chmod +x /azure-functions-host/start.sh && \
+    chmod +x /opt/startup/install_ca_certificates.sh
+
+ENTRYPOINT ["/azure-functions-host/start.sh"]

@@ -46,61 +46,6 @@ jobs:
           dockerfilePath: "host/4/bullseye/amd64/out/dotnet/"
           dockerImagePath: "dotnet"
           dockerImageName: "-appservice"
-        _isolated-net-6:
-          dotnetVersion: "dotnet-isolated"
-          dockerfilePath: "host/4/bullseye/amd64/dotnet/dotnet-isolated/"
-          dockerImagePath: "dotnet-isolated"
-          dockerImageName: "-dotnet-isolated6.0"
-        _isolated-slim:
-          dotnetVersion: "dotnet-isolated-slim"
-          dockerfilePath: "host/4/bullseye/amd64/dotnet/dotnet-isolated/"
-          dockerImagePath: "dotnet-isolated"
-          dockerImageName: "-dotnet-isolated6.0-slim"
-        _isolated-appservice:
-          dotnetVersion: "dotnet-isolated-appservice"
-          dockerfilePath: "host/4/bullseye/amd64/out/dotnet/"
-          dockerImagePath: "dotnet-isolated"
-          dockerImageName: "-dotnet-isolated6.0-appservice"
-        _isolated-net-7:
-          dotnetVersion: "dotnet-isolated"
-          dockerfilePath: "host/4/bullseye/amd64/dotnet/dotnet7-isolated/"
-          dockerImagePath: "dotnet-isolated"
-          dockerImageName: "-dotnet-isolated7.0"
-        _isolated-net-7-slim:
-          dotnetVersion: "dotnet-isolated-slim"
-          dockerfilePath: "host/4/bullseye/amd64/dotnet/dotnet7-isolated/"
-          dockerImagePath: "dotnet-isolated"
-          dockerImageName: "-dotnet-isolated7.0-slim"
-        _isolated-net-7-appservice:
-          dotnetVersion: "dotnet7-isolated-appservice"
-          dockerfilePath: "host/4/bullseye/amd64/out/dotnet/"
-          dockerImagePath: "dotnet-isolated"
-          dockerImageName: "-dotnet-isolated7.0-appservice"
-        _isolated-net-7-mariner:
-          dotnetVersion: "dotnet7-isolated-mariner"
-          dockerfilePath: "host/4/mariner/dotnet/dotnet-isolated/"
-          dockerImagePath: "dotnet-isolated"
-          dockerImageName: "-dotnet-isolated7.0-mariner"
-        _isolated-net-8:
-          dotnetVersion: "dotnet-isolated"
-          dockerfilePath: "host/4/bullseye/amd64/dotnet/dotnet8-isolated/"
-          dockerImagePath: "dotnet-isolated"
-          dockerImageName: "-dotnet-isolated8.0"
-        _isolated-net-8-slim:
-          dotnetVersion: "dotnet-isolated-slim"
-          dockerfilePath: "host/4/bullseye/amd64/dotnet/dotnet8-isolated/"
-          dockerImagePath: "dotnet-isolated"
-          dockerImageName: "-dotnet-isolated8.0-slim"
-        _isolated-net-8-appservice:
-          dotnetVersion: "dotnet8-isolated-appservice"
-          dockerfilePath: "host/4/bullseye/amd64/out/dotnet/"
-          dockerImagePath: "dotnet-isolated"
-          dockerImageName: "-dotnet-isolated8.0-appservice"
-        _isolated-net-8-mariner:
-          dotnetVersion: "dotnet8-isolated-mariner"
-          dockerfilePath: "host/4/mariner/dotnet/dotnet-isolated/"
-          dockerImagePath: "dotnet-isolated"
-          dockerImageName: "-dotnet-isolated8.0-mariner"
         _bookworm-net-6:
           dotnetVersion: "dotnet6"
           dockerfilePath: "host/4/bookworm/dotnet/"
@@ -115,13 +60,7 @@ jobs:
           dotnetVersion: "dotnet8-appservice"
           dockerfilePath: "host/4/bookworm/dotnet/"
           dockerImagePath: "dotnet"
-          dockerImageName: "-dotnet8.0-appservice"
-        _bookworm-net-9:
-          dotnetVersion: "dotnet9-appservice"
-          dockerfilePath: "host/4/bookworm/dotnet-isolated/"
-          dockerImagePath: "dotnet-isolated"
-          dockerImageName: "-dotnet-isolated9.0-appservice"
-  
+          dockerImageName: "-dotnet8.0-appservice" 
     steps:
       - bash: |
           # login
