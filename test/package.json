@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@azure/storage-blob": "^12.24.0",
-    "axios": "^0.21.2",
+    "axios": "^0.28.0",
     "chalk": "^3.0.0",
     "commander": "^4.1.1",
     "crypto-js": "^4.2.0",
