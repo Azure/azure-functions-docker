@@ -9,7 +9,7 @@
     "test-kudulite-win": "ts-node kudulite"
   },
   "dependencies": {
-    "@azure/storage-blob": "^12.2.0-preview.1",
+    "@azure/storage-blob": "^12.24.0",
     "axios": "^0.21.2",
     "chalk": "^3.0.0",
     "commander": "^4.1.1",
