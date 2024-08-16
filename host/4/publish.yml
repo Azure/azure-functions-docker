@@ -614,11 +614,6 @@ jobs:
         docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.10-slim
         docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.10-appservice
         docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.10-buildenv
-          
-        docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.11
-        docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.11-slim
-        docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.11-appservice
-        docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.11-buildenv
 
         docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7 $TARGET_REGISTRY/python:$(TargetVersion)-python3.7
         docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7-slim $TARGET_REGISTRY/python:$(TargetVersion)-python3.7-slim
@@ -650,12 +645,6 @@ jobs:
         docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.10-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.10-appservice-quickstart
         docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.10-buildenv $TARGET_REGISTRY/python:$(TargetVersion)-python3.10-buildenv
           
-        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.11 $TARGET_REGISTRY/python:$(TargetVersion)-python3.11
-        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.11-slim $TARGET_REGISTRY/python:$(TargetVersion)-python3.11-slim
-        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.11-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.11-appservice
-        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.11-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.11-appservice-quickstart
-        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.11-buildenv $TARGET_REGISTRY/python:$(TargetVersion)-python3.11-buildenv
-
         docker push $TARGET_REGISTRY/python:$(TargetVersion)
         docker push $TARGET_REGISTRY/python:$(TargetVersion)-slim
         docker push $TARGET_REGISTRY/python:$(TargetVersion)-appservice
@@ -685,6 +674,24 @@ jobs:
         docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.10-appservice
         docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.10-appservice-quickstart
         docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.10-buildenv
+
+        docker system prune -a -f
+      displayName: tag and push python images till 3.10
+      continueOnError: false
+      
+    - bash: |
+        set -e
+          
+        docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.11
+        docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.11-slim
+        docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.11-appservice
+        docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.11-buildenv
+
+        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.11 $TARGET_REGISTRY/python:$(TargetVersion)-python3.11
+        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.11-slim $TARGET_REGISTRY/python:$(TargetVersion)-python3.11-slim
+        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.11-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.11-appservice
+        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.11-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.11-appservice-quickstart
+        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.11-buildenv $TARGET_REGISTRY/python:$(TargetVersion)-python3.11-buildenv
           
         docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.11
         docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.11-slim
@@ -693,5 +700,5 @@ jobs:
         docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.11-buildenv
 
         docker system prune -a -f
-      displayName: tag and push python images
+      displayName: tag and push python images from 3.11
       continueOnError: false
