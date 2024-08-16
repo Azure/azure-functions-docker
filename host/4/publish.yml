@@ -95,7 +95,7 @@ jobs:
       displayName: tag and push dotnet8.0 inproc images
       continueOnError: false
 
-- job: Dotnet-Isolated
+- job: DotnetIsolated
   steps:
     - bash: |
         echo $pswd | docker login -u $(dockerUsername) --password-stdin azurefunctions.azurecr.io
