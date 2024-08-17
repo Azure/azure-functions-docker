@@ -34,18 +34,13 @@ jobs:
         _inproc:
           dotnetVersion: "dotnet"
           dockerfilePath: "host/4/bullseye/amd64/dotnet/dotnet-inproc/"
-          dockerImagePath: "dotnet"
+          dockerImagePath: "dotnet-appservice"
           dockerImageName: ""
         _inproc-slim:
           dotnetVersion: "dotnet-slim"
           dockerfilePath: "host/4/bullseye/amd64/dotnet/dotnet-inproc/"
-          dockerImagePath: "dotnet"
+          dockerImagePath: "dotnet-slim"
           dockerImageName: "-slim"
-        _inproc-appservice:
-          dotnetVersion: "dotnet-inproc-appservice"
-          dockerfilePath: "host/4/bullseye/amd64/out/dotnet/"
-          dockerImagePath: "dotnet"
-          dockerImageName: "-appservice"
         _bookworm-net-6:
           dotnetVersion: "dotnet6"
           dockerfilePath: "host/4/bookworm/dotnet/"
@@ -72,11 +67,6 @@ jobs:
         env:
           pswd: $(dockerPassword)
 
-      - bash: |
-          ./host/generate-composite.sh -4 dotnet
-
-        displayName: create dotnet dockerfiles
-        continueOnError: false
       - bash: |
           set -e
           IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/$(dockerImagePath):$(Build.SourceBranchName)$(dockerImageName)
