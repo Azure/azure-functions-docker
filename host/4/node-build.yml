@@ -27,22 +27,22 @@ jobs:
       matrix:
         _14:
           nodeVersion: "14"
-          dockerfilePath: "bullseye/amd64"
+          dockerfilePath: "bullseye"
           appservicePath: "host/4/bullseye/out/node"
           bookworm: false
         _16:
           nodeVersion: "16"
-          dockerfilePath: "bullseye/amd64"
+          dockerfilePath: "bullseye"
           appservicePath: "host/4/bullseye/out/node"
           bookworm: false
         _18:
           nodeVersion: "18"
-          dockerfilePath: "bullseye/amd64"
+          dockerfilePath: "bullseye"
           appservicePath: "host/4/bullseye/out/node"
           bookworm: false
         _20:
           nodeVersion: "20"
-          dockerfilePath: "bullseye/amd64"
+          dockerfilePath: "bullseye"
           appservicePath: "host/4/bullseye/out/node"
           bookworm: false
         _22:

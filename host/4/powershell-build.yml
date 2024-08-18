@@ -34,7 +34,7 @@ jobs:
         _72:
           psVersion: "7.2"
           psFileVersion: "72"
-          dockerfilePath: "bullseye/amd64"
+          dockerfilePath: "bullseye"
           appservicePath: "host/4/bullseye/out/powershell"
         _74:
           psVersion: "7.4"

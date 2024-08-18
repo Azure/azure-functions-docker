@@ -32,15 +32,15 @@ jobs:
       matrix:
         _8:
           javaVersion: "8"
-          dockerfilePath: "bullseye/amd64"
+          dockerfilePath: "bullseye"
           appservicePath: "host/4/bullseye/out/java"
         _11:
           javaVersion: "11"
-          dockerfilePath: "bullseye/amd64"
+          dockerfilePath: "bullseye"
           appservicePath: "host/4/bullseye/out/java"
         _17:
           javaVersion: "17"
-          dockerfilePath: "bullseye/amd64"
+          dockerfilePath: "bullseye"
           appservicePath: "host/4/bullseye/out/java"
         _21:
           javaVersion: "21"
