@@ -35,6 +35,7 @@ RUN apt-get update && \
 FROM mcr.microsoft.com/dotnet/runtime-deps:6.0
 ARG HOST_VERSION
 
+COPY --from=runtime-image [ "/usr/share/dotnet", "/usr/share/dotnet" ]
 COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
 COPY sshd_config /etc/ssh/
 COPY start.sh /azure-functions-host/

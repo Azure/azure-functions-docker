@@ -15,7 +15,7 @@ ENV LANG=C.UTF-8 \
     DOTNET_RUNNING_IN_CONTAINER=true \
     DOTNET_USE_POLLING_FILE_WATCHER=true \
     HOST_VERSION=${HOST_VERSION} \
-    ASPNETCORE_CONTENTROOT=/azure-functions-host
+    ASPNETCORE_CONTENTROOT=/azure-functions-host \
 
 # Install Python dependencies
 RUN apt-get update && \
@@ -54,6 +54,7 @@ RUN apt-get update && \
     #apt-get install -y libc-dev && \
 
 
+COPY --from=runtime-image [ "/usr/share/dotnet", "/usr/share/dotnet" ]
 COPY --from=runtime-image ["/azure-functions-host", "/azure-functions-host"]
 COPY --from=runtime-image [ "/workers/python/3.7/LINUX", "/azure-functions-host/workers/python/3.7/LINUX" ]
 COPY --from=runtime-image [ "/workers/python/worker.config.json", "/azure-functions-host/workers/python" ]

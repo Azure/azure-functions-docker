@@ -56,14 +56,15 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     FUNCTIONS_WORKER_RUNTIME=node \
     DOTNET_USE_POLLING_FILE_WATCHER=true \
     HOST_VERSION=${HOST_VERSION} \
-    ASPNETCORE_CONTENTROOT=/azure-functions-host
+    ASPNETCORE_CONTENTROOT=/azure-functions-host \
+    ASPNETCORE_URLS=http://+:80
 
 # Fix from https://github.com/GoogleCloudPlatform/google-cloud-dotnet-powerpack/issues/22#issuecomment-729895157
 RUN apt-get update && \
     apt-get install -y libc-dev
 
-COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
-COPY --from=runtime-image [ "/workers/node", "/azure-functions-host/workers/node" ]
+COPY --from=runtime-image [ "/usr/share/dotnet", "/usr/share/dotnet" ]
+COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]COPY --from=runtime-image [ "/workers/node", "/azure-functions-host/workers/node" ]
 COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
 COPY install_ca_certificates.sh start_nonappservice.sh /opt/startup/
 RUN chmod +x /opt/startup/install_ca_certificates.sh && \

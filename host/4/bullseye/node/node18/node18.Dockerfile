@@ -55,7 +55,8 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     FUNCTIONS_WORKER_RUNTIME=node \
     DOTNET_USE_POLLING_FILE_WATCHER=true \
     HOST_VERSION=${HOST_VERSION} \
-    ASPNETCORE_CONTENTROOT=/azure-functions-host
+    ASPNETCORE_CONTENTROOT=/azure-functions-host \
+    ASPNETCORE_URLS=http://+:80
 
 # Fix from https://github.com/GoogleCloudPlatform/google-cloud-dotnet-powerpack/issues/22#issuecomment-729895157
 RUN apt-get update && \
@@ -68,6 +69,7 @@ RUN apt-get install -y ca-certificates fonts-liberation libasound2 libatk-bridge
     libnss3 libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 \
     libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 lsb-release wget xdg-utils
 
+COPY --from=runtime-image [ "/usr/share/dotnet", "/usr/share/dotnet" ]
 COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
 COPY --from=runtime-image [ "/workers/node", "/azure-functions-host/workers/node" ]
 COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
