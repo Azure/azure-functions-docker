@@ -563,7 +563,7 @@ jobs:
       displayName: tag and push python images till 3.10
       continueOnError: false
       
-      - bash: |
+    - bash: |
         set -e
         docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.11
         docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.11-slim
