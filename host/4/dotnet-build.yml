@@ -8,8 +8,8 @@ pr:
       - release/4.x
   paths:
     include:
-      - host/4/bullseye/amd64/base/*
-      - host/4/bullseye/amd64/dotnet/*
+      - host/4/bullseye/base/*
+      - host/4/bullseye/dotnet/*
       - host/4/bookworm/dotnet/*
       - host/4/mariner/dotnet/*
       - host/4/dotnet-build.yml
@@ -33,12 +33,17 @@ jobs:
       matrix:
         _inproc:
           dotnetVersion: "dotnet"
-          dockerfilePath: "host/4/bullseye/amd64/dotnet/dotnet-inproc/"
+          dockerfilePath: "host/4/bullseye/dotnet/dotnet-inproc/"
+          dockerImagePath: "dotnet"
+          dockerImageName: ""
+        _inproc:
+          dotnetVersion: "dotnet-inproc-appservice"
+          dockerfilePath: "host/4/bullseye/dotnet/dotnet-inproc/"
           dockerImagePath: "dotnet"
           dockerImageName: "-appservice"
         _inproc-slim:
           dotnetVersion: "dotnet-slim"
-          dockerfilePath: "host/4/bullseye/amd64/dotnet/dotnet-inproc/"
+          dockerfilePath: "host/4/bullseye/dotnet/dotnet-inproc/"
           dockerImagePath: "dotnet-slim"
           dockerImageName: "-slim"
         _bookworm-net-6:

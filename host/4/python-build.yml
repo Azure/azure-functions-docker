@@ -8,8 +8,8 @@ pr:
       - release/4.x
   paths:
     include:
-      - host/4/bullseye/amd64/base/*
-      - host/4/bullseye/amd64/python/*
+      - host/4/bullseye/base/*
+      - host/4/bullseye/python/*
       - host/4/python-build.yml
 
 trigger:

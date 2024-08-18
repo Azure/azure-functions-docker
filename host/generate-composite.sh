@@ -10,7 +10,7 @@ select_version() {
     ## Defaults to v3 for now 
     if [ "$VERSION" == "4" ]; then
         echo "Version 4 selected"
-        DIR=$(dirname $0)/4/bullseye/amd64/base
+        DIR=$(dirname $0)/4/bullseye/base
     elif [ "$VERSION" == "3" ]; then
         echo "Version 4 selected"
         DIR=$(dirname $0)/3.0/buster/amd64/base

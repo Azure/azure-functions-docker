@@ -8,8 +8,8 @@ pr:
       - release/4.x
   paths:
     include:
-      - host/4/bullseye/amd64/base/*
-      - host/4/bullseye/amd64/dotnet/*
+      - host/4/bullseye/base/*
+      - host/4/bullseye/dotnet/*
       - host/4/bookworm/dotnet/*
       - host/4/mariner/dotnet/*
       - host/4/dotnet-build.yml
@@ -33,57 +33,57 @@ jobs:
       matrix:
         _isolated-net-6:
           dotnetVersion: "dotnet-isolated"
-          dockerfilePath: "host/4/bullseye/amd64/dotnet/dotnet-isolated/"
+          dockerfilePath: "host/4/bullseye/dotnet/dotnet-isolated/"
           dockerImagePath: "dotnet-isolated"
           dockerImageName: "-dotnet-isolated6.0"
         _isolated-slim:
           dotnetVersion: "dotnet-isolated-slim"
-          dockerfilePath: "host/4/bullseye/amd64/dotnet/dotnet-isolated/"
+          dockerfilePath: "host/4/bullseye/dotnet/dotnet-isolated/"
           dockerImagePath: "dotnet-isolated"
           dockerImageName: "-dotnet-isolated6.0-slim"
         _isolated-appservice:
           dotnetVersion: "dotnet-isolated-appservice"
-          dockerfilePath: "host/4/bullseye/amd64/out/dotnet/"
+          dockerfilePath: "host/4/bullseye/out/dotnet-isolated/"
           dockerImagePath: "dotnet-isolated"
           dockerImageName: "-dotnet-isolated6.0-appservice"
         _isolated-net-7:
           dotnetVersion: "dotnet-isolated"
-          dockerfilePath: "host/4/bullseye/amd64/dotnet/dotnet7-isolated/"
+          dockerfilePath: "host/4/bullseye/dotnet/dotnet7-isolated/"
           dockerImagePath: "dotnet-isolated"
           dockerImageName: "-dotnet-isolated7.0"
         _isolated-net-7-slim:
           dotnetVersion: "dotnet-isolated-slim"
-          dockerfilePath: "host/4/bullseye/amd64/dotnet/dotnet7-isolated/"
+          dockerfilePath: "host/4/bullseye/dotnet/dotnet7-isolated/"
           dockerImagePath: "dotnet-isolated"
           dockerImageName: "-dotnet-isolated7.0-slim"
         _isolated-net-7-appservice:
           dotnetVersion: "dotnet7-isolated-appservice"
-          dockerfilePath: "host/4/bullseye/amd64/out/dotnet/"
+          dockerfilePath: "host/4/bullseye/out/dotnet-isolated/"
           dockerImagePath: "dotnet-isolated"
           dockerImageName: "-dotnet-isolated7.0-appservice"
         _isolated-net-7-mariner:
           dotnetVersion: "dotnet7-isolated-mariner"
-          dockerfilePath: "host/4/mariner/dotnet/dotnet-isolated/"
+          dockerfilePath: "host/4/mariner/dotnet-isolated/"
           dockerImagePath: "dotnet-isolated"
           dockerImageName: "-dotnet-isolated7.0-mariner"
         _isolated-net-8:
           dotnetVersion: "dotnet-isolated"
-          dockerfilePath: "host/4/bullseye/amd64/dotnet/dotnet8-isolated/"
+          dockerfilePath: "host/4/bookworm/dotnet-isolated/dotnet8-isolated/"
           dockerImagePath: "dotnet-isolated"
           dockerImageName: "-dotnet-isolated8.0"
         _isolated-net-8-slim:
           dotnetVersion: "dotnet-isolated-slim"
-          dockerfilePath: "host/4/bullseye/amd64/dotnet/dotnet8-isolated/"
+          dockerfilePath: "host/4/bullseye/dotnet/dotnet8-isolated/"
           dockerImagePath: "dotnet-isolated"
           dockerImageName: "-dotnet-isolated8.0-slim"
         _isolated-net-8-appservice:
           dotnetVersion: "dotnet8-isolated-appservice"
-          dockerfilePath: "host/4/bullseye/amd64/out/dotnet/"
+          dockerfilePath: "host/4/bookworm/dotnet-isolated/dotnet8-isolated/"
           dockerImagePath: "dotnet-isolated"
           dockerImageName: "-dotnet-isolated8.0-appservice"
         _isolated-net-8-mariner:
           dotnetVersion: "dotnet8-isolated-mariner"
-          dockerfilePath: "host/4/mariner/dotnet/dotnet-isolated/"
+          dockerfilePath: "host/4/mariner/dotnet-isolated/"
           dockerImagePath: "dotnet-isolated"
           dockerImageName: "-dotnet-isolated8.0-mariner"
         _isolated-net-9:
@@ -104,7 +104,7 @@ jobs:
           pswd: $(dockerPassword)
 
       - bash: |
-          ./host/generate-composite.sh -4 dotnet
+          ./host/generate-composite.sh -4 dotnet-isolated
 
         displayName: create dotnet dockerfiles
         continueOnError: false
