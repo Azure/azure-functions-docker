@@ -4,8 +4,9 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0-cbl-mariner2.0 AS dn8-sdk-image
 FROM mcr.microsoft.com/dotnet/sdk:6.0-cbl-mariner2.0 AS runtime-image
 ARG HOST_VERSION
 
-COPY --from=dn8-sdk-image [ "/usr/share/dotnet", "/usr/share/dotnet" ]
 ENV PublishWithAspNetCoreTargetManifest=false
+
+COPY --from=dn8-sdk-image [ "/usr/share/dotnet", "/usr/share/dotnet" ]
 
 RUN BUILD_NUMBER=$(echo ${HOST_VERSION} | cut -d'.' -f 3) && \
     git clone --branch v${HOST_VERSION} https://github.com/Azure/azure-functions-host /src/azure-functions-host && \
@@ -23,8 +24,6 @@ ARG HOST_VERSION
 
 RUN yum install -y dnf
 
-EXPOSE 2222 80
-
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     HOME=/home \
     FUNCTIONS_WORKER_RUNTIME=dotnet-isolated \
@@ -39,5 +38,6 @@ RUN dnf install -y glibc-devel
 
 COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
 COPY --from=aspnet7 [ "/usr/share/dotnet", "/usr/share/dotnet" ]
+COPY --from=dn8-sdk-image [ "/usr/share/dotnet", "/usr/share/dotnet" ]
 
 CMD [ "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost" ]
