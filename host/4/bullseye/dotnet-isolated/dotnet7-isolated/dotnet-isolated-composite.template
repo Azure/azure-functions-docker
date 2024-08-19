@@ -26,8 +26,6 @@ RUN apt-get update && \
 
 COPY --from=aspnet7 [ "/usr/share/dotnet", "/usr/share/dotnet" ]
 
-EXPOSE 2222 80
-
 RUN apt-get update && \
     apt-get install -y --no-install-recommends gnupg wget unzip curl dialog openssh-server && \
     # Add remote dotnet debugger
