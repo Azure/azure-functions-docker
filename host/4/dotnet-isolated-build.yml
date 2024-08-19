@@ -28,7 +28,7 @@ variables:
   value: ''
 
 jobs:
-  - job: Dotnet
+  - job: Dotnet-Isolated
     strategy:
       matrix:
         _isolated-net-6:
@@ -48,12 +48,12 @@ jobs:
           dockerImageName: "-dotnet-isolated6.0-appservice"
         _isolated-net-7:
           dotnetVersion: "dotnet-isolated"
-          dockerfilePath: "host/4/bullseye/dotnet7-isolated/"
+          dockerfilePath: "host/4/bullseye/dotnet-isolated/dotnet7-isolated/"
           dockerImagePath: "dotnet-isolated"
           dockerImageName: "-dotnet-isolated7.0"
         _isolated-net-7-slim:
           dotnetVersion: "dotnet-isolated-slim"
-          dockerfilePath: "host/4/bullseye/dotnet7-isolated/"
+          dockerfilePath: "host/4/bullseye/dotnet-isolated/dotnet7-isolated/"
           dockerImagePath: "dotnet-isolated"
           dockerImageName: "-dotnet-isolated7.0-slim"
         _isolated-net-7-appservice:
@@ -67,12 +67,12 @@ jobs:
           dockerImagePath: "dotnet-isolated"
           dockerImageName: "-dotnet-isolated7.0-mariner"
         _isolated-net-8:
-          dotnetVersion: "dotnet-isolated"
+          dotnetVersion: "dotnet8-isolated"
           dockerfilePath: "host/4/bookworm/dotnet-isolated/dotnet8-isolated/"
-          dockerImagePath: "dotnet-isolated"
+          dockerImagePath: "dotnet8-isolated"
           dockerImageName: "-dotnet-isolated8.0"
         _isolated-net-8-slim:
-          dotnetVersion: "dotnet-isolated-slim"
+          dotnetVersion: "dotnet8-isolated-slim"
           dockerfilePath: "host/4/bookworm/dotnet-isolated/dotnet8-isolated/"
           dockerImagePath: "dotnet-isolated"
           dockerImageName: "-dotnet-isolated8.0-slim"
