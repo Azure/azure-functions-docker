@@ -63,8 +63,8 @@ stages:
           IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/dotnet:$(PrivateVersion)-dotnet6-core-tools
     
           docker build -t $IMAGE_NAME \
-                      -f host/4/bullseye/dotnet/dotnet-inproc/dotnet-core-tools.Dockerfile \
-                      host/4/bullseye/dotnet/dotnet-inproc/
+                      -f host/4/bullseye/dotnet-inproc/dotnet-core-tools.Dockerfile \
+                      host/4/bullseye/dotnet-inproc/
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
         displayName: dotnet-core-tools
@@ -105,8 +105,8 @@ stages:
           IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/dotnet-isolated:$(PrivateVersion)-dotnet-isolated6.0-core-tools
     
           docker build -t $IMAGE_NAME \
-                      -f host/4/bullseye/dotnet/dotnet-isolated/dotnet-isolated-core-tools.Dockerfile \
-                      host/4/bullseye/dotnet/dotnet-isolated/
+                      -f host/4/bullseye/dotnet-isolated/dotnet-isolated-core-tools.Dockerfile \
+                      host/4/bullseye/dotnet-isolated/
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
         displayName: dotnet-core-tools isolated

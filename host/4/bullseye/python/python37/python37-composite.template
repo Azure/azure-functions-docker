@@ -15,7 +15,7 @@ ENV LANG=C.UTF-8 \
     DOTNET_RUNNING_IN_CONTAINER=true \
     DOTNET_USE_POLLING_FILE_WATCHER=true \
     HOST_VERSION=${HOST_VERSION} \
-    ASPNETCORE_CONTENTROOT=/azure-functions-host \
+    ASPNETCORE_CONTENTROOT=/azure-functions-host
 
 # Install Python dependencies
 RUN apt-get update && \
