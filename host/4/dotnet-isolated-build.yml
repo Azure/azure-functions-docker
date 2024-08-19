@@ -28,7 +28,7 @@ variables:
   value: ''
 
 jobs:
-  - job: DotnetIsolated
+  - job: Dotnet
     strategy:
       matrix:
         _isolated-net-6:
