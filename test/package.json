@@ -10,16 +10,17 @@
   },
   "dependencies": {
     "@azure/storage-blob": "^12.24.0",
-    "axios": "^0.21.2",
+    "axios": "^1.7.4",
     "chalk": "^3.0.0",
     "commander": "^4.1.1",
     "crypto-js": "^4.2.0",
     "shelljs": "^0.8.5",
+    "test": "file:",
     "ts-node": "^8.6.2",
     "typescript": "^3.8.3"
   },
   "devDependencies": {
-    "@types/shelljs": "^0.8.6",
-    "@types/crypto-js": "^4.2.2"
+    "@types/crypto-js": "^4.2.2",
+    "@types/shelljs": "^0.8.6"
   }
 }

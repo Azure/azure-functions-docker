@@ -8,8 +8,8 @@ pr:
       - release/4.x
   paths:
     include:
-      - host/4/bullseye/amd64/base/*
-      - host/4/bullseye/amd64/python/*
+      - host/4/bullseye/base/*
+      - host/4/bullseye/python/*
       - host/4/python-build.yml
 
 trigger:
@@ -63,8 +63,8 @@ jobs:
           IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/$(HOST_MAJOR_VERSION)/python:$(Build.SourceBranchName)-python$(pythonVersion)
           echo "##vso[task.setvariable variable=image_list;]$IMAGE_NAME"
           docker build -t $IMAGE_NAME \
-                      -f host/$(HOST_MAJOR_VERSION)/bullseye/amd64/python/python$(pythonImageNameSuffix)/python$(pythonImageNameSuffix).Dockerfile \
-                      host/$(HOST_MAJOR_VERSION)/bullseye/amd64/python/python$(pythonImageNameSuffix)
+                      -f host/$(HOST_MAJOR_VERSION)/bullseye/python/python$(pythonImageNameSuffix)/python$(pythonImageNameSuffix).Dockerfile \
+                      host/$(HOST_MAJOR_VERSION)/bullseye/python/python$(pythonImageNameSuffix)
           npm run test $IMAGE_NAME --prefix test/
           docker push $IMAGE_NAME
         displayName: python
@@ -75,8 +75,8 @@ jobs:
           IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
           echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
           docker build -t $IMAGE_NAME \
-                      -f host/$(HOST_MAJOR_VERSION)/bullseye/amd64/python/python$(pythonImageNameSuffix)/python$(pythonImageNameSuffix)-slim.Dockerfile \
-                      host/$(HOST_MAJOR_VERSION)/bullseye/amd64/python/python$(pythonImageNameSuffix)/
+                      -f host/$(HOST_MAJOR_VERSION)/bullseye/python/python$(pythonImageNameSuffix)/python$(pythonImageNameSuffix)-slim.Dockerfile \
+                      host/$(HOST_MAJOR_VERSION)/bullseye/python/python$(pythonImageNameSuffix)/
           npm run test $IMAGE_NAME --prefix test/
           docker push $IMAGE_NAME
         displayName: python-slim
@@ -87,8 +87,8 @@ jobs:
           IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
           echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
           docker build -t $IMAGE_NAME \
-                      -f host/$(HOST_MAJOR_VERSION)/bullseye/amd64/out/python/python$(pythonImageNameSuffix)-appservice.Dockerfile \
-                      host/$(HOST_MAJOR_VERSION)/bullseye/amd64/out/python/
+                      -f host/$(HOST_MAJOR_VERSION)/bullseye/out/python/python$(pythonImageNameSuffix)-appservice.Dockerfile \
+                      host/$(HOST_MAJOR_VERSION)/bullseye/out/python/
           npm run test $IMAGE_NAME --prefix test/
           docker push $IMAGE_NAME
         displayName: python-appservice
@@ -99,8 +99,8 @@ jobs:
           IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
           echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
           docker build -t $IMAGE_NAME \
-                      -f host/$(HOST_MAJOR_VERSION)/bullseye/amd64/python/python$(pythonImageNameSuffix)/python$(pythonImageNameSuffix)-buildenv.Dockerfile \
-                      host/$(HOST_MAJOR_VERSION)/bullseye/amd64/python/python$(pythonImageNameSuffix)/
+                      -f host/$(HOST_MAJOR_VERSION)/bullseye/python/python$(pythonImageNameSuffix)/python$(pythonImageNameSuffix)-buildenv.Dockerfile \
+                      host/$(HOST_MAJOR_VERSION)/bullseye/python/python$(pythonImageNameSuffix)/
           docker push $IMAGE_NAME
         displayName: python-buildenv
         continueOnError: false

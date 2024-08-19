@@ -8,8 +8,8 @@ pr:
       - release/4.x
   paths:
     include:
-      - host/4/bullseye/amd64/base/*
-      - host/4/bullseye/amd64/node/*
+      - host/4/bullseye/base/*
+      - host/4/bullseye/node/*
       - host/4/node-build.yml
 
 trigger:
@@ -27,23 +27,23 @@ jobs:
       matrix:
         _14:
           nodeVersion: "14"
-          dockerfilePath: "bullseye/amd64"
-          appservicePath: "host/4/bullseye/amd64/out/node"
+          dockerfilePath: "bullseye"
+          appservicePath: "host/4/bullseye/out/node"
           bookworm: false
         _16:
           nodeVersion: "16"
-          dockerfilePath: "bullseye/amd64"
-          appservicePath: "host/4/bullseye/amd64/out/node"
+          dockerfilePath: "bullseye"
+          appservicePath: "host/4/bullseye/out/node"
           bookworm: false
         _18:
           nodeVersion: "18"
-          dockerfilePath: "bullseye/amd64"
-          appservicePath: "host/4/bullseye/amd64/out/node"
+          dockerfilePath: "bullseye"
+          appservicePath: "host/4/bullseye/out/node"
           bookworm: false
         _20:
           nodeVersion: "20"
-          dockerfilePath: "bullseye/amd64"
-          appservicePath: "host/4/bullseye/amd64/out/node"
+          dockerfilePath: "bullseye"
+          appservicePath: "host/4/bullseye/out/node"
           bookworm: false
         _22:
           nodeVersion: "22"
@@ -87,7 +87,7 @@ jobs:
           echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
 
           docker build -t $IMAGE_NAME \
-                      -f host/4/bullseye/amd64/node/node$(nodeVersion)/node$(nodeVersion)-slim.Dockerfile \
+                      -f host/4/bullseye/node/node$(nodeVersion)/node$(nodeVersion)-slim.Dockerfile \
                       host/4/$(dockerfilePath)/node/node$(nodeVersion)/
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
