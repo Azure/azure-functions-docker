@@ -33,16 +33,16 @@ jobs:
       matrix:
         _isolated-net-6:
           dotnetVersion: "dotnet-isolated"
-          dockerfilePath: "host/4/bullseye/dotnet-isolated/"
+          dockerfilePath: "host/4/bullseye/dotnet-isolated/dotnet6-isolated/"
           dockerImagePath: "dotnet-isolated"
           dockerImageName: "-dotnet-isolated6.0"
         _isolated-slim:
           dotnetVersion: "dotnet-isolated-slim"
-          dockerfilePath: "host/4/bullseye/dotnet-isolated/"
+          dockerfilePath: "host/4/bullseye/dotnet-isolated/dotnet6-isolated/"
           dockerImagePath: "dotnet-isolated"
           dockerImageName: "-dotnet-isolated6.0-slim"
         _isolated-appservice:
-          dotnetVersion: "dotnet-isolated-appservice"
+          dotnetVersion: "dotnet6-isolated-appservice"
           dockerfilePath: "host/4/bullseye/out/dotnet-isolated/"
           dockerImagePath: "dotnet-isolated"
           dockerImageName: "-dotnet-isolated6.0-appservice"
@@ -73,7 +73,7 @@ jobs:
           dockerImageName: "-dotnet-isolated8.0"
         _isolated-net-8-slim:
           dotnetVersion: "dotnet-isolated-slim"
-          dockerfilePath: "host/4/bullseye/dotnet8-isolated/"
+          dockerfilePath: "host/4/bookworm/dotnet-isolated/dotnet8-isolated/"
           dockerImagePath: "dotnet-isolated"
           dockerImageName: "-dotnet-isolated8.0-slim"
         _isolated-net-8-appservice:
@@ -88,7 +88,7 @@ jobs:
           dockerImageName: "-dotnet-isolated8.0-mariner"
         _isolated-net-9:
           dotnetVersion: "dotnet9-appservice"
-          dockerfilePath: "host/4/bookworm/dotnet-isolated/"
+          dockerfilePath: "host/4/bookworm/dotnet-isolated/dotnet9-isolated/"
           dockerImagePath: "dotnet-isolated"
           dockerImageName: "-dotnet-isolated9.0-appservice"
   
