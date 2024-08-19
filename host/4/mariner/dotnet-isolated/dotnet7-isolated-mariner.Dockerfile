@@ -23,6 +23,8 @@ ARG HOST_VERSION
 
 RUN yum install -y dnf
 
+EXPOSE 2222 80
+
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     HOME=/home \
     FUNCTIONS_WORKER_RUNTIME=dotnet-isolated \

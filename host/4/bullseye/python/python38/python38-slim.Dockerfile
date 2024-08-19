@@ -95,6 +95,8 @@ RUN apt-get update && \
     #  Azure ML dependencies
     apt-get install -y liblttng-ust0
 
+EXPOSE 2222 80
+
 COPY --from=runtime-image ["/azure-functions-host", "/azure-functions-host"]
 COPY --from=runtime-image [ "/workers/python/3.8/LINUX", "/azure-functions-host/workers/python/3.8/LINUX" ]
 COPY --from=runtime-image [ "/workers/python/worker.config.json", "/azure-functions-host/workers/python" ]
