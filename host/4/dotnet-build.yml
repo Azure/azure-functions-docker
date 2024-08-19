@@ -37,7 +37,7 @@ jobs:
           dockerImagePath: "dotnet"
           dockerImageName: ""
         _inproc-appservice:
-          dotnetVersion: "dotnet-inproc-appservice"
+          dotnetVersion: "dotnet-appservice"
           dockerfilePath: "host/4/bullseye/dotnet-inproc/"
           dockerImagePath: "dotnet"
           dockerImageName: "-appservice"

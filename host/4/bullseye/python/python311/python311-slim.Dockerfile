@@ -78,6 +78,7 @@ RUN apt-get update && \
 FROM mcr.microsoft.com/dotnet/runtime-deps:6.0
 ARG HOST_VERSION
 
+COPY --from=runtime-image [ "/usr/share/dotnet", "/usr/share/dotnet" ]
 COPY --from=runtime-image ["/azure-functions-host", "/azure-functions-host"]
 COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
 COPY install_ca_certificates.sh start_nonappservice.sh /opt/startup/

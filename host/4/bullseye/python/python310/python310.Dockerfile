@@ -50,6 +50,7 @@ RUN apt-get update && \
 FROM mcr.microsoft.com/mirror/docker/library/python:3.10-slim-bullseye
 ARG HOST_VERSION
 
+COPY --from=runtime-image [ "/usr/share/dotnet", "/usr/share/dotnet" ]
 COPY --from=runtime-image ["/azure-functions-host", "/azure-functions-host"]
 COPY --from=runtime-image [ "/workers/python/3.10/LINUX", "/azure-functions-host/workers/python/3.10/LINUX" ]
 COPY --from=runtime-image [ "/workers/python/worker.config.json", "/azure-functions-host/workers/python" ]
