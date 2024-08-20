@@ -1,7 +1,7 @@
 trigger: none
 # Does not currently have a pipeline to call HTTP 
 pool:
-    vmImage: 'Ubuntu-latest'
+    name: '1ES-Hosted-Azure-Functions'
 
 parameters:
   - name: stages
