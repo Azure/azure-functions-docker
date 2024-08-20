@@ -8,7 +8,8 @@ schedules:
     - nightly-build
   always: true
 pool:
-    vmImage: 'Ubuntu-latest'
+    vmImage: '1ES-Hosted-Azure-Functions'
+
 
 
 jobs:
