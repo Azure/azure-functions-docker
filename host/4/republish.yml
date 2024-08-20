@@ -2,7 +2,7 @@ trigger: none
 # rePublish pipelines are triggered via HTTP method on the republish pipeline. 
 # This pipeline only targets Major Version 4 images for republishing i.e. dotnet:4, python:4-python3.7-slim, etc.
 pool:
-    name: '1ES-Hosted-Azure-Functions'
+    vmImage: 'Ubuntu-latest'
 
 jobs:
 - job: Dotnet
@@ -493,85 +493,92 @@ jobs:
         docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7-buildenv
         docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7-appservice
 
+        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7 $TARGET_REGISTRY/python:$(TargetVersion)-python3.7
+        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7-slim $TARGET_REGISTRY/python:$(TargetVersion)-python3.7-slim
+        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7-buildenv $TARGET_REGISTRY/python:$(TargetVersion)-python3.7-buildenv
+        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.7-appservice
+
+        docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.7
+        docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.7-slim
+        docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.7-buildenv
+        docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.7-appservice
+
+        docker system prune -a -f
+
         docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8
         docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8-slim
         docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8-buildenv
         docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8-appservice
+        
+        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8 $TARGET_REGISTRY/python:$(TargetVersion)-python3.8
+        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8-slim $TARGET_REGISTRY/python:$(TargetVersion)-python3.8-slim
+        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8-buildenv $TARGET_REGISTRY/python:$(TargetVersion)-python3.8-buildenv
+        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.8-appservice
+
+        docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.8
+        docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.8-slim
+        docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.8-buildenv
+        docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.8-appservice
+
+        docker system prune -a -f
 
         docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.9
         docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.9-slim
         docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.9-buildenv
         docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.9-appservice
 
-        docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.10
-        docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.10-slim
-        docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.10-buildenv
-        docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.10-appservice
-          
-        docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.11
-        docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.11-slim
-        docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.11-buildenv
-        docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.11-appservice
-
-        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7 $TARGET_REGISTRY/python:$(TargetVersion)-python3.7
-        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7-slim $TARGET_REGISTRY/python:$(TargetVersion)-python3.7-slim
-        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7-buildenv $TARGET_REGISTRY/python:$(TargetVersion)-python3.7-buildenv
-        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.7-appservice
-
-        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8 $TARGET_REGISTRY/python:$(TargetVersion)-python3.8
-        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8-slim $TARGET_REGISTRY/python:$(TargetVersion)-python3.8-slim
-        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8-buildenv $TARGET_REGISTRY/python:$(TargetVersion)-python3.8-buildenv
-        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.8-appservice
-
         docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.9 $TARGET_REGISTRY/python:$(TargetVersion)
         docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.9-slim $TARGET_REGISTRY/python:$(TargetVersion)-slim
         docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.9-buildenv $TARGET_REGISTRY/python:$(TargetVersion)-buildenv
         docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.9-appservice $TARGET_REGISTRY/python:$(TargetVersion)-appservice
-        
-        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.9 $TARGET_REGISTRY/python:$(TargetVersion)-python3.9
-        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.9-slim $TARGET_REGISTRY/python:$(TargetVersion)-python3.9-slim
-        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.9-buildenv $TARGET_REGISTRY/python:$(TargetVersion)-python3.9-buildenv
-        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.9-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.9-appservice
-
-        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.10 $TARGET_REGISTRY/python:$(TargetVersion)-python3.10
-        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.10-slim $TARGET_REGISTRY/python:$(TargetVersion)-python3.10-slim
-        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.10-buildenv $TARGET_REGISTRY/python:$(TargetVersion)-python3.10-buildenv
-        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.10-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.10-appservice
-          
-        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.11 $TARGET_REGISTRY/python:$(TargetVersion)-python3.11
-        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.11-slim $TARGET_REGISTRY/python:$(TargetVersion)-python3.11-slim
-        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.11-buildenv $TARGET_REGISTRY/python:$(TargetVersion)-python3.11-buildenv
-        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.11-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.11-appservice
 
         docker push $TARGET_REGISTRY/python:$(TargetVersion)
         docker push $TARGET_REGISTRY/python:$(TargetVersion)-slim
         docker push $TARGET_REGISTRY/python:$(TargetVersion)-buildenv
         docker push $TARGET_REGISTRY/python:$(TargetVersion)-appservice
 
-        docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.7
-        docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.7-slim
-        docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.7-buildenv
-        
-        docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.8
-        docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.8-slim
-        docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.8-buildenv
+        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.9 $TARGET_REGISTRY/python:$(TargetVersion)-python3.9
+        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.9-slim $TARGET_REGISTRY/python:$(TargetVersion)-python3.9-slim
+        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.9-buildenv $TARGET_REGISTRY/python:$(TargetVersion)-python3.9-buildenv
+        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.9-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.9-appservice
 
         docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.9
         docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.9-slim
         docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.9-buildenv
+        docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.9-appservice
 
+        docker system prune -a -f
+
+        docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.10
+        docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.10-slim
+        docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.10-buildenv
+        docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.10-appservice
+
+        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.10 $TARGET_REGISTRY/python:$(TargetVersion)-python3.10
+        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.10-slim $TARGET_REGISTRY/python:$(TargetVersion)-python3.10-slim
+        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.10-buildenv $TARGET_REGISTRY/python:$(TargetVersion)-python3.10-buildenv
+        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.10-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.10-appservice
+        
         docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.10
         docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.10-slim
         docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.10-buildenv
+        docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.10-appservice
+
+        docker system prune -a -f
           
+        docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.11
+        docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.11-slim
+        docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.11-buildenv
+        docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.11-appservice
+
+        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.11 $TARGET_REGISTRY/python:$(TargetVersion)-python3.11
+        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.11-slim $TARGET_REGISTRY/python:$(TargetVersion)-python3.11-slim
+        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.11-buildenv $TARGET_REGISTRY/python:$(TargetVersion)-python3.11-buildenv
+        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.11-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.11-appservice
+
         docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.11
         docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.11-slim
         docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.11-buildenv
-
-        docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.7-appservice
-        docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.8-appservice
-        docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.9-appservice
-        docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.10-appservice
         docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.11-appservice
 
         docker system prune -a -f
