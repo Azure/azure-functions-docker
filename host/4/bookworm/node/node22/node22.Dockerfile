@@ -55,6 +55,7 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     ASPNETCORE_CONTENTROOT=/azure-functions-host \
     ASPNETCORE_URLS=http://+:80
 
+COPY --from=dn8-sdk-image [ "/usr/share/dotnet", "/usr/share/dotnet" ]
 COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
 COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
 COPY --from=runtime-image [ "/workers/node", "/azure-functions-host/workers/node" ]
