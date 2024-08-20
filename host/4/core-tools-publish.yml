@@ -9,7 +9,7 @@ schedules:
   always: true
 
 pool:
-    vmImage: '1ES-Hosted-Azure-Functions'
+    name: '1ES-Hosted-Azure-Functions'
 
 
 stages:

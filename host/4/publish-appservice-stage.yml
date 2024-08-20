@@ -1,7 +1,7 @@
 trigger: none
 # Publish pipelines are triggered via HTTP method in release pipeline. See [App Service] v4 stage release
 pool:
-    vmImage: '1ES-Hosted-Azure-Functions'
+    name: '1ES-Hosted-Azure-Functions'
 
 
 steps:
