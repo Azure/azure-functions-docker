@@ -9,7 +9,8 @@ schedules:
   always: true
 
 pool:
-    vmImage: 'Ubuntu-latest'
+    name: '1ES-Hosted-Azure-Functions'
+
 
 stages:
 - stage: prepare
