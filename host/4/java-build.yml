@@ -1,5 +1,5 @@
 pool:
-    vmImage: 'Ubuntu-latest'
+    name: '1ES-Hosted-Azure-Functions'
 
 pr:
   branches:
