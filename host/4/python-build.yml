@@ -8,9 +8,9 @@ pr:
       - release/4.x
   paths:
     include:
-      - host/4/bullseye/amd64/base/*
-      - host/4/bullseye/amd64/python/*
-      - host/4/bookwork/python/*
+      - host/4/bullseye/base/*
+      - host/4/bullseye/python/*
+      - host/4/bookworm/python/*
       - host/4/python-build.yml
 
 trigger:
@@ -33,23 +33,23 @@ jobs:
         _37:
           pythonVersion: "3.7"
           pythonImageNameSuffix: "37"
-          dockerfilePath: "bullseye/amd64"
+          dockerfilePath: "bullseye"
         _38:
           pythonVersion: "3.8"
           pythonImageNameSuffix: "38"
-          dockerfilePath: "bullseye/amd64"
+          dockerfilePath: "bullseye"
         _39:
           pythonVersion: "3.9"
           pythonImageNameSuffix: "39"
-          dockerfilePath: "bullseye/amd64"
+          dockerfilePath: "bullseye"
         _310:
           pythonVersion: "3.10"
           pythonImageNameSuffix: "310"
-          dockerfilePath: "bullseye/amd64"
+          dockerfilePath: "bullseye"
         _311:
           pythonVersion: "3.11"
           pythonImageNameSuffix: "311"
-          dockerfilePath: "bullseye/amd64"
+          dockerfilePath: "bullseye"
         _312:
           pythonVersion: "3.12"
           pythonImageNameSuffix: "312"
