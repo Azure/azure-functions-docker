@@ -66,7 +66,6 @@ RUN apt-get update && \
 RUN apt-get update && \
     apt-get install -y libfreetype6 fontconfig fonts-dejavu
 
-COPY --from=runtime-image [ "/usr/share/dotnet", "/usr/share/dotnet" ]
 COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
 COPY --from=runtime-image [ "/workers/java", "/azure-functions-host/workers/java" ]
 COPY --from=runtime-image [ "${JAVA_HOME}", "${JAVA_HOME}" ]
