@@ -9,7 +9,8 @@ schedules:
   always: true
 
 pool:
-    vmImage: 'Ubuntu-latest'
+    name: '1ES-Hosted-Azure-Functions'
+
 
 stages:
 - stage: prepare
@@ -63,8 +64,8 @@ stages:
           IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/dotnet:$(PrivateVersion)-dotnet6-core-tools
     
           docker build -t $IMAGE_NAME \
-                      -f host/4/bullseye/amd64/dotnet/dotnet-inproc/dotnet-core-tools.Dockerfile \
-                      host/4/bullseye/amd64/dotnet/dotnet-inproc/
+                      -f host/4/bullseye/dotnet-inproc/dotnet-core-tools.Dockerfile \
+                      host/4/bullseye/dotnet-inproc/
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
         displayName: dotnet-core-tools
@@ -105,8 +106,8 @@ stages:
           IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/dotnet-isolated:$(PrivateVersion)-dotnet-isolated6.0-core-tools
     
           docker build -t $IMAGE_NAME \
-                      -f host/4/bullseye/amd64/dotnet/dotnet-isolated/dotnet-isolated-core-tools.Dockerfile \
-                      host/4/bullseye/amd64/dotnet/dotnet-isolated/
+                      -f host/4/bullseye/dotnet-isolated/dotnet6-isolated/dotnet-isolated-core-tools.Dockerfile \
+                      host/4/bullseye/dotnet-isolated/dotnet6-isolated/
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
         displayName: dotnet-core-tools isolated
@@ -145,8 +146,8 @@ stages:
           set -e
           IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/java:$(PrivateVersion)-java8-core-tools
           docker build -t $IMAGE_NAME \
-                      -f host/4/bullseye/amd64/java/java8/java8-core-tools.Dockerfile \
-                      host/4/bullseye/amd64/java/java8
+                      -f host/4/bullseye/java/java8/java8-core-tools.Dockerfile \
+                      host/4/bullseye/java/java8
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
         displayName: java8-core-tools
@@ -157,8 +158,8 @@ stages:
           set -e
           IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/java:$(PrivateVersion)-java11-core-tools
           docker build -t $IMAGE_NAME \
-                      -f host/4/bullseye/amd64/java/java11/java11-core-tools.Dockerfile \
-                      host/4/bullseye/amd64/java/java11
+                      -f host/4/bullseye/java/java11/java11-core-tools.Dockerfile \
+                      host/4/bullseye/java/java11
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
         displayName: java11-core-tools
@@ -169,8 +170,8 @@ stages:
           set -e
           IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/java:$(PrivateVersion)-java17-core-tools
           docker build -t $IMAGE_NAME \
-                      -f host/4/bullseye/amd64/java/java17/java17-core-tools.Dockerfile \
-                      host/4/bullseye/amd64/java/java17
+                      -f host/4/bullseye/java/java17/java17-core-tools.Dockerfile \
+                      host/4/bullseye/java/java17
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
         displayName: java17-core-tools
@@ -222,8 +223,8 @@ stages:
           IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/node:$(PrivateVersion)-node14-core-tools
 
           docker build -t $IMAGE_NAME \
-                      -f host/4/bullseye/amd64/node/node14/node14-core-tools.Dockerfile \
-                      host/4/bullseye/amd64/node/node14/
+                      -f host/4/bullseye/node/node14/node14-core-tools.Dockerfile \
+                      host/4/bullseye/node/node14/
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
         displayName: node14-core-tools
@@ -235,8 +236,8 @@ stages:
           IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/node:$(PrivateVersion)-node16-core-tools
 
           docker build -t $IMAGE_NAME \
-                      -f host/4/bullseye/amd64/node/node16/node16-core-tools.Dockerfile \
-                      host/4/bullseye/amd64/node/node16/
+                      -f host/4/bullseye/node/node16/node16-core-tools.Dockerfile \
+                      host/4/bullseye/node/node16/
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
         displayName: node16-core-tools
@@ -248,8 +249,8 @@ stages:
           IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/node:$(PrivateVersion)-node18-core-tools
 
           docker build -t $IMAGE_NAME \
-                      -f host/4/bullseye/amd64/node/node18/node18-core-tools.Dockerfile \
-                      host/4/bullseye/amd64/node/node18/
+                      -f host/4/bullseye/node/node18/node18-core-tools.Dockerfile \
+                      host/4/bullseye/node/node18/
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
         displayName: node18-core-tools
@@ -261,8 +262,8 @@ stages:
           IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/node:$(PrivateVersion)-node20-core-tools
 
           docker build -t $IMAGE_NAME \
-                      -f host/4/bullseye/amd64/node/node20/node20-core-tools.Dockerfile \
-                      host/4/bullseye/amd64/node/node20/
+                      -f host/4/bullseye/node/node20/node20-core-tools.Dockerfile \
+                      host/4/bullseye/node/node20/
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
         displayName: node20-core-tools
@@ -302,8 +303,8 @@ stages:
           set -e
           IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/python:$(PrivateVersion)-python3.8-core-tools
           docker build -t $IMAGE_NAME \
-                      -f host/4/bullseye/amd64/python/python38/python38-core-tools.Dockerfile \
-                      host/4/bullseye/amd64/python/python38/
+                      -f host/4/bullseye/python/python38/python38-core-tools.Dockerfile \
+                      host/4/bullseye/python/python38/
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
         displayName: python3.8-core-tools
@@ -315,8 +316,8 @@ stages:
           IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/python:$(PrivateVersion)-python3.9-core-tools
 
           docker build -t $IMAGE_NAME \
-                      -f host/4/bullseye/amd64/python/python39/python39-core-tools.Dockerfile \
-                      host/4/bullseye/amd64/python/python39/
+                      -f host/4/bullseye/python/python39/python39-core-tools.Dockerfile \
+                      host/4/bullseye/python/python39/
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
         displayName: python3.9-core-tools
@@ -328,8 +329,8 @@ stages:
           IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/python:$(PrivateVersion)-python3.10-core-tools
 
           docker build -t $IMAGE_NAME \
-                      -f host/4/bullseye/amd64/python/python310/python310-core-tools.Dockerfile \
-                      host/4/bullseye/amd64/python/python310/
+                      -f host/4/bullseye/python/python310/python310-core-tools.Dockerfile \
+                      host/4/bullseye/python/python310/
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
         displayName: python3.10-core-tools
@@ -341,8 +342,8 @@ stages:
           IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/python:$(PrivateVersion)-python3.11-core-tools
           
           docker build -t $IMAGE_NAME \
-                      -f host/4/bullseye/amd64/python/python311/python311-core-tools.Dockerfile \
-                      host/4/bullseye/amd64/python/python311/
+                      -f host/4/bullseye/python/python311/python311-core-tools.Dockerfile \
+                      host/4/bullseye/python/python311/
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
         displayName: python3.11-core-tools
@@ -382,8 +383,8 @@ stages:
           IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/powershell:$(PrivateVersion)-powershell7-core-tools
 
           docker build -t $IMAGE_NAME \
-                      -f host/4/bullseye/amd64/powershell/powershell70/powershell70-core-tools.Dockerfile \
-                      host/4/bullseye/amd64/powershell/powershell70/
+                      -f host/4/bullseye/powershell/powershell70/powershell70-core-tools.Dockerfile \
+                      host/4/bullseye/powershell/powershell70/
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
         displayName: powershell7-core-tools
@@ -395,8 +396,8 @@ stages:
           IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/powershell:$(PrivateVersion)-powershell7.2-core-tools
 
           docker build -t $IMAGE_NAME \
-                      -f host/4/bullseye/amd64/powershell/powershell72/powershell72-core-tools.Dockerfile \
-                      host/4/bullseye/amd64/powershell/powershell72/
+                      -f host/4/bullseye/powershell/powershell72/powershell72-core-tools.Dockerfile \
+                      host/4/bullseye/powershell/powershell72/
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
         displayName: powershell7.2-core-tools

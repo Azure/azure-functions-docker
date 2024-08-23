@@ -4,10 +4,12 @@
 #-------------------------------------------------------------------------------------------------------------
 
 # Build the runtime from source
-ARG HOST_VERSION=4.34.2
+ARG HOST_VERSION=4.1036.0
+FROM mcr.microsoft.com/dotnet/sdk:8.0-bookworm-slim-amd64 AS dn8-sdk-image
 FROM mcr.microsoft.com/dotnet/sdk:6.0-bookworm-slim-amd64 AS runtime-image
 ARG HOST_VERSION
 
+COPY --from=dn8-sdk-image [ "/usr/share/dotnet", "/usr/share/dotnet" ]
 ENV PublishWithAspNetCoreTargetManifest=false
 
 RUN BUILD_NUMBER=$(echo ${HOST_VERSION} | cut -d'.' -f 3) && \
@@ -18,7 +20,7 @@ RUN BUILD_NUMBER=$(echo ${HOST_VERSION} | cut -d'.' -f 3) && \
     mv /azure-functions-host/workers /workers && mkdir /azure-functions-host/workers && \
     rm -rf /root/.local /root/.nuget /src
 
-RUN apt-get update && \
+    RUN apt-get update && \
     apt-get install -y gnupg wget unzip && \
     EXTENSION_BUNDLE_VERSION_V2=2.30.0 && \
     EXTENSION_BUNDLE_FILENAME_V2=Microsoft.Azure.Functions.ExtensionBundle.${EXTENSION_BUNDLE_VERSION_V2}_linux-x64.zip && \
@@ -50,27 +52,30 @@ FROM mcr.microsoft.com/oryx/python:3.12-debian-bookworm as python
 # OpenMP dependencies: libgomp1 && \
 # Fix from https://github.com/GoogleCloudPlatform/google-cloud-dotnet-powerpack/issues/22#issuecomment-729895157 : libc-dev
 # Azure ML dependencies: liblttng-ust0
-RUN apt-get update && \
-    apt-get install -y wget apt-transport-https curl gnupg locales && \
+RUN curl -fsSL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor -o /usr/share/keyrings/microsoft-prod.gpg && \
+    apt-get update && \
+    apt-get install -y wget apt-transport-https curl gnupg2 locales rpm && \
     echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections && \
-    curl https://packages.microsoft.com/keys/microsoft.asc | tee /etc/apt/trusted.gpg.d/microsoft.asc && \
-    curl https://packages.microsoft.com/config/debian/11/prod.list | tee /etc/apt/sources.list.d/mssql-release.list && \
+    curl https://packages.microsoft.com/keys/microsoft.asc | tee /etc/apt/trusted.gpg.d/microsoft.asc && \ 
+    echo "deb [arch=amd64] https://packages.microsoft.com/debian/12/prod bookworm main" | tee /etc/apt/sources.list.d/mssql-release.list && \
     # Needed for libss1.0.0 and in turn MS SQL
-    echo 'deb http://security.debian.org/debian-security bullseye-security main' >> /etc/apt/sources.list && \
+    echo 'deb http://security.debian.org/debian-security bookworm-security main' >> /etc/apt/sources.list && \
+    curl https://packages.microsoft.com/config/debian/12/prod.list | tee /etc/apt/sources.list.d/mssql-release.list && \
     # install MS SQL related packages.pinned version in PR # 1012.
     echo 'en_US.UTF-8 UTF-8' > /etc/locale.gen && \
     locale-gen && \
     apt-get update && \
-    ACCEPT_EULA=Y apt-get install -y unixodbc msodbcsql18=18.2.2.1-1 mssql-tools18 &&\
+    ACCEPT_EULA=Y apt-get install -y unixodbc msodbcsql18 mssql-tools18 &&\
     apt-get install -y --no-install-recommends ca-certificates \
-    libc6 libgcc1 libgssapi-krb5-2 libicu67 libssl1.1 libstdc++6 zlib1g &&\
-    apt-get install -y libglib2.0-0 libsm6 libxext6 libxrender-dev xvfb binutils\
-    binutils libgomp1 libc-dev liblttng-ust0 && \
-    rm -rf /var/lib/apt/lists/*
+    libc6 libgcc1 libgssapi-krb5-2 libicu72 libssl3 libstdc++6 zlib1g &&\
+    apt-get install -y libglib2.0-0 libsm6 libxext6 libxrender-dev xvfb binutils \
+    binutils libgomp1 libc-dev liblttng-ust1 && \
+    rm -rf /var/lib/apt/lists/* 
 
-FROM mcr.microsoft.com/dotnet/runtime-deps:6.0
-ARG HOST_VERSION
+    FROM mcr.microsoft.com/dotnet/aspnet:8.0-bookworm-slim-amd64
+    ARG HOST_VERSION
 
+COPY --from=dn8-sdk-image [ "/usr/share/dotnet", "/usr/share/dotnet" ]
 COPY --from=runtime-image ["/azure-functions-host", "/azure-functions-host"]
 COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
 COPY install_ca_certificates.sh start_nonappservice.sh /opt/startup/

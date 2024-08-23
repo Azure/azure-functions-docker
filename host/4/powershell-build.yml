@@ -1,5 +1,6 @@
 pool:
-    vmImage: 'Ubuntu-latest'
+    name: '1ES-Hosted-Azure-Functions'
+
 
 pr:
   branches:
@@ -8,16 +9,15 @@ pr:
       - release/4.x
   paths:
     include:
-      - host/4/bullseye/amd64/base/*
-      - host/4/bullseye/amd64/powershell/powershell70/*
-      - host/4/bullseye/amd64/powershell/powershell72/*
+      - host/4/bullseye/base/*
+      - host/4/bullseye/powershell/powershell70/*
+      - host/4/bullseye/powershell/powershell72/*
       - host/4/bookworm/powershell/powershell74/*
       - host/4/powershell-build.yml
 
 trigger:
   branches:
     include:
-      - dev
       - refs/tags/4.*
       - release/4.x
       - nightly-build
@@ -34,8 +34,8 @@ jobs:
         _72:
           psVersion: "7.2"
           psFileVersion: "72"
-          dockerfilePath: "bullseye/amd64"
-          appservicePath: "host/4/bullseye/amd64/out/powershell"
+          dockerfilePath: "bullseye"
+          appservicePath: "host/4/bullseye/out/powershell"
         _74:
           psVersion: "7.4"
           psFileVersion: "74"

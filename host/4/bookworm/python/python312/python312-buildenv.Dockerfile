@@ -20,25 +20,28 @@ ENV LANG=C.UTF-8 \
 # .NET Core dependencies: --no-install-recommends ca-certificates libc6 libgcc1 libgssapi-krb5-2 libicu67 libssl1.1 libstdc++6 zlib1g
 # OpenCV dependencies:libglib2.0-0 libsm6 libxext6 libxrender-dev xvfb
 # binutils: binutils
-# OpenMP dependencies: libgomp1
+# OpenMP dependencies: libgomp1 && \
+# Fix from https://github.com/GoogleCloudPlatform/google-cloud-dotnet-powerpack/issues/22#issuecomment-729895157 : libc-dev
 # Azure ML dependencies: liblttng-ust0
-RUN apt-get update && \
-    apt-get install -y wget apt-transport-https curl gnupg locales && \
+RUN curl -fsSL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor -o /usr/share/keyrings/microsoft-prod.gpg && \
+    apt-get update && \
+    apt-get install -y wget apt-transport-https curl gnupg2 locales rpm && \
     echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections && \
-    curl https://packages.microsoft.com/keys/microsoft.asc | tee /etc/apt/trusted.gpg.d/microsoft.asc && \
-    curl https://packages.microsoft.com/config/debian/12/prod.list | tee /etc/apt/sources.list.d/mssql-release.list && \
+    curl https://packages.microsoft.com/keys/microsoft.asc | tee /etc/apt/trusted.gpg.d/microsoft.asc && \ 
+    echo "deb [arch=amd64] https://packages.microsoft.com/debian/12/prod bookworm main" | tee /etc/apt/sources.list.d/mssql-release.list && \
     # Needed for libss1.0.0 and in turn MS SQL
     echo 'deb http://security.debian.org/debian-security bookworm-security main' >> /etc/apt/sources.list && \
+    curl https://packages.microsoft.com/config/debian/12/prod.list | tee /etc/apt/sources.list.d/mssql-release.list && \
     # install MS SQL related packages.pinned version in PR # 1012.
     echo 'en_US.UTF-8 UTF-8' > /etc/locale.gen && \
     locale-gen && \
     apt-get update && \
-    ACCEPT_EULA=Y apt-get install -y unixodbc msodbcsql18=18.2.2.1-1 mssql-tools18 &&\
+    ACCEPT_EULA=Y apt-get install -y unixodbc msodbcsql18 mssql-tools18 &&\
     apt-get install -y --no-install-recommends ca-certificates \
-    libc6 libgcc1 libgssapi-krb5-2 libicu67 libssl1.1 libstdc++6 zlib1g &&\
-    apt-get install -y libglib2.0-0 libsm6 libxext6 libxrender-dev xvfb binutils\
-    binutils libgomp1 liblttng-ust0 && \
-    rm -rf /var/lib/apt/lists/*
+    libc6 libgcc1 libgssapi-krb5-2 libicu72 libssl3 libstdc++6 zlib1g &&\
+    apt-get install -y libglib2.0-0 libsm6 libxext6 libxrender-dev xvfb binutils \
+    binutils libgomp1 libc-dev liblttng-ust1 && \
+    rm -rf /var/lib/apt/lists/* 
 
 RUN apt-get update && \
     apt-get install -y build-essential libssl-dev zlib1g-dev libbz2-dev \

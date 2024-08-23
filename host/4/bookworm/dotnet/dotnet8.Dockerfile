@@ -1,5 +1,5 @@
 # Build the runtime from source
-ARG HOST_VERSION=4.834.4
+ARG HOST_VERSION=4.835.1
 FROM mcr.microsoft.com/dotnet/sdk:8.0-bookworm-slim-amd64 AS runtime-image
 ARG HOST_VERSION
 
@@ -25,5 +25,8 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     ASPNETCORE_URLS=http://+:80
 
 COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
+COPY install_ca_certificates.sh start_nonappservice.sh /opt/startup/
+RUN chmod +x /opt/startup/install_ca_certificates.sh && \
+    chmod +x /opt/startup/start_nonappservice.sh
 
-CMD [ "/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost" ]
+CMD [ "/opt/startup/start_nonappservice.sh" ]

@@ -1,7 +1,8 @@
 trigger: none
 # Publish pipelines are triggered via HTTP method in release pipeline. See [App Service] v4 stage release
 pool:
-    vmImage: 'Ubuntu-latest'
+    name: '1ES-Hosted-Azure-Functions'
+
 
 steps:
   - bash: |
@@ -103,6 +104,18 @@ steps:
 
   - bash: |
       set -e
+      docker pull $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated9.0-appservice
+
+      docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated9.0-appservice $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated9.0-appservice-stage$(StageNumber)
+
+      docker push $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated9.0-appservice-stage$(StageNumber)
+
+      docker system prune -a -f
+    displayName: tag and push dotnet-isolated8 images
+    continueOnError: false
+
+  - bash: |
+      set -e
       docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-appservice
       docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java11-appservice
       docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java17-appservice
@@ -173,6 +186,18 @@ steps:
       docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node20-appservice $TARGET_REGISTRY/node:$(TargetVersion)-node20-appservice-stage$(StageNumber)
 
       docker push $TARGET_REGISTRY/node:$(TargetVersion)-node20-appservice-stage$(StageNumber)
+
+      docker system prune -a -f
+    displayName: tag and push node images
+    continueOnError: false
+
+  - bash: |
+      set -e
+      docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node22-appservice
+
+      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node22-appservice $TARGET_REGISTRY/node:$(TargetVersion)-node22-appservice-stage$(StageNumber)
+
+      docker push $TARGET_REGISTRY/node:$(TargetVersion)-node22-appservice-stage$(StageNumber)
 
       docker system prune -a -f
     displayName: tag and push node images

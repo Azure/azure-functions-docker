@@ -1,5 +1,5 @@
 pool:
-  vmImage: "Ubuntu-latest"
+  name: '1ES-Hosted-Azure-Functions'
 
 pr:
   branches:
@@ -16,7 +16,6 @@ pr:
 trigger:
   branches:
     include:
-      - dev
       - refs/tags/4.*
       - refresh/4.*
       - release/4.x

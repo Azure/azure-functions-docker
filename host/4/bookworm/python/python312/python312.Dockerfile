@@ -4,16 +4,16 @@
 #-------------------------------------------------------------------------------------------------------------
 
 # Build the runtime from source
-ARG HOST_VERSION=4.34.2
-FROM mcr.microsoft.com/dotnet/sdk:8.0-bookworm-slim-amd64 AS runtime-image
+ARG HOST_VERSION=4.1036.0
+FROM mcr.microsoft.com/dotnet/sdk:8.0-bookworm-slim-amd64 AS dn8-sdk-image
+FROM mcr.microsoft.com/dotnet/sdk:6.0-bookworm-slim-amd64 AS runtime-image
 ARG HOST_VERSION
 
+COPY --from=dn8-sdk-image [ "/usr/share/dotnet", "/usr/share/dotnet" ]
 ENV PublishWithAspNetCoreTargetManifest=false
-COPY --from=mcr.microsoft.com/dotnet/sdk:8.0-bookworm-slim-amd64 [ "/usr/share/dotnet", "/usr/share/dotnet" ]
-
 
 RUN BUILD_NUMBER=$(echo ${HOST_VERSION} | cut -d'.' -f 3) && \
-    git clone https://github.com/Azure/azure-functions-host /src/azure-functions-host && \
+    git clone --branch v${HOST_VERSION} https://github.com/Azure/azure-functions-host /src/azure-functions-host && \
     cd /src/azure-functions-host && \
     HOST_COMMIT=$(git rev-list -1 HEAD) && \
     dotnet publish -v q /p:BuildNumber=$BUILD_NUMBER /p:CommitHash=$HOST_COMMIT src/WebJobs.Script.WebHost/WebJobs.Script.WebHost.csproj -c Release --output /azure-functions-host --runtime linux-x64 && \
@@ -52,11 +52,8 @@ FROM mcr.microsoft.com/oryx/python:3.12-debian-bookworm AS python
 # OpenMP dependencies: libgomp1 && \
 # Fix from https://github.com/GoogleCloudPlatform/google-cloud-dotnet-powerpack/issues/22#issuecomment-729895157 : libc-dev
 # Azure ML dependencies: liblttng-ust0
-RUN echo 'Downloading keys' && \
-    curl -fsSL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor -o /usr/share/keyrings/microsoft-prod.gpg && \
-    echo 'Running apt get' && \
+RUN curl -fsSL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor -o /usr/share/keyrings/microsoft-prod.gpg && \
     apt-get update && \
-    echo 'Installing dependencies' && \
     apt-get install -y wget apt-transport-https curl gnupg2 locales rpm && \
     echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections && \
     curl https://packages.microsoft.com/keys/microsoft.asc | tee /etc/apt/trusted.gpg.d/microsoft.asc && \ 
@@ -75,10 +72,10 @@ RUN echo 'Downloading keys' && \
     binutils libgomp1 libc-dev liblttng-ust1 && \
     rm -rf /var/lib/apt/lists/* 
 
-# FROM mcr.microsoft.com/dotnet/runtime-deps:6.0
-FROM mcr.microsoft.com/oryx/python:3.12-debian-bookworm
+FROM mcr.microsoft.com/dotnet/aspnet:8.0-bookworm-slim-amd64
 ARG HOST_VERSION
 
+COPY --from=dn8-sdk-image [ "/usr/share/dotnet", "/usr/share/dotnet" ]
 COPY --from=runtime-image ["/azure-functions-host", "/azure-functions-host"]
 COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
 COPY install_ca_certificates.sh start_nonappservice.sh /opt/startup/
@@ -88,9 +85,6 @@ RUN chmod +x /opt/startup/install_ca_certificates.sh && \
 COPY --from=runtime-image [ "/workers/python/3.12/LINUX", "/azure-functions-host/workers/python/3.12/LINUX" ]
 COPY --from=runtime-image [ "/workers/python/worker.config.json", "/azure-functions-host/workers/python" ]
 COPY --from=python  ["/", "/"]
-# COPY --from=python ["/opt/python", "/opt/python"]
-
-RUN ln -s /opt/python/3.12/bin/* /usr/local/bin/
 
 ENV LANG=C.UTF-8 \
     ACCEPT_EULA=Y \
