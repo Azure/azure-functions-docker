@@ -1,10 +1,8 @@
 # Build the runtime from source
 ARG HOST_VERSION=4.1036.0
-FROM mcr.microsoft.com/dotnet/sdk:8.0-bookworm-slim-amd64 AS dn8-sdk-image
-FROM mcr.microsoft.com/dotnet/sdk:6.0-bookworm-slim-amd64 AS runtime-image
+FROM mcr.microsoft.com/dotnet/sdk:8.0-bookworm-slim-amd64 AS runtime-image
 ARG HOST_VERSION
 
-COPY --from=dn8-sdk-image [ "/usr/share/dotnet", "/usr/share/dotnet" ]
 ENV PublishWithAspNetCoreTargetManifest=false
 
 RUN BUILD_NUMBER=$(echo ${HOST_VERSION} | cut -d'.' -f 3) && \
@@ -40,7 +38,7 @@ RUN apt-get update && \
     rm -f /$EXTENSION_BUNDLE_FILENAME_V4 &&\
     find /FuncExtensionBundles/ -type f -exec chmod 644 {} \;
 
-FROM mcr.microsoft.com/dotnet/runtime-deps:6.0-bookworm-slim-amd64
+FROM mcr.microsoft.com/dotnet/aspnet:8.0-bookworm-slim-amd64
 ARG HOST_VERSION
 
 EXPOSE 2222 80
