@@ -1,6 +1,6 @@
 # Build the runtime from source
 ARG HOST_VERSION=4.1036.0
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS runtime-image
+FROM mcr.microsoft.com/dotnet/sdk:8.0-bookworm-slim-amd64 AS runtime-image
 ARG HOST_VERSION
 
 ENV PublishWithAspNetCoreTargetManifest=false
