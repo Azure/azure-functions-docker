@@ -5,7 +5,7 @@
 
 # Build the runtime from source
 ARG HOST_VERSION=4.1036.0
-FROM mcr.microsoft.com/dotnet/sdk:8.0-bookworm-slim-amd64 AS dn8-sdk-image
+FROM mcr.microsoft.com/dotnet/sdk:8.0-bookworm-slim-amd64 AS runtime-image
 ARG HOST_VERSION
 
 ENV PublishWithAspNetCoreTargetManifest=false
@@ -73,16 +73,22 @@ RUN curl -fsSL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor
     FROM mcr.microsoft.com/dotnet/aspnet:8.0-bookworm-slim-amd64
     ARG HOST_VERSION
 
-COPY --from=dn8-sdk-image [ "/usr/share/dotnet", "/usr/share/dotnet" ]
-COPY --from=dn8-sdk-image ["/azure-functions-host", "/azure-functions-host"]
-COPY --from=dn8-sdk-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
+COPY --from=runtime-image [ "/usr/share/dotnet", "/usr/share/dotnet" ]
+COPY --from=runtime-image ["/azure-functions-host", "/azure-functions-host"]
+COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
 COPY install_ca_certificates.sh start_nonappservice.sh /opt/startup/
 RUN chmod +x /opt/startup/install_ca_certificates.sh && \
     chmod +x /opt/startup/start_nonappservice.sh
 
-COPY --from=dn8-sdk-image [ "/workers/python/3.12/LINUX", "/azure-functions-host/workers/python/3.12/LINUX" ]
-COPY --from=dn8-sdk-image [ "/workers/python/worker.config.json", "/azure-functions-host/workers/python" ]
+COPY --from=runtime-image [ "/workers/python/3.12/LINUX", "/azure-functions-host/workers/python/3.12/LINUX" ]
+COPY --from=runtime-image [ "/workers/python/worker.config.json", "/azure-functions-host/workers/python" ]
 COPY --from=python [ "/", "/" ]
+
+RUN ln -sf /opt/python/3.12/bin/python3.12 /usr/bin/python3 && \
+    ln -sf /opt/python/3.12/bin/python3.12 /usr/bin/python && \
+    ln -sf /opt/python/3.12/bin/pip3 /usr/bin/pip3 && \
+    ln -sf /opt/python/3.12/bin/pip3 /usr/bin/pip && \
+    ln -sf /opt/python/3.12/bin/pip3.12 /usr/bin/pip3.12
 
 ENV LANG=C.UTF-8 \
     ACCEPT_EULA=Y \
