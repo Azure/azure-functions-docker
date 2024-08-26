@@ -6,10 +6,8 @@
 # Build the runtime from source
 ARG HOST_VERSION=4.1036.0
 FROM mcr.microsoft.com/dotnet/sdk:8.0-bookworm-slim-amd64 AS dn8-sdk-image
-FROM mcr.microsoft.com/dotnet/sdk:6.0-bookworm-slim-amd64 AS runtime-image
 ARG HOST_VERSION
 
-COPY --from=dn8-sdk-image [ "/usr/share/dotnet", "/usr/share/dotnet" ]
 ENV PublishWithAspNetCoreTargetManifest=false
 
 RUN BUILD_NUMBER=$(echo ${HOST_VERSION} | cut -d'.' -f 3) && \
@@ -76,14 +74,14 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0-bookworm-slim-amd64
 ARG HOST_VERSION
 
 COPY --from=dn8-sdk-image [ "/usr/share/dotnet", "/usr/share/dotnet" ]
-COPY --from=runtime-image ["/azure-functions-host", "/azure-functions-host"]
-COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
+COPY --from=dn8-sdk-image ["/azure-functions-host", "/azure-functions-host"]
+COPY --from=dn8-sdk-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
 COPY install_ca_certificates.sh start_nonappservice.sh /opt/startup/
 RUN chmod +x /opt/startup/install_ca_certificates.sh && \
     chmod +x /opt/startup/start_nonappservice.sh
 
-COPY --from=runtime-image [ "/workers/python/3.12/LINUX", "/azure-functions-host/workers/python/3.12/LINUX" ]
-COPY --from=runtime-image [ "/workers/python/worker.config.json", "/azure-functions-host/workers/python" ]
+COPY --from=dn8-sdk-image [ "/workers/python/3.12/LINUX", "/azure-functions-host/workers/python/3.12/LINUX" ]
+COPY --from=dn8-sdk-image [ "/workers/python/worker.config.json", "/azure-functions-host/workers/python" ]
 COPY --from=python  ["/", "/"]
 
 ENV LANG=C.UTF-8 \
