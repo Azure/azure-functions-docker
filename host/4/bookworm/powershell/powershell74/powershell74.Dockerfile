@@ -1,10 +1,9 @@
 # Build the runtime from source
 ARG HOST_VERSION=4.1036.0
-FROM mcr.microsoft.com/dotnet/sdk:6.0-bookworm-slim-amd64 AS runtime-image
+FROM mcr.microsoft.com/dotnet/sdk:8.0-bookworm-slim-amd64 AS runtime-image
 ARG HOST_VERSION
 
 ENV PublishWithAspNetCoreTargetManifest=false
-COPY --from=mcr.microsoft.com/dotnet/sdk:8.0-bookworm-slim-amd64 [ "/usr/share/dotnet", "/usr/share/dotnet" ]
 
 # Build WebJobs.Script.WebHost from source
 RUN BUILD_NUMBER=$(echo ${HOST_VERSION} | cut -d'.' -f 3) && \
@@ -45,12 +44,11 @@ ARG HOST_VERSION
 # copy bundles, host runtime and powershell worker from the build image
 COPY --from=runtime-image ["/azure-functions-host", "/azure-functions-host"]
 COPY --from=runtime-image ["/FuncExtensionBundles", "/FuncExtensionBundles"]
+COPY --from=runtime-image ["/workers/powershell/worker.config.json", "/azure-functions-host/workers/powershell/worker.config.json"]
+COPY --from=runtime-image ["/workers/powershell/7.4", "/azure-functions-host/workers/powershell/7.4"]
 COPY install_ca_certificates.sh start_nonappservice.sh /opt/startup/
 RUN chmod +x /opt/startup/install_ca_certificates.sh && \
     chmod +x /opt/startup/start_nonappservice.sh
-
-COPY --from=runtime-image ["/workers/powershell/worker.config.json", "/azure-functions-host/workers/powershell/worker.config.json"]
-COPY --from=runtime-image ["/workers/powershell/7.4", "/azure-functions-host/workers/powershell/7.4"]
 
 # set runtime env variables
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot \

@@ -13,7 +13,7 @@ RUN BUILD_NUMBER=$(echo ${HOST_VERSION} | cut -d'.' -f 3) && \
     mv /azure-functions-host/workers /workers && mkdir /azure-functions-host/workers && \
     rm -rf /root/.local /root/.nuget /src
 
-FROM mcr.microsoft.com/dotnet/aspnet:8.0-bookworm-slim-amd64
+FROM mcr.microsoft.com/dotnet/aspnet:9.0-preview-bookworm-slim-amd64
 ARG HOST_VERSION
 
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
@@ -33,6 +33,7 @@ RUN apt-get update && \
     apt-get install -y libc-dev
 
 COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
+COPY --from=runtime-image [ "/usr/share/dotnet", "/usr/share/dotnet" ]
 COPY install_ca_certificates.sh start_nonappservice.sh /opt/startup/
 RUN chmod +x /opt/startup/install_ca_certificates.sh && \
     chmod +x /opt/startup/start_nonappservice.sh

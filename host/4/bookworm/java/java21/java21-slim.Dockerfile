@@ -2,12 +2,11 @@
 ARG HOST_VERSION=4.1036.0
 ARG JAVA_VERSION=21.0.1
 ARG JAVA_HOME=/usr/lib/jvm/msft-21-x64
-FROM mcr.microsoft.com/dotnet/sdk:6.0-bookworm-slim-amd64 AS runtime-image
+FROM mcr.microsoft.com/dotnet/sdk:8.0-bookworm-slim-amd64 AS runtime-image
 ARG HOST_VERSION
 ARG JAVA_VERSION
 ARG JAVA_HOME
 
-COPY --from=mcr.microsoft.com/dotnet/sdk:8.0-bookworm-slim-amd64 [ "/usr/share/dotnet", "/usr/share/dotnet" ]
 ENV PublishWithAspNetCoreTargetManifest=false
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -46,7 +45,7 @@ RUN wget https://aka.ms/download-jdk/microsoft-jdk-${JAVA_VERSION}-linux-x64.tar
     tar -xzf microsoft-jdk-${JAVA_VERSION}-linux-x64.tar.gz -C ${JAVA_HOME} --strip-components=1 && \
     rm -f microsoft-jdk-${JAVA_VERSION}-linux-x64.tar.gz
 
-FROM mcr.microsoft.com/dotnet/runtime-deps:6.0-bookworm-slim-amd64
+FROM mcr.microsoft.com/dotnet/aspnet:8.0-bookworm-slim-amd64
 ARG HOST_VERSION
 ARG JAVA_HOME
 
@@ -67,7 +66,6 @@ RUN apt-get update && \
 RUN apt-get update && \
     apt-get install -y libfreetype6 fontconfig fonts-dejavu
 
-COPY --from=runtime-image [ "/usr/share/dotnet", "/usr/share/dotnet" ]
 COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
 COPY --from=runtime-image [ "/workers/java", "/azure-functions-host/workers/java" ]
 COPY --from=runtime-image [ "${JAVA_HOME}", "${JAVA_HOME}" ]
