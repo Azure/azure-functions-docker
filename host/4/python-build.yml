@@ -59,7 +59,7 @@ jobs:
           pythonVersion: "3.12"
           pythonImageNameSuffix: "312"
           dockerfilePath: "bookworm"
-          appservicePath: "host/4/bookworm/python"
+          appservicePath: "host/4/bookworm/python/python312"
     steps:
       - bash: |
           # login
