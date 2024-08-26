@@ -43,7 +43,7 @@ RUN apt-get update && \
 FROM mcr.microsoft.com/oryx/python:3.12-debian-bookworm AS python
 
 # Install Python dependencies
-# MS SQL related packages: unixodbc msodbcsql17 mssql-tools
+# MS SQL related packages: unixodbc msodbcsql18 mssql-tools
 # .NET Core dependencies: --no-install-recommends ca-certificates libc6 libgcc1 libgssapi-krb5-2 libicu67 libssl1.1 libstdc++6 zlib1g
 # OpenCV dependencies:libglib2.0-0 libsm6 libxext6 libxrender-dev xvfb
 # binutils: binutils
@@ -84,11 +84,11 @@ COPY --from=runtime-image [ "/workers/python/3.12/LINUX", "/azure-functions-host
 COPY --from=runtime-image [ "/workers/python/worker.config.json", "/azure-functions-host/workers/python" ]
 COPY --from=python [ "/", "/" ]
 
-RUN ln -sf /opt/python/3.12/bin/python3.12 /usr/bin/python3 && \
-    ln -sf /opt/python/3.12/bin/python3.12 /usr/bin/python && \
-    ln -sf /opt/python/3.12/bin/pip3 /usr/bin/pip3 && \
-    ln -sf /opt/python/3.12/bin/pip3 /usr/bin/pip && \
-    ln -sf /opt/python/3.12/bin/pip3.12 /usr/bin/pip3.12
+# Link all binaries from /opt/python/3.12/bin to /usr/bin/
+RUN for file in /opt/python/3.12/bin/*; do \
+        ln -sf "$file" /usr/bin/$(basename "$file"); \
+    done
+
 
 ENV LANG=C.UTF-8 \
     ACCEPT_EULA=Y \ 

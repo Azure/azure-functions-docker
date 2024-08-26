@@ -16,7 +16,7 @@ ENV LANG=C.UTF-8 \
     DOTNET_USE_POLLING_FILE_WATCHER=true
 
 # Install Python dependencies
-# MS SQL related packages: unixodbc msodbcsql17 mssql-tools
+# MS SQL related packages: unixodbc msodbcsql18 mssql-tools
 # .NET Core dependencies: --no-install-recommends ca-certificates libc6 libgcc1 libgssapi-krb5-2 libicu67 libssl1.1 libstdc++6 zlib1g
 # OpenCV dependencies:libglib2.0-0 libsm6 libxext6 libxrender-dev xvfb
 # binutils: binutils
