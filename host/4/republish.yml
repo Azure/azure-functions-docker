@@ -2,7 +2,7 @@ trigger: none
 # rePublish pipelines are triggered via HTTP method on the republish pipeline. 
 # This pipeline only targets Major Version 4 images for republishing i.e. dotnet:4, python:4-python3.7-slim, etc.
 pool:
-    vmImage: 'Ubuntu-latest'
+    name: '1ES-Hosted-Azure-Functions'
 
 
 jobs:
