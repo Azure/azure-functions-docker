@@ -663,13 +663,13 @@ jobs:
         docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.8-appservice-quickstart
         docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8-buildenv $TARGET_REGISTRY/python:$(TargetVersion)-python3.8-buildenv
 
-        docker system prune -a -f
-
         docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.8
         docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.8-slim
         docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.8-appservice
         docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.8-appservice-quickstart
         docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.8-buildenv
+
+        docker system prune -a -f
 
         docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.9
         docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.9-slim
