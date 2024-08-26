@@ -96,8 +96,8 @@ jobs:
           IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
           echo "##vso[task.setvariable variable=image_list;]$IMAGE_ARRAY"
           docker build -t $IMAGE_NAME \
-                      -f host/$(HOST_MAJOR_VERSION)/$(dockerfilePath)/out/python/python$(pythonImageNameSuffix)-appservice.Dockerfile \
-                      host/$(HOST_MAJOR_VERSION)/$(dockerfilePath)/out/python/
+                      -f host/$(HOST_MAJOR_VERSION)/$(dockerfilePath)/python/python$(pythonImageNameSuffix)-appservice.Dockerfile \
+                      host/$(HOST_MAJOR_VERSION)/$(dockerfilePath)/python/
           npm run test $IMAGE_NAME --prefix test/
           docker push $IMAGE_NAME
         displayName: python-appservice
