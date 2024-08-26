@@ -1,15 +1,88 @@
 trigger: none
-# Publish pipelines are triggered via HTTP method in release pipeline. See [App Service] v4 stage release
 pool:
-    name: '1ES-Hosted-Azure-Functions'
+  name: '1ES-Hosted-Azure-Functions'
 
+parameters:
+  - name: stages
+    type: object
+    values: [0, 1, 2, 3, 4, 5, 6]
+
+  - name: CloudName
+    type: string
+    default: ''
+
+  - name: selectedImages
+    type: object
+    default: ['all']
+    values:
+      - all
+      - dotnet6
+      - dotnetIsolated6
+      - dotnetIsolated7
+      - dotnetIsolated8
+      - dotnetIsolated9
+      - java8
+      - java11
+      - java17
+      - java21
+      - node14
+      - node16
+      - node18
+      - node20
+      - node22
+      - powershell7.2
+      - powershell7.4
+      - python3.7
+      - python3.8
+      - python3.9
+      - python3.10
+      - python3.11
 
 steps:
   - bash: |
+      # Set the CLOUD_SUFFIX based on CloudName if provided
+      if [ -z "$(CloudName)" ]; then
+        CLOUD_SUFFIX=""
+      else
+        CLOUD_SUFFIX="-$(CloudName)"
+      fi
+
+      # Define the centralized function for image tasks
+      image_task() {
+        IMAGE_NAME=$1
+        TAG_SUFFIX=$2
+        TARGET_REGISTRY=$3
+        SOURCE_REGISTRY=$4
+        shift 4  # Shift the first 4 parameters
+        ADDITIONAL_TAGS=("$@")  # The remaining parameters are additional tags
+
+        # Pull the image
+        docker pull "$SOURCE_REGISTRY/$IMAGE_NAME"
+
+        # Tag the image with the primary tag
+        docker tag "$SOURCE_REGISTRY/$IMAGE_NAME" "$TARGET_REGISTRY/$IMAGE_NAME$TAG_SUFFIX"
+
+        # Push the primary tag
+        docker push "$TARGET_REGISTRY/$IMAGE_NAME$TAG_SUFFIX"
+
+        # Tag and push additional tags, if any
+        for TAG in "${ADDITIONAL_TAGS[@]}"; do
+          docker tag "$SOURCE_REGISTRY/$IMAGE_NAME" "$TARGET_REGISTRY/$TAG$TAG_SUFFIX"
+          docker push "$TARGET_REGISTRY/$TAG$TAG_SUFFIX"
+        done
+
+        # Prune unused Docker images and containers
+        docker system prune -a -f
+      }
+
+      # Export the function so it can be used in subsequent steps
+      export -f image_task
+    displayName: Set CloudName suffix and define image task function
+
+  - bash: |
       set -e
       echo $pswd | docker login -u $(dockerUsername) --password-stdin azurefunctions.azurecr.io
-    displayName: login
-    continueOnError: false
+    displayName: Login to Docker registry
     env:
       pswd: $(dockerPassword)
 
@@ -28,218 +101,133 @@ steps:
         exit 1
       fi
 
-      if [ -z "$(StageNumber)" ]; then
-        echo "ERROR: StageNumber is required"
-        exit 1
-      fi
-
       echo "##vso[task.setvariable variable=SOURCE_REGISTRY]$SOURCE_REGISTRY"
       echo "##vso[task.setvariable variable=TARGET_REGISTRY]$TARGET_REGISTRY"
-    displayName: set env
-    continueOnError: false
+    displayName: Set environment variables
 
-  - bash: |
-      set -e
-      docker pull $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-appservice
+  - ${{ each stage in parameters.stages }}:
+      - bash: |
+          TAG_SUFFIX="$CLOUD_SUFFIX-stage${{stage}}"
+          image_task "dotnet:$(PrivateVersion)-appservice" "$TAG_SUFFIX" "$TARGET_REGISTRY" "$SOURCE_REGISTRY" "dotnet:$(TargetVersion)-dotnet6-appservice"
+        displayName: Tag and push .NET 6 images for stage ${{stage}}
+        condition: or(contains(parameters.selectedImages, 'dotnet6'), contains(parameters.selectedImages, 'all'))
 
-      docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-appservice $TARGET_REGISTRY/dotnet:$(TargetVersion)-appservice-stage$(StageNumber)
-      docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-appservice $TARGET_REGISTRY/dotnet:$(TargetVersion)-dotnet6-appservice-stage$(StageNumber)
+      - bash: |
+          TAG_SUFFIX="$CLOUD_SUFFIX-stage${{stage}}"
+          image_task "dotnet-isolated:$(PrivateVersion)-dotnet-isolated6.0-appservice" "$TAG_SUFFIX" "$TARGET_REGISTRY" "$SOURCE_REGISTRY" "dotnet-isolated:$(TargetVersion)-appservice" "dotnet-isolated:$(TargetVersion)-dotnet-isolated6.0-appservice"
+        displayName: Tag and push .NET isolated 6.0 images for stage ${{stage}}
+        condition: or(contains(parameters.selectedImages, 'dotnetIsolated6'), contains(parameters.selectedImages, 'all'))
 
-      docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-appservice-stage$(StageNumber)
-      docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-dotnet6-appservice-stage$(StageNumber)
+      - bash: |
+          TAG_SUFFIX="$CLOUD_SUFFIX-stage${{stage}}"
+          image_task "dotnet-isolated:$(PrivateVersion)-dotnet-isolated7.0-appservice" "$TAG_SUFFIX" "$TARGET_REGISTRY" "$SOURCE_REGISTRY"
+        displayName: Tag and push .NET isolated 7.0 images for stage ${{stage}}
+        condition: or(contains(parameters.selectedImages, 'dotnetIsolated7'), contains(parameters.selectedImages, 'all'))
 
-      docker system prune -a -f
-    displayName: tag and push dotnet images
-    continueOnError: false
+      - bash: |
+          TAG_SUFFIX="$CLOUD_SUFFIX-stage${{stage}}"
+          image_task "dotnet-isolated:$(PrivateVersion)-dotnet-isolated8.0-appservice" "$TAG_SUFFIX" "$TARGET_REGISTRY" "$SOURCE_REGISTRY"
+        displayName: Tag and push .NET isolated 8.0 images for stage ${{stage}}
+        condition: or(contains(parameters.selectedImages, 'dotnetIsolated8'), contains(parameters.selectedImages, 'all'))
 
-  - bash: |
-      set -e
-      docker pull $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-dotnet8.0-appservice
+      - bash: |
+          TAG_SUFFIX="$CLOUD_SUFFIX-stage${{stage}}"
+          image_task "dotnet-isolated:$(PrivateVersion)-dotnet-isolated9.0-appservice" "$TAG_SUFFIX" "$TARGET_REGISTRY" "$SOURCE_REGISTRY"
+        displayName: Tag and push .NET isolated 9.0 images for stage ${{stage}}
+        condition: or(contains(parameters.selectedImages, 'dotnetIsolated9'), contains(parameters.selectedImages, 'all'))
 
-      docker tag $SOURCE_REGISTRY/dotnet:$(PrivateVersion)-dotnet8.0-appservice $TARGET_REGISTRY/dotnet:$(TargetVersion)-dotnet8.0-appservice-stage$(StageNumber)
+      - bash: |
+          TAG_SUFFIX="$CLOUD_SUFFIX-stage${{stage}}"
+          image_task "java:$(PrivateVersion)-java8-appservice" "$TAG_SUFFIX" "$TARGET_REGISTRY" "$SOURCE_REGISTRY" "java:$(TargetVersion)-appservice" "java:$(TargetVersion)-java8-appservice"
+        displayName: Tag and push Java 8 images for stage ${{stage}}
+        condition: or(contains(parameters.selectedImages, 'java8'), contains(parameters.selectedImages, 'all'))
 
-      docker push $TARGET_REGISTRY/dotnet:$(TargetVersion)-dotnet8.0-appservice-stage$(StageNumber)
+      - bash: |
+          TAG_SUFFIX="$CLOUD_SUFFIX-stage${{stage}}"
+          image_task "java:$(PrivateVersion)-java11-appservice" "$TAG_SUFFIX" "$TARGET_REGISTRY" "$SOURCE_REGISTRY"
+        displayName: Tag and push Java 11 images for stage ${{stage}}
+        condition: or(contains(parameters.selectedImages, 'java11'), contains(parameters.selectedImages, 'all'))
 
-      docker system prune -a -f
-    displayName: tag and push dotnet images
-    continueOnError: false
+      - bash: |
+          TAG_SUFFIX="$CLOUD_SUFFIX-stage${{stage}}"
+          image_task "java:$(PrivateVersion)-java17-appservice" "$TAG_SUFFIX" "$TARGET_REGISTRY" "$SOURCE_REGISTRY"
+        displayName: Tag and push Java 17 images for stage ${{stage}}
+        condition: or(contains(parameters.selectedImages, 'java17'), contains(parameters.selectedImages, 'all'))
 
-  - bash: |
-      set -e
-      docker pull $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated6.0-appservice
+      - bash: |
+          TAG_SUFFIX="$CLOUD_SUFFIX-stage${{stage}}"
+          image_task "java:$(PrivateVersion)-java21-appservice" "$TAG_SUFFIX" "$TARGET_REGISTRY" "$SOURCE_REGISTRY"
+        displayName: Tag and push Java 21 images for stage ${{stage}}
+        condition: or(contains(parameters.selectedImages, 'java21'), contains(parameters.selectedImages, 'all'))
 
-      docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated6.0-appservice $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-appservice-stage$(StageNumber)
-      docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated6.0-appservice $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated6.0-appservice-stage$(StageNumber)
+      - bash: |
+          TAG_SUFFIX="$CLOUD_SUFFIX-stage${{stage}}"
+          image_task "node:$(PrivateVersion)-node14-appservice" "$TAG_SUFFIX" "$TARGET_REGISTRY" "$SOURCE_REGISTRY" "node:$(TargetVersion)-appservice" "node:$(TargetVersion)-node14-appservice"
+        displayName: Tag and push Node.js 14 images for stage ${{stage}}
+        condition: or(contains(parameters.selectedImages, 'node14'), contains(parameters.selectedImages, 'all'))
 
-      docker push $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-appservice-stage$(StageNumber)
-      docker push $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated6.0-appservice-stage$(StageNumber)
+      - bash: |
+          TAG_SUFFIX="$CLOUD_SUFFIX-stage${{stage}}"
+          image_task "node:$(PrivateVersion)-node16-appservice" "$TAG_SUFFIX" "$TARGET_REGISTRY" "$SOURCE_REGISTRY"
+        displayName: Tag and push Node.js 16 images for stage ${{stage}}
+        condition: or(contains(parameters.selectedImages, 'node16'), contains(parameters.selectedImages, 'all'))
 
-      docker system prune -a -f
-    displayName: tag and push dotnet-isolated images
-    continueOnError: false
+      - bash: |
+          TAG_SUFFIX="$CLOUD_SUFFIX-stage${{stage}}"
+          image_task "node:$(PrivateVersion)-node18-appservice" "$TAG_SUFFIX" "$TARGET_REGISTRY" "$SOURCE_REGISTRY"
+        displayName: Tag and push Node.js 18 images for stage ${{stage}}
+        condition: or(contains(parameters.selectedImages, 'node18'), contains(parameters.selectedImages, 'all'))
 
-  - bash: |
-      set -e
-      docker pull $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated7.0-appservice
+      - bash: |
+          TAG_SUFFIX="$CLOUD_SUFFIX-stage${{stage}}"
+          image_task "node:$(PrivateVersion)-node20-appservice" "$TAG_SUFFIX" "$TARGET_REGISTRY" "$SOURCE_REGISTRY"
+        displayName: Tag and push Node.js 20 images for stage ${{stage}}
+        condition: or(contains(parameters.selectedImages, 'node20'), contains(parameters.selectedImages, 'all'))
 
-      docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated7.0-appservice $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated7.0-appservice-stage$(StageNumber)
+      - bash: |
+          TAG_SUFFIX="$CLOUD_SUFFIX-stage${{stage}}"
+          image_task "node:$(PrivateVersion)-node22-appservice" "$TAG_SUFFIX" "$TARGET_REGISTRY" "$SOURCE_REGISTRY"
+        displayName: Tag and push Node.js 22 images for stage ${{stage}}
+        condition: or(contains(parameters.selectedImages, 'node22'), contains(parameters.selectedImages, 'all'))
 
-      docker push $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated7.0-appservice-stage$(StageNumber)
+      - bash: |
+          TAG_SUFFIX="$CLOUD_SUFFIX-stage${{stage}}"
+          image_task "powershell:$(PrivateVersion)-powershell7.2-appservice" "$TAG_SUFFIX" "$TARGET_REGISTRY" "$SOURCE_REGISTRY"
+        displayName: Tag and push PowerShell 7.2 images for stage ${{stage}}
+        condition: or(contains(parameters.selectedImages, 'powershell7.2'), contains(parameters.selectedImages, 'all'))
 
-      docker system prune -a -f
-    displayName: tag and push dotnet-isolated7 images
-    continueOnError: false
+      - bash: |
+          TAG_SUFFIX="$CLOUD_SUFFIX-stage${{stage}}"
+          image_task "powershell:$(PrivateVersion)-powershell7.4-appservice" "$TAG_SUFFIX" "$TARGET_REGISTRY" "$SOURCE_REGISTRY"
+        displayName: Tag and push PowerShell 7.4 images for stage ${{stage}}
+        condition: or(contains(parameters.selectedImages, 'powershell7.4'), contains(parameters.selectedImages, 'all'))
 
-  - bash: |
-      set -e
-      docker pull $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated8.0-appservice
+      - bash: |
+          TAG_SUFFIX="$CLOUD_SUFFIX-stage${{stage}}"
+          image_task "python:$(PrivateVersion)-python3.7-appservice" "$TAG_SUFFIX" "$TARGET_REGISTRY" "$SOURCE_REGISTRY" "python:$(TargetVersion)-appservice" "python:$(TargetVersion)-python3.7-appservice"
+        displayName: Tag and push Python 3.7 images for stage ${{stage}}
+        condition: or(contains(parameters.selectedImages, 'python3.7'), contains(parameters.selectedImages, 'all'))
 
-      docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated8.0-appservice $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated8.0-appservice-stage$(StageNumber)
+      - bash: |
+          TAG_SUFFIX="$CLOUD_SUFFIX-stage${{stage}}"
+          image_task "python:$(PrivateVersion)-python3.8-appservice" "$TAG_SUFFIX" "$TARGET_REGISTRY" "$SOURCE_REGISTRY"
+        displayName: Tag and push Python 3.8 images for stage ${{stage}}
+        condition: or(contains(parameters.selectedImages, 'python3.8'), contains(parameters.selectedImages, 'all'))
 
-      docker push $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated8.0-appservice-stage$(StageNumber)
+      - bash: |
+          TAG_SUFFIX="$CLOUD_SUFFIX-stage${{stage}}"
+          image_task "python:$(PrivateVersion)-python3.9-appservice" "$TAG_SUFFIX" "$TARGET_REGISTRY" "$SOURCE_REGISTRY"
+        displayName: Tag and push Python 3.9 images for stage ${{stage}}
+        condition: or(contains(parameters.selectedImages, 'python3.9'), contains(parameters.selectedImages, 'all'))
 
-      docker system prune -a -f
-    displayName: tag and push dotnet-isolated8 images
-    continueOnError: false
+      - bash: |
+          TAG_SUFFIX="$CLOUD_SUFFIX-stage${{stage}}"
+          image_task "python:$(PrivateVersion)-python3.10-appservice" "$TAG_SUFFIX" "$TARGET_REGISTRY" "$SOURCE_REGISTRY"
+        displayName: Tag and push Python 3.10 images for stage ${{stage}}
+        condition: or(contains(parameters.selectedImages, 'python3.10'), contains(parameters.selectedImages, 'all'))
 
-  - bash: |
-      set -e
-      docker pull $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated9.0-appservice
-
-      docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated9.0-appservice $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated9.0-appservice-stage$(StageNumber)
-
-      docker push $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated9.0-appservice-stage$(StageNumber)
-
-      docker system prune -a -f
-    displayName: tag and push dotnet-isolated8 images
-    continueOnError: false
-
-  - bash: |
-      set -e
-      docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-appservice
-      docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java11-appservice
-      docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java17-appservice
-      docker pull $SOURCE_REGISTRY/java:$(PrivateVersion)-java21-appservice
-
-      docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-appservice $TARGET_REGISTRY/java:$(TargetVersion)-appservice-stage$(StageNumber)
-      docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java8-appservice $TARGET_REGISTRY/java:$(TargetVersion)-java8-appservice-stage$(StageNumber)
-      docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java11-appservice $TARGET_REGISTRY/java:$(TargetVersion)-java11-appservice-stage$(StageNumber)
-      docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java17-appservice $TARGET_REGISTRY/java:$(TargetVersion)-java17-appservice-stage$(StageNumber)
-      docker tag $SOURCE_REGISTRY/java:$(PrivateVersion)-java21-appservice $TARGET_REGISTRY/java:$(TargetVersion)-java21-appservice-stage$(StageNumber)
-
-      docker push $TARGET_REGISTRY/java:$(TargetVersion)-appservice-stage$(StageNumber)
-      docker push $TARGET_REGISTRY/java:$(TargetVersion)-java8-appservice-stage$(StageNumber)
-      docker push $TARGET_REGISTRY/java:$(TargetVersion)-java11-appservice-stage$(StageNumber)
-      docker push $TARGET_REGISTRY/java:$(TargetVersion)-java17-appservice-stage$(StageNumber)
-      docker push $TARGET_REGISTRY/java:$(TargetVersion)-java21-appservice-stage$(StageNumber)
-
-      docker system prune -a -f
-    displayName: tag and push java images
-    continueOnError: false
-
-  - bash: |
-      set -e
-      docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node14-appservice
-
-      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node14-appservice $TARGET_REGISTRY/node:$(TargetVersion)-appservice-stage$(StageNumber)
-      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node14-appservice $TARGET_REGISTRY/node:$(TargetVersion)-node14-appservice-stage$(StageNumber)
-
-      docker push $TARGET_REGISTRY/node:$(TargetVersion)-appservice-stage$(StageNumber)
-      docker push $TARGET_REGISTRY/node:$(TargetVersion)-node14-appservice-stage$(StageNumber)
-
-      docker system prune -a -f
-    displayName: tag and push node images
-    continueOnError: false
-
-  - bash: |
-      set -e
-      docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node16-appservice
-
-      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node16-appservice $TARGET_REGISTRY/node:$(TargetVersion)-appservice-stage$(StageNumber)
-      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node16-appservice $TARGET_REGISTRY/node:$(TargetVersion)-node16-appservice-stage$(StageNumber)
-
-      docker push $TARGET_REGISTRY/node:$(TargetVersion)-appservice-stage$(StageNumber)
-      docker push $TARGET_REGISTRY/node:$(TargetVersion)-node16-appservice-stage$(StageNumber)
-
-      docker system prune -a -f
-    displayName: tag and push node images
-    continueOnError: false
-
-  - bash: |
-      set -e
-      docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node18-appservice
-
-      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node18-appservice $TARGET_REGISTRY/node:$(TargetVersion)-appservice-stage$(StageNumber)
-      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node18-appservice $TARGET_REGISTRY/node:$(TargetVersion)-node18-appservice-stage$(StageNumber)
-
-      docker push $TARGET_REGISTRY/node:$(TargetVersion)-appservice-stage$(StageNumber)
-      docker push $TARGET_REGISTRY/node:$(TargetVersion)-node18-appservice-stage$(StageNumber)
-
-      docker system prune -a -f
-    displayName: tag and push node images
-    continueOnError: false
-  
-  - bash: |
-      set -e
-      docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node20-appservice
-
-      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node20-appservice $TARGET_REGISTRY/node:$(TargetVersion)-node20-appservice-stage$(StageNumber)
-
-      docker push $TARGET_REGISTRY/node:$(TargetVersion)-node20-appservice-stage$(StageNumber)
-
-      docker system prune -a -f
-    displayName: tag and push node images
-    continueOnError: false
-
-  - bash: |
-      set -e
-      docker pull $SOURCE_REGISTRY/node:$(PrivateVersion)-node22-appservice
-
-      docker tag $SOURCE_REGISTRY/node:$(PrivateVersion)-node22-appservice $TARGET_REGISTRY/node:$(TargetVersion)-node22-appservice-stage$(StageNumber)
-
-      docker push $TARGET_REGISTRY/node:$(TargetVersion)-node22-appservice-stage$(StageNumber)
-
-      docker system prune -a -f
-    displayName: tag and push node images
-    continueOnError: false
-
-
-  - bash: |
-      set -e
-      docker pull $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7.2-appservice
-      docker pull $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7.4-appservice
-
-      docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7.2-appservice $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell7.2-appservice-stage$(StageNumber)
-      docker tag $SOURCE_REGISTRY/powershell:$(PrivateVersion)-powershell7.4-appservice $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell7.4-appservice-stage$(StageNumber)
-
-      docker push $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell7.2-appservice-stage$(StageNumber)
-      docker push $TARGET_REGISTRY/powershell:$(TargetVersion)-powershell7.4-appservice-stage$(StageNumber)
-      docker system prune -a -f
-    displayName: tag and push powershell images
-    continueOnError: false
-
-  - bash: |
-      set -e
-      docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7-appservice
-      docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8-appservice
-      docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.9-appservice
-      docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.10-appservice
-      docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.11-appservice
-
-      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.7-appservice-stage$(StageNumber)
-      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.8-appservice-stage$(StageNumber)
-      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.9-appservice $TARGET_REGISTRY/python:$(TargetVersion)-appservice-stage$(StageNumber)
-      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.9-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.9-appservice-stage$(StageNumber)
-      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.10-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.10-appservice-stage$(StageNumber)
-      docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.11-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.11-appservice-stage$(StageNumber)
-
-      docker push $TARGET_REGISTRY/python:$(TargetVersion)-appservice-stage$(StageNumber)
-      docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.7-appservice-stage$(StageNumber)
-      docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.8-appservice-stage$(StageNumber)
-      docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.9-appservice-stage$(StageNumber)
-      docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.10-appservice-stage$(StageNumber)
-      docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.11-appservice-stage$(StageNumber)
-
-      docker system prune -a -f
-    displayName: tag and push python images
-    continueOnError: false
+      - bash: |
+          TAG_SUFFIX="$CLOUD_SUFFIX-stage${{stage}}"
+          image_task "python:$(PrivateVersion)-python3.11-appservice" "$TAG_SUFFIX" "$TARGET_REGISTRY" "$SOURCE_REGISTRY"
+        displayName: Tag and push Python 3.11 images for stage ${{stage}}
+        condition: or(contains(parameters.selectedImages, 'python3.11'), contains(parameters.selectedImages, 'all'))
