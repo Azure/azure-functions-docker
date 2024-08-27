@@ -95,6 +95,7 @@ jobs:
           npm run test $IMAGE_NAME --prefix test/
           docker push $IMAGE_NAME
         displayName: python-slim
+        condition: ne(variables['pythonVersion'], '3.12')
         continueOnError: false
       - bash: |
           set -e
