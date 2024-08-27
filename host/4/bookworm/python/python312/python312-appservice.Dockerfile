@@ -47,8 +47,11 @@ RUN apt-get update && \
     COPY --from=runtime-image ["/azure-functions-host", "/azure-functions-host"]
     COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
     COPY install_ca_certificates.sh /opt/startup/
-    RUN chmod +x /opt/startup/install_ca_certificates.sh
-        
+    COPY sshd_config /etc/ssh/
+    COPY start.sh /azure-functions-host/
+    RUN chmod +x /opt/startup/install_ca_certificates.sh && \
+        chmod +x /azure-functions-host/start.sh
+
     # Install Python dependencies
     RUN apt-get update && \
         apt-get install -y wget apt-transport-https curl gnupg2 locales && \
