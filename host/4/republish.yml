@@ -613,6 +613,8 @@ jobs:
         docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.11-buildenv
         docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.11-appservice
 
+        docker system prune -a -f
+
         docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.12
         docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.12-slim
         docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.12-buildenv
