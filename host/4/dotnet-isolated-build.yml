@@ -69,7 +69,7 @@ jobs:
         _isolated-net-8:
           dotnetVersion: "dotnet8-isolated"
           dockerfilePath: "host/4/bookworm/dotnet-isolated/dotnet8-isolated/"
-          dockerImagePath: "dotnet8-isolated"
+          dockerImagePath: "dotnet-isolated"
           dockerImageName: "-dotnet-isolated8.0"
         _isolated-net-8-slim:
           dotnetVersion: "dotnet8-isolated-slim"

@@ -44,7 +44,7 @@ jobs:
         _inproc-slim:
           dotnetVersion: "dotnet-slim"
           dockerfilePath: "host/4/bullseye/dotnet-inproc/"
-          dockerImagePath: "dotnet-slim"
+          dockerImagePath: "dotnet"
           dockerImageName: "-slim"
         _bookworm-net-6:
           dotnetVersion: "dotnet6"
