@@ -235,6 +235,8 @@ steps:
           docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.9-appservice
           docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.10-appservice
           docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.11-appservice
+          docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.12-appservice
+
           
           docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.7-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.7-appservice-$(CloudName)-stage${{stage}}
           docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.8-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.8-appservice-$(CloudName)-stage${{stage}}
@@ -242,6 +244,8 @@ steps:
           docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.9-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.9-appservice-$(CloudName)-stage${{stage}}
           docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.10-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.10-appservice-$(CloudName)-stage${{stage}}
           docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.11-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.11-appservice-$(CloudName)-stage${{stage}}
+          docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.12-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.12-appservice-$(CloudName)-stage${{stage}}
+
           
           docker push $TARGET_REGISTRY/python:$(TargetVersion)-appservice-$(CloudName)-stage${{stage}}
           docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.7-appservice-$(CloudName)-stage${{stage}}
@@ -249,6 +253,7 @@ steps:
           docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.9-appservice-$(CloudName)-stage${{stage}}
           docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.10-appservice-$(CloudName)-stage${{stage}}
           docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.11-appservice-$(CloudName)-stage${{stage}}
+          docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.12-appservice-$(CloudName)-stage${{stage}}
           
           docker system prune -a -f
         displayName: tag and push python images for stage ${{stage}}
