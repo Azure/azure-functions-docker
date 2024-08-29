@@ -39,27 +39,22 @@ jobs:
         _inproc-appservice:
           dotnetVersion: "dotnet-appservice"
           dockerfilePath: "host/4/bullseye/dotnet-inproc/"
-          dockerImagePath: "dotnet"
           dockerImageName: "-appservice"
         _inproc-slim:
           dotnetVersion: "dotnet-slim"
           dockerfilePath: "host/4/bullseye/dotnet-inproc/"
-          dockerImagePath: "dotnet-slim"
           dockerImageName: "-slim"
         _bookworm-net-6:
           dotnetVersion: "dotnet6"
           dockerfilePath: "host/4/bookworm/dotnet/"
-          dockerImagePath: "dotnet"
           dockerImageName: "-dotnet6-bookworm"
         _bookworm-net-8:
           dotnetVersion: "dotnet8"
           dockerfilePath: "host/4/bookworm/dotnet/"
-          dockerImagePath: "dotnet"
           dockerImageName: "-dotnet8.0"
         _appservice-net-8:
           dotnetVersion: "dotnet8-appservice"
           dockerfilePath: "host/4/bookworm/dotnet/"
-          dockerImagePath: "dotnet"
           dockerImageName: "-dotnet8.0-appservice" 
     steps:
       - bash: |
@@ -74,7 +69,7 @@ jobs:
 
       - bash: |
           set -e
-          IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/$(dockerImagePath):$(Build.SourceBranchName)$(dockerImageName)
+          IMAGE_NAME=azurefunctions.azurecr.io/azure-functions/4/dotnet:$(Build.SourceBranchName)$(dockerImageName)
           IMAGE_ARRAY="$(image_list),$IMAGE_NAME"
           echo "##vso[task.setvariable variable=image_list;]$IMAGE_NAME"
 
