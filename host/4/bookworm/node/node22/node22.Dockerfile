@@ -1,5 +1,5 @@
 # Build the runtime from source
-ARG HOST_VERSION=4.1036.0
+ARG HOST_VERSION=4.1036.2
 FROM mcr.microsoft.com/dotnet/sdk:8.0-bookworm-slim-amd64 AS runtime-image
 ARG HOST_VERSION
 
@@ -10,7 +10,6 @@ RUN BUILD_NUMBER=$(echo ${HOST_VERSION} | cut -d'.' -f 3) && \
     cd /src/azure-functions-host && \
     HOST_COMMIT=$(git rev-list -1 HEAD) && \
     dotnet publish -v q /p:BuildNumber=$BUILD_NUMBER /p:CommitHash=$HOST_COMMIT src/WebJobs.Script.WebHost/WebJobs.Script.WebHost.csproj -c Release --output /azure-functions-host --runtime linux-x64 && \
-    
     mv /azure-functions-host/workers /workers && mkdir /azure-functions-host/workers && \
     rm -rf /root/.local /root/.nuget /src
 

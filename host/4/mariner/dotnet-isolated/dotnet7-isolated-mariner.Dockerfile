@@ -1,5 +1,5 @@
 # Build the runtime from source
-ARG HOST_VERSION=4.1036.0
+ARG HOST_VERSION=4.1036.2
 FROM mcr.microsoft.com/dotnet/sdk:8.0-cbl-mariner2.0 AS dn8-sdk-image
 FROM mcr.microsoft.com/dotnet/sdk:6.0-cbl-mariner2.0 AS runtime-image
 ARG HOST_VERSION

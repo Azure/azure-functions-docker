@@ -1,5 +1,5 @@
 # Build the runtime from source
-ARG HOST_VERSION=4.1036.0
+ARG HOST_VERSION=4.1036.2
 FROM mcr.microsoft.com/dotnet/sdk:8.0-bookworm-slim-amd64 AS runtime-image
 ARG HOST_VERSION
 
@@ -13,7 +13,7 @@ RUN BUILD_NUMBER=$(echo ${HOST_VERSION} | cut -d'.' -f 3) && \
     mv /azure-functions-host/workers /workers && mkdir /azure-functions-host/workers && \
     rm -rf /root/.local /root/.nuget /src
 
-FROM mcr.microsoft.com/dotnet/aspnet:9.0-preview-bookworm-slim-amd64
+FROM mcr.microsoft.com/dotnet/aspnet:9.0-bookworm-slim-amd64
 ARG HOST_VERSION
 
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
