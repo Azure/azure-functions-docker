@@ -186,14 +186,14 @@ jobs:
         docker pull $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated9.0
         docker pull $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated9.0-appservice
 
-        docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated8.0 $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated9.0
+        docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated9.0 $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated9.0
         docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated9.0-appservice $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated9.0-appservice
         
         docker push $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated9.0
         docker push $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated9.0-appservice
 
         docker system prune -a -f
-      displayName: tag and push dotnet8-isolated mariner images
+      displayName: tag and push dotnet9-isolated images
       continueOnError: false
 
     - bash: |
