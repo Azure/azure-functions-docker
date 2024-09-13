@@ -616,17 +616,14 @@ jobs:
         docker system prune -a -f
 
         docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.12
-        docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.12-slim
         docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.12-buildenv
         docker pull $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.12-appservice
 
         docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.12 $TARGET_REGISTRY/python:$(TargetVersion)-python3.12
-        docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.12-slim $TARGET_REGISTRY/python:$(TargetVersion)-python3.12-slim
         docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.12-buildenv $TARGET_REGISTRY/python:$(TargetVersion)-python3.12-buildenv
         docker tag $SOURCE_REGISTRY/python:$(PrivateVersion)-python3.12-appservice $TARGET_REGISTRY/python:$(TargetVersion)-python3.12-appservice
 
         docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.12
-        docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.12-slim
         docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.12-buildenv
         docker push $TARGET_REGISTRY/python:$(TargetVersion)-python3.12-appservice
 
