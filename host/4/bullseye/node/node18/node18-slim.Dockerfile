@@ -63,7 +63,7 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
 RUN apt-get update && \
     apt-get install -y libc-dev
 
-COPY --from=runtime-image [ "/usr/share/dotnet", "/usr/share/dotnet" ]
+COPY --from=runtime-image [ "/usr/share/dotnet/shared", "/usr/share/dotnet/shared" ]
 COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
 COPY --from=runtime-image [ "/workers/node", "/azure-functions-host/workers/node" ]
 COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
