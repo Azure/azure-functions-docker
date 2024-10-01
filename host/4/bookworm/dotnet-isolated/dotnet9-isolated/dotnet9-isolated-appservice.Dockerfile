@@ -30,6 +30,18 @@ COPY sshd_config /etc/ssh/
 COPY start.sh /azure-functions-host/
 COPY install_ca_certificates.sh /opt/startup/
 
+# Dotnet 8 Containers start with a default app. We only need to update default shell
+RUN usermod -s /bin/bash app && \
+    mkdir -p /home/site/wwwroot && \
+    mkdir -p /local/sitepackages && \
+    mkdir -p /run/sshd && \
+    mkdir -p /tmp/metrics && \
+    chown -R app:app /etc/ssh/ && \
+    chown -R app:app /home && \
+    chown -R app:app /local && \
+    chown -R app:app /tmp/metrics && \
+    chmod +x /azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost
+
 EXPOSE 2222 80
 
 RUN apt-get update && \
@@ -38,4 +50,5 @@ RUN apt-get update && \
     chmod +x /azure-functions-host/start.sh && \
     chmod +x /opt/startup/install_ca_certificates.sh
 
+USER app
 ENTRYPOINT ["/azure-functions-host/start.sh"]

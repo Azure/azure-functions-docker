@@ -7,7 +7,11 @@ COPY start.sh /azure-functions-host/
 COPY install_ca_certificates.sh /opt/startup/
 COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
 COPY --from=runtime-image [ "/workers/node", "/azure-functions-host/workers/node" ]
-COPY --from=runtime-image [ "/usr/share/dotnet", "/usr/share/dotnet" ]
+RUN wget https://packages.microsoft.com/config/debian/11/packages-microsoft-prod.deb -O packages-microsoft-prod.deb && \
+    dpkg -i packages-microsoft-prod.deb && \
+    rm packages-microsoft-prod.deb && \
+    apt-get update && \
+    apt-get install -y dotnet-runtime-8.0
 
 # Chrome Headless Dependencies (01/2023)
 # https://github.com/puppeteer/puppeteer/blob/main/docs/troubleshooting.md#chrome-headless-doesnt-launch-on-unix

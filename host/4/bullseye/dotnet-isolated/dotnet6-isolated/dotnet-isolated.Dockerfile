@@ -43,7 +43,11 @@ RUN apt-get update && \
     apt-get install -y libc-dev
 
 COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
-COPY --from=runtime-image [ "/usr/share/dotnet", "/usr/share/dotnet" ]
+RUN wget https://packages.microsoft.com/config/debian/11/packages-microsoft-prod.deb -O packages-microsoft-prod.deb && \
+    dpkg -i packages-microsoft-prod.deb && \
+    rm packages-microsoft-prod.deb && \
+    apt-get update && \
+    apt-get install -y dotnet-runtime-8.0
 COPY install_ca_certificates.sh start_nonappservice.sh /opt/startup/
 RUN chmod +x /opt/startup/install_ca_certificates.sh && \
     chmod +x /opt/startup/start_nonappservice.sh

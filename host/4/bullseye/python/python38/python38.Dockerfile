@@ -106,7 +106,11 @@ RUN apt-get update && \
 #    libxcomposite1 libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 \
 #    libxtst6 ca-certificates fonts-liberation libappindicator1 libnss3 lsb-release xdg-utils wget
 
-COPY --from=runtime-image [ "/usr/share/dotnet", "/usr/share/dotnet" ]
+RUN wget https://packages.microsoft.com/config/debian/11/packages-microsoft-prod.deb -O packages-microsoft-prod.deb && \
+    dpkg -i packages-microsoft-prod.deb && \
+    rm packages-microsoft-prod.deb && \
+    apt-get update && \
+    apt-get install -y dotnet-runtime-8.0
 COPY --from=runtime-image ["/azure-functions-host", "/azure-functions-host"]
 COPY --from=runtime-image [ "/workers/python/3.8/LINUX", "/azure-functions-host/workers/python/3.8/LINUX" ]
 COPY --from=runtime-image [ "/workers/python/worker.config.json", "/azure-functions-host/workers/python" ]

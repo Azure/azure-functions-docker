@@ -72,7 +72,11 @@ RUN apt-get update && \
 RUN apt-get update && \
     apt-get install -y libfreetype6 fontconfig fonts-dejavu
 
-COPY --from=runtime-image [ "/usr/share/dotnet", "/usr/share/dotnet" ]
+RUN wget https://packages.microsoft.com/config/debian/11/packages-microsoft-prod.deb -O packages-microsoft-prod.deb && \
+    dpkg -i packages-microsoft-prod.deb && \
+    rm packages-microsoft-prod.deb && \
+    apt-get update && \
+    apt-get install -y dotnet-runtime-8.0
 COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
 COPY --from=runtime-image [ "/workers/java", "/azure-functions-host/workers/java" ]
 COPY --from=runtime-image [ "${JAVA_HOME}", "${JAVA_HOME}" ]
