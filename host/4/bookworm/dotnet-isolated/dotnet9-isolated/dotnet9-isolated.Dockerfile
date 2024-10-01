@@ -33,7 +33,8 @@ RUN apt-get update && \
     apt-get install -y libc-dev
 
 COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
-RUN wget https://packages.microsoft.com/config/debian/11/packages-microsoft-prod.deb -O packages-microsoft-prod.deb && \
+RUN apt-get install -y wget && \
+    wget https://packages.microsoft.com/config/debian/11/packages-microsoft-prod.deb -O packages-microsoft-prod.deb && \
     dpkg -i packages-microsoft-prod.deb && \
     rm packages-microsoft-prod.deb && \
     apt-get update && \
