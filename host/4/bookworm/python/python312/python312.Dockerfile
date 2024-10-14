@@ -76,8 +76,7 @@ RUN for file in /opt/python/3.12/bin/*; do \
 RUN ln -s /opt/python/3.12/lib/libpython3.12.so.1.0 /usr/lib/libpython3.12.so.1.0
 
 # Install opentelemetry packages
-RUN pip install azure-monitor-opentelemetry-exporter
-RUN pip install azure-monitor-opentelemetry
+RUN pip install azure-monitor-opentelemetry-exporter azure-monitor-opentelemetry
 
 ENV LANG=C.UTF-8 \
     ACCEPT_EULA=Y \ 
