@@ -73,6 +73,10 @@ COPY --from=python [ "/opt", "/opt" ]
 RUN for file in /opt/python/3.12/bin/*; do \
         ln -sf "$file" /usr/bin/$(basename "$file"); \
     done
+RUN ln -s /opt/python/3.12/lib/libpython3.12.so.1.0 /usr/lib/libpython3.12.so.1.0
+
+# Install opentelemetry packages
+RUN pip install azure-monitor-opentelemetry-exporter azure-monitor-opentelemetry
 
 ENV LANG=C.UTF-8 \
     ACCEPT_EULA=Y \ 
@@ -84,7 +88,6 @@ ENV LANG=C.UTF-8 \
     DOTNET_USE_POLLING_FILE_WATCHER=true \
     HOST_VERSION=${HOST_VERSION} \
     ASPNETCORE_CONTENTROOT=/azure-functions-host \
-    LD_LIBRARY_PATH=/opt/python/3.12/lib:$LD_LIBRARY_PATH \
     FUNCTIONS_WORKER_RUNTIME_VERSION=3.12 
 
 CMD [ "/opt/startup/start_nonappservice.sh" ]
