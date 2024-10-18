@@ -57,7 +57,7 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
 RUN apt-get update && \
     apt-get install -y libc-dev
 
-COPY --from=runtime-image [ "/usr/share/dotnet", "/usr/share/dotnet" ]
+
 COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
 COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
 COPY sshd_config /etc/ssh/

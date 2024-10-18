@@ -13,7 +13,7 @@ pr:
       - host/4/bullseye/dotnet-isolated/*
       - host/4/bookworm/dotnet-isolated/*
       - host/4/mariner/dotnet-isolated/*
-      - host/4/dotnet-solated-build.yml
+      - host/4/dotnet-isolated-build.yml
 
 trigger:
   branches:
