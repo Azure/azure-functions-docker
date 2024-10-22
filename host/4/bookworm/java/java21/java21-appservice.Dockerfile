@@ -36,6 +36,7 @@ COPY --from=runtime-image [ "/workers/java", "/azure-functions-host/workers/java
 COPY sshd_config /etc/ssh/
 COPY start.sh /azure-functions-host/
 COPY install_ca_certificates.sh /opt/startup/
+COPY FunctionHostingEnvironmentConfig.json /local/FunctionHostingEnvironmentConfig.json
 
 EXPOSE 2222 80
 
@@ -46,6 +47,7 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     HOST_VERSION=${HOST_VERSION} \
     ASPNETCORE_CONTENTROOT=/azure-functions-host \
     JAVA_HOME=${JAVA_HOME} \
+    FUNCTIONS_HOSTING_ENVIRONMENT_CONFIG_FILE_PATH=/local/FunctionHostingEnvironmentConfig.json \
     ASPNETCORE_URLS=http://+:80
 
 # Fix from https://github.com/GoogleCloudPlatform/google-cloud-dotnet-powerpack/issues/22#issuecomment-729895157

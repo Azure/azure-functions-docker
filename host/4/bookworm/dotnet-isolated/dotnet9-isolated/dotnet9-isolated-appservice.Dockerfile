@@ -23,12 +23,14 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     HOST_VERSION=${HOST_VERSION} \
     ASPNETCORE_CONTENTROOT=/azure-functions-host \
     AzureWebJobsFeatureFlags=EnableWorkerIndexing \
+    FUNCTIONS_HOSTING_ENVIRONMENT_CONFIG_FILE_PATH=/local/FunctionHostingEnvironmentConfig.json \
     ASPNETCORE_URLS=http://+:80
 
 COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
 COPY sshd_config /etc/ssh/
 COPY start.sh /azure-functions-host/
 COPY install_ca_certificates.sh /opt/startup/
+COPY FunctionHostingEnvironmentConfig.json /local/FunctionHostingEnvironmentConfig.json
 
 EXPOSE 2222 80
 

@@ -27,6 +27,7 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0-bookworm-slim-amd64
 ARG HOST_VERSION
 
 COPY install_ca_certificates.sh start_nonappservice.sh /opt/startup/
+COPY FunctionHostingEnvironmentConfig.json /local/FunctionHostingEnvironmentConfig.json
 RUN chmod +x /opt/startup/install_ca_certificates.sh && \
     chmod +x /opt/startup/start_nonappservice.sh
 
@@ -36,6 +37,7 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     DOTNET_USE_POLLING_FILE_WATCHER=true \
     HOST_VERSION=${HOST_VERSION} \
     ASPNETCORE_CONTENTROOT=/azure-functions-host \
+    FUNCTIONS_HOSTING_ENVIRONMENT_CONFIG_FILE_PATH=/local/FunctionHostingEnvironmentConfig.json \
     ASPNETCORE_URLS=http://+:80
 
 COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]

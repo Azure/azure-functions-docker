@@ -35,6 +35,7 @@ ARG HOST_VERSION
 COPY --from=runtime-image ["/azure-functions-host", "/azure-functions-host"]
 COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
 COPY install_ca_certificates.sh start_nonappservice.sh /opt/startup/
+COPY FunctionHostingEnvironmentConfig.json /local/FunctionHostingEnvironmentConfig.json
 RUN chmod +x /opt/startup/install_ca_certificates.sh && \
     chmod +x /opt/startup/start_nonappservice.sh
 
@@ -85,6 +86,7 @@ ENV LANG=C.UTF-8 \
     HOST_VERSION=${HOST_VERSION} \
     ASPNETCORE_CONTENTROOT=/azure-functions-host \
     LD_LIBRARY_PATH=/opt/python/3.12/lib:$LD_LIBRARY_PATH \
+    FUNCTIONS_HOSTING_ENVIRONMENT_CONFIG_FILE_PATH=/local/FunctionHostingEnvironmentConfig.json \
     FUNCTIONS_WORKER_RUNTIME_VERSION=3.12 
 
 CMD [ "/opt/startup/start_nonappservice.sh" ]
