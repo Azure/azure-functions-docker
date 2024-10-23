@@ -34,6 +34,7 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     DOTNET_USE_POLLING_FILE_WATCHER=true \
     HOST_VERSION=${HOST_VERSION} \
     ASPNETCORE_CONTENTROOT=/azure-functions-host \
+    FUNCTIONS_HOSTING_ENVIRONMENT_CONFIG_FILE_PATH=/local/FunctionHostingEnvironmentConfig.json \
     ASPNETCORE_URLS=http://+:80
 
 
@@ -43,6 +44,7 @@ COPY --from=runtime-image [ "/workers/node", "/azure-functions-host/workers/node
 COPY sshd_config /etc/ssh/
 COPY start.sh /azure-functions-host/
 COPY install_ca_certificates.sh /opt/startup/
+COPY FunctionHostingEnvironmentConfig.json /local/FunctionHostingEnvironmentConfig.json
 
 RUN apt-get update && \
     apt-get install -y curl gnupg && \

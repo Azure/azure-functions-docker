@@ -23,6 +23,7 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     HOST_VERSION=${HOST_VERSION} \
     ASPNETCORE_CONTENTROOT=/azure-functions-host \
     AzureWebJobsFeatureFlags=EnableWorkerIndexing \
+    FUNCTIONS_HOSTING_ENVIRONMENT_CONFIG_FILE_PATH=/local/FunctionHostingEnvironmentConfig.json \
     ASPNETCORE_URLS=http://+:80
 
 # Default EXPOSE port inherited from Dotnet Base image has changed to 8080. Host still hosts on 80
@@ -35,6 +36,7 @@ RUN apt-get update && \
 COPY --from=runtime-image [ "/azure-functions-host", "/azure-functions-host" ]
 
 COPY install_ca_certificates.sh start_nonappservice.sh /opt/startup/
+COPY FunctionHostingEnvironmentConfig.json /local/FunctionHostingEnvironmentConfig.json
 RUN chmod +x /opt/startup/install_ca_certificates.sh && \
     chmod +x /opt/startup/start_nonappservice.sh
 
