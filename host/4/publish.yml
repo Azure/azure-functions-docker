@@ -217,12 +217,15 @@ jobs:
         set -e
         docker pull $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated9.0
         docker pull $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated9.0-appservice
+        docker pull $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated9.0-azurelinux3.0
 
         docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated9.0 $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated9.0
         docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated9.0-appservice $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated9.0-appservice
+        docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated9.0-azurelinux3.0 $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated9.0-azurelinux3.0
         
         docker push $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated9.0
         docker push $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated9.0-appservice
+        docker push $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated9.0-azurelinux3.0
 
         docker system prune -a -f
       displayName: tag and push dotnet9-isolated images
