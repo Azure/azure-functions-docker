@@ -83,10 +83,10 @@ jobs:
           dotnetVersion: "dotnet9-isolated"
           dockerfilePath: "host/4/bookworm/dotnet-isolated/dotnet9-isolated/"
           dockerImageName: "-dotnet-isolated9.0"
-        _isolated-net-9-mariner:
-          dotnetVersion: "dotnet9-isolated-mariner"
+        _isolated-net-9-azurelinux:
+          dotnetVersion: "dotnet9-isolated-azurelinux"
           dockerfilePath: "host/4/mariner/dotnet-isolated/"
-          dockerImageName: "-dotnet-isolated9.0-azurelinux3.0"
+          dockerImageName: "-dotnet-isolated9.0-azurelinux"
   
     steps:
       - bash: |

@@ -1,9 +1,7 @@
 # Build the runtime from source
 ARG HOST_VERSION=4.1037.0
-FROM mcr.microsoft.com/dotnet/sdk:8.0-cbl-mariner2.0 AS dn8-sdk-image
-FROM mcr.microsoft.com/dotnet/sdk:6.0-cbl-mariner2.0 AS sdk-image 
+FROM mcr.microsoft.com/dotnet/sdk:8.0-azurelinux3.0 AS sdk-image
 ARG HOST_VERSION
-COPY --from=dn8-sdk-image [ "/usr/share/dotnet", "/usr/share/dotnet" ]
 ENV PublishWithAspNetCoreTargetManifest=false
 
 RUN BUILD_NUMBER=$(echo ${HOST_VERSION} | cut -d'.' -f 3) && \
@@ -30,8 +28,6 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     AzureWebJobsFeatureFlags=EnableWorkerIndexing \
     ASPNETCORE_URLS=http://+:80
 
-# Fix from https://github.com/GoogleCloudPlatform/google-cloud-dotnet-powerpack/issues/22#issuecomment-729895157
-# RUN dnf install -y glibc-devel
 RUN curl -O https://packages.microsoft.com/azurelinux/3.0/prod/base/x86_64/Packages/g/glibc-devel-2.38-8.azl3.x86_64.rpm
 RUN tdnf install -y glibc-devel-2.38-8.azl3.x86_64.rpm
 

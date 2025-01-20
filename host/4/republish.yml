@@ -185,15 +185,12 @@ jobs:
         set -e
         docker pull $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated9.0
         docker pull $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated9.0-appservice
-        docker pull $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated9.0-azurelinux3.0
 
         docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated9.0 $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated9.0
         docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated9.0-appservice $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated9.0-appservice
-        docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated9.0-azurelinux3.0 $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated9.0-azurelinux3.0
         
         docker push $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated9.0
         docker push $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated9.0-appservice
-        docker push $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated9.0-azurelinux3.0
 
         docker system prune -a -f
       displayName: tag and push dotnet9-isolated images
@@ -209,6 +206,18 @@ jobs:
 
           docker system prune -a -f
       displayName: tag and push dotnet8-isolated mariner images
+      continueOnError: false
+    
+    - bash: |
+          set -e
+          docker pull $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated9.0-azurelinux
+
+          docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated9.0-azurelinux $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated9.0-azurelinux
+
+          docker push $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated9.0-azurelinux
+
+          docker system prune -a -f
+      displayName: tag and push dotnet9-isolated azurelinux images
       continueOnError: false
 
 - job: Java
