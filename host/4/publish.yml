@@ -242,14 +242,14 @@ jobs:
     
     - bash: |
         set -e
-        docker pull $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated9.0-azurelinux
+        docker pull $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated9.0-azurelinux3
 
-        docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated9.0-azurelinux $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated9.0-azurelinux
+        docker tag $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated9.0-azurelinux3 $TARGET_REGISTRY/dotnet-isolated:$(TargetVersion)-dotnet-isolated9.0-azurelinux3
 
-        docker push $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated9.0-azurelinux
+        docker push $SOURCE_REGISTRY/dotnet-isolated:$(PrivateVersion)-dotnet-isolated9.0-azurelinux3
 
         docker system prune -a -f
-      displayName: tag and push dotnet9-isolated azurelinux images
+      displayName: tag and push dotnet9-isolated azurelinux3 images
       continueOnError: false
 
 - job: Java
