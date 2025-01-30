@@ -113,6 +113,8 @@ const dockerFile = (function() {
     fileName = "test-alpine.Dockerfile";
   } else if (imageName.indexOf("mariner") !== -1) {
     fileName = "test-mariner.Dockerfile";
+  }else if (imageName.indexOf("azurelinux") !== -1) {
+    fileName = "test-azurelinux.Dockerfile";
   }
 
   return path.join(__dirname, fileName);
