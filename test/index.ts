@@ -8,68 +8,65 @@ if (process.argv.length < 2) {
   process.exit(1);
 }
 
-const storagePath =
-  "https://functionsdockertests.blob.core.windows.net/public/docker";
-
 const dotnetIsolated5 = {
-  package: `${storagePath}/dotnet-isolated-functions.zip`,
+  package: `dotnet-isolated-functions.zip`,
   invoke: "/api/DotnetIsolatedHttpFunction",
   response: "Hello, Test"
 }
 
 const dotnetIsolated6 = {
-  package: `${storagePath}/dotnet-isolated6-functions.zip`,
+  package: `dotnet-isolated6-functions.zip`,
   invoke: "/api/DotnetIsolatedHttpFunction",
   response: "Hello, Test"
 }
 
 const dotnetIsolated7 = {
-  package: `${storagePath}/dotnet-isolated7-functions.zip`,
+  package: `dotnet-isolated7-functions.zip`,
   invoke: "/api/DotnetIsolated7HttpFunction",
   response: "Welcome to Azure Functions! .NET 7 Preview 5"
 }
 
 const dotnetIsolated8 = {
-  package: `${storagePath}/dotnet-isolated8-functions.zip`,
+  package: `dotnet-isolated8-functions.zip`,
   invoke: "/api/DotnetIsolated8HttpFunction",
   response: "Welcome to Azure Functions! .NET 8"
 }
 
 const dotnetIsolated9 = {
-  package: `${storagePath}/Net9HttpApp_Isolated_Portable_20240719_1554.zip`,
+  package: `Net9HttpApp_Isolated_Portable_20240719_1554.zip`,
   invoke: "/api/hellohttp",
   response: "Welcome to Azure Functions! .NET 9"
 }
 
 const dotnetInProc8 = {
-  package: `${storagePath}/dotnet8-inproc.zip`,
+  package: `dotnet8-inproc.zip`,
   invoke: "/api/CSharpHttpFunction?name=Test",
   response: "Hello, Test. This HTTP triggered function executed successfully."
 }
 
 const map = {
   python: {
-    package: `${storagePath}/python-functions.zip`,
+    package: `python-functions.zip`,
     invoke: "/api/PythonHttpTrigger?name=Test",
     response: "Hello Test!"
   },
   powershell: {
-    package: `${storagePath}/powershell-functions.zip`,
+    package: `powershell-functions.zip`,
     invoke: "/api/PowershellHttpTrigger?name=Test",
     response: "Hello Test"
   },
   node: {
-    package: `${storagePath}/node-functions.zip`,
+    package: `node-functions.zip`,
     invoke: "/api/JsHttpTrigger?name=Test",
     response: "Hello Test"
   },
   dotnet: {
-    package: `${storagePath}/dotnet-functions.zip`,
+    package: `dotnet-functions.zip`,
     invoke: "/api/CSharpHttpFunction?name=Test",
     response: "Hello, Test"
   },
   java: {
-    package: `${storagePath}/java-functions.zip`,
+    package: `java-functions.zip`,
     invoke: "/api/HttpTrigger-Java?name=Test",
     response: "Hello, Test"
   }
@@ -125,7 +122,7 @@ const name = random();
 const runTest = async (data: typeof map.dotnet, envStr = "") => {
   if (
     shell.exec(
-      `docker build -t ${name} --build-arg BASE_IMAGE=${imageName} --build-arg CONTENT_URL=${data.package} -f ${dockerFile} ${__dirname}`
+      `docker build -t ${name} --build-arg BASE_IMAGE=${imageName} --build-arg CONTENT_PKG=${data.package} -f ${dockerFile} ${__dirname}`
     ).code !== 0
   ) {
     console.error("Error building image");

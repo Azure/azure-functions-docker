@@ -1,12 +1,12 @@
 ARG BASE_IMAGE
-ARG CONTENT_URL
+ARG CONTENT_PKG
 FROM ${BASE_IMAGE}
 
-ARG CONTENT_URL
+ARG CONTENT_PKG
 
 ENV AzureFunctionsJobHost__Logging__Console__IsEnabled=true
+COPY ${CONTENT_PKG} content.zip
 
 RUN apk update && apk add --no-cache zip unzip curl && \
-    curl -o content.zip "${CONTENT_URL}" && \
     mkdir -p /home/site/wwwroot && \
     yes | unzip -q content.zip -d /home/site/wwwroot
