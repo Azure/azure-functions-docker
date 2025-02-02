@@ -1,14 +1,15 @@
 # escape=`
 
 ARG BASE_IMAGE
-ARG CONTENT_URL
+ARG CONTENT_PKG
 FROM mcr.microsoft.com/windows/servercore:ltsc2019 as tools-env
-ARG CONTENT_URL
+ARG CONTENT_PKG
+
+COPY ${CONTENT_PKG} dotnet.zip
 
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
-RUN Invoke-WebRequest -OutFile dotnet.zip "$Env:CONTENT_URL"; `
-    Expand-Archive dotnet.zip -DestinationPath C:\approot
+RUN Expand-Archive dotnet.zip -DestinationPath C:\approot
 
 FROM ${BASE_IMAGE}
 
