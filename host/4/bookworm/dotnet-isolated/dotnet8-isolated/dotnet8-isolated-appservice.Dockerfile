@@ -1,5 +1,5 @@
 
-ARG HOST_VERSION=4.1037.0
+ARG HOST_VERSION=4.1037.1
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0-bookworm-slim-amd64 AS runtime-image
 ARG HOST_VERSION
