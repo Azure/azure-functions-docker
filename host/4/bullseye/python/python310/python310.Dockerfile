@@ -107,6 +107,9 @@ RUN apt-get update && \
     # Fix from https://github.com/GoogleCloudPlatform/google-cloud-dotnet-powerpack/issues/22#issuecomment-729895157
     #apt-get install -y libc-dev
 
+# Install opentelemetry packages
+RUN pip install azure-monitor-opentelemetry-exporter azure-monitor-opentelemetry
+
 ENV FUNCTIONS_WORKER_RUNTIME_VERSION=3.10
 
 CMD [ "/opt/startup/start_nonappservice.sh" ]

@@ -89,6 +89,9 @@ COPY --from=runtime-image [ "/workers/python/3.11/LINUX", "/azure-functions-host
 COPY --from=runtime-image [ "/workers/python/worker.config.json", "/azure-functions-host/workers/python" ]
 COPY --from=python [ "/", "/" ]
 
+# Install opentelemetry packages
+RUN pip install azure-monitor-opentelemetry-exporter azure-monitor-opentelemetry
+
 ENV LANG=C.UTF-8 \
     ACCEPT_EULA=Y \
     AzureWebJobsScriptRoot=/home/site/wwwroot \
