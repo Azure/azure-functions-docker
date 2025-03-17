@@ -68,6 +68,7 @@ stages:
                       host/4/bullseye/dotnet-inproc/
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
+          docker rmi -f $(docker images -aq)
         displayName: dotnet-core-tools
         continueOnError: false
         env:
@@ -110,6 +111,7 @@ stages:
                       host/4/bullseye/dotnet-isolated/dotnet6-isolated/
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
+          docker rmi -f $(docker images -aq)
         displayName: dotnet-core-tools isolated
         continueOnError: false
         env:
@@ -150,6 +152,7 @@ stages:
                       host/4/bullseye/java/java8
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
+          docker rmi -f $(docker images -aq)
         displayName: java8-core-tools
         continueOnError: false
         env:
@@ -162,6 +165,7 @@ stages:
                       host/4/bullseye/java/java11
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
+          docker rmi -f $(docker images -aq)
         displayName: java11-core-tools
         continueOnError: false
         env:
@@ -174,6 +178,7 @@ stages:
                       host/4/bullseye/java/java17
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
+          docker rmi -f $(docker images -aq)
         displayName: java17-core-tools
         continueOnError: false
         env:
@@ -186,6 +191,7 @@ stages:
                       host/4/bookworm/java/java21
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
+          docker rmi -f $(docker images -aq)
         displayName: java21-core-tools
         continueOnError: false
         env:
@@ -227,6 +233,7 @@ stages:
                       host/4/bullseye/node/node14/
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
+          docker rmi -f $(docker images -aq)
         displayName: node14-core-tools
         continueOnError: false
         env:
@@ -240,6 +247,7 @@ stages:
                       host/4/bullseye/node/node16/
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
+          docker rmi -f $(docker images -aq)
         displayName: node16-core-tools
         continueOnError: false
         env:
@@ -253,6 +261,7 @@ stages:
                       host/4/bullseye/node/node18/
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
+          docker rmi -f $(docker images -aq)
         displayName: node18-core-tools
         continueOnError: false
         env:
@@ -266,6 +275,7 @@ stages:
                       host/4/bullseye/node/node20/
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
+          docker rmi -f $(docker images -aq)
         displayName: node20-core-tools
         continueOnError: false
         env:
@@ -307,6 +317,7 @@ stages:
                       host/4/bullseye/python/python38/
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
+          docker rmi -f $(docker images -aq)
         displayName: python3.8-core-tools
         continueOnError: false
         env:
@@ -320,6 +331,7 @@ stages:
                       host/4/bullseye/python/python39/
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
+          docker rmi -f $(docker images -aq)
         displayName: python3.9-core-tools
         continueOnError: false
         env:
@@ -333,6 +345,7 @@ stages:
                       host/4/bullseye/python/python310/
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
+          docker rmi -f $(docker images -aq)
         displayName: python3.10-core-tools
         continueOnError: false
         env:
@@ -346,6 +359,7 @@ stages:
                       host/4/bullseye/python/python311/
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
+          docker rmi -f $(docker images -aq)
         displayName: python3.11-core-tools
         continueOnError: false
         env:
@@ -387,6 +401,7 @@ stages:
                       host/4/bullseye/powershell/powershell70/
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
+          docker rmi -f $(docker images -aq)
         displayName: powershell7-core-tools
         continueOnError: false
         env:
@@ -400,6 +415,7 @@ stages:
                       host/4/bullseye/powershell/powershell72/
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
+          docker rmi -f $(docker images -aq)
         displayName: powershell7.2-core-tools
         continueOnError: false
         env:
@@ -413,6 +429,7 @@ stages:
                       host/4/bookworm/powershell/powershell74/
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
+          docker rmi -f $(docker images -aq)
         displayName: powershell7.4-core-tools
         continueOnError: false
         env:

@@ -42,6 +42,7 @@ steps:
       # npm install --silent --log-level=error
       # npm run test-win $IMAGE_NAME
       docker push $IMAGE_NAME
+      docker rmi -f $(docker images -aq)
     displayName: build dotnet nanoserver 1809
     errorActionPreference: stop
   # - powershell: |

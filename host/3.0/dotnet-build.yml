@@ -53,6 +53,7 @@ steps:
                   host/3.0/buster/amd64/dotnet/dotnet-inproc/
       npm run test $IMAGE_NAME --prefix test/
       docker push $IMAGE_NAME
+      docker rmi -f $(docker images -aq)
     displayName: dotnet
     continueOnError: false
 
@@ -67,6 +68,7 @@ steps:
                   host/3.0/buster/amd64/dotnet/dotnet-inproc/
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
+      docker rmi -f $(docker images -aq)
     displayName: dotnet-slim
     continueOnError: false
 
@@ -81,6 +83,7 @@ steps:
                   host/3.0/buster/amd64/out/dotnet/
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
+      docker rmi -f $(docker images -aq)
     displayName: dotnet-appservice
     continueOnError: false
 
@@ -96,6 +99,7 @@ steps:
                   host/3.0/buster/amd64/dotnet/dotnet-isolated/
       npm run test $IMAGE_NAME --prefix test/
       docker push $IMAGE_NAME
+      docker rmi -f $(docker images -aq)
     displayName: dotnet-isolated (.NET 5)
     continueOnError: false
 
@@ -110,6 +114,7 @@ steps:
                   host/3.0/buster/amd64/dotnet/dotnet-isolated/
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
+      docker rmi -f $(docker images -aq)
     displayName: dotnet-isolated-slim (.NET 5)
     continueOnError: false
 
@@ -124,6 +129,7 @@ steps:
                   host/3.0/buster/amd64/out/dotnet/
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
+      docker rmi -f $(docker images -aq)
     displayName: dotnet-isolated-appservice (.NET 5)
     continueOnError: false
 
@@ -142,6 +148,7 @@ steps:
                   host/3.0/buster/arm32v7/dotnet/
       # npm run test $IMAGE_NAME --prefix test/
       docker push $IMAGE_NAME
+      docker rmi -f $(docker images -aq)
     displayName: dotnet arm32v7
     continueOnError: false
 
@@ -154,6 +161,7 @@ steps:
                   host/3.0/bionic/arm32v7/dotnet/
       # npm run test $IMAGE_NAME --prefix test/
       docker push $IMAGE_NAME
+      docker rmi -f $(docker images -aq)
     displayName: dotnet bionic arm32v7
     continueOnError: false
 

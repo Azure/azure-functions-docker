@@ -79,6 +79,7 @@ jobs:
                       host/4/$(dockerfilePath)/java/java$(javaVersion)
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
+          docker rmi -f $(docker images -aq)
         displayName: java$(javaVersion)
         continueOnError: false
 
@@ -93,6 +94,7 @@ jobs:
                       host/4/$(dockerfilePath)/java/java$(javaVersion)
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
+          docker rmi -f $(docker images -aq)
         displayName: java$(javaVersion)-slim
         continueOnError: false
 
@@ -107,6 +109,7 @@ jobs:
                       $(appservicePath)
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
+          docker rmi -f $(docker images -aq)
         displayName: java$(javaVersion)-appservice
         continueOnError: false
 
@@ -120,6 +123,7 @@ jobs:
                       -f host/4/$(dockerfilePath)/java/java$(javaVersion)/java$(javaVersion)-build.Dockerfile \
                       host/4/$(dockerfilePath)/java/java$(javaVersion)
           docker push $IMAGE_NAME
+          docker rmi -f $(docker images -aq)
         displayName: java$(javaVersion)-build
         continueOnError: false
 
