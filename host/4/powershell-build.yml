@@ -69,6 +69,7 @@ jobs:
                       host/4/$(dockerfilePath)/powershell/powershell$(psFileVersion)
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
+          docker rmi -f $(docker images -aq)
         displayName: powershell$(psVersion)
         continueOnError: false
 
@@ -83,6 +84,7 @@ jobs:
                       host/4/$(dockerfilePath)/powershell/powershell$(psFileVersion)
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
+          docker rmi -f $(docker images -aq)
         displayName: powershell$(psVersion)-slim
         continueOnError: false
 
@@ -97,6 +99,7 @@ jobs:
                       $(appservicePath)
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
+          docker rmi -f $(docker images -aq)
         displayName: powershell$(psVersion)-appservice
         continueOnError: false
 
