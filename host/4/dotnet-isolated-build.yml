@@ -115,6 +115,7 @@ jobs:
                       $(dockerfilePath)
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
+          docker rmi -f $(docker images -aq)
         displayName: $(dotnetVersion)
         continueOnError: false
   - job: Publish

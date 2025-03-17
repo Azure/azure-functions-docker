@@ -55,6 +55,7 @@ jobs:
                   host/3.0/buster/amd64/python/python36
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
+      docker rmi -f $(docker images -aq)
     displayName: python3.6
     continueOnError: false
     env:
@@ -71,6 +72,7 @@ jobs:
                   host/3.0/buster/amd64/python/python36/
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
+      docker rmi -f $(docker images -aq)
     displayName: python3.6-slim
     continueOnError: false
     env:
@@ -87,6 +89,7 @@ jobs:
                   host/3.0/buster/amd64/out/python/
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
+      docker rmi -f $(docker images -aq)
     displayName: python3.6-appservice
     continueOnError: false
     env:
@@ -102,6 +105,7 @@ jobs:
                   -f host/3.0/buster/amd64/python/python36/python36-buildenv.Dockerfile \
                   host/3.0/buster/amd64/python/python36/
       docker push $IMAGE_NAME
+      docker rmi -f $(docker images -aq)
     displayName: python3.6-buildenv
     continueOnError: false
     env:
@@ -151,6 +155,7 @@ jobs:
                   host/3.0/buster/amd64/python/python37
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
+      docker rmi -f $(docker images -aq)
     displayName: python3.7
     continueOnError: false
     env:
@@ -167,6 +172,7 @@ jobs:
                   host/3.0/buster/amd64/python/python37/
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
+      docker rmi -f $(docker images -aq)
     displayName: python3.7-slim
     continueOnError: false
     env:
@@ -183,6 +189,7 @@ jobs:
                   host/3.0/buster/amd64/out/python/
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
+      docker rmi -f $(docker images -aq)
     displayName: python3.7-appservice
     continueOnError: false
     env:
@@ -198,6 +205,7 @@ jobs:
                   -f host/3.0/buster/amd64/python/python37/python37-buildenv.Dockerfile \
                   host/3.0/buster/amd64/python/python37/
       docker push $IMAGE_NAME
+      docker rmi -f $(docker images -aq)
     displayName: python3.7-buildenv
     continueOnError: false
     env:
@@ -247,6 +255,7 @@ jobs:
                   host/3.0/buster/amd64/python/python38
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
+      docker rmi -f $(docker images -aq)
     displayName: python3.8
     continueOnError: false
     env:
@@ -263,6 +272,7 @@ jobs:
                   host/3.0/buster/amd64/python/python38/
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
+      docker rmi -f $(docker images -aq)
     displayName: python3.8-slim
     continueOnError: false
     env:
@@ -279,6 +289,7 @@ jobs:
                   host/3.0/buster/amd64/out/python/
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
+      docker rmi -f $(docker images -aq)
     displayName: python3.8-appservice
     continueOnError: false
     env:
@@ -294,6 +305,7 @@ jobs:
                   -f host/3.0/buster/amd64/python/python38/python38-buildenv.Dockerfile \
                   host/3.0/buster/amd64/python/python38/
       docker push $IMAGE_NAME
+      docker rmi -f $(docker images -aq)
     displayName: python3.8-buildenv
     continueOnError: false
     env:
@@ -343,6 +355,7 @@ jobs:
                   host/3.0/buster/amd64/python/python39
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
+      docker rmi -f $(docker images -aq)
     displayName: python3.9
     continueOnError: false
     env:
@@ -359,6 +372,7 @@ jobs:
                   host/3.0/buster/amd64/python/python39/
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
+      docker rmi -f $(docker images -aq)
     displayName: python3.9-slim
     continueOnError: false
     env:
@@ -375,6 +389,7 @@ jobs:
                   host/3.0/buster/amd64/out/python/
       npm run test $IMAGE_NAME --prefix  test/
       docker push $IMAGE_NAME
+      docker rmi -f $(docker images -aq)
     displayName: python3.9-appservice
     continueOnError: false
     env:
@@ -390,6 +405,7 @@ jobs:
                   -f host/3.0/buster/amd64/python/python39/python39-buildenv.Dockerfile \
                   host/3.0/buster/amd64/python/python39/
       docker push $IMAGE_NAME
+      docker rmi -f $(docker images -aq)
     displayName: python3.9-buildenv
     continueOnError: false
     env:

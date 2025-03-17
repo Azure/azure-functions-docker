@@ -67,6 +67,7 @@ stages:
                       host/3.0/buster/amd64/dotnet/dotnet-inproc/
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
+          docker rmi -f $(docker images -aq)
         displayName: dotnet-core-tools
         continueOnError: false
         env:
@@ -109,6 +110,7 @@ stages:
                       host/3.0/buster/amd64/dotnet/dotnet-isolated/
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
+          docker rmi -f $(docker images -aq)
         displayName: dotnet-core-tools isolated
         continueOnError: false
         env:
@@ -149,6 +151,7 @@ stages:
                       host/3.0/buster/amd64/java/java8
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
+          docker rmi -f $(docker images -aq)
         displayName: java8-core-tools
         continueOnError: false
         env:
@@ -161,6 +164,7 @@ stages:
                       host/3.0/buster/amd64/java/java11
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
+          docker rmi -f $(docker images -aq)
         displayName: java11-core-tools
         continueOnError: false
         env:
@@ -202,6 +206,7 @@ stages:
                       host/3.0/buster/amd64/node/node10/
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
+          docker rmi -f $(docker images -aq)
         displayName: node10-core-tools
         continueOnError: false
         env:
@@ -215,6 +220,7 @@ stages:
                       host/3.0/buster/amd64/node/node12/
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
+          docker rmi -f $(docker images -aq)
         displayName: node12-core-tools
         continueOnError: false
         env:
@@ -228,6 +234,7 @@ stages:
                       host/3.0/buster/amd64/node/node14/
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
+          docker rmi -f $(docker images -aq)
         displayName: node14-core-tools
         continueOnError: false
         env:
@@ -269,6 +276,7 @@ stages:
                       host/3.0/buster/amd64/python/python38/
           npm run test $IMAGE_NAME --prefix  test/
           docker push $IMAGE_NAME
+          docker rmi -f $(docker images -aq)
         displayName: python3.8-core-tools
         continueOnError: false
         env:
