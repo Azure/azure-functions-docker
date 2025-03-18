@@ -18,6 +18,8 @@ FROM mcr.microsoft.com/dotnet/aspnet:9.0-azurelinux3.0 AS aspnet9
 FROM mcr.microsoft.com/dotnet/runtime:9.0-azurelinux3.0
 ARG HOST_VERSION
 
+RUN curl -O https://packages.microsoft.com/azurelinux/3.0/prod/base/x86_64/Packages/g/glibc-devel-2.38-8.azl3.x86_64.rpm
+RUN tdnf install -y glibc-devel-2.38-8.azl3.x86_64.rpm
 
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     HOME=/home \
@@ -27,10 +29,6 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     ASPNETCORE_CONTENTROOT=/azure-functions-host \
     AzureWebJobsFeatureFlags=EnableWorkerIndexing \
     ASPNETCORE_URLS=http://+:80
-
-RUN curl -O https://packages.microsoft.com/azurelinux/3.0/prod/base/x86_64/Packages/g/glibc-devel-2.38-8.azl3.x86_64.rpm
-RUN tdnf install -y glibc-devel-2.38-8.azl3.x86_64.rpm
-
 
 COPY --from=sdk-image [ "/azure-functions-host", "/azure-functions-host" ]
 COPY --from=aspnet9 [ "/usr/share/dotnet", "/usr/share/dotnet" ]
