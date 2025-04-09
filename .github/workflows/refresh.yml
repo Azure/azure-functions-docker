@@ -1,6 +1,11 @@
 name: Refresh Non-appservice Images
 
 on:
+  # Images are refreshed at least once every two weeks:
+  schedule:
+  - cron: "0 */336 * * 1" # every 336 hours (14 days) on Mondays
+  
+  # Also enable the custom 'refresh' trigger:
   repository_dispatch:
     types: [refresh]
 
