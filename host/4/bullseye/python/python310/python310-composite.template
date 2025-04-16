@@ -82,7 +82,4 @@ RUN apt-get update && \
 RUN chmod +x /azure-functions-host/start.sh && \
     chmod +x /opt/startup/install_ca_certificates.sh
 
-# Install opentelemetry packages
-RUN pip install azure-monitor-opentelemetry-exporter azure-monitor-opentelemetry
-
 ENTRYPOINT ["/azure-functions-host/start.sh"]

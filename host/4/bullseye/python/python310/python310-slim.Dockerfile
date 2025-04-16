@@ -104,8 +104,6 @@ COPY install_ca_certificates.sh start_nonappservice.sh /opt/startup/
 RUN chmod +x /opt/startup/install_ca_certificates.sh && \
     chmod +x /opt/startup/start_nonappservice.sh
 
-# Install opentelemetry packages
-RUN pip install azure-monitor-opentelemetry-exporter azure-monitor-opentelemetry
 
 ENV FUNCTIONS_WORKER_RUNTIME_VERSION=3.10
 
