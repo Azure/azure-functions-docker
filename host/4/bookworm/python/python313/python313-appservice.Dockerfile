@@ -11,7 +11,7 @@ ARG HOST_VERSION
 ENV PublishWithAspNetCoreTargetManifest=false
 
 RUN BUILD_NUMBER=$(echo ${HOST_VERSION} | cut -d'.' -f 3) && \
-    git clone --branch gaaguiar/test_py_worker https://github.com/Azure/azure-functions-host /src/azure-functions-host && \
+    git clone --branch v${HOST_VERSION} https://github.com/Azure/azure-functions-host /src/azure-functions-host && \
     cd /src/azure-functions-host && \
     HOST_COMMIT=$(git rev-list -1 HEAD) && \
     dotnet publish -v q /p:BuildNumber=$BUILD_NUMBER /p:CommitHash=$HOST_COMMIT src/WebJobs.Script.WebHost/WebJobs.Script.WebHost.csproj -c Release --output /azure-functions-host --runtime linux-x64 --self-contained && \
@@ -28,15 +28,17 @@ RUN apt-get update && \
     rm -f /$EXTENSION_BUNDLE_FILENAME_V4 &&\
     find /FuncExtensionBundles/ -type f -exec chmod 644 {} \;
 
-FROM mcr.microsoft.com/oryx/python:3.13-debian-bookworm-20250228.3 AS python
+FROM mcr.microsoft.com/oryx/python:3.13-debian-bookworm-20250121.2 AS python
 FROM mcr.microsoft.com/dotnet/aspnet:8.0-bookworm-slim-amd64
 ARG HOST_VERSION
-
+    
 COPY --from=runtime-image ["/azure-functions-host", "/azure-functions-host"]
 COPY --from=runtime-image [ "/FuncExtensionBundles", "/FuncExtensionBundles" ]
-COPY install_ca_certificates.sh start_nonappservice.sh /opt/startup/
+COPY install_ca_certificates.sh /opt/startup/
+COPY sshd_config /etc/ssh/
+COPY start.sh /azure-functions-host/
 RUN chmod +x /opt/startup/install_ca_certificates.sh && \
-    chmod +x /opt/startup/start_nonappservice.sh
+    chmod +x /azure-functions-host/start.sh
 
 # Install Python dependencies
 RUN apt-get update && \
@@ -70,13 +72,13 @@ COPY --from=runtime-image [ "/workers/python/worker.config.json", "/azure-functi
 COPY --from=python [ "/opt", "/opt" ]
 
 # Link all binaries from /opt/python/3.13/bin to /usr/bin/
-RUN for file in /opt/python/3.13.2/bin/*; do \
+RUN for file in /opt/python/3.13.1/bin/*; do \
         ln -sf "$file" /usr/bin/$(basename "$file"); \
     done
-RUN ln -s /opt/python/3.13.2/lib/libpython3.13.so.1.0 /usr/lib/libpython3.13.so.1.0
+RUN ln -s /opt/python/3.13.1/lib/libpython3.13.so.1.0 /usr/lib/libpython3.13.so.1.0
 
 # Install opentelemetry packages
-RUN python -m pip install azure-monitor-opentelemetry-exporter azure-monitor-opentelemetry 
+RUN pip install azure-monitor-opentelemetry-exporter azure-monitor-opentelemetry
 
 ENV LANG=C.UTF-8 \
     ACCEPT_EULA=Y \ 
@@ -88,6 +90,10 @@ ENV LANG=C.UTF-8 \
     DOTNET_USE_POLLING_FILE_WATCHER=true \
     HOST_VERSION=${HOST_VERSION} \
     ASPNETCORE_CONTENTROOT=/azure-functions-host \
-    FUNCTIONS_WORKER_RUNTIME_VERSION=3.13
+    FUNCTIONS_WORKER_RUNTIME_VERSION=3.13 
 
-CMD [ "/opt/startup/start_nonappservice.sh" ]
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends openssh-server dialog && \
+    echo "root:Docker!" | chpasswd
+
+CMD [ "/azure-functions-host/start.sh" ]
