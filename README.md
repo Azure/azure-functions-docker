@@ -1,12 +1,12 @@
 ## Overview
 
-This repository contains sample dockerfiles for various functions images as a reference.
+This repository primarily contains various dockerfiles of functions images as a reference.
 
 All the supported function images details are available at https://mcr.microsoft.com/en-us/catalog?search=%22azure%20functions%22&type=exact
 
 #### MCR Docs
 
-For new images update the following:
+For new images:
 
 - [MCR Syndication](https://github.com/microsoft/mcr/blob/main/teams/azurefunctions/azure-functions.yml)
 
