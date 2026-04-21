@@ -75,7 +75,7 @@ RUN echo "Port $SSH_PORT" > /etc/ssh/sshd_config && \
 
 
 RUN echo '#!/bin/bash' > /startup.sh && \
-    echo 'eval $(printenv | sed -n "s/^\([^=]\+\)=\(.*\)$/export \1=\2/p" | sed "s/\"/\\\\\"/g" | sed "/=/s//=\"/" | sed "s/$/\"/" >> /etc/profile)' >> /startup.sh && \
+    echo 'printenv | sed -n "s/^\([^=]\+\)=\(.*\)$/export \1=\2/p" | sed "s/\\\\/\\\\\\\\/g" | sed "s/\`/\\\\\`/g" | sed "s/\\$/\\\\$/g" | sed "s/\"/\\\\\"/g" | sed "/=/s//=\"/" | sed "s/$/\"/" >> /etc/profile' >> /startup.sh && \
     echo 'service ssh start' >> /startup.sh && \
     echo '/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost' >> /startup.sh && \
     chmod +x /startup.sh

@@ -141,7 +141,7 @@ CMD ["/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost"]
 #     echo '    export languageWorkers__python__arguments="-m ptvsd --host localhost --port $APPSVC_TUNNEL_PORT"' >> /startup.sh && \
 #     echo 'fi' >> /startup.sh && \
 #     # Get environment variables to show up in SSH session
-#     echo 'eval $(printenv | sed -n "s/^\([^=]\+\)=\(.*\)$/export \1=\2/p" | sed "s/\"/\\\\\"/g" | sed "/=/s//=\"/" | sed "s/$/\"/" >> /etc/profile)' >> /startup.sh && \
+#     echo 'printenv | sed -n "s/^\([^=]\+\)=\(.*\)$/export \1=\2/p" | sed "s/\\\\/\\\\\\\\/g" | sed "s/\`/\\\\\`/g" | sed "s/\\$/\\\\$/g" | sed "s/\"/\\\\\"/g" | sed "/=/s//=\"/" | sed "s/$/\"/" >> /etc/profile' >> /startup.sh && \
 #     # starting sshd process
 #     echo 'service ssh start' >> /startup.sh && \
 #     # start the host
